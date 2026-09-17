@@ -306,6 +306,36 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": false
+    },
+    {
+      "id": 22,
+      "name": "Горілка Грін Дей 0,5л",
+      "manufacturer": "GreenDay",
+      "category": "Алкоголь",
+      "price": 119.0,
+      "oldPrice": 149.0,
+      "badge": "-20%",
+      "image": "./images/22.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
+    },
+    {
+      "id": 23,
+      "name": "Віскі Вільям Лоусонз 0,5л",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 269.0,
+      "oldPrice": 359.0,
+      "badge": "-25%",
+      "image": "./images/23.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }

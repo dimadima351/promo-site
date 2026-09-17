@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vashpartner.pp.ua/sitemap.xml
