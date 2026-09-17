@@ -1,5 +1,7 @@
-/* ---------- Базові налаштування ---------- */
-* {
+/* ============================================================
+   БАЗОВІ НАЛАШТУВАННЯ
+   ============================================================ */
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,6 +12,8 @@ body {
     background-color: #f4f6f8;
     color: #333;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body.menu-open {
@@ -22,7 +26,9 @@ body.menu-open {
     padding: 0 20px;
 }
 
-/* ---------- Шапка ---------- */
+/* ============================================================
+   ШАПКА
+   ============================================================ */
 .header {
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -136,20 +142,20 @@ body.menu-open {
     opacity: 1;
 }
 
-/* ---------- Банер з фоновою картинкою ---------- */
+/* ============================================================
+   БАНЕР (сторінка promo)
+   ============================================================ */
 .page-title {
     position: relative;
     color: white;
     padding: 40px 0;
     text-align: center;
-    background-image: url('./image_site/_1.jpg');   /* ← ФОНОВА КАРТИНКА */
+    background-image: url('./image_site/_1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
 }
-
-
 
 .page-title::before {
     content: '';
@@ -215,7 +221,9 @@ body.menu-open {
     font-weight: 500;
 }
 
-/* ---------- Таймер ---------- */
+/* ============================================================
+   ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ
+   ============================================================ */
 .countdown {
     margin-top: 16px;
     text-align: center;
@@ -265,7 +273,9 @@ body.menu-open {
     letter-spacing: 0.4px;
 }
 
-/* ---------- Сітка товарів: 5 в рядку на компі ---------- */
+/* ============================================================
+   СІТКА ТОВАРІВ (5 в рядку на компі)
+   ============================================================ */
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -286,7 +296,9 @@ body.menu-open {
     color: #ff0b0b;
 }
 
-/* ---------- Картка товару ---------- */
+/* ============================================================
+   КАРТКА ТОВАРУ
+   ============================================================ */
 .card {
     background: #ffffff;
     border-radius: 6px;
@@ -307,8 +319,8 @@ body.menu-open {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    padding: 10px;                    /* ← відступ картинки від країв */
-    display: flex;                    /* щоб картинка центрувалась */
+    padding: 10px;
+    display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
@@ -389,7 +401,9 @@ body.menu-open {
     margin-top: 2px;
 }
 
-/* ---------- Підвал ---------- */
+/* ============================================================
+   ПІДВАЛ
+   ============================================================ */
 .footer {
     background-color: #2c3e50;
     color: #bdc3c7;
@@ -472,7 +486,7 @@ body.menu-open {
     position: relative;
 }
 
-/* Стрілки каруселі */
+/* ---------- Стрілки каруселі ---------- */
 .carousel-btn {
     position: absolute;
     top: 50%;
@@ -503,7 +517,7 @@ body.menu-open {
 .carousel-btn-prev { left: -14px; }
 .carousel-btn-next { right: -14px; }
 
-/* Карусель (горизонтальний скрол) */
+/* ---------- Карусель (горизонтальний скрол) ---------- */
 .carousel {
     display: flex;
     gap: 16px;
@@ -512,6 +526,7 @@ body.menu-open {
     padding: 6px 4px 18px;
     scrollbar-width: thin;
     scrollbar-color: #ccc #f0f0f0;
+    scroll-snap-type: x proximity;
 }
 
 .carousel::-webkit-scrollbar {
@@ -529,15 +544,10 @@ body.menu-open {
     background: #ff0b0b;
 }
 
-/* Картки в каруселі — фіксована ширина */
 .carousel .card {
     flex: 0 0 220px;
     width: 220px;
     scroll-snap-align: start;
-}
-
-.carousel {
-    scroll-snap-type: x proximity;
 }
 
 .carousel-loading {
@@ -595,56 +605,11 @@ body.menu-open {
     transform: translateX(6px);
 }
 
-/* ---------- Мобільна версія ---------- */
-@media (max-width: 700px) {
-    .hero-banner {
-        padding: 20px 0 6px;
-    }
-    .hero-banner-link {
-        padding: 18px 20px;
-        border-radius: 10px;
-    }
-    .hero-banner-text {
-        font-size: 17px;
-        letter-spacing: 0.5px;
-    }
-    .hero-banner-arrow {
-        width: 42px;
-        height: 42px;
-    }
-    .hero-banner-arrow svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .carousel-section {
-        padding: 20px 0 30px;
-    }
-    .section-title {
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-
-    .carousel .card {
-        flex: 0 0 180px;
-        width: 180px;
-    }
-
-    .carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 22px;
-    }
-    .carousel-btn-prev { left: -6px; }
-    .carousel-btn-next { right: -6px; }
-}
-
-
 /* ============================================================
    АДАПТИВНІСТЬ
    ============================================================ */
 
-/* Планшет — 3 товари в рядку */
+/* ---------- Планшет — 3 товари в рядку ---------- */
 @media (max-width: 1024px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
@@ -652,20 +617,16 @@ body.menu-open {
     }
 }
 
-/* ============================================================
-   МОБІЛЬНЕ МЕНЮ (бургер) — від 900px і менше
-   ============================================================ */
+/* ---------- Мобільне меню (бургер) — від 900px ---------- */
 @media (max-width: 900px) {
-    /* Показуємо бургер */
     .burger {
         display: block;
     }
 
-    /* Ховаємо звичайну навігацію, робимо її висувною */
     .nav {
         position: fixed;
         top: 0;
-        right: -280px;                /* ховаємо за правий край */
+        right: -280px;
         width: 280px;
         height: 100vh;
         background: #ffffff;
@@ -687,7 +648,7 @@ body.menu-open {
     .nav a {
         width: 100%;
         padding: 14px 0;
-        margin: 0;                    /* скидаємо margin-left з десктопа */
+        margin: 0;
         font-size: 16px;
         border-bottom: 1px solid #f0f0f0;
     }
@@ -697,7 +658,7 @@ body.menu-open {
     }
 }
 
-/* Малий планшет / великий телефон — 2 товари в рядку */
+/* ---------- Малий планшет / великий телефон — 2 товари ---------- */
 @media (max-width: 700px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
@@ -762,15 +723,56 @@ body.menu-open {
         height: 32px;
     }
     .card-image {
-        padding: 8px;   /* менший відступ на телефоні */
+        padding: 8px;
     }
     .breadcrumbs {
         padding: 6px 0;
         font-size: 12px;
     }
+
+    /* Hero-банер на мобільному */
+    .hero-banner {
+        padding: 20px 0 6px;
+    }
+    .hero-banner-link {
+        padding: 18px 20px;
+        border-radius: 10px;
+    }
+    .hero-banner-text {
+        font-size: 17px;
+        letter-spacing: 0.5px;
+    }
+    .hero-banner-arrow {
+        width: 42px;
+        height: 42px;
+    }
+    .hero-banner-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Карусель на мобільному */
+    .carousel-section {
+        padding: 20px 0 30px;
+    }
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    .carousel .card {
+        flex: 0 0 180px;
+        width: 180px;
+    }
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+    }
+    .carousel-btn-prev { left: -6px; }
+    .carousel-btn-next { right: -6px; }
 }
 
-/* Дуже малі телефони */
+/* ---------- Дуже малі телефони ---------- */
 @media (max-width: 400px) {
     .grid {
         gap: 8px;
@@ -786,7 +788,7 @@ body.menu-open {
         right: -260px;
     }
     .card-image {
-        padding: 8px;   /* менший відступ на телефоні */
+        padding: 8px;
     }
     .breadcrumbs {
         font-size: 11px;
