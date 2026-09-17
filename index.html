@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Наші акції | Promo Site</title>
+    <title>Акції | PromoSite</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Шапка сайту -->
+    <!-- Шапка -->
     <header class="header">
         <div class="container">
             <h1 class="logo">Promo<span>Site</span></h1>
             <nav>
                 <a href="#">Головна</a>
-                <a href="#">Акції</a>
+                <a href="#promo">Акції</a>
                 <a href="#">Контакти</a>
             </nav>
         </div>
@@ -23,71 +23,15 @@
     <!-- Заголовок сторінки -->
     <section class="page-title">
         <div class="container">
-            <h2>Акції вересня 2026</h2>
+            <h2 id="page-title">Акції</h2>
             <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
         </div>
     </section>
 
     <!-- Сітка з товарами -->
-    <main class="container">
-        <div class="grid">
-
-            <!-- Картка 1 -->
-            <div class="card">
-                <div class="badge">-30%</div>
-                <img src="https://via.placeholder.com/300x200?text=Кава+Lavazza" alt="Кава Lavazza">
-                <div class="card-body">
-                    <h3>Кава Lavazza</h3>
-                    <div class="prices">
-                        <span class="old-price">450 ₴</span>
-                        <span class="new-price">320 ₴</span>
-                    </div>
-                    <button class="btn">Купити</button>
-                </div>
-            </div>
-
-            <!-- Картка 2 -->
-            <div class="card">
-                <div class="badge">-25%</div>
-                <img src="https://via.placeholder.com/300x200?text=Чай+Greenfield" alt="Чай Greenfield">
-                <div class="card-body">
-                    <h3>Чай Greenfield</h3>
-                    <div class="prices">
-                        <span class="old-price">200 ₴</span>
-                        <span class="new-price">150 ₴</span>
-                    </div>
-                    <button class="btn">Купити</button>
-                </div>
-            </div>
-
-            <!-- Картка 3 -->
-            <div class="card">
-                <div class="badge">-15%</div>
-                <img src="https://via.placeholder.com/300x200?text=Шоколад+Milka" alt="Шоколад Milka">
-                <div class="card-body">
-                    <h3>Шоколад Milka</h3>
-                    <div class="prices">
-                        <span class="old-price">120 ₴</span>
-                        <span class="new-price">102 ₴</span>
-                    </div>
-                    <button class="btn">Купити</button>
-                </div>
-            </div>
-
-            <!-- Картка 4 -->
-            <div class="card">
-                <div class="badge">-40%</div>
-                <img src="https://via.placeholder.com/300x200?text=Печиво+Oreo" alt="Печиво Oreo">
-                <div class="card-body">
-                    <h3>Печиво Oreo</h3>
-                    <div class="prices">
-                        <span class="old-price">80 ₴</span>
-                        <span class="new-price">48 ₴</span>
-                    </div>
-                    <button class="btn">Купити</button>
-                </div>
-            </div>
-
+    <main class="container" id="promo">
+        <div class="grid" id="promo-container">
+            <p class="loading">Завантаження акцій...</p>
         </div>
     </main>
 
@@ -97,6 +41,47 @@
             <p>&copy; 2026 PromoSite. Усі права захищено.</p>
         </div>
     </footer>
+
+    <!-- Скрипт для завантаження акцій -->
+    <script>
+        fetch('./data/promotions.json')
+            .then(response => {
+                if (!response.ok) throw new Error('Не вдалося завантажити акції');
+                return response.json();
+            })
+            .then(data => {
+                // Оновлюємо заголовок місяця
+                document.getElementById('page-title').textContent = 'Акції ' + data.month;
+                document.title = 'Акції ' + data.month + ' | PromoSite';
+
+                const container = document.getElementById('promo-container');
+                container.innerHTML = ''; // Очищаємо "Завантаження..."
+
+                // Створюємо картки товарів
+                data.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        <div class="card-body">
+                            <h3>${item.name}</h3>
+                            <div class="prices">
+                                ${item.oldPrice ? `<span class="old-price">${item.oldPrice} ₴</span>` : ''}
+                                <span class="new-price">${item.newPrice} ₴</span>
+                            </div>
+                            <a href="${item.link || '#'}" class="btn">Купити</a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Помилка:', error);
+                document.getElementById('promo-container').innerHTML = 
+                    '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
+            });
+    </script>
 
 </body>
 </html>

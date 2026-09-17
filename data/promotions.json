@@ -1,0 +1,41 @@
+{
+    "month": "Вересень 2026",
+    "items": [
+      {
+        "id": 1,
+        "name": "Кава Lavazza",
+        "oldPrice": 450,
+        "newPrice": 320,
+        "image": "https://via.placeholder.com/300x200?text=Lavazza",
+        "badge": "-30%",
+        "link": "#"
+      },
+      {
+        "id": 2,
+        "name": "Чай Greenfield",
+        "oldPrice": 200,
+        "newPrice": 150,
+        "image": "https://via.placeholder.com/300x200?text=Greenfield",
+        "badge": "-25%",
+        "link": "#"
+      },
+      {
+        "id": 3,
+        "name": "Шоколад Milka",
+        "oldPrice": 120,
+        "newPrice": 102,
+        "image": "https://via.placeholder.com/300x200?text=Milka",
+        "badge": "-15%",
+        "link": "#"
+      },
+      {
+        "id": 4,
+        "name": "Печиво Oreo",
+        "oldPrice": 80,
+        "newPrice": 48,
+        "image": "https://via.placeholder.com/300x200?text=Oreo",
+        "badge": "-40%",
+        "link": "#"
+      }
+    ]
+  }
