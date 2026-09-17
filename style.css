@@ -149,6 +149,8 @@ body.menu-open {
     overflow: hidden;
 }
 
+
+
 .page-title::before {
     content: '';
     position: absolute;
@@ -174,6 +176,43 @@ body.menu-open {
     opacity: 0.95;
     margin-bottom: 0;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Хлібні крихти ---------- */
+.breadcrumbs {
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.breadcrumbs .container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.breadcrumbs a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+    color: #ff0b0b;
+    text-decoration: underline;
+}
+
+.breadcrumbs .sep {
+    color: #ccc;
+    font-size: 14px;
+    user-select: none;
+}
+
+.breadcrumbs .current {
+    color: #333;
+    font-weight: 500;
 }
 
 /* ---------- Таймер ---------- */
@@ -552,6 +591,10 @@ body.menu-open {
     .card-image {
         padding: 8px;   /* менший відступ на телефоні */
     }
+    .breadcrumbs {
+        padding: 6px 0;
+        font-size: 12px;
+    }
 }
 
 /* Дуже малі телефони */
@@ -571,5 +614,9 @@ body.menu-open {
     }
     .card-image {
         padding: 8px;   /* менший відступ на телефоні */
+    }
+    .breadcrumbs {
+        font-size: 11px;
+        gap: 4px;
     }
 }
