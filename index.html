@@ -42,33 +42,43 @@
         </div>
     </footer>
 
-    <!-- Скрипт для завантаження акцій -->
     <script>
-        fetch('./data/promotions.json')
+        // Заглушка, якщо картинка не завантажилась
+        const PLACEHOLDER = './images/0.png';
+
+        fetch('./data/promotions.json?t=' + Date.now())
             .then(response => {
                 if (!response.ok) throw new Error('Не вдалося завантажити акції');
                 return response.json();
             })
             .then(data => {
-                // Оновлюємо заголовок місяця
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | PromoSite';
 
                 const container = document.getElementById('promo-container');
-                container.innerHTML = ''; // Очищаємо "Завантаження..."
+                container.innerHTML = '';
 
-                // Створюємо картки товарів
                 data.items.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'card';
+
+                    // Підставляємо ціну: підтримуємо і "price", і "newPrice"
+                    const newPrice = item.price ?? item.newPrice ?? '';
+                    const oldPrice = item.oldPrice ?? '';
+
                     card.innerHTML = `
                         ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        <div class="card-image">
+                            <img src="${item.image}" alt="${item.name}"
+                                 loading="lazy"
+                                 onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        </div>
                         <div class="card-body">
                             <h3>${item.name}</h3>
+                            ${item.manufacturer ? `<p class="manufacturer">${item.manufacturer}</p>` : ''}
                             <div class="prices">
-                                ${item.oldPrice ? `<span class="old-price">${item.oldPrice} ₴</span>` : ''}
-                                <span class="new-price">${item.newPrice} ₴</span>
+                                ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
+                                <span class="new-price">${newPrice} ₴</span>
                             </div>
                             <a href="${item.link || '#'}" class="btn">Купити</a>
                         </div>

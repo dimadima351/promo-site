@@ -75,12 +75,12 @@ body {
     opacity: 0.9;
 }
 
-/* ---------- Сітка товарів ---------- */
+/* ---------- Сітка товарів: РІВНО 2 В РЯДКУ ---------- */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
-    padding: 50px 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 40px 0;
 }
 
 .loading,
@@ -113,11 +113,23 @@ body {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.card img {
+/* Квадратний контейнер для картинки */
+.card-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background-color: #eee;
+    aspect-ratio: 1 / 1;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* картинка вписується в квадрат, не обрізається */
+    display: block;
 }
 
 /* Бейдж зі знижкою */
@@ -137,23 +149,32 @@ body {
 
 /* Тіло картки */
 .card-body {
-    padding: 18px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    text-align: center;
 }
 
 .card-body h3 {
     font-size: 18px;
     color: #2c3e50;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
+}
+
+.manufacturer {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
 }
 
 .prices {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
 }
 
 .old-price {
@@ -212,5 +233,21 @@ body {
     }
     .header nav a {
         margin: 0 10px;
+    }
+    .grid {
+        gap: 12px;
+    }
+    .card-body h3 {
+        font-size: 15px;
+    }
+    .new-price {
+        font-size: 18px;
+    }
+    .old-price {
+        font-size: 13px;
+    }
+    .btn {
+        font-size: 13px;
+        padding: 8px 12px;
     }
 }
