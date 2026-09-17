@@ -335,7 +335,7 @@ body {
         font-size: 13px;
     }
     .new-price {
-        font-size: 22px;
+        font-size: 25px;
     }
     .old-price {
         font-size: 11px;
@@ -358,7 +358,7 @@ body {
         gap: 8px;
     }
     .new-price {
-        font-size: 18px;
+        font-size: 20px;
     }
     .card-body h3 {
         font-size: 12px;
