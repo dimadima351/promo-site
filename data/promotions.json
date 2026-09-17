@@ -213,6 +213,51 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true
+    },
+    {
+      "id": 16,
+      "name": "Йогурт Турецький 8% 260г стакан",
+      "manufacturer": "Яготин",
+      "category": "Молочні продукти",
+      "price": 34.0,
+      "oldPrice": 44.0,
+      "badge": "-23%",
+      "image": "./images/16.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
+    },
+    {
+      "id": 17,
+      "name": "Йогурт Грецький 1,5% 260г стакан",
+      "manufacturer": "Яготин",
+      "category": "Молочні продукти",
+      "price": 27.0,
+      "oldPrice": 33.0,
+      "badge": "-18%",
+      "image": "./images/17.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
+    },
+    {
+      "id": 18,
+      "name": "Йогурт Грецький 3% 260г стакан",
+      "manufacturer": "Яготин",
+      "category": "Молочні продукти",
+      "price": 28.0,
+      "oldPrice": 35.0,
+      "badge": "-20%",
+      "image": "./images/18.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }
