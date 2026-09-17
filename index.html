@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Головна | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=17">
+    <link rel="stylesheet" href="style.css?v=19">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -26,6 +26,7 @@
             <nav class="nav" id="mainNav">
                 <a href="/">Головна</a>
                 <a href="promo.html">Акції</a>
+                <a href="alcohol.html">Алкоголь</a>
                 <a href="#">Контакти</a>
             </nav>
         </div>
@@ -33,7 +34,7 @@
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- БАНЕР-КАРУСЕЛЬ (5 картинок, автоперемикання кожні 5 сек) -->
+    <!-- БАНЕР-КАРУСЕЛЬ -->
     <section class="banner-carousel" id="bannerCarousel">
         <img src="./image_site/banner1.jpg" alt="" class="banner-slide active" onerror="this.style.opacity=0.3">
         <img src="./image_site/banner2.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
@@ -41,7 +42,6 @@
         <img src="./image_site/banner4.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
         <img src="./image_site/banner5.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
 
-        <!-- Точки-індикатори -->
         <div class="banner-dots">
             <span class="dot active" data-slide="0"></span>
             <span class="dot" data-slide="1"></span>
@@ -51,7 +51,7 @@
         </div>
     </section>
 
-    <!-- Блок-банер "Акції цього місяця" -->
+    <!-- БЛОК 1: Акції цього місяця -->
     <section class="hero-banner">
         <div class="container">
             <a href="promo.html" class="hero-banner-link">
@@ -66,19 +66,47 @@
         </div>
     </section>
 
-    <!-- Карусель з випадковими товарами -->
+    <!-- Карусель 1: Популярні акції -->
     <section class="carousel-section">
         <div class="container">
             <h2 class="section-title">Популярні акції</h2>
 
             <div class="carousel-wrap">
                 <button class="carousel-btn carousel-btn-prev" id="carouselPrev" aria-label="Назад">‹</button>
-
                 <div class="carousel" id="carousel">
                     <p class="carousel-loading">Завантаження...</p>
                 </div>
-
                 <button class="carousel-btn carousel-btn-next" id="carouselNext" aria-label="Вперед">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 2: Обирай свій смак (алкоголь) -->
+    <section class="hero-banner hero-banner-alcohol">
+        <div class="container">
+            <a href="alcohol.html" class="hero-banner-link hero-banner-link-alcohol">
+                <span class="hero-banner-text">ОБИРАЙ СВІЙ СМАК</span>
+                <span class="hero-banner-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Карусель 2: Алкоголь -->
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Алкогольні напої</h2>
+
+            <div class="carousel-wrap">
+                <button class="carousel-btn carousel-btn-prev" id="alcoholPrev" aria-label="Назад">‹</button>
+                <div class="carousel" id="alcoholCarousel">
+                    <p class="carousel-loading">Завантаження...</p>
+                </div>
+                <button class="carousel-btn carousel-btn-next" id="alcoholNext" aria-label="Вперед">›</button>
             </div>
         </div>
     </section>
@@ -118,64 +146,41 @@
         menuOverlay.addEventListener('click', closeMenu);
         mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
 
-        // ====== БАНЕР-КАРУСЕЛЬ (авто кожні 5 сек) ======
+        // ====== БАНЕР-КАРУСЕЛЬ ======
         const bannerSlides = document.querySelectorAll('.banner-slide');
         const bannerDots = document.querySelectorAll('.banner-dots .dot');
         let currentSlide = 0;
         let bannerInterval = null;
 
         function showSlide(index) {
-            bannerSlides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-            bannerDots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
+            bannerSlides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+            bannerDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
             currentSlide = index;
         }
-
         function nextSlide() {
-            const next = (currentSlide + 1) % bannerSlides.length;
-            showSlide(next);
+            showSlide((currentSlide + 1) % bannerSlides.length);
         }
-
         function startBannerAuto() {
-            stopBannerAuto(); // про всяк випадок зупинити старий
-            bannerInterval = setInterval(nextSlide, 5000); // 5 секунд
+            stopBannerAuto();
+            bannerInterval = setInterval(nextSlide, 5000);
         }
-
         function stopBannerAuto() {
-            if (bannerInterval) {
-                clearInterval(bannerInterval);
-                bannerInterval = null;
-            }
+            if (bannerInterval) { clearInterval(bannerInterval); bannerInterval = null; }
         }
-
-        // Запуск
-        if (bannerSlides.length > 0) {
-            showSlide(0);
-            startBannerAuto();
-        }
-
-        // Кліки по точках
+        if (bannerSlides.length > 0) { showSlide(0); startBannerAuto(); }
         bannerDots.forEach(dot => {
             dot.addEventListener('click', () => {
-                const idx = parseInt(dot.dataset.slide);
-                showSlide(idx);
-                startBannerAuto(); // перезапуск таймера
+                showSlide(parseInt(dot.dataset.slide));
+                startBannerAuto();
             });
         });
-
-        // Пауза при наведенні мишкою (щоб не горталось, поки дивляться)
         const bannerEl = document.getElementById('bannerCarousel');
         if (bannerEl) {
             bannerEl.addEventListener('mouseenter', stopBannerAuto);
             bannerEl.addEventListener('mouseleave', startBannerAuto);
         }
 
-        // ====== КАРУСЕЛЬ ТОВАРІВ ======
-        const carousel = document.getElementById('carousel');
-
+        // ====== ЗАГАЛЬНІ ФУНКЦІЇ КАРУСЕЛІ ======
         function shuffle(arr) {
             const a = [...arr];
             for (let i = a.length - 1; i > 0; i--) {
@@ -210,9 +215,9 @@
             return card;
         }
 
-        function makeGoCard() {
+        function makeGoCard(href, text) {
             const card = document.createElement('a');
-            card.href = 'promo.html';
+            card.href = href;
             card.className = 'card card-go';
             card.innerHTML = `
                 <div class="card-go-inner">
@@ -222,35 +227,64 @@
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
                     </div>
-                    <span>Перейти до всіх акцій</span>
+                    <span>${text}</span>
                 </div>
             `;
             return card;
         }
 
-        document.getElementById('carouselPrev').addEventListener('click', () => {
-            carousel.scrollBy({ left: -300, behavior: 'smooth' });
-        });
-        document.getElementById('carouselNext').addEventListener('click', () => {
-            carousel.scrollBy({ left: 300, behavior: 'smooth' });
-        });
+        function setupCarouselArrows(carouselId, prevId, nextId) {
+            const el = document.getElementById(carouselId);
+            document.getElementById(prevId).addEventListener('click', () => {
+                el.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+            document.getElementById(nextId).addEventListener('click', () => {
+                el.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+        }
 
+        // Прокрутка
+        setupCarouselArrows('carousel', 'carouselPrev', 'carouselNext');
+        setupCarouselArrows('alcoholCarousel', 'alcoholPrev', 'alcoholNext');
+
+        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                let items = (data.items || []).filter(it => it.visible !== false);
-                items = shuffle(items).slice(0, 6);
+                const items = (data.items || []).filter(it => it.visible !== false);
+
+                // ====== КАРУСЕЛЬ 1: Популярні акції ======
+                const carousel = document.getElementById('carousel');
+                const popular = shuffle(items).slice(0, 6);
                 carousel.innerHTML = '';
-                if (items.length === 0) {
+                if (popular.length === 0) {
                     carousel.innerHTML = '<p class="carousel-loading">Акцій поки що немає</p>';
-                    return;
+                } else {
+                    popular.forEach(it => carousel.appendChild(makeCard(it)));
+                    carousel.appendChild(makeGoCard('promo.html', 'Перейти до всіх акцій'));
                 }
-                items.forEach(it => carousel.appendChild(makeCard(it)));
-                carousel.appendChild(makeGoCard());
+
+                // ====== КАРУСЕЛЬ 2: Алкоголь ======
+                const alcoholCarousel = document.getElementById('alcoholCarousel');
+                const alcoholItems = items.filter(it =>
+                    (it.category || '').toLowerCase().includes('алкоголь')
+                );
+                const alcoholRandom = shuffle(alcoholItems).slice(0, 6);
+
+                alcoholCarousel.innerHTML = '';
+                if (alcoholRandom.length === 0) {
+                    alcoholCarousel.innerHTML = '<p class="carousel-loading">Алкогольних акцій поки що немає</p>';
+                } else {
+                    alcoholRandom.forEach(it => alcoholCarousel.appendChild(makeCard(it)));
+                    alcoholCarousel.appendChild(makeGoCard('alcohol.html', 'Перейти до алкоголю'));
+                }
             })
             .catch(err => {
                 console.error(err);
-                carousel.innerHTML = '<p class="carousel-loading">Не вдалося завантажити акції</p>';
+                document.getElementById('carousel').innerHTML =
+                    '<p class="carousel-loading">Не вдалося завантажити</p>';
+                document.getElementById('alcoholCarousel').innerHTML =
+                    '<p class="carousel-loading">Не вдалося завантажити</p>';
             });
     </script>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Акції | Ваш ПАРТНЕР</title>
+    <title>Алкоголь | Ваш ПАРТНЕР</title>
     <link rel="stylesheet" href="style.css?v=18">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -26,7 +26,6 @@
             <nav class="nav" id="mainNav">
                 <a href="/">Головна</a>
                 <a href="promo.html">Акції</a>
-                <a href="alcohol.html">Алкоголь</a>
                 <a href="#">Контакти</a>
             </nav>
         </div>
@@ -34,10 +33,11 @@
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
+    <!-- Банер: "Обирай свій смак" + таймер -->
     <section class="page-title">
         <div class="container">
-            <h2 id="page-title">Акції</h2>
-            <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
+            <h2 id="page-title">Обирай свій смак</h2>
+            <p>Найкращі алкогольні напої за акційними цінами</p>
 
             <div class="countdown" id="countdown">
                 <p class="countdown-label">До кінця акції залишилось:</p>
@@ -65,13 +65,13 @@
             <span class="sep">›</span>
             <a href="promo.html">Акції</a>
             <span class="sep">›</span>
-            <span class="current">Акції цього місяця</span>
+            <span class="current">Алкоголь</span>
         </div>
     </nav>
 
     <main class="container" id="promo">
         <div class="grid" id="promo-container">
-            <p class="loading">Завантаження акцій...</p>
+            <p class="loading">Завантаження...</p>
         </div>
 
         <!-- Кнопка "Показати ще" -->
@@ -91,10 +91,13 @@
 
     <script>
         const PLACEHOLDER = './images/0.png';
-        const ITEMS_PER_PAGE = 20;   // ← СКІЛЬКИ ПОКАЗУВАТИ СПОЧАТКУ І ДОДАВАТИ
+        const ITEMS_PER_PAGE = 20;
 
-        let allItems = [];           // усі товари
-        let shownCount = 0;          // скільки вже показано
+        // ↓↓↓ КЛЮЧОВЕ: фільтр по категорії ↓↓↓
+        const FILTER_CATEGORY = 'Алкоголь';
+
+        let allItems = [];
+        let shownCount = 0;
 
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
@@ -184,10 +187,8 @@
             next.forEach(it => container.appendChild(makeCard(it)));
             shownCount += next.length;
 
-            // Оновлення кнопки
             const remaining = allItems.length - shownCount;
             const wrap = document.getElementById('loadMoreWrap');
-            const btn = document.getElementById('loadMoreBtn');
             const cnt = document.getElementById('loadMoreCount');
 
             if (remaining > 0) {
@@ -204,19 +205,21 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                document.getElementById('page-title').textContent = 'Акції ' + data.month;
-                document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
+                // Заголовок залишаємо як є ("Обирай свій смак"),
+                // але змінюємо title сторінки
+                document.title = 'Алкоголь | Ваш ПАРТНЕР';
 
-                allItems = (data.items || []).filter(it => it.visible !== false);
+                // ФІЛЬТР: показуємо тільки видимі + категорія "Алкоголь"
+                allItems = (data.items || []).filter(it =>
+                    it.visible !== false && it.category === FILTER_CATEGORY
+                );
 
-                // Сортування
+                // Сортування: акція місяця → акція → за назвою (А-Я)
                 allItems.sort((a, b) => {
                     if (a.isMonthAction && !b.isMonthAction) return -1;
                     if (!a.isMonthAction && b.isMonthAction) return 1;
-                    const catA = a.category || '';
-                    const catB = b.category || '';
-                    const catCompare = catA.localeCompare(catB, 'uk');
-                    if (catCompare !== 0) return catCompare;
+                    if (a.isAction && !b.isAction) return -1;
+                    if (!a.isAction && b.isAction) return 1;
                     return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
@@ -225,7 +228,7 @@
 
                 if (allItems.length === 0) {
                     document.getElementById('promo-container').innerHTML =
-                        '<p class="loading">Акцій поки що немає</p>';
+                        '<p class="loading">Алкогольних акцій поки що немає</p>';
                     return;
                 }
 
@@ -234,7 +237,7 @@
             .catch(err => {
                 console.error(err);
                 document.getElementById('promo-container').innerHTML =
-                    '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
+                    '<p class="error">Не вдалося завантажити. Спробуйте пізніше.</p>';
             });
     </script>
 
