@@ -258,6 +258,51 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true
+    },
+    {
+      "id": 19,
+      "name": "1",
+      "manufacturer": "1",
+      "category": "",
+      "price": 1.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/19.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
+    },
+    {
+      "id": 20,
+      "name": "2",
+      "manufacturer": "",
+      "category": "",
+      "price": 2.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/20.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
+    },
+    {
+      "id": 21,
+      "name": "3",
+      "manufacturer": "",
+      "category": "",
+      "price": 3.0,
+      "oldPrice": 66.0,
+      "badge": "-95%",
+      "image": "./images/21.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }

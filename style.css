@@ -283,6 +283,54 @@ body.menu-open {
     padding: 24px 0;
 }
 
+/* ============================================================
+   КНОПКА "ПОКАЗАТИ ЩЕ"
+   ============================================================ */
+   .load-more-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 50px;
+}
+
+.load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 40px;
+    background: #fff;
+    color: #2c3e50;
+    border: 2px solid #ff0b0b;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.load-more-btn:hover {
+    background: #ff0b0b;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 11, 11, 0.3);
+}
+
+.load-more-btn:active {
+    transform: translateY(0);
+}
+
+.load-more-count {
+    font-size: 14px;
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+.load-more-btn:hover .load-more-count {
+    opacity: 0.9;
+}
+
+/* Мобільна версія */
+
+
 .loading,
 .error {
     grid-column: 1 / -1;
@@ -866,5 +914,18 @@ body.menu-open {
     .breadcrumbs {
         font-size: 11px;
         gap: 4px;
+    }
+}
+
+@media (max-width: 700px) {
+    .load-more-wrap {
+        padding: 10px 0 30px;
+    }
+    .load-more-btn {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+    .load-more-count {
+        font-size: 12px;
     }
 }

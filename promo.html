@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=18">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -60,7 +57,7 @@
             </div>
         </div>
     </section>
-    <!-- Хлібні крихти -->
+
     <nav class="breadcrumbs">
         <div class="container">
             <a href="/">Головна</a>
@@ -70,9 +67,18 @@
             <span class="current">Акції цього місяця</span>
         </div>
     </nav>
+
     <main class="container" id="promo">
         <div class="grid" id="promo-container">
             <p class="loading">Завантаження акцій...</p>
+        </div>
+
+        <!-- Кнопка "Показати ще" -->
+        <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+            <button class="load-more-btn" id="loadMoreBtn">
+                Показати ще
+                <span class="load-more-count" id="loadMoreCount"></span>
+            </button>
         </div>
     </main>
 
@@ -84,6 +90,10 @@
 
     <script>
         const PLACEHOLDER = './images/0.png';
+        const ITEMS_PER_PAGE = 20;   // ← СКІЛЬКИ ПОКАЗУВАТИ СПОЧАТКУ І ДОДАВАТИ
+
+        let allItems = [];           // усі товари
+        let shownCount = 0;          // скільки вже показано
 
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
@@ -101,19 +111,15 @@
             menuOverlay.classList.toggle('active');
             document.body.classList.toggle('menu-open');
         }
-
         function closeMenu() {
             burgerBtn.classList.remove('active');
             mainNav.classList.remove('active');
             menuOverlay.classList.remove('active');
             document.body.classList.remove('menu-open');
         }
-
         burgerBtn.addEventListener('click', toggleMenu);
         menuOverlay.addEventListener('click', closeMenu);
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
+        mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
 
         // ====== ТАЙМЕР ======
         function getEndOfMonth() {
@@ -125,97 +131,107 @@
             const now = new Date();
             const end = getEndOfMonth();
             const diff = end - now;
-
             const countdownEl = document.getElementById('countdown');
-            const daysEl = document.getElementById('cd-days');
-            const hoursEl = document.getElementById('cd-hours');
-            const minutesEl = document.getElementById('cd-minutes');
-
-            if (!countdownEl || !daysEl) return;
+            if (!countdownEl) return;
 
             if (diff <= 0) {
                 countdownEl.innerHTML = '<p class="countdown-label">Акція завершена</p>';
                 return;
             }
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-            daysEl.textContent = days;
-            hoursEl.textContent = String(hours).padStart(2, '0');
-            minutesEl.textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cd-days').textContent = days;
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
         }
 
         updateCountdown();
         setInterval(updateCountdown, 5 * 60 * 1000);
 
         // ====== РЕНДЕР КАРТОК ======
-        function renderItems(items) {
-            const container = document.getElementById('promo-container');
-            container.innerHTML = '';
+        function makeCard(item) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const newPrice = item.price ?? item.newPrice ?? '';
+            const oldPrice = item.oldPrice ?? '';
+            const imgSrc = noCache(item.image);
 
-            if (items.length === 0) {
-                container.innerHTML = '<p class="loading">Нічого не знайдено</p>';
-                return;
-            }
-
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-
-                const newPrice = item.price ?? item.newPrice ?? '';
-                const oldPrice = item.oldPrice ?? '';
-                const imgSrc = noCache(item.image);
-
-                card.innerHTML = `
-                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                    <div class="card-image">
-                        <img src="${imgSrc}" alt="${item.name}"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+            card.innerHTML = `
+                ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                <div class="card-image">
+                    <img src="${imgSrc}" alt="${item.name}" loading="lazy"
+                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                </div>
+                <div class="card-body">
+                    <div class="prices">
+                        ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
+                        <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
                     </div>
-                    <div class="card-body">
-                        <div class="prices">
-                            ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
-                            <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
-                        </div>
-                        <h3>${item.name}</h3>
-                        ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+                    <h3>${item.name}</h3>
+                    ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                </div>
+            `;
+            return card;
         }
 
-        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
+        // ====== ПОКАЗ ЩЕ ======
+        function showMore() {
+            const container = document.getElementById('promo-container');
+            const next = allItems.slice(shownCount, shownCount + ITEMS_PER_PAGE);
+            next.forEach(it => container.appendChild(makeCard(it)));
+            shownCount += next.length;
+
+            // Оновлення кнопки
+            const remaining = allItems.length - shownCount;
+            const wrap = document.getElementById('loadMoreWrap');
+            const btn = document.getElementById('loadMoreBtn');
+            const cnt = document.getElementById('loadMoreCount');
+
+            if (remaining > 0) {
+                wrap.style.display = 'flex';
+                cnt.textContent = `(${remaining})`;
+            } else {
+                wrap.style.display = 'none';
+            }
+        }
+
+        document.getElementById('loadMoreBtn').addEventListener('click', showMore);
+
+        // ====== ЗАВАНТАЖЕННЯ ======
         fetch(noCache('./data/promotions.json'))
-            .then(response => {
-                if (!response.ok) throw new Error('Не вдалося завантажити акції');
-                return response.json();
-            })
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
 
-                const items = (data.items || []).filter(it => it.visible !== false);
+                allItems = (data.items || []).filter(it => it.visible !== false);
 
-                items.sort((a, b) => {
+                // Сортування
+                allItems.sort((a, b) => {
                     if (a.isMonthAction && !b.isMonthAction) return -1;
                     if (!a.isMonthAction && b.isMonthAction) return 1;
-
                     const catA = a.category || '';
                     const catB = b.category || '';
                     const catCompare = catA.localeCompare(catB, 'uk');
                     if (catCompare !== 0) return catCompare;
-
                     return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
-                renderItems(items);
+                document.getElementById('promo-container').innerHTML = '';
+                shownCount = 0;
+
+                if (allItems.length === 0) {
+                    document.getElementById('promo-container').innerHTML =
+                        '<p class="loading">Акцій поки що немає</p>';
+                    return;
+                }
+
+                showMore();
             })
-            .catch(error => {
-                console.error('Помилка:', error);
+            .catch(err => {
+                console.error(err);
                 document.getElementById('promo-container').innerHTML =
                     '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
             });
