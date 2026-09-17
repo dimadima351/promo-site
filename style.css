@@ -253,7 +253,6 @@ body.menu-open {
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 4px solid rgba(0, 0, 0, 0.05);   /* ← ось це додати */
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -269,6 +268,11 @@ body.menu-open {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
+    padding: 10px;                    /* ← відступ картинки від країв */
+    display: flex;                    /* щоб картинка центрувалась */
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
 .card-image img {
@@ -545,6 +549,9 @@ body.menu-open {
     .logo img {
         height: 32px;
     }
+    .card-image {
+        padding: 8px;   /* менший відступ на телефоні */
+    }
 }
 
 /* Дуже малі телефони */
@@ -561,5 +568,8 @@ body.menu-open {
     .nav {
         width: 260px;
         right: -260px;
+    }
+    .card-image {
+        padding: 8px;   /* менший відступ на телефоні */
     }
 }
