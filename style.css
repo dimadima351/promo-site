@@ -170,7 +170,7 @@ body {
 .new-price {
     color: #e74c3c;
     font-weight: 700;
-    font-size: 26px;
+    font-size: 30px;
     line-height: 1.2;
 }
 
@@ -236,10 +236,10 @@ body {
         font-size: 13px;
     }
     .new-price {
-        font-size: 20px;
+        font-size: 24px;
     }
     .old-price {
-        font-size: 12px;
+        font-size: 13px;
     }
     .unit {
         font-size: 9px;
