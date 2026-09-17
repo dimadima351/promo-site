@@ -182,6 +182,21 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true
+    },
+    {
+      "id": 14,
+      "name": "Пиво Ноунейм",
+      "manufacturer": "Львівське",
+      "category": "Алкоголь",
+      "price": 999.0,
+      "oldPrice": 2399.0,
+      "badge": "-58%",
+      "image": "./images/14.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }
