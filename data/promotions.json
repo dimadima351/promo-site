@@ -6,7 +6,7 @@
         "name": "Кава Lavazza",
         "oldPrice": 450,
         "newPrice": 320,
-        "image": "https://via.placeholder.com/300x200?text=Lavazza",
+        "image": "./images/lavazza.jpg",
         "badge": "-30%",
         "link": "#"
       },
@@ -15,7 +15,7 @@
         "name": "Чай Greenfield",
         "oldPrice": 200,
         "newPrice": 150,
-        "image": "https://via.placeholder.com/300x200?text=Greenfield",
+        "image": "./images/greenfield.jpg",
         "badge": "-25%",
         "link": "#"
       },
@@ -24,7 +24,7 @@
         "name": "Шоколад Milka",
         "oldPrice": 120,
         "newPrice": 102,
-        "image": "https://via.placeholder.com/300x200?text=Milka",
+        "image": "./images/milka.jpg",
         "badge": "-15%",
         "link": "#"
       },
@@ -33,7 +33,7 @@
         "name": "Печиво Oreo",
         "oldPrice": 80,
         "newPrice": 48,
-        "image": "https://via.placeholder.com/300x200?text=Oreo",
+        "image": "./images/oreo.jpg",
         "badge": "-40%",
         "link": "#"
       }
