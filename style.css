@@ -99,9 +99,9 @@ body {
 /* ---------- Картка товару ---------- */
 .card {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 6px;              /* менше заокруглення */
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);  /* м'якша тінь */
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -109,20 +109,16 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Квадратний контейнер для картинки */
+/* Квадратний контейнер для картинки — без фону, без padding */
 .card-image {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
-    padding: 10px;
+    /* фон і padding видалені — щоб не було сірої рамки */
 }
 
 .card-image img {
@@ -135,21 +131,20 @@ body {
 /* Бейдж зі знижкою */
 .badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    top: 10px;
+    left: 10px;
     background-color: #e74c3c;
     color: #fff;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 4px;              /* менше заокруглення */
+    font-size: 13px;
     font-weight: 700;
     z-index: 10;
-    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
 }
 
 /* Тіло картки */
 .card-body {
-    padding: 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -157,30 +152,30 @@ body {
 }
 
 .card-body h3 {
-    font-size: 18px;
+    font-size: 17px;
     color: #2c3e50;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .manufacturer {
-    font-size: 13px;
+    font-size: 12px;
     color: #888;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .prices {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 14px;
+    gap: 8px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
 }
 
 .old-price {
     text-decoration: line-through;
     color: #999;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .new-price {
@@ -189,24 +184,21 @@ body {
     font-size: 22px;
 }
 
-/* Кнопка "Купити" */
-.btn {
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    margin-top: auto;
-    background-color: #2c3e50;
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+/* Дуже маленький і тонкий "грн/шт" */
+.unit {
+    font-size: 10px;
+    font-weight: 300;
+    color: #999;
+    letter-spacing: 0.3px;
+    margin-left: 1px;
 }
 
-.btn:hover {
-    background-color: #e74c3c;
+/* Дата дії акції */
+.valid-until {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    margin-top: 4px;
 }
 
 /* ---------- Підвал ---------- */
@@ -238,16 +230,15 @@ body {
         gap: 12px;
     }
     .card-body h3 {
-        font-size: 15px;
+        font-size: 14px;
     }
     .new-price {
         font-size: 18px;
     }
     .old-price {
-        font-size: 13px;
+        font-size: 12px;
     }
-    .btn {
-        font-size: 13px;
-        padding: 8px 12px;
+    .unit {
+        font-size: 9px;
     }
 }

@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <!-- Версія стилів — змінюйте при кожному оновленні CSS -->
-    <link rel="stylesheet" href="style.css?v=1">
-    
-    <!-- Заборона кешування на рівні мета-тегів -->
+    <link rel="stylesheet" href="style.css?v=2">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -45,17 +42,13 @@
     </footer>
 
     <script>
-        // Заглушка, якщо картинка не завантажилась
         const PLACEHOLDER = './images/0.png';
 
-        // Функція, що додає "?t=ЧАС" до будь-якого URL — 
-        // це змушує браузер завантажувати файл заново, а не з кешу
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
             return url + separator + 't=' + Date.now();
         }
 
-        // Завантаження JSON без кешу
         fetch(noCache('./data/promotions.json'))
             .then(response => {
                 if (!response.ok) throw new Error('Не вдалося завантажити акції');
@@ -74,8 +67,6 @@
 
                     const newPrice = item.price ?? item.newPrice ?? '';
                     const oldPrice = item.oldPrice ?? '';
-
-                    // Картинка теж без кешу
                     const imgSrc = noCache(item.image);
 
                     card.innerHTML = `
@@ -90,9 +81,9 @@
                             ${item.manufacturer ? `<p class="manufacturer">${item.manufacturer}</p>` : ''}
                             <div class="prices">
                                 ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
-                                <span class="new-price">${newPrice} ₴</span>
+                                <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
                             </div>
-                            <a href="${item.link || '#'}" class="btn">Купити</a>
+                            ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
                         </div>
                     `;
                     container.appendChild(card);
