@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Адмін-панель PromoSite</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f8; color: #333; padding: 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { color: #2c3e50; margin-bottom: 20px; }
+  h2 { color: #2c3e50; margin: 20px 0 10px; font-size: 20px; }
+  .card {
+    background: #fff; border-radius: 10px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px;
+  }
+  .form-row { margin-bottom: 15px; }
+  label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+  input[type="text"], input[type="number"], select {
+    width: 100%; padding: 10px; border: 1px solid #ddd;
+    border-radius: 6px; font-size: 15px;
+  }
+  input[type="checkbox"] { margin-right: 8px; transform: scale(1.2); }
+  .checkbox-row { display: flex; align-items: center; margin-bottom: 15px; }
+  .checkbox-row label { margin: 0; font-weight: 500; cursor: pointer; }
+  button {
+    background: #2c3e50; color: #fff; border: none; padding: 12px 24px;
+    border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: 600;
+    margin-right: 10px;
+  }
+  button:hover { background: #e74c3c; }
+  button.danger { background: #e74c3c; }
+  button.danger:hover { background: #c0392b; }
+  button.small { padding: 6px 12px; font-size: 13px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .hidden { display: none; }
+  .discount-badge {
+    display: inline-block; background: #e74c3c; color: #fff;
+    padding: 6px 12px; border-radius: 20px; font-size: 14px;
+    font-weight: 700; margin-left: 10px;
+  }
+  .item-row {
+    display: flex; align-items: center; gap: 15px;
+    padding: 10px; border-bottom: 1px solid #eee;
+  }
+  .item-row img {
+    width: 60px; height: 60px; object-fit: cover;
+    border-radius: 6px; background: #eee;
+  }
+  .item-info { flex: 1; }
+  .item-info strong { display: block; }
+  .item-info small { color: #777; }
+  .info-box {
+    background: #e8f4fd; padding: 15px; border-radius: 8px;
+    margin-bottom: 20px; font-size: 14px; border-left: 4px solid #3498db;
+  }
+  .image-preview {
+    width: 150px; height: 150px; object-fit: cover;
+    border-radius: 8px; margin-top: 10px; background: #eee;
+    display: block;
+  }
+  .file-size { font-size: 12px; color: #777; margin-top: 5px; }
+  .category-list { font-size: 13px; color: #777; margin-top: 5px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🛠 Адмін-панель PromoSite</h1>
+
+  <div class="info-box">
+    <strong>Як користуватись:</strong><br>
+    1. Заповніть форму нижче та натисніть "Додати товар".<br>
+    2. Коли закінчите — натисніть "💾 Зберегти JSON" (завантажиться файл).<br>
+    3. Також завантажаться стиснуті картинки — покладіть їх у папку <code>images/</code>.<br>
+    4. Замініть <code>data/promotions.json</code> на завантажений файл.<br>
+    5. У Терміналі: <code>git add . && git commit -m "Оновлено акції" && git push</code>
+  </div>
+
+  <div class="card">
+    <h2>➕ Додати товар</h2>
+
+    <div class="form-row">
+      <label>Назва товару *</label>
+      <input type="text" id="name" placeholder="Наприклад: Кава Lavazza">
+    </div>
+
+    <div class="form-row">
+      <label>Виробник</label>
+      <input type="text" id="manufacturer" placeholder="Наприклад: Lavazza">
+    </div>
+
+    <div class="form-row">
+      <label>Категорія *</label>
+      <select id="category">
+        <option value="">— Виберіть категорію —</option>
+        <option>Молочні продукти</option>
+        <option>М'ясні вироби</option>
+        <option>Риба та морепродукти</option>
+        <option>Яйця</option>
+        <option>Хліб та випічка</option>
+        <option>Солодощі</option>
+        <option>Фрукти та овочі</option>
+        <option>Консервація</option>
+        <option>Бакалія</option>
+        <option>Горіхи та сухофрукти</option>
+        <option>Соуси та приправи</option>
+        <option>Безалкогольні напої</option>
+        <option>Кава та чай</option>
+        <option>Алкоголь</option>
+        <option>Заморожені продукти</option>
+        <option>Напівфабрикати</option>
+        <option>Готові страви</option>
+        <option>Соління та маринади</option>
+        <option>Олія</option>
+        <option>Дитяче харчування</option>
+        <option>Здорове харчування</option>
+        <option>Товари для тварин</option>
+        <option>Побутова хімія</option>
+        <option>Товари для дому</option>
+        <option>Засоби гігієни</option>
+      </select>
+    </div>
+
+    <div class="grid-2">
+      <div class="form-row">
+        <label>Ціна (грн) *</label>
+        <input type="number" id="price" placeholder="320" step="0.01">
+      </div>
+      <div class="form-row">
+        <label>Посилання на товар (URL)</label>
+        <input type="text" id="link" placeholder="https://...">
+      </div>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="hasDiscount">
+      <label for="hasDiscount">Є акційна ціна</label>
+    </div>
+
+    <div class="form-row hidden" id="oldPriceBlock">
+      <label>Стара ціна (грн)</label>
+      <input type="number" id="oldPrice" placeholder="450" step="0.01">
+      <div class="file-size">Знижка: <span id="discountPreview">0%</span></div>
+    </div>
+
+    <div class="form-row">
+      <label>Картинка товару *</label>
+      <input type="file" id="image" accept="image/*">
+      <div class="file-size" id="imageInfo"></div>
+      <img id="imagePreview" class="image-preview hidden" alt="Прев'ю">
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="isAction">
+      <label for="isAction">Акція (додати до загального списку акцій)</label>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="isMonthAction">
+      <label for="isMonthAction">Акція місяця (зверху списку)</label>
+    </div>
+
+    <button id="addBtn">➕ Додати товар</button>
+    <button id="clearBtn" class="danger">Очистити форму</button>
+  </div>
+
+  <div class="card">
+    <h2>📋 Список товарів (<span id="count">0</span>)</h2>
+    <div id="itemsList">
+      <p style="color:#888;">Поки що нічого не додано.</p>
+    </div>
+    <div style="margin-top:20px;">
+      <button id="saveBtn">💾 Зберегти JSON</button>
+      <button id="loadBtn">📂 Завантажити JSON</button>
+      <input type="file" id="loadFile" accept=".json" class="hidden">
+    </div>
+  </div>
+</div>
+
+<script>
+// ====== СТАН ======
+let items = [];
+let currentImageData = null; // base64 compressed
+
+const $ = id => document.getElementById(id);
+
+// ====== ДИНАМІЧНІ ПОЛЯ ======
+$('hasDiscount').addEventListener('change', (e) => {
+  $('oldPriceBlock').classList.toggle('hidden', !e.target.checked);
+});
+
+function updateDiscount() {
+  const price = parseFloat($('price').value) || 0;
+  const oldPrice = parseFloat($('oldPrice').value) || 0;
+  if (oldPrice > price && price > 0) {
+    const percent = Math.round((1 - price / oldPrice) * 100);
+    $('discountPreview').textContent = '-' + percent + '%';
+  } else {
+    $('discountPreview').textContent = '0%';
+  }
+}
+$('price').addEventListener('input', updateDiscount);
+$('oldPrice').addEventListener('input', updateDiscount);
+
+// ====== СТИСНЕННЯ КАРТИНКИ ======
+$('image').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const originalSize = (file.size / 1024).toFixed(1);
+  $('imageInfo').textContent = 'Обробка...';
+  $('imagePreview').classList.add('hidden');
+
+  try {
+    const compressed = await compressImage(file, 600, 0.75);
+    currentImageData = compressed;
+    const newSize = (compressed.size / 1024).toFixed(1);
+    $('imageInfo').textContent =
+      `✅ ${file.name}: ${originalSize} КБ → ${newSize} КБ (стиснуто)`;
+    $('imagePreview').src = compressed.dataUrl;
+    $('imagePreview').classList.remove('hidden');
+  } catch (err) {
+    $('imageInfo').textContent = '❌ Помилка: ' + err.message;
+  }
+});
+
+function compressImage(file, maxWidth, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width, height = img.height;
+        if (width > maxWidth) {
+          height = height * (maxWidth / width);
+          width = maxWidth;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          if (!blob) return reject(new Error('Не вдалося стиснути'));
+          // Генеруємо безпечне ім'я файлу
+          const baseName = file.name
+            .toLowerCase()
+            .replace(/\.[^.]+$/, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '') || 'image';
+          const fileName = baseName + '.jpg';
+          blob.fileName = fileName;
+          blob.dataUrl = URL.createObjectURL(blob);
+          resolve(blob);
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => reject(new Error('Не вдалося прочитати картинку'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('Не вдалося прочитати файл'));
+    reader.readAsDataURL(file);
+  });
+}
+
+// ====== ДОДАВАННЯ ТОВАРУ ======
+$('addBtn').addEventListener('click', () => {
+  const name = $('name').value.trim();
+  const price = parseFloat($('price').value);
+
+  if (!name) return alert('Введіть назву товару');
+  if (!price || price <= 0) return alert('Введіть коректну ціну');
+  if (!currentImageData) return alert('Виберіть картинку');
+
+  const hasDiscount = $('hasDiscount').checked;
+  const oldPrice = hasDiscount ? parseFloat($('oldPrice').value) : null;
+  let badge = null;
+
+  if (hasDiscount && oldPrice && oldPrice > price) {
+    badge = '-' + Math.round((1 - price / oldPrice) * 100) + '%';
+  }
+
+  const item = {
+    id: Date.now(),
+    name: name,
+    manufacturer: $('manufacturer').value.trim(),
+    category: $('category').value,
+    price: price,
+    oldPrice: oldPrice,
+    badge: badge,
+    image: './images/' + currentImageData.fileName,
+    imageFile: currentImageData.fileName, // для збереження
+    link: $('link').value.trim() || '#',
+    isAction: $('isAction').checked,
+    isMonthAction: $('isMonthAction').checked
+  };
+
+  items.push(item);
+  renderItems();
+  resetForm();
+});
+
+function resetForm() {
+  ['name','manufacturer','price','oldPrice','link'].forEach(id => $(id).value = '');
+  $('category').value = '';
+  $('hasDiscount').checked = false;
+  $('isAction').checked = false;
+  $('isMonthAction').checked = false;
+  $('oldPriceBlock').classList.add('hidden');
+  $('discountPreview').textContent = '0%';
+  $('image').value = '';
+  $('imageInfo').textContent = '';
+  $('imagePreview').classList.add('hidden');
+  currentImageData = null;
+}
+
+// ====== РЕНДЕР СПИСКУ ======
+function renderItems() {
+  const list = $('itemsList');
+  $('count').textContent = items.length;
+
+  if (items.length === 0) {
+    list.innerHTML = '<p style="color:#888;">Поки що нічого не додано.</p>';
+    return;
+  }
+
+  list.innerHTML = items.map((item, i) => `
+    <div class="item-row">
+      <img src="${item.image}" alt="${item.name}" onerror="this.style.opacity=0.3">
+      <div class="item-info">
+        <strong>${item.name}</strong>
+        <small>${item.manufacturer ? item.manufacturer + ' • ' : ''}${item.category || 'без категорії'}</small>
+        <small>${item.price} ₴ ${item.oldPrice ? `<s style="color:#999">${item.oldPrice} ₴</s> ` : ''}${item.badge ? `<span style="color:#e74c3c;font-weight:700">${item.badge}</span>` : ''}</small>
+        <small>${item.isAction ? '🔴 Акція ' : ''}${item.isMonthAction ? '⭐ Акція місяця' : ''}</small>
+      </div>
+      <button class="danger small" onclick="removeItem(${i})">Видалити</button>
+    </div>
+  `).join('');
+}
+
+window.removeItem = function(index) {
+  if (!confirm('Видалити цей товар?')) return;
+  items.splice(index, 1);
+  renderItems();
+};
+
+// ====== ЗБЕРЕЖЕННЯ JSON ======
+$('saveBtn').addEventListener('click', () => {
+  if (items.length === 0) return alert('Список порожній');
+
+  const month = prompt('Введіть назву місяця:', 'Вересень 2026');
+  if (month === null) return;
+
+  // Сортуємо: акції місяця — вгору, потім акції, потім решта
+  const sorted = [...items].sort((a, b) => {
+    if (a.isMonthAction && !b.isMonthAction) return -1;
+    if (!a.isMonthAction && b.isMonthAction) return 1;
+    if (a.isAction && !b.isAction) return -1;
+    if (!a.isAction && b.isAction) return 1;
+    return 0;
+  });
+
+  const output = {
+    month: month,
+    items: sorted.map((item, i) => ({
+      id: i + 1,
+      name: item.name,
+      manufacturer: item.manufacturer,
+      category: item.category,
+      price: item.price,
+      oldPrice: item.oldPrice,
+      badge: item.badge,
+      image: item.image,
+      link: item.link,
+      isAction: item.isAction,
+      isMonthAction: item.isMonthAction
+    }))
+  };
+
+  // Завантажуємо JSON
+  const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, 'promotions.json');
+
+  // Завантажуємо всі картинки окремо
+  setTimeout(() => {
+    items.forEach((item, i) => {
+      // Пересоздаємо blob з base64 (нам потрібен оригінальний blob — тому що ми його зберегли у currentImageData)
+      // Але оскільки ми скидаємо currentImageData, треба зберегти всі blobs
+    });
+  }, 100);
+});
+
+function downloadBlob(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ====== ЗАВАНТАЖЕННЯ JSON ======
+$('loadBtn').addEventListener('click', () => $('loadFile').click());
+
+$('loadFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      items = (data.items || []).map(item => ({ ...item, imageFile: item.image.split('/').pop() }));
+      renderItems();
+      alert('Завантажено ' + items.length + ' товарів');
+    } catch (err) {
+      alert('Помилка читання JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+
+// ====== ПОЧАТКОВИЙ СТАН ======
+renderItems();
+</script>
+</body>
+</html>

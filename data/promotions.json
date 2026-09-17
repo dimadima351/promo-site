@@ -1,41 +1,18 @@
 {
-    "month": "Вересень 2026",
-    "items": [
-      {
-        "id": 1,
-        "name": "Кава Lavazza",
-        "oldPrice": 450,
-        "newPrice": 320,
-        "image": "./images/lavazza.jpg",
-        "badge": "-30%",
-        "link": "#"
-      },
-      {
-        "id": 2,
-        "name": "Чай Greenfield",
-        "oldPrice": 200,
-        "newPrice": 150,
-        "image": "./images/greenfield.jpg",
-        "badge": "-25%",
-        "link": "#"
-      },
-      {
-        "id": 3,
-        "name": "Шоколад Milka",
-        "oldPrice": 120,
-        "newPrice": 102,
-        "image": "./images/milka.jpg",
-        "badge": "-15%",
-        "link": "#"
-      },
-      {
-        "id": 4,
-        "name": "Печиво Oreo",
-        "oldPrice": 80,
-        "newPrice": 48,
-        "image": "./images/oreo.jpg",
-        "badge": "-40%",
-        "link": "#"
-      }
-    ]
-  }
+  "month": "Вересень 2026",
+  "items": [
+    {
+      "id": 1,
+      "name": "Сир Серенада",
+      "manufacturer": "Верес",
+      "category": "Молочні продукти",
+      "price": 299,
+      "oldPrice": 399,
+      "badge": "-25%",
+      "image": "./images/syr-serenada-saliami-45-polshcha-58270069296381.jpg",
+      "link": "#",
+      "isAction": false,
+      "isMonthAction": true
+    }
+  ]
+}
