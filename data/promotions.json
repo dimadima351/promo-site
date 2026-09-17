@@ -140,7 +140,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 11,
@@ -155,7 +155,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 12,
@@ -170,7 +170,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 13,
@@ -185,7 +185,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 14,
@@ -200,7 +200,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 15,
@@ -215,7 +215,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 16,
@@ -230,7 +230,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 17,
@@ -245,7 +245,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 18,
@@ -260,7 +260,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 19,
