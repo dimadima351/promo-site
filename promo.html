@@ -186,7 +186,7 @@
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
 
-                const items = data.items || [];
+                const items = (data.items || []).filter(it => it.visible !== false);
 
                 items.sort((a, b) => {
                     if (a.isMonthAction && !b.isMonthAction) return -1;
