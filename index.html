@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Головна | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=17">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -32,6 +32,24 @@
     </header>
 
     <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- БАНЕР-КАРУСЕЛЬ (5 картинок, автоперемикання кожні 5 сек) -->
+    <section class="banner-carousel" id="bannerCarousel">
+        <img src="./image_site/banner1.jpg" alt="" class="banner-slide active" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner2.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner3.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner4.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner5.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+
+        <!-- Точки-індикатори -->
+        <div class="banner-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+            <span class="dot" data-slide="3"></span>
+            <span class="dot" data-slide="4"></span>
+        </div>
+    </section>
 
     <!-- Блок-банер "Акції цього місяця" -->
     <section class="hero-banner">
@@ -90,21 +108,72 @@
             menuOverlay.classList.toggle('active');
             document.body.classList.toggle('menu-open');
         }
-
         function closeMenu() {
             burgerBtn.classList.remove('active');
             mainNav.classList.remove('active');
             menuOverlay.classList.remove('active');
             document.body.classList.remove('menu-open');
         }
-
         burgerBtn.addEventListener('click', toggleMenu);
         menuOverlay.addEventListener('click', closeMenu);
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+        // ====== БАНЕР-КАРУСЕЛЬ (авто кожні 5 сек) ======
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        const bannerDots = document.querySelectorAll('.banner-dots .dot');
+        let currentSlide = 0;
+        let bannerInterval = null;
+
+        function showSlide(index) {
+            bannerSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            bannerDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % bannerSlides.length;
+            showSlide(next);
+        }
+
+        function startBannerAuto() {
+            stopBannerAuto(); // про всяк випадок зупинити старий
+            bannerInterval = setInterval(nextSlide, 5000); // 5 секунд
+        }
+
+        function stopBannerAuto() {
+            if (bannerInterval) {
+                clearInterval(bannerInterval);
+                bannerInterval = null;
+            }
+        }
+
+        // Запуск
+        if (bannerSlides.length > 0) {
+            showSlide(0);
+            startBannerAuto();
+        }
+
+        // Кліки по точках
+        bannerDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.slide);
+                showSlide(idx);
+                startBannerAuto(); // перезапуск таймера
+            });
         });
 
-        // ====== КАРУСЕЛЬ ======
+        // Пауза при наведенні мишкою (щоб не горталось, поки дивляться)
+        const bannerEl = document.getElementById('bannerCarousel');
+        if (bannerEl) {
+            bannerEl.addEventListener('mouseenter', stopBannerAuto);
+            bannerEl.addEventListener('mouseleave', startBannerAuto);
+        }
+
+        // ====== КАРУСЕЛЬ ТОВАРІВ ======
         const carousel = document.getElementById('carousel');
 
         function shuffle(arr) {
@@ -119,7 +188,6 @@
         function makeCard(item) {
             const card = document.createElement('div');
             card.className = 'card';
-
             const newPrice = item.price ?? item.newPrice ?? '';
             const oldPrice = item.oldPrice ?? '';
             const imgSrc = noCache(item.image);
@@ -167,21 +235,16 @@
             carousel.scrollBy({ left: 300, behavior: 'smooth' });
         });
 
-        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
-            .then(r => r.ok ? r.json() : Promise.reject('Помилка завантаження'))
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
                 let items = (data.items || []).filter(it => it.visible !== false);
-
                 items = shuffle(items).slice(0, 6);
-
                 carousel.innerHTML = '';
-
                 if (items.length === 0) {
                     carousel.innerHTML = '<p class="carousel-loading">Акцій поки що немає</p>';
                     return;
                 }
-
                 items.forEach(it => carousel.appendChild(makeCard(it)));
                 carousel.appendChild(makeGoCard());
             })
