@@ -12,6 +12,10 @@ body {
     line-height: 1.6;
 }
 
+body.menu-open {
+    overflow: hidden;   /* блокує прокрутку, коли меню відкрите */
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -25,45 +29,111 @@ body {
     padding: 14px 0;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 20px;
 }
 
+/* ---------- Логотип ---------- */
 .logo {
     display: inline-block;
     text-decoration: none;
-    line-height: 0;             /* прибирає зайвий відступ під картинкою */
+    line-height: 0;
+    flex-shrink: 0;
 }
 
 .logo img {
-    height: 40px;               /* висота логотипа — можете змінити */
-    width: auto;                /* ширина автоматично пропорційна */
+    height: 40px;
+    width: auto;
     object-fit: contain;
     display: block;
 }
 
 /* Fallback, якщо картинка не завантажиться */
 .logo span {
-    color: #e74c3c;
+    color: #ff0b0b;
 }
 
-.header nav a {
-    margin-left: 20px;
+/* ---------- Навігація (десктоп) ---------- */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav a {
     text-decoration: none;
     color: #555;
     font-weight: 500;
     transition: color 0.2s;
     font-size: 15px;
+    white-space: nowrap;
 }
 
-.header nav a:hover {
-    color: #e74c3c;
+.nav a:hover {
+    color: #ff0b0b;
+}
+
+/* ---------- Бургер-кнопка ---------- */
+.burger {
+    display: none;                 /* прихована на десктопі */
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.burger span {
+    display: block;
+    width: 26px;
+    height: 2.5px;
+    background: #2c3e50;
+    border-radius: 2px;
+    position: absolute;
+    left: 5px;
+    transition: all 0.3s ease;
+}
+
+.burger span:nth-child(1) { top: 9px; }
+.burger span:nth-child(2) { top: 17px; }
+.burger span:nth-child(3) { top: 25px; }
+
+/* Анімація бургера у "хрестик" */
+.burger.active span:nth-child(1) {
+    top: 17px;
+    transform: rotate(45deg);
+}
+.burger.active span:nth-child(2) {
+    opacity: 0;
+}
+.burger.active span:nth-child(3) {
+    top: 17px;
+    transform: rotate(-45deg);
+}
+
+/* ---------- Затемнення під мобільним меню ---------- */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+    display: block;
+    opacity: 1;
 }
 
 /* ---------- Банер з фоновою картинкою ---------- */
@@ -297,6 +367,51 @@ body {
     }
 }
 
+/* ============================================================
+   МОБІЛЬНЕ МЕНЮ (бургер) — від 900px і менше
+   ============================================================ */
+@media (max-width: 900px) {
+    /* Показуємо бургер */
+    .burger {
+        display: block;
+    }
+
+    /* Ховаємо звичайну навігацію, робимо її висувною */
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -280px;                /* ховаємо за правий край */
+        width: 280px;
+        height: 100vh;
+        background: #ffffff;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 80px 24px 24px;
+        gap: 0;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    .nav.active {
+        right: 0;
+    }
+
+    .nav a {
+        width: 100%;
+        padding: 14px 0;
+        margin: 0;                    /* скидаємо margin-left з десктопа */
+        font-size: 16px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .nav a:last-child {
+        border-bottom: none;
+    }
+}
+
 /* Малий планшет / великий телефон — 2 товари в рядку */
 @media (max-width: 700px) {
     .grid {
@@ -373,5 +488,9 @@ body {
     }
     .card-body h3 {
         font-size: 12px;
+    }
+    .nav {
+        width: 260px;
+        right: -260px;
     }
 }
