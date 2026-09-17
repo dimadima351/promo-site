@@ -62,7 +62,7 @@ body {
 .page-title {
     position: relative;
     color: white;
-    padding: 40px 0;   /* більший padding, бо тепер це банер з картинкою */
+    padding: 40px 0;
     text-align: center;
     background-image: url('./image_site/_1.jpg');   /* ← ФОНОВА КАРТИНКА */
     background-size: cover;
@@ -71,16 +71,14 @@ body {
     overflow: hidden;
 }
 
-/* Темний оверлей — щоб текст читався поверх картинки */
 .page-title::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.10);   /* ← змініть прозорість, якщо треба темніше/світліше */
+    background: rgba(0, 0, 0, 0.45);
     z-index: 1;
 }
 
-/* Весь контент поверх оверлею */
 .page-title .container {
     position: relative;
     z-index: 2;
@@ -100,7 +98,7 @@ body {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* ---------- Таймер (компактний, поверх картинки) ---------- */
+/* ---------- Таймер ---------- */
 .countdown {
     margin-top: 16px;
     text-align: center;
@@ -148,70 +146,6 @@ body {
     margin-top: 1px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-}
-
-/* ---------- Панель сортування ---------- */
-.sort-panel {
-    background: #ffffff;
-    border-bottom: 1px solid #eee;
-    padding: 12px 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.sort-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.sort-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.sort-group label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-    white-space: nowrap;
-}
-
-.sort-group select {
-    padding: 7px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    background: #fff;
-    color: #333;
-    cursor: pointer;
-    min-width: 140px;
-    transition: border-color 0.2s;
-}
-
-.sort-group select:hover,
-.sort-group select:focus {
-    border-color: #e74c3c;
-    outline: none;
-}
-
-.reset-btn {
-    padding: 7px 16px;
-    background: #f0f0f0;
-    color: #555;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 13px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.reset-btn:hover {
-    background: #e74c3c;
-    color: #fff;
-    border-color: #e74c3c;
 }
 
 /* ---------- Сітка товарів: 5 в рядку на компі ---------- */
@@ -392,27 +326,6 @@ body {
     }
     .countdown-unit {
         font-size: 8px;
-    }
-
-    /* Панель сортування на мобільному */
-    .sort-wrapper {
-        gap: 10px;
-    }
-    .sort-group {
-        flex: 1 1 calc(50% - 10px);
-        min-width: 0;
-    }
-    .sort-group label {
-        font-size: 12px;
-    }
-    .sort-group select {
-        font-size: 13px;
-        padding: 6px 8px;
-        min-width: 0;
-        width: 100%;
-    }
-    .reset-btn {
-        flex: 1 1 100%;
     }
 
     .card-body {

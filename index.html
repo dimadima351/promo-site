@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=7">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -48,40 +48,6 @@
         </div>
     </section>
 
-    <!-- Панель сортування -->
-    <section class="sort-panel">
-        <div class="container">
-            <div class="sort-wrapper">
-                <div class="sort-group">
-                    <label for="sort-category">Категорія:</label>
-                    <select id="sort-category">
-                        <option value="">Усі категорії</option>
-                    </select>
-                </div>
-
-                <div class="sort-group">
-                    <label for="sort-name">Назва:</label>
-                    <select id="sort-name">
-                        <option value="">За замовчуванням</option>
-                        <option value="name-asc">А → Я</option>
-                        <option value="name-desc">Я → А</option>
-                    </select>
-                </div>
-
-                <div class="sort-group">
-                    <label for="sort-price">Ціна:</label>
-                    <select id="sort-price">
-                        <option value="">За замовчуванням</option>
-                        <option value="price-asc">Від дешевшої</option>
-                        <option value="price-desc">Від дорожчої</option>
-                    </select>
-                </div>
-
-                <button id="reset-filters" class="reset-btn">Скинути</button>
-            </div>
-        </div>
-    </section>
-
     <main class="container" id="promo">
         <div class="grid" id="promo-container">
             <p class="loading">Завантаження акцій...</p>
@@ -96,7 +62,6 @@
 
     <script>
         const PLACEHOLDER = './images/0.png';
-        let allItems = []; // усі товари з JSON
 
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
@@ -176,33 +141,6 @@
             });
         }
 
-        // ====== ЗАСТОСУВАННЯ ФІЛЬТРІВ І СОРТУВАННЯ ======
-        function applyFilters() {
-            const category = document.getElementById('sort-category').value;
-            const nameSort = document.getElementById('sort-name').value;
-            const priceSort = document.getElementById('sort-price').value;
-
-            let filtered = [...allItems];
-
-            // Фільтр за категорією
-            if (category) {
-                filtered = filtered.filter(it => it.category === category);
-            }
-
-            // Сортування
-            if (nameSort === 'name-asc') {
-                filtered.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'uk'));
-            } else if (nameSort === 'name-desc') {
-                filtered.sort((a, b) => (b.name || '').localeCompare(a.name || '', 'uk'));
-            } else if (priceSort === 'price-asc') {
-                filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
-            } else if (priceSort === 'price-desc') {
-                filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
-            }
-
-            renderItems(filtered);
-        }
-
         // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
             .then(response => {
@@ -213,39 +151,34 @@
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | PromoSite';
 
-                allItems = data.items || [];
+                const items = data.items || [];
 
-                // Заповнюємо список категорій
-                const categories = [...new Set(allItems.map(it => it.category).filter(Boolean))];
-                categories.sort((a, b) => a.localeCompare(b, 'uk'));
+                // СОРТУВАННЯ:
+                // 1. Спочатку — Акція місяця (вгору)
+                // 2. Потім — за категорією (А-Я)
+                // 3. Всередині категорії — за назвою товару (А-Я)
+                items.sort((a, b) => {
+                    // Акція місяця завжди зверху
+                    if (a.isMonthAction && !b.isMonthAction) return -1;
+                    if (!a.isMonthAction && b.isMonthAction) return 1;
 
-                const catSelect = document.getElementById('sort-category');
-                categories.forEach(cat => {
-                    const opt = document.createElement('option');
-                    opt.value = cat;
-                    opt.textContent = cat;
-                    catSelect.appendChild(opt);
+                    // Потім за категорією (українською)
+                    const catA = a.category || '';
+                    const catB = b.category || '';
+                    const catCompare = catA.localeCompare(catB, 'uk');
+                    if (catCompare !== 0) return catCompare;
+
+                    // Всередині категорії — за назвою товару
+                    return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
-                renderItems(allItems);
+                renderItems(items);
             })
             .catch(error => {
                 console.error('Помилка:', error);
                 document.getElementById('promo-container').innerHTML =
                     '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
             });
-
-        // ====== СЛУХАЧІ ПОДІЙ ======
-        document.getElementById('sort-category').addEventListener('change', applyFilters);
-        document.getElementById('sort-name').addEventListener('change', applyFilters);
-        document.getElementById('sort-price').addEventListener('change', applyFilters);
-
-        document.getElementById('reset-filters').addEventListener('click', () => {
-            document.getElementById('sort-category').value = '';
-            document.getElementById('sort-name').value = '';
-            document.getElementById('sort-price').value = '';
-            renderItems(allItems);
-        });
     </script>
 
 </body>
