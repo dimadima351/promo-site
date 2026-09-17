@@ -36,11 +36,19 @@ body {
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c3e50;
+    display: inline-block;
+    text-decoration: none;
+    line-height: 0;             /* прибирає зайвий відступ під картинкою */
 }
 
+.logo img {
+    height: 40px;               /* висота логотипа — можете змінити */
+    width: auto;                /* ширина автоматично пропорційна */
+    object-fit: contain;
+    display: block;
+}
+
+/* Fallback, якщо картинка не завантажиться */
 .logo span {
     color: #e74c3c;
 }
@@ -349,6 +357,9 @@ body {
     }
     .valid-until {
         font-size: 10px;
+    }
+    .logo img {
+        height: 32px;
     }
 }
 

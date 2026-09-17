@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -13,7 +13,9 @@
 
     <header class="header">
         <div class="container">
-            <h1 class="logo">Promo<span>Site</span></h1>
+            <a href="/" class="logo">
+                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Promo<span>Site</span>';">
+            </a>
             <nav>
                 <a href="#">Головна</a>
                 <a href="#promo">Акції</a>
@@ -154,21 +156,18 @@
                 const items = data.items || [];
 
                 // СОРТУВАННЯ:
-                // 1. Спочатку — Акція місяця (вгору)
-                // 2. Потім — за категорією (А-Я)
-                // 3. Всередині категорії — за назвою товару (А-Я)
+                // 1. Акція місяця — вгору
+                // 2. За категорією (А-Я)
+                // 3. Всередині категорії — за назвою (А-Я)
                 items.sort((a, b) => {
-                    // Акція місяця завжди зверху
                     if (a.isMonthAction && !b.isMonthAction) return -1;
                     if (!a.isMonthAction && b.isMonthAction) return 1;
 
-                    // Потім за категорією (українською)
                     const catA = a.category || '';
                     const catB = b.category || '';
                     const catCompare = catA.localeCompare(catB, 'uk');
                     if (catCompare !== 0) return catCompare;
 
-                    // Всередині категорії — за назвою товару
                     return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
