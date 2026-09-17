@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -26,6 +26,25 @@
         <div class="container">
             <h2 id="page-title">Акції</h2>
             <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
+
+            <!-- Таймер зворотного відліку -->
+            <div class="countdown" id="countdown">
+                <p class="countdown-label">До кінця акції залишилось:</p>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-days">0</span>
+                        <span class="countdown-unit">днів</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-hours">0</span>
+                        <span class="countdown-unit">годин</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-minutes">0</span>
+                        <span class="countdown-unit">хвилин</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -49,6 +68,44 @@
             return url + separator + 't=' + Date.now();
         }
 
+        // ====== ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ ======
+        function getEndOfMonth() {
+            const now = new Date();
+            // Останній день поточного місяця, 23:59:59
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const end = getEndOfMonth();
+            const diff = end - now;
+
+            const countdownEl = document.getElementById('countdown');
+            const daysEl = document.getElementById('cd-days');
+            const hoursEl = document.getElementById('cd-hours');
+            const minutesEl = document.getElementById('cd-minutes');
+
+            if (!countdownEl || !daysEl) return;
+
+            if (diff <= 0) {
+                countdownEl.innerHTML = '<p class="countdown-label">Акція завершена</p>';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            daysEl.textContent = days;
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+        }
+
+        // Запускаємо таймер одразу і оновлюємо кожні 5 хвилин (300000 мс)
+        updateCountdown();
+        setInterval(updateCountdown, 5 * 60 * 1000);
+
+        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
             .then(response => {
                 if (!response.ok) throw new Error('Не вдалося завантажити акції');
