@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна | Ваш ПАРТНЕР</title>
+    <title>Акції | Ваш ПАРТНЕР</title>
     <link rel="stylesheet" href="style.css?v=10">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -33,17 +33,36 @@
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- Головний блок з кнопкою -->
-    <section class="hero">
+    <section class="page-title">
         <div class="container">
-            <h1 class="hero-title">Ласкаво просимо!</h1>
-            <p class="hero-subtitle">Найкращі пропозиції та акції для вас</p>
+            <h2 id="page-title">Акції</h2>
+            <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
 
-            <a href="promo.html" class="hero-btn">
-                АКЦІЇ ЦЬОГО МІСЯЦЯ
-            </a>
+            <div class="countdown" id="countdown">
+                <p class="countdown-label">До кінця акції залишилось:</p>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-days">0</span>
+                        <span class="countdown-unit">днів</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-hours">0</span>
+                        <span class="countdown-unit">годин</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-minutes">0</span>
+                        <span class="countdown-unit">хвилин</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <main class="container" id="promo">
+        <div class="grid" id="promo-container">
+            <p class="loading">Завантаження акцій...</p>
+        </div>
+    </main>
 
     <footer class="footer">
         <div class="container">
@@ -52,6 +71,13 @@
     </footer>
 
     <script>
+        const PLACEHOLDER = './images/0.png';
+
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
         // ====== БУРГЕР-МЕНЮ ======
         const burgerBtn = document.getElementById('burgerBtn');
         const mainNav = document.getElementById('mainNav');
@@ -76,6 +102,111 @@
         mainNav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
+
+        // ====== ТАЙМЕР ======
+        function getEndOfMonth() {
+            const now = new Date();
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const end = getEndOfMonth();
+            const diff = end - now;
+
+            const countdownEl = document.getElementById('countdown');
+            const daysEl = document.getElementById('cd-days');
+            const hoursEl = document.getElementById('cd-hours');
+            const minutesEl = document.getElementById('cd-minutes');
+
+            if (!countdownEl || !daysEl) return;
+
+            if (diff <= 0) {
+                countdownEl.innerHTML = '<p class="countdown-label">Акція завершена</p>';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            daysEl.textContent = days;
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 5 * 60 * 1000);
+
+        // ====== РЕНДЕР КАРТОК ======
+        function renderItems(items) {
+            const container = document.getElementById('promo-container');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = '<p class="loading">Нічого не знайдено</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const newPrice = item.price ?? item.newPrice ?? '';
+                const oldPrice = item.oldPrice ?? '';
+                const imgSrc = noCache(item.image);
+
+                card.innerHTML = `
+                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                    <div class="card-image">
+                        <img src="${imgSrc}" alt="${item.name}"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                    </div>
+                    <div class="card-body">
+                        <div class="prices">
+                            ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
+                            <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
+                        </div>
+                        <h3>${item.name}</h3>
+                        ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
+        fetch(noCache('./data/promotions.json'))
+            .then(response => {
+                if (!response.ok) throw new Error('Не вдалося завантажити акції');
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('page-title').textContent = 'Акції ' + data.month;
+                document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
+
+                const items = data.items || [];
+
+                items.sort((a, b) => {
+                    if (a.isMonthAction && !b.isMonthAction) return -1;
+                    if (!a.isMonthAction && b.isMonthAction) return 1;
+
+                    const catA = a.category || '';
+                    const catB = b.category || '';
+                    const catCompare = catA.localeCompare(catB, 'uk');
+                    if (catCompare !== 0) return catCompare;
+
+                    return (a.name || '').localeCompare(b.name || '', 'uk');
+                });
+
+                renderItems(items);
+            })
+            .catch(error => {
+                console.error('Помилка:', error);
+                document.getElementById('promo-container').innerHTML =
+                    '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
+            });
     </script>
 
 </body>

@@ -253,6 +253,7 @@ body.menu-open {
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);   /* ← ось це додати */
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
