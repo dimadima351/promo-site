@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Адмін-панель PromoSite</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -28,11 +29,13 @@
   button {
     background: #2c3e50; color: #fff; border: none; padding: 12px 24px;
     border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: 600;
-    margin-right: 10px;
+    margin-right: 10px; margin-bottom: 10px;
   }
   button:hover { background: #e74c3c; }
   button.danger { background: #e74c3c; }
   button.danger:hover { background: #c0392b; }
+  button.success { background: #27ae60; }
+  button.success:hover { background: #219150; }
   button.small { padding: 6px 12px; font-size: 13px; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
   .hidden { display: none; }
@@ -51,7 +54,7 @@
   }
   .item-info { flex: 1; }
   .item-info strong { display: block; }
-  .item-info small { color: #777; }
+  .item-info small { color: #777; display: block; }
   .info-box {
     background: #e8f4fd; padding: 15px; border-radius: 8px;
     margin-bottom: 20px; font-size: 14px; border-left: 4px solid #3498db;
@@ -62,7 +65,11 @@
     display: block;
   }
   .file-size { font-size: 12px; color: #777; margin-top: 5px; }
-  .category-list { font-size: 13px; color: #777; margin-top: 5px; }
+  .num-badge {
+    display: inline-block; background: #2c3e50; color: #fff;
+    width: 28px; height: 28px; line-height: 28px; text-align: center;
+    border-radius: 50%; font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
 </style>
 </head>
 <body>
@@ -71,11 +78,11 @@
 
   <div class="info-box">
     <strong>Як користуватись:</strong><br>
-    1. Заповніть форму нижче та натисніть "Додати товар".<br>
-    2. Коли закінчите — натисніть "💾 Зберегти JSON" (завантажиться файл).<br>
-    3. Також завантажаться стиснуті картинки — покладіть їх у папку <code>images/</code>.<br>
-    4. Замініть <code>data/promotions.json</code> на завантажений файл.<br>
-    5. У Терміналі: <code>git add . && git commit -m "Оновлено акції" && git push</code>
+    1. Заповніть форму та натисніть <b>"Додати товар"</b>.<br>
+    2. Картинки автоматично стискаються, і кожній присвоюється номер (1.jpg, 2.jpg, ...).<br>
+    3. Коли закінчите — натисніть <b>"📦 Завантажити ZIP"</b>. Отримаєте архів із <code>promotions.json</code> та всіма картинками в папці <code>images/</code>.<br>
+    4. Розпакуйте ZIP у папку <code>promo-site/</code> (з заміною).<br>
+    5. У Терміналі: <code>git add . && git commit -m "Оновлено" && git push</code>
   </div>
 
   <div class="card">
@@ -154,7 +161,7 @@
 
     <div class="checkbox-row">
       <input type="checkbox" id="isAction">
-      <label for="isAction">Акція (додати до загального списку акцій)</label>
+      <label for="isAction">Акція</label>
     </div>
 
     <div class="checkbox-row">
@@ -172,23 +179,24 @@
       <p style="color:#888;">Поки що нічого не додано.</p>
     </div>
     <div style="margin-top:20px;">
-      <button id="saveBtn">💾 Зберегти JSON</button>
+      <button id="saveZipBtn" class="success">📦 Завантажити ZIP (JSON + картинки)</button>
+      <button id="saveJsonBtn">💾 Тільки JSON</button>
       <button id="loadBtn">📂 Завантажити JSON</button>
       <input type="file" id="loadFile" accept=".json" class="hidden">
+      <button id="clearAllBtn" class="danger">🗑 Очистити все</button>
     </div>
   </div>
 </div>
 
 <script>
 // ====== СТАН ======
-let items = [];
-let currentImageData = null; // base64 compressed
-
+let items = []; // { id, name, manufacturer, category, price, oldPrice, badge, link, isAction, isMonthAction, imageBlob, imageFileName }
 const $ = id => document.getElementById(id);
 
 // ====== ДИНАМІЧНІ ПОЛЯ ======
 $('hasDiscount').addEventListener('change', (e) => {
   $('oldPriceBlock').classList.toggle('hidden', !e.target.checked);
+  updateDiscount();
 });
 
 function updateDiscount() {
@@ -205,6 +213,8 @@ $('price').addEventListener('input', updateDiscount);
 $('oldPrice').addEventListener('input', updateDiscount);
 
 // ====== СТИСНЕННЯ КАРТИНКИ ======
+let tempImageBlob = null;
+
 $('image').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -214,15 +224,16 @@ $('image').addEventListener('change', async (e) => {
   $('imagePreview').classList.add('hidden');
 
   try {
-    const compressed = await compressImage(file, 600, 0.75);
-    currentImageData = compressed;
-    const newSize = (compressed.size / 1024).toFixed(1);
-    $('imageInfo').textContent =
-      `✅ ${file.name}: ${originalSize} КБ → ${newSize} КБ (стиснуто)`;
-    $('imagePreview').src = compressed.dataUrl;
+    const blob = await compressImage(file, 600, 0.75);
+    tempImageBlob = blob;
+    const newSize = (blob.size / 1024).toFixed(1);
+    $('imageInfo').textContent = `✅ ${file.name}: ${originalSize} КБ → ${newSize} КБ (стиснуто)`;
+    const url = URL.createObjectURL(blob);
+    $('imagePreview').src = url;
     $('imagePreview').classList.remove('hidden');
   } catch (err) {
     $('imageInfo').textContent = '❌ Помилка: ' + err.message;
+    tempImageBlob = null;
   }
 });
 
@@ -242,18 +253,8 @@ function compressImage(file, maxWidth, quality) {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-
         canvas.toBlob((blob) => {
           if (!blob) return reject(new Error('Не вдалося стиснути'));
-          // Генеруємо безпечне ім'я файлу
-          const baseName = file.name
-            .toLowerCase()
-            .replace(/\.[^.]+$/, '')
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-|-$/g, '') || 'image';
-          const fileName = baseName + '.jpg';
-          blob.fileName = fileName;
-          blob.dataUrl = URL.createObjectURL(blob);
           resolve(blob);
         }, 'image/jpeg', quality);
       };
@@ -272,32 +273,35 @@ $('addBtn').addEventListener('click', () => {
 
   if (!name) return alert('Введіть назву товару');
   if (!price || price <= 0) return alert('Введіть коректну ціну');
-  if (!currentImageData) return alert('Виберіть картинку');
+  if (!tempImageBlob) return alert('Виберіть картинку');
 
   const hasDiscount = $('hasDiscount').checked;
   const oldPrice = hasDiscount ? parseFloat($('oldPrice').value) : null;
   let badge = null;
-
   if (hasDiscount && oldPrice && oldPrice > price) {
     badge = '-' + Math.round((1 - price / oldPrice) * 100) + '%';
   }
 
-  const item = {
-    id: Date.now(),
+  // Номер позиції = майбутній номер картинки (1.jpg, 2.jpg, ...)
+  const num = items.length + 1;
+  const fileName = num + '.jpg';
+
+  items.push({
+    id: num,
     name: name,
     manufacturer: $('manufacturer').value.trim(),
     category: $('category').value,
     price: price,
     oldPrice: oldPrice,
     badge: badge,
-    image: './images/' + currentImageData.fileName,
-    imageFile: currentImageData.fileName, // для збереження
+    image: './images/' + fileName,
+    imageFile: fileName,
+    imageBlob: tempImageBlob,
     link: $('link').value.trim() || '#',
     isAction: $('isAction').checked,
     isMonthAction: $('isMonthAction').checked
-  };
+  });
 
-  items.push(item);
   renderItems();
   resetForm();
 });
@@ -313,7 +317,7 @@ function resetForm() {
   $('image').value = '';
   $('imageInfo').textContent = '';
   $('imagePreview').classList.add('hidden');
-  currentImageData = null;
+  tempImageBlob = null;
 }
 
 // ====== РЕНДЕР СПИСКУ ======
@@ -328,12 +332,13 @@ function renderItems() {
 
   list.innerHTML = items.map((item, i) => `
     <div class="item-row">
-      <img src="${item.image}" alt="${item.name}" onerror="this.style.opacity=0.3">
+      <span class="num-badge">${item.id}</span>
+      <img src="${URL.createObjectURL(item.imageBlob)}" alt="${item.name}">
       <div class="item-info">
         <strong>${item.name}</strong>
         <small>${item.manufacturer ? item.manufacturer + ' • ' : ''}${item.category || 'без категорії'}</small>
         <small>${item.price} ₴ ${item.oldPrice ? `<s style="color:#999">${item.oldPrice} ₴</s> ` : ''}${item.badge ? `<span style="color:#e74c3c;font-weight:700">${item.badge}</span>` : ''}</small>
-        <small>${item.isAction ? '🔴 Акція ' : ''}${item.isMonthAction ? '⭐ Акція місяця' : ''}</small>
+        <small>${item.isAction ? '🔴 Акція ' : ''}${item.isMonthAction ? '⭐ Акція місяця ' : ''} 📁 ${item.imageFile}</small>
       </div>
       <button class="danger small" onclick="removeItem(${i})">Видалити</button>
     </div>
@@ -343,29 +348,29 @@ function renderItems() {
 window.removeItem = function(index) {
   if (!confirm('Видалити цей товар?')) return;
   items.splice(index, 1);
+  // ПЕРЕНУМЕРОВУЄМО всі позиції після видалення
+  items.forEach((item, i) => {
+    item.id = i + 1;
+    item.imageFile = (i + 1) + '.jpg';
+    item.image = './images/' + item.imageFile;
+  });
   renderItems();
 };
 
 // ====== ЗБЕРЕЖЕННЯ JSON ======
-$('saveBtn').addEventListener('click', () => {
-  if (items.length === 0) return alert('Список порожній');
-
-  const month = prompt('Введіть назву місяця:', 'Вересень 2026');
-  if (month === null) return;
-
-  // Сортуємо: акції місяця — вгору, потім акції, потім решта
+function buildJSON(month) {
   const sorted = [...items].sort((a, b) => {
     if (a.isMonthAction && !b.isMonthAction) return -1;
     if (!a.isMonthAction && b.isMonthAction) return 1;
     if (a.isAction && !b.isAction) return -1;
     if (!a.isAction && b.isAction) return 1;
-    return 0;
+    return a.id - b.id;
   });
 
-  const output = {
+  return {
     month: month,
-    items: sorted.map((item, i) => ({
-      id: i + 1,
+    items: sorted.map(item => ({
+      id: item.id,
       name: item.name,
       manufacturer: item.manufacturer,
       category: item.category,
@@ -378,18 +383,52 @@ $('saveBtn').addEventListener('click', () => {
       isMonthAction: item.isMonthAction
     }))
   };
+}
 
-  // Завантажуємо JSON
+$('saveJsonBtn').addEventListener('click', () => {
+  if (items.length === 0) return alert('Список порожній');
+  const month = prompt('Введіть назву місяця:', 'Вересень 2026');
+  if (month === null) return;
+  const output = buildJSON(month);
   const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
   downloadBlob(blob, 'promotions.json');
+  alert('✅ JSON завантажено. Не забудьте зберегти картинки окремо (кнопка "Завантажити ZIP" зручніша).');
+});
 
-  // Завантажуємо всі картинки окремо
-  setTimeout(() => {
-    items.forEach((item, i) => {
-      // Пересоздаємо blob з base64 (нам потрібен оригінальний blob — тому що ми його зберегли у currentImageData)
-      // Але оскільки ми скидаємо currentImageData, треба зберегти всі blobs
-    });
-  }, 100);
+// ====== ЗБЕРЕЖЕННЯ ZIP ======
+$('saveZipBtn').addEventListener('click', async () => {
+  if (items.length === 0) return alert('Список порожній');
+  const month = prompt('Введіть назву місяця:', 'Вересень 2026');
+  if (month === null) return;
+
+  $('saveZipBtn').textContent = '⏳ Формування ZIP...';
+  $('saveZipBtn').disabled = true;
+
+  try {
+    const zip = new JSZip();
+    const dataFolder = zip.folder('data');
+    const imagesFolder = zip.folder('images');
+
+    // 1. JSON
+    const output = buildJSON(month);
+    dataFolder.file('promotions.json', JSON.stringify(output, null, 2));
+
+    // 2. Картинки (з іменами 1.jpg, 2.jpg, ...)
+    for (const item of items) {
+      imagesFolder.file(item.imageFile, item.imageBlob);
+    }
+
+    // 3. Генеруємо ZIP
+    const blob = await zip.generateAsync({ type: 'blob' });
+    downloadBlob(blob, 'promo-site-data.zip');
+
+    alert('✅ ZIP завантажено!\n\nРозпакуйте його у папку promo-site/ (з заміною файлів).\nУсередині: data/promotions.json і images/1.jpg, 2.jpg, ...');
+  } catch (err) {
+    alert('Помилка: ' + err.message);
+  } finally {
+    $('saveZipBtn').textContent = '📦 Завантажити ZIP (JSON + картинки)';
+    $('saveZipBtn').disabled = false;
+  }
 });
 
 function downloadBlob(blob, fileName) {
@@ -411,9 +450,12 @@ $('loadFile').addEventListener('change', (e) => {
   reader.onload = (ev) => {
     try {
       const data = JSON.parse(ev.target.result);
-      items = (data.items || []).map(item => ({ ...item, imageFile: item.image.split('/').pop() }));
+      alert('⚠️ Завантаження JSON відновлює лише текстові дані. Картинки доведеться додати заново (або вони вже мають бути в папці images/).');
+      items = (data.items || []).map(item => ({
+        ...item,
+        imageBlob: null // без картинки — треба переприкріпити
+      }));
       renderItems();
-      alert('Завантажено ' + items.length + ' товарів');
     } catch (err) {
       alert('Помилка читання JSON: ' + err.message);
     }
@@ -421,7 +463,15 @@ $('loadFile').addEventListener('change', (e) => {
   reader.readAsText(file);
 });
 
-// ====== ПОЧАТКОВИЙ СТАН ======
+// ====== ОЧИСТИТИ ВСЕ ======
+$('clearAllBtn').addEventListener('click', () => {
+  if (items.length === 0) return;
+  if (!confirm('Видалити ВСІ товари? Це незворотно.')) return;
+  items = [];
+  renderItems();
+});
+
+// ====== СТАРТ ======
 renderItems();
 </script>
 </body>
