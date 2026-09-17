@@ -1,85 +1,239 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=10">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
+/* ============================================================
+   ГОЛОВНА СТОРІНКА: БАНЕР + КАРУСЕЛЬ
+   ============================================================ */
 
-    <header class="header">
-        <div class="container">
-            <a href="/" class="logo">
-                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
-            </a>
+/* ---------- Hero-банер "Акції цього місяця" ---------- */
+.hero-banner {
+    padding: 30px 0 10px;
+}
 
-            <button class="burger" id="burgerBtn" aria-label="Меню">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+.hero-banner-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: linear-gradient(135deg, #ff0b0b, #c90808);
+    color: #fff;
+    text-decoration: none;
+    padding: 24px 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(255, 11, 11, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
 
-            <nav class="nav" id="mainNav">
-                <a href="/">Головна</a>
-                <a href="promo.html">Акції</a>
-                <a href="#">Контакти</a>
-            </nav>
-        </div>
-    </header>
+.hero-banner-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(255, 11, 11, 0.4);
+}
 
-    <div class="menu-overlay" id="menuOverlay"></div>
+.hero-banner-text {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
 
-    <!-- Головний блок з кнопкою -->
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-title">Ласкаво просимо!</h1>
-            <p class="hero-subtitle">Найкращі пропозиції та акції для вас</p>
+.hero-banner-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: #fff;
+    color: #ff0b0b;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
 
-            <a href="promo.html" class="hero-btn">
-                АКЦІЇ ЦЬОГО МІСЯЦЯ
-            </a>
-        </div>
-    </section>
+.hero-banner-arrow svg {
+    width: 24px;
+    height: 24px;
+}
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
-        </div>
-    </footer>
+.hero-banner-link:hover .hero-banner-arrow {
+    transform: translateX(6px);
+}
 
-    <script>
-        // ====== БУРГЕР-МЕНЮ ======
-        const burgerBtn = document.getElementById('burgerBtn');
-        const mainNav = document.getElementById('mainNav');
-        const menuOverlay = document.getElementById('menuOverlay');
+/* ---------- Секція каруселі ---------- */
+.carousel-section {
+    padding: 30px 0 40px;
+}
 
-        function toggleMenu() {
-            burgerBtn.classList.toggle('active');
-            mainNav.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        }
+.section-title {
+    font-size: 22px;
+    color: #2c3e50;
+    margin-bottom: 18px;
+    font-weight: 700;
+}
 
-        function closeMenu() {
-            burgerBtn.classList.remove('active');
-            mainNav.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        }
+.carousel-wrap {
+    position: relative;
+}
 
-        burgerBtn.addEventListener('click', toggleMenu);
-        menuOverlay.addEventListener('click', closeMenu);
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-    </script>
+/* Стрілки каруселі */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff;
+    color: #2c3e50;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
 
-</body>
-</html>
+.carousel-btn:hover {
+    background: #ff0b0b;
+    color: #fff;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.carousel-btn-prev { left: -14px; }
+.carousel-btn-next { right: -14px; }
+
+/* Карусель (горизонтальний скрол) */
+.carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 6px 4px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f0f0f0;
+}
+
+.carousel::-webkit-scrollbar {
+    height: 6px;
+}
+.carousel::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+.carousel::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+.carousel::-webkit-scrollbar-thumb:hover {
+    background: #ff0b0b;
+}
+
+/* Картки в каруселі — фіксована ширина */
+.carousel .card {
+    flex: 0 0 220px;
+    width: 220px;
+    scroll-snap-align: start;
+}
+
+.carousel {
+    scroll-snap-type: x proximity;
+}
+
+.carousel-loading {
+    color: #888;
+    padding: 40px 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* ---------- 7-ма картка "Перейти до всіх акцій" ---------- */
+.card.card-go {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card.card-go:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.card-go-inner {
+    text-align: center;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-go-arrow {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #ff0b0b;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.card-go-arrow svg {
+    width: 26px;
+    height: 26px;
+}
+
+.card.card-go:hover .card-go-arrow {
+    transform: translateX(6px);
+}
+
+/* ---------- Мобільна версія ---------- */
+@media (max-width: 700px) {
+    .hero-banner {
+        padding: 20px 0 6px;
+    }
+    .hero-banner-link {
+        padding: 18px 20px;
+        border-radius: 10px;
+    }
+    .hero-banner-text {
+        font-size: 17px;
+        letter-spacing: 0.5px;
+    }
+    .hero-banner-arrow {
+        width: 42px;
+        height: 42px;
+    }
+    .hero-banner-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .carousel-section {
+        padding: 20px 0 30px;
+    }
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .carousel .card {
+        flex: 0 0 180px;
+        width: 180px;
+    }
+
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+    }
+    .carousel-btn-prev { left: -6px; }
+    .carousel-btn-next { right: -6px; }
+}
