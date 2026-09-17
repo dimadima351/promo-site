@@ -99,9 +99,9 @@ body {
 /* ---------- Картка товару ---------- */
 .card {
     background: #ffffff;
-    border-radius: 6px;              /* менше заокруглення */
+    border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);  /* м'якша тінь */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -118,7 +118,6 @@ body {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    /* фон і padding видалені — щоб не було сірої рамки */
 }
 
 .card-image img {
@@ -136,61 +135,62 @@ body {
     background-color: #e74c3c;
     color: #fff;
     padding: 5px 10px;
-    border-radius: 4px;              /* менше заокруглення */
+    border-radius: 4px;
     font-size: 13px;
     font-weight: 700;
     z-index: 10;
 }
 
-/* Тіло картки */
+/* Тіло картки — все вирівняно по лівому краю */
 .card-body {
-    padding: 14px;
+    padding: 14px 16px 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    text-align: center;
+    text-align: left;
 }
 
-.card-body h3 {
-    font-size: 17px;
-    color: #2c3e50;
-    margin-bottom: 4px;
-}
-
-.manufacturer {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 8px;
-}
-
+/* Ціни — зверху */
 .prices {
     display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 8px;
-    flex-wrap: wrap;
+    gap: 0;
 }
 
 .old-price {
     text-decoration: line-through;
     color: #999;
     font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
 }
 
 .new-price {
     color: #e74c3c;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 26px;
+    line-height: 1.2;
 }
 
 /* Дуже маленький і тонкий "грн/шт" */
 .unit {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 300;
     color: #999;
-    letter-spacing: 0.3px;
-    margin-left: 1px;
+    letter-spacing: 0.2px;
+    margin-left: 2px;
+}
+
+/* Назва товару */
+.card-body h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    line-height: 1.3;
 }
 
 /* Дата дії акції */
@@ -229,11 +229,14 @@ body {
     .grid {
         gap: 12px;
     }
+    .card-body {
+        padding: 10px 12px 12px;
+    }
     .card-body h3 {
-        font-size: 14px;
+        font-size: 13px;
     }
     .new-price {
-        font-size: 18px;
+        font-size: 20px;
     }
     .old-price {
         font-size: 12px;
