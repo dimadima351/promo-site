@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- Версія стилів — змінюйте при кожному оновленні CSS -->
+    <link rel="stylesheet" href="style.css?v=1">
+    
+    <!-- Заборона кешування на рівні мета-тегів -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 <body>
 
-    <!-- Шапка -->
     <header class="header">
         <div class="container">
             <h1 class="logo">Promo<span>Site</span></h1>
@@ -20,7 +25,6 @@
         </div>
     </header>
 
-    <!-- Заголовок сторінки -->
     <section class="page-title">
         <div class="container">
             <h2 id="page-title">Акції</h2>
@@ -28,14 +32,12 @@
         </div>
     </section>
 
-    <!-- Сітка з товарами -->
     <main class="container" id="promo">
         <div class="grid" id="promo-container">
             <p class="loading">Завантаження акцій...</p>
         </div>
     </main>
 
-    <!-- Підвал -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 PromoSite. Усі права захищено.</p>
@@ -46,7 +48,15 @@
         // Заглушка, якщо картинка не завантажилась
         const PLACEHOLDER = './images/0.png';
 
-        fetch('./data/promotions.json?t=' + Date.now())
+        // Функція, що додає "?t=ЧАС" до будь-якого URL — 
+        // це змушує браузер завантажувати файл заново, а не з кешу
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
+        // Завантаження JSON без кешу
+        fetch(noCache('./data/promotions.json'))
             .then(response => {
                 if (!response.ok) throw new Error('Не вдалося завантажити акції');
                 return response.json();
@@ -62,14 +72,16 @@
                     const card = document.createElement('div');
                     card.className = 'card';
 
-                    // Підставляємо ціну: підтримуємо і "price", і "newPrice"
                     const newPrice = item.price ?? item.newPrice ?? '';
                     const oldPrice = item.oldPrice ?? '';
+
+                    // Картинка теж без кешу
+                    const imgSrc = noCache(item.image);
 
                     card.innerHTML = `
                         ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
                         <div class="card-image">
-                            <img src="${item.image}" alt="${item.name}"
+                            <img src="${imgSrc}" alt="${item.name}"
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
                         </div>
