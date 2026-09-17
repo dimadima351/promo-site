@@ -96,6 +96,7 @@ class AdminApp:
         self.data = load_data()
         self.editing_id = None       # ID товару, який зараз редагуємо
         self.current_image_src = None  # шлях до вибраної картинки
+        self.search_query = tk.StringVar(value="")  # поточний пошуковий запит
 
         self._build_ui()
         self._refresh_table()
@@ -123,13 +124,34 @@ class AdminApp:
         main = ttk.Frame(self.root, padding=10)
         main.pack(fill='both', expand=True)
 
-        # === ЛІВА ЧАСТИНА: таблиця ===
+        # === ЛІВА ЧАСТИНА: пошук + таблиця ===
         left = ttk.Frame(main)
         left.pack(side='left', fill='both', expand=True)
 
         ttk.Label(left, text="📋 Список товарів",
                   font=('', 12, 'bold')).pack(anchor='w')
 
+        # --- ПОШУК (реальний час) ---
+        search_frame = ttk.Frame(left)
+        search_frame.pack(fill='x', pady=(6, 4))
+
+        ttk.Label(search_frame, text="🔍 Пошук:").pack(side='left', padx=(0, 6))
+
+        self.search_entry = ttk.Entry(search_frame, textvariable=self.search_query)
+        self.search_entry.pack(side='left', fill='x', expand=True)
+
+        # При кожному натисканні клавіші — фільтруємо таблицю
+        self.search_entry.bind('<KeyRelease>', self._on_search_change)
+
+        # Кнопка очищення
+        ttk.Button(search_frame, text="×", width=3,
+                   command=self._clear_search).pack(side='left', padx=(4, 0))
+
+        # Мітка з результатами пошуку
+        self.lbl_search_info = ttk.Label(left, text="", foreground='#777')
+        self.lbl_search_info.pack(anchor='w', pady=(0, 4))
+
+        # --- Таблиця ---
         cols = ('id', 'name', 'category', 'price', 'visible')
         self.tree = ttk.Treeview(left, columns=cols, show='headings', height=25)
         self.tree.heading('id', text='№')
@@ -260,17 +282,68 @@ class AdminApp:
         ttk.Button(form_btns, text="🔄 Очистити",
                    command=self.clear_form).pack(side='left', padx=2)
 
+        # Гарячі клавіші
+        self.search_entry.bind('<Escape>', lambda e: self._clear_search())
+        self.root.bind('<Control-f>', lambda e: self.search_entry.focus_set())
+
+    # ---------- Обробка пошуку ----------
+    def _on_search_change(self, event=None):
+        """Викликається при кожному натисканні клавіші у полі пошуку."""
+        self._refresh_table()
+
+    def _clear_search(self):
+        """Очищає поле пошуку і показує всі товари."""
+        self.search_query.set("")
+        self.search_entry.focus_set()
+        self._refresh_table()
+
+    def _filter_items(self, items):
+        """Повертає список товарів, що відповідають пошуковому запиту."""
+        query = self.search_query.get().strip().lower()
+        if not query:
+            return items
+
+        # Пошук за назвою + категорією + виробником
+        result = []
+        for it in items:
+            name = (it.get('name') or '').lower()
+            category = (it.get('category') or '').lower()
+            manufacturer = (it.get('manufacturer') or '').lower()
+
+            if (query in name) or (query in category) or (query in manufacturer):
+                result.append(it)
+        return result
+
     # ---------- Оновлення таблиці ----------
     def _refresh_table(self):
         for row in self.tree.get_children():
             self.tree.delete(row)
 
-        for it in self.data['items']:
+        # Фільтруємо товари
+        filtered = self._filter_items(self.data['items'])
+
+        for it in filtered:
             visible = '✅' if it.get('visible', True) else '❌'
             self.tree.insert('', 'end', iid=str(it['id']),
                              values=(it['id'], it['name'],
                                      it.get('category', ''),
                                      f"{it['price']} ₴", visible))
+
+        # Оновлюємо мітку з результатами
+        total = len(self.data['items'])
+        shown = len(filtered)
+        query = self.search_query.get().strip()
+
+        if query:
+            self.lbl_search_info.config(
+                text=f"🔍 Знайдено: {shown} із {total}",
+                foreground='#ff0b0b' if shown == 0 else '#555'
+            )
+        else:
+            self.lbl_search_info.config(
+                text=f"Всього товарів: {total}",
+                foreground='#777'
+            )
 
     # ---------- Вибір товару ----------
     def on_select(self, event):
@@ -429,7 +502,6 @@ class AdminApp:
             new_id = self.editing_id
             file_name = Path(item['image']).name
             if self.current_image_src:
-                # Замінюємо картинку
                 file_name = f"{new_id}.jpg"
 
         # Стискаємо картинку (якщо вибрано нову)
@@ -467,9 +539,7 @@ class AdminApp:
                     self.data['items'][i] = item_data
                     break
 
-        # Автозбереження JSON
         save_data(self.data)
-
         self._refresh_table()
         self.clear_form()
         messagebox.showinfo("Готово", f"Товар '{name}' збережено ✅")
@@ -511,7 +581,6 @@ class AdminApp:
                 break
         save_data(self.data)
         self._refresh_table()
-        # Зберігаємо виділення
         self.tree.selection_set(str(item_id))
 
     # ---------- Збереження місяця ----------
