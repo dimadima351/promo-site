@@ -176,19 +176,12 @@
 
         // ====== РЕНДЕР КАРТОК ======
         function makeCard(item) {
-            // Обгортка — посилання на сторінку товару
-            const link = document.createElement('a');
-            link.href = 'product.html?id=' + item.id;
-            link.className = 'card-link';
-            link.style.textDecoration = 'none';
-            link.style.color = 'inherit';
-        
             const card = document.createElement('div');
             card.className = 'card';
             const newPrice = item.price ?? item.newPrice ?? '';
             const oldPrice = item.oldPrice ?? '';
             const imgSrc = noCache(item.image);
-        
+
             card.innerHTML = `
                 ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
                 <div class="card-image">
@@ -204,9 +197,7 @@
                     ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
                 </div>
             `;
-        
-            link.appendChild(card);
-            return link;
+            return card;
         }
 
         // ====== ПОКАЗ ЩЕ ======
