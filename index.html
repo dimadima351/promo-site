@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Акції | PromoSite</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -22,12 +22,12 @@
         </div>
     </header>
 
+    <!-- Банер з картинкою -->
     <section class="page-title">
         <div class="container">
             <h2 id="page-title">Акції</h2>
             <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
 
-            <!-- Таймер зворотного відліку -->
             <div class="countdown" id="countdown">
                 <p class="countdown-label">До кінця акції залишилось:</p>
                 <div class="countdown-grid">
@@ -48,6 +48,40 @@
         </div>
     </section>
 
+    <!-- Панель сортування -->
+    <section class="sort-panel">
+        <div class="container">
+            <div class="sort-wrapper">
+                <div class="sort-group">
+                    <label for="sort-category">Категорія:</label>
+                    <select id="sort-category">
+                        <option value="">Усі категорії</option>
+                    </select>
+                </div>
+
+                <div class="sort-group">
+                    <label for="sort-name">Назва:</label>
+                    <select id="sort-name">
+                        <option value="">За замовчуванням</option>
+                        <option value="name-asc">А → Я</option>
+                        <option value="name-desc">Я → А</option>
+                    </select>
+                </div>
+
+                <div class="sort-group">
+                    <label for="sort-price">Ціна:</label>
+                    <select id="sort-price">
+                        <option value="">За замовчуванням</option>
+                        <option value="price-asc">Від дешевшої</option>
+                        <option value="price-desc">Від дорожчої</option>
+                    </select>
+                </div>
+
+                <button id="reset-filters" class="reset-btn">Скинути</button>
+            </div>
+        </div>
+    </section>
+
     <main class="container" id="promo">
         <div class="grid" id="promo-container">
             <p class="loading">Завантаження акцій...</p>
@@ -62,16 +96,16 @@
 
     <script>
         const PLACEHOLDER = './images/0.png';
+        let allItems = []; // усі товари з JSON
 
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
             return url + separator + 't=' + Date.now();
         }
 
-        // ====== ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ ======
+        // ====== ТАЙМЕР ======
         function getEndOfMonth() {
             const now = new Date();
-            // Останній день поточного місяця, 23:59:59
             return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
         }
 
@@ -101,9 +135,73 @@
             minutesEl.textContent = String(minutes).padStart(2, '0');
         }
 
-        // Запускаємо таймер одразу і оновлюємо кожні 5 хвилин (300000 мс)
         updateCountdown();
         setInterval(updateCountdown, 5 * 60 * 1000);
+
+        // ====== РЕНДЕР КАРТОК ======
+        function renderItems(items) {
+            const container = document.getElementById('promo-container');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = '<p class="loading">Нічого не знайдено</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const newPrice = item.price ?? item.newPrice ?? '';
+                const oldPrice = item.oldPrice ?? '';
+                const imgSrc = noCache(item.image);
+
+                card.innerHTML = `
+                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                    <div class="card-image">
+                        <img src="${imgSrc}" alt="${item.name}"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                    </div>
+                    <div class="card-body">
+                        <div class="prices">
+                            ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
+                            <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
+                        </div>
+                        <h3>${item.name}</h3>
+                        ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ====== ЗАСТОСУВАННЯ ФІЛЬТРІВ І СОРТУВАННЯ ======
+        function applyFilters() {
+            const category = document.getElementById('sort-category').value;
+            const nameSort = document.getElementById('sort-name').value;
+            const priceSort = document.getElementById('sort-price').value;
+
+            let filtered = [...allItems];
+
+            // Фільтр за категорією
+            if (category) {
+                filtered = filtered.filter(it => it.category === category);
+            }
+
+            // Сортування
+            if (nameSort === 'name-asc') {
+                filtered.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'uk'));
+            } else if (nameSort === 'name-desc') {
+                filtered.sort((a, b) => (b.name || '').localeCompare(a.name || '', 'uk'));
+            } else if (priceSort === 'price-asc') {
+                filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+            } else if (priceSort === 'price-desc') {
+                filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+            }
+
+            renderItems(filtered);
+        }
 
         // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
@@ -115,41 +213,39 @@
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | PromoSite';
 
-                const container = document.getElementById('promo-container');
-                container.innerHTML = '';
+                allItems = data.items || [];
 
-                data.items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
+                // Заповнюємо список категорій
+                const categories = [...new Set(allItems.map(it => it.category).filter(Boolean))];
+                categories.sort((a, b) => a.localeCompare(b, 'uk'));
 
-                    const newPrice = item.price ?? item.newPrice ?? '';
-                    const oldPrice = item.oldPrice ?? '';
-                    const imgSrc = noCache(item.image);
-
-                    card.innerHTML = `
-                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                        <div class="card-image">
-                            <img src="${imgSrc}" alt="${item.name}"
-                                 loading="lazy"
-                                 onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
-                        </div>
-                        <div class="card-body">
-                            <div class="prices">
-                                ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
-                                <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
-                            </div>
-                            <h3>${item.name}</h3>
-                            ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
-                        </div>
-                    `;
-                    container.appendChild(card);
+                const catSelect = document.getElementById('sort-category');
+                categories.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = cat;
+                    catSelect.appendChild(opt);
                 });
+
+                renderItems(allItems);
             })
             .catch(error => {
                 console.error('Помилка:', error);
                 document.getElementById('promo-container').innerHTML =
                     '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
             });
+
+        // ====== СЛУХАЧІ ПОДІЙ ======
+        document.getElementById('sort-category').addEventListener('change', applyFilters);
+        document.getElementById('sort-name').addEventListener('change', applyFilters);
+        document.getElementById('sort-price').addEventListener('change', applyFilters);
+
+        document.getElementById('reset-filters').addEventListener('click', () => {
+            document.getElementById('sort-category').value = '';
+            document.getElementById('sort-name').value = '';
+            document.getElementById('sort-price').value = '';
+            renderItems(allItems);
+        });
     </script>
 
 </body>

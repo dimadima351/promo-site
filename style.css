@@ -58,38 +58,61 @@ body {
     color: #e74c3c;
 }
 
-/* ---------- Компактний банер ---------- */
+/* ---------- Банер з фоновою картинкою ---------- */
 .page-title {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    position: relative;
     color: white;
-    padding: 20px 0;
+    padding: 40px 0;   /* більший padding, бо тепер це банер з картинкою */
     text-align: center;
+    background-image: url('./image_site/_1.jpg');   /* ← ФОНОВА КАРТИНКА */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+/* Темний оверлей — щоб текст читався поверх картинки */
+.page-title::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.10);   /* ← змініть прозорість, якщо треба темніше/світліше */
+    z-index: 1;
+}
+
+/* Весь контент поверх оверлею */
+.page-title .container {
+    position: relative;
+    z-index: 2;
 }
 
 .page-title h2 {
-    font-size: 24px;
-    margin-bottom: 2px;
-    font-weight: 600;
+    font-size: 28px;
+    margin-bottom: 4px;
+    font-weight: 700;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .page-title p {
-    font-size: 13px;
-    opacity: 0.9;
+    font-size: 14px;
+    opacity: 0.95;
     margin-bottom: 0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* ---------- Таймер зворотного відліку (компактний) ---------- */
+/* ---------- Таймер (компактний, поверх картинки) ---------- */
 .countdown {
-    margin-top: 12px;
+    margin-top: 16px;
     text-align: center;
 }
 
 .countdown-label {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 6px;
     font-weight: 400;
     letter-spacing: 0.3px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .countdown-grid {
@@ -105,7 +128,7 @@ body {
     align-items: center;
     min-width: 55px;
     padding: 5px 8px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.35);
     border-radius: 5px;
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -121,16 +144,80 @@ body {
 
 .countdown-unit {
     font-size: 9px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     margin-top: 1px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
 
+/* ---------- Панель сортування ---------- */
+.sort-panel {
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.sort-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sort-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
+.sort-group select {
+    padding: 7px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    min-width: 140px;
+    transition: border-color 0.2s;
+}
+
+.sort-group select:hover,
+.sort-group select:focus {
+    border-color: #e74c3c;
+    outline: none;
+}
+
+.reset-btn {
+    padding: 7px 16px;
+    background: #f0f0f0;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.reset-btn:hover {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+
 /* ---------- Сітка товарів: 5 в рядку на компі ---------- */
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);   /* 5 колонок */
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
     padding: 24px 0;
 }
@@ -140,7 +227,7 @@ body {
     grid-column: 1 / -1;
     text-align: center;
     color: #888;
-    font-size: 18px;
+    font-size: 16px;
     padding: 40px 0;
 }
 
@@ -165,7 +252,6 @@ body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Квадратний контейнер для картинки — без фону, без padding */
 .card-image {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -179,7 +265,6 @@ body {
     display: block;
 }
 
-/* Бейдж зі знижкою */
 .badge {
     position: absolute;
     top: 8px;
@@ -193,7 +278,6 @@ body {
     z-index: 10;
 }
 
-/* Тіло картки — все вирівняно по лівому краю */
 .card-body {
     padding: 10px 12px 12px;
     display: flex;
@@ -202,7 +286,6 @@ body {
     text-align: left;
 }
 
-/* Ціни — зверху */
 .prices {
     display: flex;
     flex-direction: column;
@@ -222,11 +305,10 @@ body {
 .new-price {
     color: #e74c3c;
     font-weight: 700;
-    font-size: 34px;      /* ← акційна ціна — велика */
+    font-size: 34px;
     line-height: 1.1;
 }
 
-/* Дуже маленький і тонкий "грн/шт" */
 .unit {
     font-size: 10px;
     font-weight: 300;
@@ -235,7 +317,6 @@ body {
     margin-left: 2px;
 }
 
-/* Назва товару */
 .card-body h3 {
     font-size: 14px;
     color: #2c3e50;
@@ -245,7 +326,6 @@ body {
     line-height: 1.3;
 }
 
-/* Дата дії акції */
 .valid-until {
     font-size: 11px;
     color: #888;
@@ -284,7 +364,7 @@ body {
     }
 
     .page-title {
-        padding: 16px 0;
+        padding: 24px 0;
     }
     .page-title h2 {
         font-size: 20px;
@@ -314,6 +394,27 @@ body {
         font-size: 8px;
     }
 
+    /* Панель сортування на мобільному */
+    .sort-wrapper {
+        gap: 10px;
+    }
+    .sort-group {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 0;
+    }
+    .sort-group label {
+        font-size: 12px;
+    }
+    .sort-group select {
+        font-size: 13px;
+        padding: 6px 8px;
+        min-width: 0;
+        width: 100%;
+    }
+    .reset-btn {
+        flex: 1 1 100%;
+    }
+
     .card-body {
         padding: 8px 10px 10px;
     }
@@ -338,7 +439,7 @@ body {
     }
 }
 
-/* Дуже малі телефони — 2 товари, але компактніше */
+/* Дуже малі телефони */
 @media (max-width: 400px) {
     .grid {
         gap: 8px;
