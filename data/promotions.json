@@ -11,6 +11,7 @@
       "badge": "-43%",
       "image": "./images/1.jpg",
       "link": "#",
+      "validUntil": "",
       "isAction": false,
       "isMonthAction": true
     },
@@ -24,6 +25,21 @@
       "badge": "-25%",
       "image": "./images/2.jpg",
       "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true
+    },
+    {
+      "id": 3,
+      "name": "Пиво Львівське 1715 2,25л",
+      "manufacturer": "Львівське",
+      "category": "Алкоголь",
+      "price": 79,
+      "oldPrice": 120,
+      "badge": "-34%",
+      "image": "./images/3.jpg",
+      "link": "#",
+      "validUntil": "01.10.2026",
       "isAction": false,
       "isMonthAction": true
     }
