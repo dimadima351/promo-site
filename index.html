@@ -1,239 +1,195 @@
-/* ============================================================
-   ГОЛОВНА СТОРІНКА: БАНЕР + КАРУСЕЛЬ
-   ============================================================ */
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Головна | Ваш ПАРТНЕР</title>
+    <link rel="stylesheet" href="style.css?v=16">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
 
-/* ---------- Hero-банер "Акції цього місяця" ---------- */
-.hero-banner {
-    padding: 30px 0 10px;
-}
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
+            </a>
 
-.hero-banner-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    background: linear-gradient(135deg, #ff0b0b, #c90808);
-    color: #fff;
-    text-decoration: none;
-    padding: 24px 28px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(255, 11, 11, 0.25);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
+            <button class="burger" id="burgerBtn" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-.hero-banner-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 32px rgba(255, 11, 11, 0.4);
-}
+            <nav class="nav" id="mainNav">
+                <a href="/">Головна</a>
+                <a href="promo.html">Акції</a>
+                <a href="#">Контакти</a>
+            </nav>
+        </div>
+    </header>
 
-.hero-banner-text {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
+    <div class="menu-overlay" id="menuOverlay"></div>
 
-.hero-banner-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    background: #fff;
-    color: #ff0b0b;
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-}
+    <!-- Блок-банер "Акції цього місяця" -->
+    <section class="hero-banner">
+        <div class="container">
+            <a href="promo.html" class="hero-banner-link">
+                <span class="hero-banner-text">АКЦІЇ ЦЬОГО МІСЯЦЯ</span>
+                <span class="hero-banner-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </section>
 
-.hero-banner-arrow svg {
-    width: 24px;
-    height: 24px;
-}
+    <!-- Карусель з випадковими товарами -->
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Популярні акції</h2>
 
-.hero-banner-link:hover .hero-banner-arrow {
-    transform: translateX(6px);
-}
+            <div class="carousel-wrap">
+                <button class="carousel-btn carousel-btn-prev" id="carouselPrev" aria-label="Назад">‹</button>
 
-/* ---------- Секція каруселі ---------- */
-.carousel-section {
-    padding: 30px 0 40px;
-}
+                <div class="carousel" id="carousel">
+                    <p class="carousel-loading">Завантаження...</p>
+                </div>
 
-.section-title {
-    font-size: 22px;
-    color: #2c3e50;
-    margin-bottom: 18px;
-    font-weight: 700;
-}
+                <button class="carousel-btn carousel-btn-next" id="carouselNext" aria-label="Вперед">›</button>
+            </div>
+        </div>
+    </section>
 
-.carousel-wrap {
-    position: relative;
-}
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+        </div>
+    </footer>
 
-/* Стрілки каруселі */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #fff;
-    color: #2c3e50;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-size: 26px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s, transform 0.2s;
-}
+    <script>
+        const PLACEHOLDER = './images/0.png';
 
-.carousel-btn:hover {
-    background: #ff0b0b;
-    color: #fff;
-    transform: translateY(-50%) scale(1.05);
-}
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
 
-.carousel-btn-prev { left: -14px; }
-.carousel-btn-next { right: -14px; }
+        // ====== БУРГЕР-МЕНЮ ======
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mainNav = document.getElementById('mainNav');
+        const menuOverlay = document.getElementById('menuOverlay');
 
-/* Карусель (горизонтальний скрол) */
-.carousel {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 6px 4px 18px;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc #f0f0f0;
-}
+        function toggleMenu() {
+            burgerBtn.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
 
-.carousel::-webkit-scrollbar {
-    height: 6px;
-}
-.carousel::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-radius: 3px;
-}
-.carousel::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 3px;
-}
-.carousel::-webkit-scrollbar-thumb:hover {
-    background: #ff0b0b;
-}
+        function closeMenu() {
+            burgerBtn.classList.remove('active');
+            mainNav.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
 
-/* Картки в каруселі — фіксована ширина */
-.carousel .card {
-    flex: 0 0 220px;
-    width: 220px;
-    scroll-snap-align: start;
-}
+        burgerBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
 
-.carousel {
-    scroll-snap-type: x proximity;
-}
+        // ====== КАРУСЕЛЬ ======
+        const carousel = document.getElementById('carousel');
 
-.carousel-loading {
-    color: #888;
-    padding: 40px 0;
-    text-align: center;
-    width: 100%;
-}
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
 
-/* ---------- 7-ма картка "Перейти до всіх акцій" ---------- */
-.card.card-go {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    background: linear-gradient(135deg, #2c3e50, #1a252f);
-    color: #fff;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+        function makeCard(item) {
+            const card = document.createElement('div');
+            card.className = 'card';
 
-.card.card-go:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
+            const newPrice = item.price ?? item.newPrice ?? '';
+            const oldPrice = item.oldPrice ?? '';
+            const imgSrc = noCache(item.image);
 
-.card-go-inner {
-    text-align: center;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    font-size: 15px;
-    font-weight: 600;
-}
+            card.innerHTML = `
+                ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                <div class="card-image">
+                    <img src="${imgSrc}" alt="${item.name}" loading="lazy"
+                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                </div>
+                <div class="card-body">
+                    <div class="prices">
+                        ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
+                        <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                </div>
+            `;
+            return card;
+        }
 
-.card-go-arrow {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: #ff0b0b;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-}
+        function makeGoCard() {
+            const card = document.createElement('a');
+            card.href = 'promo.html';
+            card.className = 'card card-go';
+            card.innerHTML = `
+                <div class="card-go-inner">
+                    <div class="card-go-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                    <span>Перейти до всіх акцій</span>
+                </div>
+            `;
+            return card;
+        }
 
-.card-go-arrow svg {
-    width: 26px;
-    height: 26px;
-}
+        document.getElementById('carouselPrev').addEventListener('click', () => {
+            carousel.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        document.getElementById('carouselNext').addEventListener('click', () => {
+            carousel.scrollBy({ left: 300, behavior: 'smooth' });
+        });
 
-.card.card-go:hover .card-go-arrow {
-    transform: translateX(6px);
-}
+        // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
+        fetch(noCache('./data/promotions.json'))
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка завантаження'))
+            .then(data => {
+                let items = (data.items || []).filter(it => it.visible !== false);
 
-/* ---------- Мобільна версія ---------- */
-@media (max-width: 700px) {
-    .hero-banner {
-        padding: 20px 0 6px;
-    }
-    .hero-banner-link {
-        padding: 18px 20px;
-        border-radius: 10px;
-    }
-    .hero-banner-text {
-        font-size: 17px;
-        letter-spacing: 0.5px;
-    }
-    .hero-banner-arrow {
-        width: 42px;
-        height: 42px;
-    }
-    .hero-banner-arrow svg {
-        width: 20px;
-        height: 20px;
-    }
+                items = shuffle(items).slice(0, 6);
 
-    .carousel-section {
-        padding: 20px 0 30px;
-    }
-    .section-title {
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
+                carousel.innerHTML = '';
 
-    .carousel .card {
-        flex: 0 0 180px;
-        width: 180px;
-    }
+                if (items.length === 0) {
+                    carousel.innerHTML = '<p class="carousel-loading">Акцій поки що немає</p>';
+                    return;
+                }
 
-    .carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 22px;
-    }
-    .carousel-btn-prev { left: -6px; }
-    .carousel-btn-next { right: -6px; }
-}
+                items.forEach(it => carousel.appendChild(makeCard(it)));
+                carousel.appendChild(makeGoCard());
+            })
+            .catch(err => {
+                console.error(err);
+                carousel.innerHTML = '<p class="carousel-loading">Не вдалося завантажити акції</p>';
+            });
+    </script>
+
+</body>
+</html>
