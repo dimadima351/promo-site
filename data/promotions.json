@@ -174,14 +174,15 @@
       "name": "Пиво Корифей 1л ПЕТ",
       "manufacturer": "Опілля",
       "category": "Алкоголь",
-      "price": 57,
-      "oldPrice": 74,
+      "price": 57.0,
+      "oldPrice": 74.0,
       "badge": "-23%",
       "image": "./images/13.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": false
     },
     {
       "id": 14,
@@ -196,7 +197,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     }
   ]
 }
