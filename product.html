@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар | Ваш ПАРТНЕР</title>
+    <link rel="stylesheet" href="style.css?v=20">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
+            </a>
+
+            <button class="burger" id="burgerBtn" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="mainNav">
+                <a href="/">Головна</a>
+                <a href="promo.html">Акції</a>
+                <a href="alcohol.html">Алкоголь</a>
+                <a href="#">Контакти</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Хлібні крихти -->
+    <nav class="breadcrumbs">
+        <div class="container" id="breadcrumbs">
+            <a href="/">Головна</a>
+            <span class="sep">›</span>
+            <a href="promo.html">Акції</a>
+            <span class="sep">›</span>
+            <span class="current" id="breadcrumb-name">Товар</span>
+        </div>
+    </nav>
+
+    <!-- Контейнер для сторінки товару -->
+    <main class="container product-page" id="product-container">
+        <p class="loading">Завантаження...</p>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+        </div>
+    </footer>
+
+    <script>
+        const PLACEHOLDER = './images/0.png';
+
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
+        // ====== БУРГЕР-МЕНЮ ======
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mainNav = document.getElementById('mainNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            burgerBtn.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
+        function closeMenu() {
+            burgerBtn.classList.remove('active');
+            mainNav.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+        burgerBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+        // ====== ОТРИМАННЯ ID З URL ======
+        function getIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // ====== РЕНДЕР СТОРІНКИ ТОВАРУ ======
+        function renderProduct(item) {
+            const container = document.getElementById('product-container');
+            const newPrice = item.price ?? item.newPrice ?? '';
+            const oldPrice = item.oldPrice ?? '';
+            const imgSrc = noCache(item.image);
+
+            // Оновлюємо title і хлібні крихти
+            document.title = item.name + ' | Ваш ПАРТНЕР';
+            document.getElementById('breadcrumb-name').textContent = item.name;
+
+            container.innerHTML = `
+                <div class="product-layout">
+                    <div class="product-image">
+                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                        <img src="${imgSrc}" alt="${item.name}"
+                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                    </div>
+
+                    <div class="product-info">
+                        ${oldPrice ? `<div class="product-old-price">${oldPrice} ₴</div>` : ''}
+                        <div class="product-new-price">
+                            ${newPrice} <span class="unit">грн/шт</span>
+                        </div>
+
+                        <h1 class="product-name">${item.name}</h1>
+
+                        ${item.manufacturer ? `<div class="product-manufacturer">Виробник: ${item.manufacturer}</div>` : ''}
+
+                        ${item.validUntil ? `<div class="product-valid-until">Акційна пропозиція діє до <strong>${item.validUntil}</strong></div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ====== ЗАВАНТАЖЕННЯ ======
+        const productId = getIdFromUrl();
+        const container = document.getElementById('product-container');
+
+        if (!productId) {
+            container.innerHTML = `
+                <div class="product-error">
+                    <h2>Товар не знайдено</h2>
+                    <p>Будь ласка, перейдіть на <a href="promo.html">сторінку акцій</a> та виберіть товар.</p>
+                </div>
+            `;
+        } else {
+            fetch(noCache('./data/promotions.json'))
+                .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+                .then(data => {
+                    const items = (data.items || []).filter(it => it.visible !== false);
+                    const item = items.find(it => String(it.id) === String(productId));
+
+                    if (!item) {
+                        container.innerHTML = `
+                            <div class="product-error">
+                                <h2>Товар не знайдено</h2>
+                                <p>Можливо, він уже неактуальний. Поверніться до <a href="promo.html">акцій</a>.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    renderProduct(item);
+                })
+                .catch(err => {
+                    console.error(err);
+                    container.innerHTML = `
+                        <div class="product-error">
+                            <h2>Помилка завантаження</h2>
+                            <p>Спробуйте пізніше.</p>
+                        </div>
+                    `;
+                });
+        }
+    </script>
+
+</body>
+</html>
