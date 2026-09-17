@@ -182,7 +182,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
     },
     {
       "id": 14,
@@ -197,7 +197,22 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true
+    },
+    {
+      "id": 15,
+      "name": "Молоко Молокія Ультрапастеризоване 0,9л",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 47.0,
+      "oldPrice": 69.0,
+      "badge": "-32%",
+      "image": "./images/15.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }
