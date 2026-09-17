@@ -166,7 +166,7 @@ body {
 }
 
 .error {
-    color: #e74c3c;
+    color: #ff0b0b;
 }
 
 /* ---------- Картка товару ---------- */
@@ -203,7 +203,7 @@ body {
     position: absolute;
     top: 8px;
     left: 8px;
-    background-color: #e74c3c;
+    background-color: #ff0b0b;
     color: #fff;
     padding: 4px 8px;
     border-radius: 4px;
@@ -237,7 +237,7 @@ body {
 }
 
 .new-price {
-    color: #e74c3c;
+    color: #ff0b0b;
     font-weight: 700;
     font-size: 34px;
     line-height: 1.1;
