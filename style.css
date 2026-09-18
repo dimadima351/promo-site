@@ -179,6 +179,10 @@ body.menu-open {
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+    min-height: 260px;              /* ← мінімальна висота */
+    display: flex;                  /* ← щоб контент центрувався */
+    align-items: center;            /* ← по вертикалі */
+    justify-content: center;        
 }
 
 .page-title::before {
@@ -1103,4 +1107,9 @@ body.menu-open {
         font-size: 11px;
         letter-spacing: 0.2px;
     }
+    .page-title2 {
+        min-height: 130px;
+        padding: 24px 0;
+    }
 }
+
