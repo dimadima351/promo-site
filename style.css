@@ -807,7 +807,11 @@ body.menu-open {
    ЦІНИ НА КАРТЦІ ТОВАРУ (виправлено)
    ============================================================ */
 
-   .prices {
+/* ============================================================
+   ЦІНИ НА КАРТЦІ ТОВАРУ
+   ============================================================ */
+
+.prices {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -855,15 +859,15 @@ body.menu-open {
     top: 2px;
 }
 
-/* "грн/шт" — ОБОВ'ЯЗКОВО на новому рядку, маленьке */
+/* "грн/шт" — на новому рядку, маленьке, сіре */
 .new-price .price-unit {
-    display: block !important;
-    width: 100% !important;
-    color: #999 !important;
-    font-size: 11px !important;
-    font-weight: 400 !important;
-    margin-top: 2px !important;
-    line-height: 1.1 !important;
+    display: block;
+    width: 100%;
+    color: #999;
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 2px;
+    line-height: 1.1;
     letter-spacing: 0.2px;
 }
 
