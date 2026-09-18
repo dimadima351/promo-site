@@ -239,7 +239,10 @@
                 document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
 
-                allItems = (data.items || []).filter(it => it.visible !== false);
+                allItems = (data.items || []).filter(it =>
+                    it.visible !== false &&
+                    !(it.category || '').toLowerCase().includes('ярня')
+                );
 
                 // Сортування
                 allItems.sort((a, b) => {

@@ -317,7 +317,11 @@
 
                 // ====== КАРУСЕЛЬ 1: Популярні акції ======
                 const carousel = document.getElementById('carousel');
-                const popular = shuffle(items).slice(0, 6);
+                // Виключаємо кав'ярню з популярних акцій
+                const popularItems = items.filter(it =>
+                    !(it.category || '').toLowerCase().includes('ярня')
+                );
+                const popular = shuffle(popularItems).slice(0, 6);
                 carousel.innerHTML = '';
                 if (popular.length === 0) {
                     carousel.innerHTML = '<p class="carousel-loading">Акцій поки що немає</p>';
