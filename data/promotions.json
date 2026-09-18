@@ -787,6 +787,22 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 52,
+      "name": "кава",
+      "manufacturer": "кава",
+      "category": "Кава та чай",
+      "price": 32.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/52.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": false,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
