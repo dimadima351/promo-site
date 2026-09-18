@@ -819,6 +819,22 @@
       "isMonthAction": false,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 54,
+      "name": "Горілка Зубровка Бяла 0,5л",
+      "manufacturer": "Зубровка",
+      "category": "Алкоголь",
+      "price": 125.0,
+      "oldPrice": 175.0,
+      "badge": "-29%",
+      "image": "./images/54.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
