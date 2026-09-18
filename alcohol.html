@@ -179,10 +179,10 @@
             const card = document.createElement('div');
             card.className = 'card';
         
-            // Округлюємо ціну до 2 знаків і розбиваємо на ціле + копійки
+            // Ціна: ціла частина + копійки окремо
             const priceRaw = Number(item.price ?? item.newPrice ?? 0);
-            const priceInt = Math.floor(priceRaw);                    // 47
-            const priceCents = Math.round((priceRaw - priceInt) * 100) // 0 → "00"
+            const priceInt = Math.floor(priceRaw);
+            const priceCents = Math.round((priceRaw - priceInt) * 100)
                 .toString().padStart(2, '0');
         
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
