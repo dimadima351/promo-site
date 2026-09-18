@@ -183,6 +183,14 @@
 
         // ====== РЕНДЕР КАРТОК ======
         function makeCard(item) {
+            // Обгортка — посилання на сторінку товару
+            const link = document.createElement('a');
+            link.href = 'product.html?id=' + item.id;
+            link.className = 'card-link';
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.style.display = 'block';
+        
             const card = document.createElement('div');
             card.className = 'card';
             const isOut = item.outOfStock === true;
@@ -216,7 +224,9 @@
                     ${item.validUntil && !isOut ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
                 </div>
             `;
-            return card;
+        
+            link.appendChild(card);
+            return link;
         }
 
         // ====== ПОКАЗ ЩЕ ======

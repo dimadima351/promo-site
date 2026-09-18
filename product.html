@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Товар | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css?v=30">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -27,6 +27,7 @@
                 <a href="/">Головна</a>
                 <a href="promo.html">Акції</a>
                 <a href="alcohol.html">Алкоголь</a>
+                <a href="coffee.html">Кава та чай</a>
                 <a href="#">Контакти</a>
             </nav>
         </div>
@@ -39,16 +40,23 @@
         <div class="container" id="breadcrumbs">
             <a href="/">Головна</a>
             <span class="sep">›</span>
-            <a href="promo.html">Акції</a>
+            <a href="promo.html" id="breadcrumb-parent">Акції</a>
             <span class="sep">›</span>
             <span class="current" id="breadcrumb-name">Товар</span>
         </div>
     </nav>
 
-    <!-- Контейнер для сторінки товару -->
+    <!-- Сторінка товару -->
     <main class="container product-page" id="product-container">
         <p class="loading">Завантаження...</p>
     </main>
+
+    <!-- Дисклеймер -->
+    <div class="alcohol-warning">
+        <div class="container">
+            НАДМІРНЕ СПОЖИВАННЯ АЛКОГОЛЮ ШКІДЛИВЕ ДЛЯ ВАШОГО ЗДОРОВ'Я
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -87,40 +95,97 @@
 
         // ====== ОТРИМАННЯ ID З URL ======
         function getIdFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('id');
+            return new URLSearchParams(window.location.search).get('id');
         }
 
         // ====== РЕНДЕР СТОРІНКИ ТОВАРУ ======
         function renderProduct(item) {
             const container = document.getElementById('product-container');
-            const newPrice = item.price ?? item.newPrice ?? '';
-            const oldPrice = item.oldPrice ?? '';
+            const isOut = item.outOfStock === true;
+
+            const priceRaw = Number(item.price ?? item.newPrice ?? 0);
+            const priceInt = Math.floor(priceRaw);
+            const priceCents = Math.round((priceRaw - priceInt) * 100)
+                .toString().padStart(2, '0');
+            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
 
-            // Оновлюємо title і хлібні крихти
+            // Оновлюємо title
             document.title = item.name + ' | Ваш ПАРТНЕР';
             document.getElementById('breadcrumb-name').textContent = item.name;
 
+            // Оновлюємо батьківську крихту (Акції / Алкоголь / Кава та чай)
+            const cat = (item.category || '').toLowerCase();
+            const parentLink = document.getElementById('breadcrumb-parent');
+            if (cat.includes('алкоголь')) {
+                parentLink.href = 'alcohol.html';
+                parentLink.textContent = 'Алкоголь';
+            } else if (cat.includes('ярня')) {
+                parentLink.href = 'coffee.html';
+                parentLink.textContent = 'Кава та чай';
+            } else {
+                parentLink.href = 'promo.html';
+                parentLink.textContent = 'Акції';
+            }
+
             container.innerHTML = `
-                <div class="product-layout">
-                    <div class="product-image">
-                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                        <img src="${imgSrc}" alt="${item.name}"
-                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                <div class="product-layout ${isOut ? 'out-of-stock' : ''}">
+                    <div class="product-image-wrap">
+                        ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
+                        ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
+                        <div class="product-image">
+                            <img src="${imgSrc}" alt="${item.name}"
+                                 onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        </div>
                     </div>
 
                     <div class="product-info">
-                        ${oldPrice ? `<div class="product-old-price">${oldPrice} ₴</div>` : ''}
-                        <div class="product-new-price">
-                            ${newPrice} <span class="unit">грн/шт</span>
-                        </div>
+                        ${item.manufacturer ? `<div class="product-manufacturer-top">${item.manufacturer}</div>` : ''}
 
                         <h1 class="product-name">${item.name}</h1>
 
-                        ${item.manufacturer ? `<div class="product-manufacturer">Виробник: ${item.manufacturer}</div>` : ''}
+                        <div class="product-prices">
+                            ${oldPrice && !isOut ? `<div class="product-old-price">${oldPrice} ₴</div>` : ''}
+                            <div class="product-new-price ${isOut ? 'gray' : ''}">
+                                <span class="price-int">${priceInt}</span>
+                                <span class="price-cents-wrap">
+                                    <span class="price-cents">${priceCents}</span>
+                                    <span class="price-unit">грн/шт</span>
+                                </span>
+                            </div>
+                        </div>
 
-                        ${item.validUntil ? `<div class="product-valid-until">Акційна пропозиція діє до <strong>${item.validUntil}</strong></div>` : ''}
+                        <div class="product-meta">
+                            ${item.category ? `
+                                <div class="product-meta-row">
+                                    <span class="meta-label">Категорія:</span>
+                                    <span class="meta-value">${item.category}</span>
+                                </div>
+                            ` : ''}
+                            ${item.manufacturer ? `
+                                <div class="product-meta-row">
+                                    <span class="meta-label">Виробник:</span>
+                                    <span class="meta-value">${item.manufacturer}</span>
+                                </div>
+                            ` : ''}
+                            ${item.validUntil && !isOut ? `
+                                <div class="product-meta-row highlight">
+                                    <span class="meta-label">Акція діє до:</span>
+                                    <span class="meta-value">${item.validUntil}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${isOut ? `
+                            <div class="product-out-message">
+                                На жаль, цей товар тимчасово відсутній.
+                                Завітайте пізніше або оберіть інший.
+                            </div>
+                        ` : ''}
+
+                        <a href="javascript:history.back()" class="product-back-btn">
+                            ← Повернутися до списку
+                        </a>
                     </div>
                 </div>
             `;
@@ -134,14 +199,14 @@
             container.innerHTML = `
                 <div class="product-error">
                     <h2>Товар не знайдено</h2>
-                    <p>Будь ласка, перейдіть на <a href="promo.html">сторінку акцій</a> та виберіть товар.</p>
+                    <p>Перейдіть на <a href="promo.html">сторінку акцій</a> та виберіть товар.</p>
                 </div>
             `;
         } else {
             fetch(noCache('./data/promotions.json'))
                 .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
                 .then(data => {
-                    const items = (data.items || []).filter(it => it.visible !== false);
+                    const items = data.items || [];
                     const item = items.find(it => String(it.id) === String(productId));
 
                     if (!item) {
