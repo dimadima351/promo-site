@@ -1219,6 +1219,22 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 79,
+      "name": "Напій газований Живчик Яблуко 2л",
+      "manufacturer": "Оболонь",
+      "category": "Безалкогольні напої",
+      "price": 58.0,
+      "oldPrice": 72.0,
+      "badge": "-19%",
+      "image": "./images/79.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": true
     }
   ]
 }
