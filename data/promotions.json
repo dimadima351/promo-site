@@ -739,6 +739,54 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 49,
+      "name": "Кефір 2,5% Густий 870мл Молокія",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 57.0,
+      "oldPrice": 76.0,
+      "badge": "-25%",
+      "image": "./images/49.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 50,
+      "name": "Масло Burynko 72,5% 180г",
+      "manufacturer": "Селянське",
+      "category": "Молочні продукти",
+      "price": 77.0,
+      "oldPrice": 103.0,
+      "badge": "-25%",
+      "image": "./images/50.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 51,
+      "name": "Масло Burynko 82% 180г",
+      "manufacturer": "Селянське",
+      "category": "Молочні продукти",
+      "price": 85.0,
+      "oldPrice": 115.0,
+      "badge": "-26%",
+      "image": "./images/51.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
