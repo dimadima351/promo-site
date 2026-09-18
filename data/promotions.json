@@ -803,6 +803,22 @@
       "isMonthAction": false,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 53,
+      "name": "Кава Американо з молоком 175мл",
+      "manufacturer": "ПАРТНЕР",
+      "category": "Кава та чай (кав'ярня)",
+      "price": 34.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/53.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": false,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
