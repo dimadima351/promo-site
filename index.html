@@ -369,6 +369,38 @@
                 document.getElementById('alcoholCarousel').innerHTML =
                     '<p class="carousel-loading">Не вдалося завантажити</p>';
             });
+
+            // ====== АВТОСКРОЛ ДО КАРУСЕЛІ (якщо користувач не взаємодіє 4 сек) ======
+            (function() {
+                let userInteracted = false;
+                let alreadyScrolled = false;
+
+                // Якщо користувач щось робить — скасовуємо автопрокрутку
+                function markInteracted() {
+                    userInteracted = true;
+                }
+
+                // Слухаємо: прокрутка, клік, тач, клавіатура
+                window.addEventListener('scroll', markInteracted, { once: true, passive: true });
+                window.addEventListener('click', markInteracted, { once: true });
+                window.addEventListener('touchstart', markInteracted, { once: true, passive: true });
+                window.addEventListener('keydown', markInteracted, { once: true });
+                window.addEventListener('wheel', markInteracted, { once: true, passive: true });
+
+                // Через 4 секунди — плавно прокручуємо до каруселі
+                setTimeout(() => {
+                    if (userInteracted || alreadyScrolled) return;
+
+                    const carousel = document.querySelector('.carousel-section');
+                    if (!carousel) return;
+
+                    alreadyScrolled = true;
+                    carousel.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 4000);   // 4000 мс = 4 секунди
+            })();
     </script>
 
 </body>
