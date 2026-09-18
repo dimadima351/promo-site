@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Акції | Ваш ПАРТНЕР</title>
+    <link rel="canonical" href="https://vashpartner.pp.ua/promo.html">
+    <!-- Основне -->
+    <meta name="description" content="Акції цього місяця в магазині Ваш Партнер. Знижки на продукти, алкоголь, напої. Оновлюється щомісяця.">
+    <meta name="keywords" content="Ваш Партнер, акції, знижки, продукти, алкоголь, акції місяця">
+    <meta name="author" content="Ваш Партнер">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (для соцмереж і Google) -->
+    <meta property="og:title" content="Ваш Партнер — Акції цього місяця">
+    <meta property="og:description" content="Найкращі пропозиції та знижки на продукти й алкоголь.">
+    <meta property="og:image" content="https://vashpartner.pp.ua/image_site/_2.jpg">
+    <meta property="og:url" content="https://vashpartner.pp.ua/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="uk_UA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ваш Партнер — Акції цього місяця">
+    <meta name="twitter:description" content="Найкращі пропозиції та знижки.">
+    <meta name="twitter:image" content="https://vashpartner.pp.ua/image_site/_2.jpg">
+    <link rel="stylesheet" href="style.css?v=18">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
+            </a>
+
+            <button class="burger" id="burgerBtn" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="mainNav">
+                <a href="/">Головна</a>
+                <a href="promo.html">Акції</a>
+                <a href="alcohol.html">Алкоголь</a>
+                <a href="#">Контакти</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <section class="page-title">
+        <div class="container">
+            <h2 id="page-title">Акції</h2>
+            <p>Найкращі пропозиції цього місяця — встигніть придбати!</p>
+
+            <div class="countdown" id="countdown">
+                <p class="countdown-label">До кінця акції залишилось:</p>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-days">0</span>
+                        <span class="countdown-unit">днів</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-hours">0</span>
+                        <span class="countdown-unit">годин</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="cd-minutes">0</span>
+                        <span class="countdown-unit">хвилин</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="breadcrumbs">
+        <div class="container">
+            <a href="/">Головна</a>
+            <span class="sep">›</span>
+            <a href="promo.html">Акції</a>
+            <span class="sep">›</span>
+            <span class="current">Акції цього місяця</span>
+        </div>
+    </nav>
+
+    <main class="container" id="promo">
+        <div class="grid" id="promo-container">
+            <p class="loading">Завантаження акцій...</p>
+        </div>
+
+        <!-- Кнопка "Показати ще" -->
+        <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+            <button class="load-more-btn" id="loadMoreBtn">
+                Показати ще
+                <span class="load-more-count" id="loadMoreCount"></span>
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+        </div>
+    </footer>
+
+    <script>
+        const PLACEHOLDER = './images/0.png';
+        const ITEMS_PER_PAGE = 20;   // ← СКІЛЬКИ ПОКАЗУВАТИ СПОЧАТКУ І ДОДАВАТИ
+
+        let allItems = [];           // усі товари
+        let shownCount = 0;          // скільки вже показано
+
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
+        // ====== БУРГЕР-МЕНЮ ======
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mainNav = document.getElementById('mainNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            burgerBtn.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
+        function closeMenu() {
+            burgerBtn.classList.remove('active');
+            mainNav.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+        burgerBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+        // ====== ТАЙМЕР ======
+        function getEndOfMonth() {
+            const now = new Date();
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const end = getEndOfMonth();
+            const diff = end - now;
+            const countdownEl = document.getElementById('countdown');
+            if (!countdownEl) return;
+
+            if (diff <= 0) {
+                countdownEl.innerHTML = '<p class="countdown-label">Акція завершена</p>';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('cd-days').textContent = days;
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 5 * 60 * 1000);
+
+        // ====== РЕНДЕР КАРТОК ======
+        function makeCard(item) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const isOut = item.outOfStock === true;
+            if (isOut) card.classList.add('out-of-stock');
+        
+            const priceRaw = Number(item.price ?? item.newPrice ?? 0);
+            const priceInt = Math.floor(priceRaw);
+            const priceCents = Math.round((priceRaw - priceInt) * 100)
+                .toString().padStart(2, '0');
+        
+            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+            const imgSrc = noCache(item.image);
+        
+            card.innerHTML = `
+                ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
+                <div class="card-image">
+                    <img src="${imgSrc}" alt="${item.name}" loading="lazy"
+                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                </div>
+                <div class="card-body">
+                    ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
+                    ${oldPrice && !isOut ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                    <div class="new-price">
+                        <span class="price-int">${priceInt}</span>
+                        <span class="price-cents-wrap">
+                            <span class="price-cents">${priceCents}</span>
+                            <span class="price-unit">грн/шт</span>
+                        </span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    ${item.validUntil && !isOut ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        // ====== ПОКАЗ ЩЕ ======
+        function showMore() {
+            const container = document.getElementById('promo-container');
+            const next = allItems.slice(shownCount, shownCount + ITEMS_PER_PAGE);
+            next.forEach(it => container.appendChild(makeCard(it)));
+            shownCount += next.length;
+
+            // Оновлення кнопки
+            const remaining = allItems.length - shownCount;
+            const wrap = document.getElementById('loadMoreWrap');
+            const btn = document.getElementById('loadMoreBtn');
+            const cnt = document.getElementById('loadMoreCount');
+
+            if (remaining > 0) {
+                wrap.style.display = 'flex';
+                cnt.textContent = `(${remaining})`;
+            } else {
+                wrap.style.display = 'none';
+            }
+        }
+
+        document.getElementById('loadMoreBtn').addEventListener('click', showMore);
+
+        // ====== ЗАВАНТАЖЕННЯ ======
+        fetch(noCache('./data/promotions.json'))
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+            .then(data => {
+                document.getElementById('page-title').textContent = 'Акції ' + data.month;
+                document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
+
+                allItems = (data.items || []).filter(it =>
+                    it.visible !== false &&
+                    (it.category || '').toLowerCase().includes('кав') &&
+                    (it.category || '').toLowerCase().includes('ярня')
+                );
+
+                // Сортування
+                allItems.sort((a, b) => {
+                    // 1. Товари "немає в наявності" — завжди в кінці
+                    const aOut = a.outOfStock === true ? 1 : 0;
+                    const bOut = b.outOfStock === true ? 1 : 0;
+                    if (aOut !== bOut) return aOut - bOut;
+                
+                    // 2. Алкоголь — у кінці (після всіх інших категорій)
+                    const aAlc = (a.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
+                    const bAlc = (b.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
+                    if (aAlc !== bAlc) return aAlc - bAlc;
+                
+                    // 3. Акція місяця — вгору
+                    if (a.isMonthAction && !b.isMonthAction) return -1;
+                    if (!a.isMonthAction && b.isMonthAction) return 1;
+                
+                    // 4. За категорією (А-Я)
+                    const catA = a.category || '';
+                    const catB = b.category || '';
+                    const catCompare = catA.localeCompare(catB, 'uk');
+                    if (catCompare !== 0) return catCompare;
+                
+                    // 5. Всередині категорії — за назвою (А-Я)
+                    return (a.name || '').localeCompare(b.name || '', 'uk');
+                });
+
+                document.getElementById('promo-container').innerHTML = '';
+                shownCount = 0;
+
+                if (allItems.length === 0) {
+                    document.getElementById('promo-container').innerHTML =
+                        '<p class="loading">Акцій поки що немає</p>';
+                    return;
+                }
+
+                showMore();
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('promo-container').innerHTML =
+                    '<p class="error">Не вдалося завантажити акції. Спробуйте пізніше.</p>';
+            });
+    </script>
+
+</body>
+</html>

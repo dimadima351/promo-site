@@ -130,6 +130,35 @@
             </div>
         </div>
     </section>
+        <!-- БЛОК 3: Кава та чай (кав'ярня) -->
+        <section class="hero-banner hero-banner-coffee">
+            <div class="container">
+                <a href="coffee.html" class="hero-banner-link hero-banner-link-coffee">
+                    <span class="hero-banner-text">КАВА ТА ЧАЙ</span>
+                    <span class="hero-banner-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </section>
+    
+        <!-- Карусель 3: Кава та чай -->
+        <section class="carousel-section">
+            <div class="container">
+                <h2 class="section-title">Наші напої</h2>
+    
+                <div class="carousel-wrap">
+                    <button class="carousel-btn carousel-btn-prev" id="coffeePrev" aria-label="Назад">‹</button>
+                    <div class="carousel" id="coffeeCarousel">
+                        <p class="carousel-loading">Завантаження...</p>
+                    </div>
+                    <button class="carousel-btn carousel-btn-next" id="coffeeNext" aria-label="Вперед">›</button>
+                </div>
+            </div>
+        </section>
 
     <footer class="footer">
         <div class="container">
@@ -278,6 +307,7 @@
         // Прокрутка
         setupCarouselArrows('carousel', 'carouselPrev', 'carouselNext');
         setupCarouselArrows('alcoholCarousel', 'alcoholPrev', 'alcoholNext');
+        setupCarouselArrows('coffeeCarousel', 'coffeePrev', 'coffeeNext');
 
         // ====== ЗАВАНТАЖЕННЯ ТОВАРІВ ======
         fetch(noCache('./data/promotions.json'))
@@ -309,6 +339,22 @@
                 } else {
                     alcoholRandom.forEach(it => alcoholCarousel.appendChild(makeCard(it)));
                     alcoholCarousel.appendChild(makeGoCard('alcohol.html', 'Перейти до алкоголю'));
+                }
+
+                                // ====== КАРУСЕЛЬ 3: Кава та чай (кав'ярня) ======
+                const coffeeCarousel = document.getElementById('coffeeCarousel');
+                const coffeeItems = items.filter(it =>
+                    (it.category || '').toLowerCase().includes('кав') &&
+                    (it.category || '').toLowerCase().includes('ярня')
+                );
+                const coffeeRandom = shuffle(coffeeItems).slice(0, 6);
+
+                coffeeCarousel.innerHTML = '';
+                if (coffeeRandom.length === 0) {
+                    coffeeCarousel.innerHTML = '<p class="carousel-loading">Напоїв поки що немає</p>';
+                } else {
+                    coffeeRandom.forEach(it => coffeeCarousel.appendChild(makeCard(it)));
+                    coffeeCarousel.appendChild(makeGoCard('coffee.html', 'Перейти до напоїв'));
                 }
             })
             .catch(err => {
