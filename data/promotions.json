@@ -216,7 +216,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": true,
+      "outOfStock": true
     },
     {
       "id": 16,
@@ -337,7 +338,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": true
     },
     {
       "id": 24,
