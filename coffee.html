@@ -219,7 +219,7 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                document.getElementById('page-title').textContent = 'Акції ' + data.month;
+                //document.getElementById('page-title').textContent = 'Акції ' + data.month;
                 document.title = 'Акції ' + data.month + ' | Ваш ПАРТНЕР';
 
                 allItems = (data.items || []).filter(it =>
