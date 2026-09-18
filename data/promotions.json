@@ -691,6 +691,38 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 46,
+      "name": "Сметана \r20% 370г",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 57.0,
+      "oldPrice": 75.0,
+      "badge": "-24%",
+      "image": "./images/46.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 47,
+      "name": "Метана 15% 300г стакан",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 49.0,
+      "oldPrice": 63.0,
+      "badge": "-22%",
+      "image": "./images/47.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
