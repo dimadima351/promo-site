@@ -1,4 +1,37 @@
-.wrangler/
-node_modules/
+# macOS
 .DS_Store
-wrangler.jsonc
+.AppleDouble
+.LSOverride
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Node / Wrangler
+node_modules/
+.wrangler/
+package-lock.json
+yarn.lock
+
+# Редактори
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Локальні бекапи (НЕ видаляти з диска, але не пушити)
+*.backup.css
+*.backup.js
+style.backup.css
+
+# Admin-панель (щоб не потрапила на сайт!)
+admin.py
+admin.html
+push.sh
