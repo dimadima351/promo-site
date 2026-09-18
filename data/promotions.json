@@ -689,7 +689,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true,
+      "visible": false,
       "outOfStock": false
     },
     {
