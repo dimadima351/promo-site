@@ -395,8 +395,8 @@ body.menu-open {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    padding: 10px;
-    display: flex;
+    padding: 12px;                    /* ← відступ картинки від країв */
+    display: flex;                    /* ← щоб картинка центрувалась */
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
