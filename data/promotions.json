@@ -707,6 +707,38 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 47,
+      "name": "Сметана 15% 300г стакан Молокія",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 49.0,
+      "oldPrice": 63.0,
+      "badge": "-22%",
+      "image": "./images/47.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 48,
+      "name": "Кефір 1% Питний 870мл Молокія",
+      "manufacturer": "Молокія",
+      "category": "Молочні продукти",
+      "price": 56.0,
+      "oldPrice": 69.0,
+      "badge": "-19%",
+      "image": "./images/48.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
