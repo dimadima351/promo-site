@@ -337,6 +337,21 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true
+    },
+    {
+      "id": 24,
+      "name": "Віскі Вільям Лоусонз 0,7л",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 469.89,
+      "oldPrice": 699.0,
+      "badge": "-33%",
+      "image": "./images/24.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true
     }
   ]
 }
