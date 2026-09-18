@@ -827,14 +827,38 @@ body.menu-open {
         font-size: 13px;
     }
     .new-price {
-        font-size: 27px;
+        color: #ff0b0b;
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 1.1;
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px;
+    }
+    
+    /* Знак гривні ₴ — поруч з ціною, звичайного розміру */
+    .new-price .currency {
+        font-size: 22px;
+        font-weight: 600;
+        color: #ff0b0b;
+    }
+    
+    /* "грн/шт" — маленький, тонкий, на новому рядку */
+    .new-price .unit {
+        display: block;
+        width: 100%;
+        font-size: 10px;
+        font-weight: 300;
+        color: #999;
+        letter-spacing: 0.2px;
+        margin-left: 0;
+        margin-top: 2px;
     }
     .old-price {
         font-size: 11px;
     }
-    .unit {
-        font-size: 9px;
-    }
+
     .badge {
         font-size: 11px;
         padding: 3px 6px;

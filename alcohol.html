@@ -178,10 +178,12 @@
         function makeCard(item) {
             const card = document.createElement('div');
             card.className = 'card';
-            const newPrice = item.price ?? item.newPrice ?? '';
-            const oldPrice = item.oldPrice ?? '';
+        
+            // Форматуємо ціну з двома копійками: 320 → "320.00"
+            const newPrice = Number(item.price ?? item.newPrice ?? 0).toFixed(2);
+            const oldPrice = item.oldPrice ? Number(item.oldPrice).toFixed(2) : '';
             const imgSrc = noCache(item.image);
-
+        
             card.innerHTML = `
                 ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
                 <div class="card-image">
@@ -191,7 +193,11 @@
                 <div class="card-body">
                     <div class="prices">
                         ${oldPrice ? `<span class="old-price">${oldPrice} ₴</span>` : ''}
-                        <span class="new-price">${newPrice} <span class="unit">грн/шт</span></span>
+                        <span class="new-price">
+                            ${newPrice}
+                            <span class="currency">₴</span>
+                            <span class="unit">грн/шт</span>
+                        </span>
                     </div>
                     <h3>${item.name}</h3>
                     ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
