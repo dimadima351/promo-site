@@ -437,6 +437,28 @@ body.menu-open {
 }
 
 /* ============================================================
+   ДИСКЛЕЙМЕР ПРО АЛКОГОЛЬ
+   ============================================================ */
+   .alcohol-warning {
+    background: #e9ecef;
+    color: #555;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.alcohol-warning .container {
+    padding: 0 20px;
+}
+
+/* Мобільна
+
+/* ============================================================
    ПІДВАЛ
    ============================================================ */
 .footer {
@@ -1015,5 +1037,13 @@ body.menu-open {
     }
     .load-more-count {
         font-size: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .alcohol-warning {
+        padding: 10px 0;
+        font-size: 11px;
+        letter-spacing: 0.2px;
     }
 }
