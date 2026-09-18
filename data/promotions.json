@@ -1235,6 +1235,54 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true
+    },
+    {
+      "id": 80,
+      "name": "Морозиво Пломбір 19% 70г Хрещатик",
+      "manufacturer": "Хрещатик",
+      "category": "Заморожені продукти",
+      "price": 35.0,
+      "oldPrice": 45.0,
+      "badge": "-22%",
+      "image": "./images/80.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 81,
+      "name": "Морозиво Пломбір Золотий Стандарт 90г Хрещатик",
+      "manufacturer": "Хрещатик",
+      "category": "Заморожені продукти",
+      "price": 39.0,
+      "oldPrice": 50.0,
+      "badge": "-22%",
+      "image": "./images/81.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 82,
+      "name": "Морозиво Пломбір Золотий Стандарт Шоколад 90г Хрещатик",
+      "manufacturer": "Хрещатик",
+      "category": "Заморожені продукти",
+      "price": 39.0,
+      "oldPrice": 50.0,
+      "badge": "-22%",
+      "image": "./images/82.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
