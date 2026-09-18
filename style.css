@@ -687,7 +687,11 @@ body.menu-open {
 }
 
 
-.prices {
+/* ============================================================
+   ЦІНИ НА КАРТЦІ ТОВАРУ
+   ============================================================ */
+
+   .prices {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -706,13 +710,14 @@ body.menu-open {
     margin-bottom: 2px;
 }
 
-/* Нова ціна — контейнер */
+/* Нова ціна — контейнер (ціла + копійки з підписом) */
 .new-price {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: flex-end;
     line-height: 1;
     margin-bottom: 4px;
     color: #ff0b0b;
+    gap: 2px;
 }
 
 /* Ціла частина — велика цифра */
@@ -724,38 +729,35 @@ body.menu-open {
     color: #ff0b0b;
 }
 
-/* Копійки — маленькі, трохи вище */
+/* Обгортка для копійок + "грн/шт" (вертикально) */
+.new-price .price-cents-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+    padding-bottom: 4px;   /* трохи підняти від базової лінії */
+}
+
+/* Копійки — маленькі, червоні */
 .new-price .price-cents {
     font-size: 20px;
     font-weight: 500;
     color: #ff0b0b;
-    margin-left: 1px;
-    vertical-align: top;
-    position: relative;
-    top: 2px;
+    line-height: 1;
 }
 
-/* "грн/шт" — на новому рядку, маленьке, сіре */
+/* "грн/шт" — під копійками, маленьким, сірим */
 .new-price .price-unit {
     display: block;
-    width: 100%;
     color: #999;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 400;
-    margin-top: 2px;
     line-height: 1.1;
+    margin-top: 1px;
     letter-spacing: 0.2px;
+    white-space: nowrap;
 }
 
-/* Заголовок товару */
-.card-body h3 {
-    font-size: 15px;
-    color: #2c3e50;
-    margin-top: 4px;
-    margin-bottom: 2px;
-    font-weight: 500;
-    line-height: 1.3;
-}
 /* Заголовок товару */
 .card-body h3 {
     font-size: 15px;
