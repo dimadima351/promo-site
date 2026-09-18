@@ -94,16 +94,15 @@ class AdminApp:
         self.root.minsize(900, 600)
 
         self.data = load_data()
-        self.editing_id = None       # ID товару, який зараз редагуємо
-        self.current_image_src = None  # шлях до вибраної картинки
-        self.search_query = tk.StringVar(value="")  # поточний пошуковий запит
+        self.editing_id = None
+        self.current_image_src = None
+        self.search_query = tk.StringVar(value="")
 
         self._build_ui()
         self._refresh_table()
 
     # ---------- Побудова інтерфейсу ----------
     def _build_ui(self):
-        # Верхня панель з назвою місяця + кнопкою пуш
         top = ttk.Frame(self.root, padding=10)
         top.pack(fill='x')
 
@@ -117,21 +116,18 @@ class AdminApp:
         ttk.Button(top, text="🚀 Завантажити на сайт (git push)",
                    command=self.push_to_site).pack(side='right')
 
-        # Розділювач
         ttk.Separator(self.root, orient='horizontal').pack(fill='x')
 
-        # Основна частина: список зліва, форма справа
         main = ttk.Frame(self.root, padding=10)
         main.pack(fill='both', expand=True)
 
-        # === ЛІВА ЧАСТИНА: пошук + таблиця ===
+        # === ЛІВА: пошук + таблиця ===
         left = ttk.Frame(main)
         left.pack(side='left', fill='both', expand=True)
 
         ttk.Label(left, text="📋 Список товарів",
                   font=('', 12, 'bold')).pack(anchor='w')
 
-        # --- ПОШУК (реальний час) ---
         search_frame = ttk.Frame(left)
         search_frame.pack(fill='x', pady=(6, 4))
 
@@ -139,37 +135,34 @@ class AdminApp:
 
         self.search_entry = ttk.Entry(search_frame, textvariable=self.search_query)
         self.search_entry.pack(side='left', fill='x', expand=True)
-
-        # При кожному натисканні клавіші — фільтруємо таблицю
         self.search_entry.bind('<KeyRelease>', self._on_search_change)
 
-        # Кнопка очищення
         ttk.Button(search_frame, text="×", width=3,
                    command=self._clear_search).pack(side='left', padx=(4, 0))
 
-        # Мітка з результатами пошуку
         self.lbl_search_info = ttk.Label(left, text="", foreground='#777')
         self.lbl_search_info.pack(anchor='w', pady=(0, 4))
 
-        # --- Таблиця ---
-        cols = ('id', 'name', 'category', 'price', 'visible')
+        # Таблиця
+        cols = ('id', 'name', 'category', 'price', 'visible', 'stock')
         self.tree = ttk.Treeview(left, columns=cols, show='headings', height=25)
         self.tree.heading('id', text='№')
         self.tree.heading('name', text='Назва')
         self.tree.heading('category', text='Категорія')
         self.tree.heading('price', text='Ціна')
         self.tree.heading('visible', text='Показ')
+        self.tree.heading('stock', text='Наявн.')
 
         self.tree.column('id', width=40, anchor='center')
         self.tree.column('name', width=200)
-        self.tree.column('category', width=160)
+        self.tree.column('category', width=140)
         self.tree.column('price', width=80, anchor='e')
-        self.tree.column('visible', width=60, anchor='center')
+        self.tree.column('visible', width=55, anchor='center')
+        self.tree.column('stock', width=60, anchor='center')
 
         self.tree.pack(fill='both', expand=True, pady=5)
         self.tree.bind('<<TreeviewSelect>>', self.on_select)
 
-        # Кнопки під таблицею
         btns = ttk.Frame(left)
         btns.pack(fill='x', pady=5)
 
@@ -181,35 +174,34 @@ class AdminApp:
                    command=self.delete_selected).pack(side='left', padx=2)
         ttk.Button(btns, text="👁 Показати/Сховати",
                    command=self.toggle_visibility).pack(side='left', padx=2)
+        ttk.Button(btns, text="📦 В наявності/Немає",
+                   command=self.toggle_stock).pack(side='left', padx=2)
 
-        # === ПРАВА ЧАСТИНА: форма ===
+        # === ПРАВА: форма ===
         right = ttk.LabelFrame(main, text="Форма товару", padding=10)
         right.pack(side='right', fill='y', padx=(15, 0))
         right.configure(width=380)
 
         row = 0
-        # Назва
+
         ttk.Label(right, text="Назва *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         self.e_name = ttk.Entry(right, width=35)
         self.e_name.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Виробник
         ttk.Label(right, text="Виробник").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         self.e_manufacturer = ttk.Entry(right, width=35)
         self.e_manufacturer.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Категорія
         ttk.Label(right, text="Категорія *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         self.cb_category = ttk.Combobox(right, values=CATEGORIES, width=33)
         self.cb_category.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Ціна
         ttk.Label(right, text="Ціна (грн) *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         self.e_price = ttk.Entry(right, width=35)
@@ -217,7 +209,6 @@ class AdminApp:
         self.e_price.bind('<KeyRelease>', self._update_discount_preview)
         row += 1
 
-        # Стара ціна (галочка)
         self.var_discount = tk.BooleanVar(value=False)
         ttk.Checkbutton(right, text="Є акційна ціна (стара ціна)",
                         variable=self.var_discount,
@@ -236,14 +227,12 @@ class AdminApp:
         self.lbl_discount.grid(row=row, column=0, sticky='w', pady=3)
         row += 1
 
-        # Акція діє до
         ttk.Label(right, text="Акція діє до (ДД.ММ.РРРР)").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         self.e_valid_until = ttk.Entry(right, width=35)
         self.e_valid_until.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Картинка
         ttk.Label(right, text="Картинка *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         img_frame = ttk.Frame(right)
@@ -255,7 +244,6 @@ class AdminApp:
         self.lbl_image.pack(side='left', padx=8)
         row += 1
 
-        # Галочки
         self.var_is_action = tk.BooleanVar(value=False)
         ttk.Checkbutton(right, text="Акція", variable=self.var_is_action)\
             .grid(row=row, column=0, sticky='w', pady=3)
@@ -273,7 +261,13 @@ class AdminApp:
             .grid(row=row, column=0, sticky='w', pady=3)
         row += 1
 
-        # Кнопки форми
+        # НОВА ГАЛОЧКА
+        self.var_out_of_stock = tk.BooleanVar(value=False)
+        ttk.Checkbutton(right, text="❌ Немає в наявності",
+                        variable=self.var_out_of_stock)\
+            .grid(row=row, column=0, sticky='w', pady=3)
+        row += 1
+
         form_btns = ttk.Frame(right)
         form_btns.grid(row=row, column=0, pady=15, sticky='we')
         self.btn_save = ttk.Button(form_btns, text="💾 Зберегти товар",
@@ -282,34 +276,27 @@ class AdminApp:
         ttk.Button(form_btns, text="🔄 Очистити",
                    command=self.clear_form).pack(side='left', padx=2)
 
-        # Гарячі клавіші
         self.search_entry.bind('<Escape>', lambda e: self._clear_search())
         self.root.bind('<Control-f>', lambda e: self.search_entry.focus_set())
 
-    # ---------- Обробка пошуку ----------
+    # ---------- Пошук ----------
     def _on_search_change(self, event=None):
-        """Викликається при кожному натисканні клавіші у полі пошуку."""
         self._refresh_table()
 
     def _clear_search(self):
-        """Очищає поле пошуку і показує всі товари."""
         self.search_query.set("")
         self.search_entry.focus_set()
         self._refresh_table()
 
     def _filter_items(self, items):
-        """Повертає список товарів, що відповідають пошуковому запиту."""
         query = self.search_query.get().strip().lower()
         if not query:
             return items
-
-        # Пошук за назвою + категорією + виробником
         result = []
         for it in items:
             name = (it.get('name') or '').lower()
             category = (it.get('category') or '').lower()
             manufacturer = (it.get('manufacturer') or '').lower()
-
             if (query in name) or (query in category) or (query in manufacturer):
                 result.append(it)
         return result
@@ -319,17 +306,16 @@ class AdminApp:
         for row in self.tree.get_children():
             self.tree.delete(row)
 
-        # Фільтруємо товари
         filtered = self._filter_items(self.data['items'])
 
         for it in filtered:
             visible = '✅' if it.get('visible', True) else '❌'
+            stock = '❌' if it.get('outOfStock', False) else '✅'
             self.tree.insert('', 'end', iid=str(it['id']),
                              values=(it['id'], it['name'],
                                      it.get('category', ''),
-                                     f"{it['price']} ₴", visible))
+                                     f"{it['price']} ₴", visible, stock))
 
-        # Оновлюємо мітку з результатами
         total = len(self.data['items'])
         shown = len(filtered)
         query = self.search_query.get().strip()
@@ -345,12 +331,11 @@ class AdminApp:
                 foreground='#777'
             )
 
-    # ---------- Вибір товару ----------
+    # ---------- Вибір ----------
     def on_select(self, event):
         sel = self.tree.selection()
         if not sel:
             return
-        item_id = int(sel[0])
         self.edit_selected()
 
     # ---------- Форма: очищення ----------
@@ -367,15 +352,15 @@ class AdminApp:
         self.var_is_action.set(False)
         self.var_is_month.set(False)
         self.var_visible.set(True)
+        self.var_out_of_stock.set(False)   # ← нова
         self._toggle_discount()
         self.lbl_image.config(text="не вибрано", foreground='#777')
         self.btn_save.config(text="💾 Зберегти товар")
 
-    # ---------- Форма: нова позиція ----------
     def new_item(self):
         self.clear_form()
 
-    # ---------- Форма: заповнення з товару ----------
+    # ---------- Форма: заповнення ----------
     def edit_selected(self):
         sel = self.tree.selection()
         if not sel:
@@ -410,8 +395,8 @@ class AdminApp:
         self.var_is_action.set(item.get('isAction', False))
         self.var_is_month.set(item.get('isMonthAction', False))
         self.var_visible.set(item.get('visible', True))
+        self.var_out_of_stock.set(item.get('outOfStock', False))   # ← нова
 
-        # Інформація про картинку
         img_file = Path(item['image']).name
         exists = (IMAGES_DIR / img_file).exists()
         self.lbl_image.config(
@@ -420,7 +405,6 @@ class AdminApp:
         )
         self.btn_save.config(text="💾 Оновити товар")
 
-    # ---------- Перемикач галочки старої ціни ----------
     def _toggle_discount(self):
         if self.var_discount.get():
             self.e_old_price.config(state='normal')
@@ -431,7 +415,6 @@ class AdminApp:
             self.e_old_price.delete(0, 'end')
         self._update_discount_preview()
 
-    # ---------- Автоматична знижка ----------
     def _update_discount_preview(self, event=None):
         try:
             price = float(self.e_price.get().replace(',', '.'))
@@ -441,14 +424,12 @@ class AdminApp:
             old = float(self.e_old_price.get().replace(',', '.'))
         except ValueError:
             old = 0
-
         if old > price > 0:
             percent = round((1 - price / old) * 100)
             self.lbl_discount.config(text=f"Знижка: -{percent}%")
         else:
             self.lbl_discount.config(text="Знижка: —")
 
-    # ---------- Вибір картинки ----------
     def choose_image(self):
         path = filedialog.askopenfilename(
             title="Виберіть картинку",
@@ -458,7 +439,7 @@ class AdminApp:
             self.current_image_src = path
             self.lbl_image.config(text=Path(path).name, foreground='#555')
 
-    # ---------- Збереження товару ----------
+    # ---------- Збереження ----------
     def save_item(self):
         name = self.e_name.get().strip()
         if not name:
@@ -487,7 +468,6 @@ class AdminApp:
                                      "Стара ціна має бути більшою за нову")
                 return
 
-        # Нова позиція чи редагування?
         if self.editing_id is None:
             new_id = get_next_id(self.data['items'])
             file_name = f"{new_id}.jpg"
@@ -504,13 +484,9 @@ class AdminApp:
             if self.current_image_src:
                 file_name = f"{new_id}.jpg"
 
-        # Стискаємо картинку (якщо вибрано нову)
         if self.current_image_src:
             try:
-                size_kb = compress_image(
-                    self.current_image_src,
-                    IMAGES_DIR / file_name
-                )
+                compress_image(self.current_image_src, IMAGES_DIR / file_name)
             except Exception as e:
                 messagebox.showerror("Помилка картинки", str(e))
                 return
@@ -528,7 +504,8 @@ class AdminApp:
             "validUntil": self.e_valid_until.get().strip(),
             "isAction": self.var_is_action.get(),
             "isMonthAction": self.var_is_month.get(),
-            "visible": self.var_visible.get()
+            "visible": self.var_visible.get(),
+            "outOfStock": self.var_out_of_stock.get()   # ← нова
         }
 
         if self.editing_id is None:
@@ -583,7 +560,22 @@ class AdminApp:
         self._refresh_table()
         self.tree.selection_set(str(item_id))
 
-    # ---------- Збереження місяця ----------
+    # ---------- Перемикач наявності ----------
+    def toggle_stock(self):
+        sel = self.tree.selection()
+        if not sel:
+            messagebox.showinfo("Інфо", "Виберіть товар")
+            return
+        item_id = int(sel[0])
+        for it in self.data['items']:
+            if it['id'] == item_id:
+                it['outOfStock'] = not it.get('outOfStock', False)
+                break
+        save_data(self.data)
+        self._refresh_table()
+        self.tree.selection_set(str(item_id))
+
+    # ---------- Місяць ----------
     def save_month(self):
         self.data['month'] = self.month_var.get().strip()
         save_data(self.data)

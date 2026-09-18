@@ -336,7 +336,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": true,
+      "outOfStock": false
     },
     {
       "id": 24,
@@ -344,14 +345,15 @@
       "manufacturer": "Мартіні",
       "category": "Алкоголь",
       "price": 469.89,
-      "oldPrice": 699.0,
-      "badge": "-33%",
+      "oldPrice": 599.0,
+      "badge": "-22%",
       "image": "./images/24.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": true,
+      "outOfStock": true
     }
   ]
 }
