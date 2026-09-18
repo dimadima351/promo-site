@@ -689,8 +689,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
-      "outOfStock": false
+      "visible": true,
+      "outOfStock": true
     }
   ]
 }
