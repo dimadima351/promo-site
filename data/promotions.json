@@ -14,7 +14,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 2,
@@ -201,7 +201,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 15,
@@ -217,7 +217,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true
+      "outOfStock": false
     },
     {
       "id": 16,
@@ -232,7 +232,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 17,
@@ -247,7 +247,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 18,
@@ -262,7 +262,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 19,
@@ -322,7 +322,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true
+      "visible": false
     },
     {
       "id": 23,
@@ -337,8 +337,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true,
-      "outOfStock": true
+      "visible": false,
+      "outOfStock": false
     },
     {
       "id": 24,
@@ -353,7 +353,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": true,
+      "visible": false,
       "outOfStock": false
     }
   ]
