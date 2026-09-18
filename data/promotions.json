@@ -799,7 +799,7 @@
       "image": "./images/52.jpg",
       "link": "#",
       "validUntil": "",
-      "isAction": false,
+      "isAction": true,
       "isMonthAction": false,
       "visible": true,
       "outOfStock": false
