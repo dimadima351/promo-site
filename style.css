@@ -157,6 +157,18 @@ body.menu-open {
     overflow: hidden;
 }
 
+.page-title1 {
+    position: relative;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    background-image: url('./image_site/_3.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
 .page-title::before {
     content: '';
     position: absolute;
