@@ -1061,18 +1061,19 @@ body.menu-open {
     font-size: 15px;
     color: #2c3e50;
     margin-top: 4px;
-    margin-bottom: -4px;    /* ← від'ємний відступ */
+    margin-bottom: 2px;
     font-weight: 500;
     line-height: 1.3;
 
-    min-height: calc(15px * 1.3 * 2);
+    /* Фіксована висота на 2 рядки */
+    min-height: calc(15px * 1.3 * 2);   /* ≈ 39px */
     max-height: calc(15px * 1.3 * 2);
     overflow: hidden;
 
+    /* Обрізання довгого тексту з трикрапкою (...) */
     display: -webkit-box;
-    -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
 
