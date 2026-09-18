@@ -1283,6 +1283,22 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 83,
+      "name": "Морозиво Кактус 95г Ласка",
+      "manufacturer": "Ласка",
+      "category": "Заморожені продукти",
+      "price": 30.0,
+      "oldPrice": 44.0,
+      "badge": "-32%",
+      "image": "./images/83.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
