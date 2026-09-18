@@ -243,22 +243,27 @@
 
                 // Сортування
                 allItems.sort((a, b) => {
-                    // 1. Спочатку — товари в наявності, потім — немає в наявності
+                    // 1. Товари "немає в наявності" — завжди в кінці
                     const aOut = a.outOfStock === true ? 1 : 0;
                     const bOut = b.outOfStock === true ? 1 : 0;
                     if (aOut !== bOut) return aOut - bOut;
                 
-                    // 2. Акція місяця — вгору
+                    // 2. Алкоголь — у кінці (після всіх інших категорій)
+                    const aAlc = (a.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
+                    const bAlc = (b.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
+                    if (aAlc !== bAlc) return aAlc - bAlc;
+                
+                    // 3. Акція місяця — вгору
                     if (a.isMonthAction && !b.isMonthAction) return -1;
                     if (!a.isMonthAction && b.isMonthAction) return 1;
                 
-                    // 3. За категорією
+                    // 4. За категорією (А-Я)
                     const catA = a.category || '';
                     const catB = b.category || '';
                     const catCompare = catA.localeCompare(catB, 'uk');
                     if (catCompare !== 0) return catCompare;
                 
-                    // 4. За назвою
+                    // 5. Всередині категорії — за назвою (А-Я)
                     return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
