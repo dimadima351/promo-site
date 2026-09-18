@@ -183,6 +183,8 @@
         function makeCard(item) {
             const card = document.createElement('div');
             card.className = 'card';
+            const isOut = item.outOfStock === true;
+            if (isOut) card.classList.add('out-of-stock');
         
             const priceRaw = Number(item.price ?? item.newPrice ?? 0);
             const priceInt = Math.floor(priceRaw);
@@ -193,13 +195,14 @@
             const imgSrc = noCache(item.image);
         
             card.innerHTML = `
-                ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
                 <div class="card-image">
                     <img src="${imgSrc}" alt="${item.name}" loading="lazy"
                          onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
                 </div>
                 <div class="card-body">
-                    ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                    ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
+                    ${oldPrice && !isOut ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
                     <div class="new-price">
                         <span class="price-int">${priceInt}</span>
                         <span class="price-cents-wrap">
@@ -208,7 +211,7 @@
                         </span>
                     </div>
                     <h3>${item.name}</h3>
-                    ${item.validUntil ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                    ${item.validUntil && !isOut ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
                 </div>
             `;
             return card;
