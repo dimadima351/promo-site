@@ -1075,6 +1075,54 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 70,
+      "name": "Морозиво Каштан Ваніль 70г Три Ведмеді",
+      "manufacturer": "Ласка",
+      "category": "Заморожені продукти",
+      "price": 33.0,
+      "oldPrice": 41.0,
+      "badge": "-20%",
+      "image": "./images/70.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 71,
+      "name": "Морозиво Лакомка 100г Ласка",
+      "manufacturer": "Ласка",
+      "category": "Заморожені продукти",
+      "price": 45.0,
+      "oldPrice": 59.0,
+      "badge": "-24%",
+      "image": "./images/71.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 72,
+      "name": "Морозиво Рукав Ваніль 1кг Ласка",
+      "manufacturer": "Ласка",
+      "category": "Заморожені продукти",
+      "price": 199.0,
+      "oldPrice": 298.0,
+      "badge": "-33%",
+      "image": "./images/72.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
