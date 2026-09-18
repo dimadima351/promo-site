@@ -811,10 +811,7 @@ body.menu-open {
 }
 
 /* Чорно-біла картинка + сіруватий тон */
-.card.out-of-stock .card-image img {
-    filter: grayscale(100%) brightness(0.95);
-    opacity: 0.7;
-}
+
 
 /* Сірий фон картки */
 .card.out-of-stock .card-body {
