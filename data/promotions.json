@@ -1574,6 +1574,38 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 101,
+      "name": "Вермут Бьянко 0,75л Мартіні",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 335.0,
+      "oldPrice": 466.0,
+      "badge": "-28%",
+      "image": "./images/101.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
+    },
+    {
+      "id": 102,
+      "name": "Вермут Бьянко 0,5л Мартіні",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 239.0,
+      "oldPrice": 326.0,
+      "badge": "-27%",
+      "image": "./images/102.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
