@@ -697,7 +697,7 @@
     },
     {
       "id": 46,
-      "name": "Сметана 20% 370г плівка",
+      "name": "Сметана 20% 370г плівка Молокія",
       "manufacturer": "Молокія",
       "category": "Молочні продукти",
       "price": 57.0,
@@ -709,7 +709,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 47,
@@ -1509,7 +1510,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 97,
@@ -1525,7 +1527,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 98,
@@ -1541,7 +1544,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 99,
@@ -1557,7 +1561,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 100,
@@ -1573,7 +1578,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 101,
@@ -1589,7 +1595,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 102,
