@@ -528,7 +528,7 @@ body.menu-open {
     width: auto;
     object-fit: contain;
     display: block;
-    background: #fff;
+    
     padding: 4px 8px;
     border-radius: 6px;
 }
