@@ -22,12 +22,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background:
-                radial-gradient(ellipse at top left, rgba(255, 140, 0, 0.12) 0%, transparent 45%),
-                radial-gradient(ellipse at bottom right, rgba(155, 0, 220, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, #0f0820 0%, #1a0f2e 40%, #0d0618 100%);
-            background-attachment: fixed;
-            color: #f4e8ff;
+            background: #ffffff;
+            color: #333;
             display: flex;
             flex-direction: column;
             -webkit-font-smoothing: antialiased;
@@ -45,15 +41,11 @@
             justify-content: space-between;
             gap: 20px;
             padding: 14px 40px;
-            background: linear-gradient(135deg, #ff6b00 0%, #cc3300 50%, #7a0f0f 100%);
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
-            box-shadow:
-                0 6px 30px rgba(255, 100, 0, 0.4),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 20px rgba(255, 11, 11, 0.25);
             z-index: 100;
             flex-shrink: 0;
-            position: relative;
-            border-bottom: 1px solid rgba(255, 200, 100, 0.3);
         }
 
         .promo-logo {
@@ -67,7 +59,6 @@
             width: auto;
             object-fit: contain;
             display: block;
-            filter: drop-shadow(0 3px 10px rgba(255, 150, 0, 0.5));
         }
 
         .promo-logo-text {
@@ -76,23 +67,17 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
-            color: #fff5e0;
-            text-shadow:
-                0 0 12px rgba(255, 160, 0, 0.8),
-                0 2px 6px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .promo-dates {
             font-size: 16px;
             font-weight: 600;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(255, 255, 255, 0.18);
             padding: 10px 20px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 180, 60, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             white-space: nowrap;
-            color: #ffe8b8;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-            box-shadow: inset 0 0 12px rgba(255, 150, 0, 0.2);
         }
 
         /* ============================================================
@@ -128,9 +113,8 @@
 
         .random-loading {
             text-align: center;
-            color: #c9a5ff;
+            color: #888;
             font-size: 20px;
-            text-shadow: 0 0 12px rgba(155, 0, 220, 0.6);
         }
 
         /* ============================================================
@@ -151,7 +135,6 @@
 
         /* ============================================================
            РЕЖИМ A: ОДНА КАРТКА
-           ЛІВА ЧАСТИНА БІЛА (під фото) → ПРАВА ТЕМНА (під текст)
            ============================================================ */
         .mode-single {
             display: grid;
@@ -159,38 +142,12 @@
             gap: 50px;
             align-items: center;
             width: 100%;
-            padding: 40px 50px;
-            border: 2px solid rgba(255, 140, 0, 0.35);
+            background: #fff;
+            border: 2px solid #f0f0f0;
             border-radius: 24px;
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(255, 120, 0, 0.15);
+            padding: 40px 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             max-height: 100%;
-            position: relative;
-            overflow: hidden;
-
-            /* БІЛА ЗОНА під фото → плавний перехід → ТЕМНА під текст */
-            background: linear-gradient(
-                to right,
-                #ffffff 0%,
-                #ffffff 42%,
-                #f6ecff 48%,
-                #2a1a45 55%,
-                #1a0f2e 65%,
-                #150a26 100%
-            );
-        }
-
-        /* Внутрішнє світіння */
-        .mode-single::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.06) 0%, transparent 40%);
-            pointer-events: none;
         }
 
         .mode-single .img-wrap {
@@ -216,7 +173,7 @@
             50%      { transform: scale(1.04); }
         }
 
-        /* Бейдж знижки — гарбузовий */
+        /* Бейдж знижки */
         .badge {
             position: absolute;
             top: 0;
@@ -224,7 +181,7 @@
             width: 110px;
             height: 110px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff8800, #cc3300);
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
             display: flex;
             align-items: center;
@@ -232,12 +189,8 @@
             font-size: 30px;
             font-weight: 800;
             z-index: 10;
-            box-shadow:
-                0 8px 24px rgba(255, 100, 0, 0.6),
-                0 0 30px rgba(255, 120, 0, 0.5),
-                inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
             letter-spacing: -1px;
-            border: 2px solid rgba(255, 200, 100, 0.5);
             animation: badgePop 0.5s ease-out 0.3s backwards,
                        badgePulse 2.4s ease-in-out 0.8s infinite;
             will-change: transform;
@@ -263,7 +216,7 @@
             height: 90px;
             object-fit: contain;
             z-index: 5;
-            filter: drop-shadow(0 0 12px rgba(255, 150, 0, 0.7));
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
             animation: bestSpin 0.7s ease-out 0.5s backwards;
         }
 
@@ -277,26 +230,22 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
-            position: relative;
-            z-index: 1;
         }
 
         .manufacturer {
             font-size: 20px;
-            color: #c9a5ff;
+            color: #999;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 500;
-            text-shadow: 0 0 8px rgba(155, 0, 220, 0.5);
         }
 
         .name {
             font-size: 58px;
             font-weight: 700;
-            color: #fff5e0;
+            color: #2c3e50;
             line-height: 1.05;
             letter-spacing: -1.5px;
-            text-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
         }
 
         .prices {
@@ -308,7 +257,7 @@
 
         .old-price {
             font-size: 36px;
-            color: #8a7aa5;
+            color: #b0b0b0;
             text-decoration: line-through;
             margin-bottom: 4px;
         }
@@ -317,7 +266,7 @@
             display: flex;
             align-items: flex-end;
             line-height: 1;
-            color: #ff8800;
+            color: #ff0b0b;
             gap: 6px;
             transform-origin: left center;
             will-change: transform;
@@ -328,9 +277,7 @@
             font-weight: 800;
             line-height: 0.9;
             letter-spacing: -6px;
-            text-shadow:
-                0 0 30px rgba(255, 140, 0, 0.7),
-                0 4px 20px rgba(255, 100, 0, 0.4);
+            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
         .new-price .price-cents-wrap {
@@ -344,19 +291,17 @@
             font-size: 58px;
             font-weight: 600;
             line-height: 1;
-            text-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
         }
 
         .new-price .price-unit {
             font-size: 20px;
             font-weight: 400;
-            color: #c9a5ff;
+            color: #999;
             margin-top: 6px;
         }
 
         /* ============================================================
            РЕЖИМ B: 4 КАРТКИ
-           ЛІВА ЧАСТИНА БІЛА (під фото) → ПРАВА ТЕМНА (під текст)
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -373,24 +318,12 @@
             grid-template-columns: 1fr 1.3fr;
             gap: 16px;
             align-items: center;
-            border: 2px solid rgba(255, 140, 0, 0.3);
+            background: #fff;
+            border: 2px solid #f0f0f0;
             border-radius: 18px;
             padding: 18px 22px;
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-            position: relative;
-
-            /* БІЛА ЗОНА під фото → плавний перехід → ТЕМНА під текст */
-            background: linear-gradient(
-                to right,
-                #ffffff 0%,
-                #ffffff 35%,
-                #f6ecff 42%,
-                #2a1a45 50%,
-                #1a0f2e 60%,
-                #150a26 100%
-            );
         }
 
         .grid-card .img-wrap {
@@ -431,20 +364,18 @@
             flex-direction: column;
             gap: 6px;
             min-width: 0;
-            position: relative;
-            z-index: 1;
         }
 
         .grid-card .manufacturer {
             font-size: 12px;
             letter-spacing: 1.5px;
-            color: #c9a5ff;
+            color: #999;
         }
 
         .grid-card .name {
             font-size: 32px;
             font-weight: 800;
-            color: #fff5e0;
+            color: #2c3e50;
             line-height: 1.15;
             letter-spacing: -0.8px;
 
@@ -465,7 +396,7 @@
 
         .grid-card .old-price {
             font-size: 22px;
-            color: #8a7aa5;
+            color: #b0b0b0;
             text-decoration: line-through;
             margin-bottom: 2px;
         }
@@ -474,7 +405,7 @@
             display: flex;
             align-items: flex-end;
             line-height: 1;
-            color: #ff8800;
+            color: #ff0b0b;
             gap: 3px;
             transform-origin: left center;
             will-change: transform;
@@ -485,7 +416,6 @@
             font-weight: 800;
             line-height: 0.9;
             letter-spacing: -3px;
-            text-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
         }
 
         .grid-card .new-price .price-cents-wrap {
@@ -499,13 +429,12 @@
             font-size: 34px;
             font-weight: 600;
             line-height: 1;
-            text-shadow: 0 0 12px rgba(255, 140, 0, 0.5);
         }
 
         .grid-card .new-price .price-unit {
             font-size: 13px;
             font-weight: 400;
-            color: #c9a5ff;
+            color: #999;
             margin-top: 2px;
         }
 
@@ -517,8 +446,8 @@
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(20, 10, 35, 0.9);
-            color: #ffe8b8;
+            background: rgba(44, 62, 80, 0.9);
+            color: #fff;
             padding: 10px 22px;
             border-radius: 30px;
             font-size: 13px;
@@ -527,10 +456,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 140, 0, 0.4);
-            box-shadow:
-                0 8px 24px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(255, 120, 0, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             animation: hintPulse 2s ease-in-out infinite;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -563,23 +489,12 @@
 
             .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
-            /* На телефоні картка вертикальна — градієнт зверху-вниз */
             .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
                 border-radius: 16px;
                 max-height: none;
-
-                background: linear-gradient(
-                    to bottom,
-                    #ffffff 0%,
-                    #ffffff 45%,
-                    #f6ecff 52%,
-                    #2a1a45 60%,
-                    #1a0f2e 75%,
-                    #150a26 100%
-                );
             }
 
             .mode-single .img-wrap { padding: 10px; }
@@ -814,17 +729,19 @@
             `;
         }
 
+        /* ====== АНІМАЦІЯ ПІДСКОКУ ЦІНИ ====== */
         function triggerPriceBounce() {
             const priceEls = document.querySelectorAll('.new-price');
             priceEls.forEach(el => {
                 el.classList.remove('bounce-animate');
-                void el.offsetWidth;
+                void el.offsetWidth;   // перезапуск анімації
                 el.classList.add('bounce-animate');
             });
         }
 
         function scheduleBounce() {
             if (bounceTimer) clearTimeout(bounceTimer);
+            // через 3 секунди після появи картки — "підскок" ціни
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
@@ -852,6 +769,7 @@
             void container.offsetWidth;
             container.classList.add('fade-in');
 
+            // Плануємо анімацію підскоку через 3 секунди
             scheduleBounce();
 
             mode = (mode === 'single') ? 'grid' : 'single';
