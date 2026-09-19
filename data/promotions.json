@@ -1494,6 +1494,22 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 96,
+      "name": "Ігристе Вино Асті 0,75л Мартіні",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 409.0,
+      "oldPrice": 573.0,
+      "badge": "-29%",
+      "image": "./images/96.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
