@@ -1,274 +1,458 @@
-/* ============================================================
-   СТОРІНКА "ВИПАДКОВИЙ ТОВАР" (random.html)
-   ============================================================ */
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реклама | Ваш ПАРТНЕР</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
-.random-page {
-    background: #f4f6f8;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+    <style>
+        /* ============================================================
+           БАЗОВІ НАЛАШТУВАННЯ
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.random-container {
-    width: 100%;
-    max-width: 1400px;
-    padding: 40px;
-    animation: none;
-}
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-.random-container.fade-in {
-    animation: fadeIn 0.6s ease;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+        .random-container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 40px;
+            animation: none;
+        }
 
-.random-loading {
-    text-align: center;
-    color: #888;
-    font-size: 20px;
-}
+        .random-container.fade-in {
+            animation: fadeIn 0.6s ease;
+        }
 
-/* Картка */
-.random-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    background: #fff;
-    border-radius: 20px;
-    padding: 60px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    max-height: 90vh;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
 
-/* Картинка */
-.random-image-wrap {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    background: #f8f9fa;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    overflow: hidden;
-}
+        .random-loading {
+            text-align: center;
+            color: #888;
+            font-size: 20px;
+        }
 
-.random-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+        /* ============================================================
+           КАРТКА ТОВАРУ
+           ============================================================ */
+        .random-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            background: #fff;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            max-height: 90vh;
+        }
 
-.random-badge {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: #ff0b0b;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 24px;
-    font-weight: 700;
-    z-index: 5;
-    box-shadow: 0 4px 12px rgba(255, 11, 11, 0.3);
-}
+        /* ---------- Картинка ---------- */
+        .random-image-wrap {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #f8f9fa;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: hidden;
+        }
 
-.random-best-price {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    z-index: 5;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
-}
+        .random-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
 
-/* Інформація */
-.random-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        .random-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ff0b0b;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(255, 11, 11, 0.3);
+        }
 
-.random-manufacturer {
-    font-size: 18px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 500;
-}
+        .random-best-price {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            z-index: 5;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        }
 
-.random-name {
-    font-size: 56px;
-    font-weight: 700;
-    color: #2c3e50;
-    line-height: 1.1;
-    margin: 0;
-    letter-spacing: -1px;
-}
+        /* ---------- Інформація ---------- */
+        .random-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-/* Ціни */
-.random-prices {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-}
+        .random-manufacturer {
+            font-size: 18px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
 
-.random-old-price {
-    font-size: 32px;
-    color: #b0b0b0;
-    text-decoration: line-through;
-    margin-bottom: 4px;
-}
+        .random-name {
+            font-size: 56px;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.1;
+            margin: 0;
+            letter-spacing: -1px;
+        }
 
-.random-new-price {
-    display: flex;
-    align-items: flex-end;
-    line-height: 1;
-    color: #ff0b0b;
-    gap: 4px;
-}
+        /* ---------- Ціни ---------- */
+        .random-prices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
 
-.random-new-price .price-int {
-    font-size: 110px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -4px;
-}
+        .random-old-price {
+            font-size: 32px;
+            color: #b0b0b0;
+            text-decoration: line-through;
+            margin-bottom: 4px;
+        }
 
-.random-new-price .price-cents-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-bottom: 12px;
-}
+        .random-new-price {
+            display: flex;
+            align-items: flex-end;
+            line-height: 1;
+            color: #ff0b0b;
+            gap: 4px;
+        }
 
-.random-new-price .price-cents {
-    font-size: 48px;
-    font-weight: 500;
-    line-height: 1;
-}
+        .random-new-price .price-int {
+            font-size: 110px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -4px;
+        }
 
-.random-new-price .price-unit {
-    font-size: 18px;
-    font-weight: 400;
-    color: #999;
-    margin-top: 4px;
-}
+        .random-new-price .price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 12px;
+        }
 
-/* Кнопка */
-.random-go-btn {
-    display: inline-block;
-    padding: 16px 36px;
-    background: #2c3e50;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    transition: background 0.25s, transform 0.25s;
-    align-self: flex-start;
-    margin-top: 10px;
-}
+        .random-new-price .price-cents {
+            font-size: 48px;
+            font-weight: 500;
+            line-height: 1;
+        }
 
-.random-go-btn:hover {
-    background: #ff0b0b;
-    transform: translateY(-3px);
-}
+        .random-new-price .price-unit {
+            font-size: 18px;
+            font-weight: 400;
+            color: #999;
+            margin-top: 4px;
+        }
 
-/* Мобільна версія */
-@media (max-width: 900px) {
-    .random-page {
-        align-items: flex-start;
-        padding-top: 20px;
-    }
+        /* ---------- Кнопка ---------- */
+        .random-go-btn {
+            display: inline-block;
+            padding: 16px 36px;
+            background: #2c3e50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background 0.25s, transform 0.25s;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
 
-    .random-container {
-        padding: 16px;
-    }
+        .random-go-btn:hover {
+            background: #ff0b0b;
+            transform: translateY(-3px);
+        }
 
-    .random-card {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 20px;
-        border-radius: 14px;
-        max-height: none;
-    }
+        /* ============================================================
+           МОБІЛЬНА ВЕРСІЯ
+           ============================================================ */
+        @media (max-width: 900px) {
+            html, body {
+                overflow: auto;
+            }
 
-    .random-image-wrap {
-        padding: 16px;
-        border-radius: 12px;
-    }
+            body {
+                align-items: flex-start;
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
 
-    .random-badge {
-        font-size: 18px;
-        padding: 8px 14px;
-        top: 12px;
-        left: 12px;
-    }
+            .random-container {
+                padding: 16px;
+            }
 
-    .random-best-price {
-        width: 55px;
-        height: 55px;
-        top: 12px;
-        right: 12px;
-    }
+            .random-card {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+                border-radius: 14px;
+                max-height: none;
+            }
 
-    .random-manufacturer {
-        font-size: 13px;
-        letter-spacing: 1px;
-    }
+            .random-image-wrap {
+                padding: 16px;
+                border-radius: 12px;
+            }
 
-    .random-name {
-        font-size: 28px;
-    }
+            .random-badge {
+                font-size: 18px;
+                padding: 8px 14px;
+                top: 12px;
+                left: 12px;
+            }
 
-    .random-old-price {
-        font-size: 18px;
-    }
+            .random-best-price {
+                width: 55px;
+                height: 55px;
+                top: 12px;
+                right: 12px;
+            }
 
-    .random-new-price .price-int {
-        font-size: 60px;
-        letter-spacing: -2px;
-    }
+            .random-manufacturer {
+                font-size: 13px;
+                letter-spacing: 1px;
+            }
 
-    .random-new-price .price-cents {
-        font-size: 26px;
-    }
+            .random-name {
+                font-size: 28px;
+                letter-spacing: -0.5px;
+            }
 
-    .random-new-price .price-unit {
-        font-size: 13px;
-    }
+            .random-old-price {
+                font-size: 18px;
+            }
 
-    .random-go-btn {
-        width: 100%;
-        text-align: center;
-        padding: 14px 20px;
-        font-size: 16px;
-    }
-}
+            .random-new-price .price-int {
+                font-size: 60px;
+                letter-spacing: -2px;
+            }
 
-/* Дуже маленькі екрани */
-@media (max-width: 400px) {
-    .random-name {
-        font-size: 24px;
-    }
+            .random-new-price .price-cents {
+                font-size: 26px;
+            }
 
-    .random-new-price .price-int {
-        font-size: 50px;
-    }
+            .random-new-price .price-unit {
+                font-size: 13px;
+            }
 
-    .random-new-price .price-cents {
-        font-size: 22px;
-    }
-}
+            .random-go-btn {
+                width: 100%;
+                text-align: center;
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .random-name {
+                font-size: 24px;
+            }
+
+            .random-new-price .price-int {
+                font-size: 50px;
+            }
+
+            .random-new-price .price-cents {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="random-container" id="randomContainer">
+        <p class="random-loading">Завантаження...</p>
+    </div>
+
+    <script>
+        const PLACEHOLDER = './images/0.png';
+
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
+        let allItems = [];
+        let currentId = null;
+        let autoTimer = null;
+
+        // ====== ЧИ ЦЕ КОМП'ЮТЕР? ======
+        function isDesktop() {
+            return window.innerWidth > 900;
+        }
+
+        // ====== ВИБІР ВИПАДКОВОГО ТОВАРУ ======
+        function pickRandomItem() {
+            // Фільтр: тільки в наявності
+            const available = allItems.filter(it => it.outOfStock !== true);
+            if (available.length === 0) return null;
+
+            // Щоб не повторювався той самий товар підряд
+            let pool = available;
+            if (available.length > 1 && currentId !== null) {
+                pool = available.filter(it => it.id !== currentId);
+            }
+
+            const item = pool[Math.floor(Math.random() * pool.length)];
+            currentId = item.id;
+            return item;
+        }
+
+        // ====== РЕНДЕР ТОВАРУ ======
+        function renderItem(item) {
+            const container = document.getElementById('randomContainer');
+            const priceRaw = Number(item.price ?? 0);
+            const priceInt = Math.floor(priceRaw);
+            const priceCents = Math.round((priceRaw - priceInt) * 100)
+                .toString().padStart(2, '0');
+            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+            const imgSrc = noCache(item.image);
+
+            // Отримуємо категорію для посилання
+            const cat = (item.category || '').toLowerCase();
+            let goLink = 'promo.html';
+            if (cat.includes('алкоголь')) goLink = 'alcohol.html';
+            else if (cat.includes('ярня')) goLink = 'coffee.html';
+
+            container.innerHTML = `
+                <div class="random-card">
+                    <div class="random-image-wrap">
+                        ${item.badge ? `<div class="random-badge">${item.badge}</div>` : ''}
+                        ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="random-best-price" onerror="this.style.display='none';">` : ''}
+                        <img src="${imgSrc}" alt="${item.name}" class="random-image"
+                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                    </div>
+
+                    <div class="random-info">
+                        ${item.manufacturer ? `<div class="random-manufacturer">${item.manufacturer}</div>` : ''}
+
+                        <h1 class="random-name">${item.name}</h1>
+
+                        <div class="random-prices">
+                            ${oldPrice ? `<div class="random-old-price">${oldPrice} ₴</div>` : ''}
+                            <div class="random-new-price">
+                                <span class="price-int">${priceInt}</span>
+                                <span class="price-cents-wrap">
+                                    <span class="price-cents">${priceCents}</span>
+                                    <span class="price-unit">грн/шт</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <a href="${goLink}" class="random-go-btn">
+                            Дивитись всі →
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            // Анімація появи
+            container.classList.add('fade-in');
+            setTimeout(() => container.classList.remove('fade-in'), 600);
+        }
+
+        // ====== ОНОВЛЕННЯ ТОВАРУ ======
+        function updateItem() {
+            const item = pickRandomItem();
+            if (!item) {
+                document.getElementById('randomContainer').innerHTML =
+                    '<p class="random-loading">Немає товарів у наявності</p>';
+                return;
+            }
+            renderItem(item);
+        }
+
+        // ====== ЗАПУСК АВТООНОВЛЕННЯ (тільки комп) ======
+        function startAutoUpdate() {
+            if (!isDesktop()) return;   // на телефоні — не запускаємо
+            stopAutoUpdate();
+            autoTimer = setInterval(updateItem, 10000);   // 10 секунд
+        }
+
+        function stopAutoUpdate() {
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+        }
+
+        // ====== ПРИ ЗМІНІ РОЗМІРУ ВІКНА ======
+        window.addEventListener('resize', () => {
+            if (isDesktop()) {
+                startAutoUpdate();
+            } else {
+                stopAutoUpdate();
+            }
+        });
+
+        // ====== ЗАВАНТАЖЕННЯ ДАНИХ ======
+        fetch(noCache('./data/promotions.json'))
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+            .then(data => {
+                allItems = (data.items || []).filter(it => it.visible !== false);
+
+                if (allItems.length === 0) {
+                    document.getElementById('randomContainer').innerHTML =
+                        '<p class="random-loading">Немає товарів</p>';
+                    return;
+                }
+
+                updateItem();       // показуємо перший товар одразу
+                startAutoUpdate();  // запускаємо автооновлення (тільки комп)
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('randomContainer').innerHTML =
+                    '<p class="random-loading">Помилка завантаження</p>';
+            });
+    </script>
+
+</body>
+</html>
