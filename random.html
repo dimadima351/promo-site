@@ -25,7 +25,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f4f6f8;
+            background: #ffffff;
             color: #333;
             display: flex;
             align-items: center;
@@ -36,18 +36,29 @@
 
         .random-container {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1500px;
             padding: 40px;
-            animation: none;
         }
 
         .random-container.fade-in {
-            animation: fadeIn 0.6s ease;
+            animation: fadeInCard 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInCard {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+                filter: blur(8px);
+            }
+            60% {
+                opacity: 1;
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
         }
 
         .random-loading {
@@ -57,17 +68,18 @@
         }
 
         /* ============================================================
-           КАРТКА ТОВАРУ
+           КАРТКА ТОВАРУ — БІЛА РАМКА
            ============================================================ */
         .random-card {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-            background: #fff;
-            border-radius: 20px;
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 24px;
             padding: 60px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             max-height: 90vh;
         }
 
@@ -75,8 +87,9 @@
         .random-image-wrap {
             position: relative;
             aspect-ratio: 1 / 1;
-            background: #f8f9fa;
-            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #f5f5f5;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -89,6 +102,12 @@
             height: 100%;
             object-fit: contain;
             display: block;
+            animation: imageBreath 6s ease-in-out infinite;
+        }
+
+        @keyframes imageBreath {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.04); }
         }
 
         .random-badge {
@@ -97,47 +116,70 @@
             left: 20px;
             background: #ff0b0b;
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 24px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 26px;
             font-weight: 700;
             z-index: 5;
-            box-shadow: 0 4px 12px rgba(255, 11, 11, 0.3);
+            box-shadow: 0 6px 18px rgba(255, 11, 11, 0.35);
+            animation: badgePop 0.5s ease-out 0.3s backwards;
+        }
+
+        @keyframes badgePop {
+            0%   { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+            70%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
         .random-best-price {
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
             z-index: 5;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+            animation: bestSpin 0.7s ease-out 0.5s backwards;
+        }
+
+        @keyframes bestSpin {
+            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70%  { transform: scale(1.1) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
         /* ---------- Інформація ---------- */
         .random-info {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
         }
 
         .random-manufacturer {
-            font-size: 18px;
-            color: #888;
+            font-size: 20px;
+            color: #999;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             font-weight: 500;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.2s forwards;
         }
 
         .random-name {
-            font-size: 56px;
+            font-size: 62px;
             font-weight: 700;
             color: #2c3e50;
-            line-height: 1.1;
+            line-height: 1.05;
             margin: 0;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* ---------- Ціни ---------- */
@@ -146,13 +188,16 @@
             flex-direction: column;
             align-items: flex-start;
             margin-top: 10px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease-out 0.45s forwards;
         }
 
         .random-old-price {
-            font-size: 32px;
+            font-size: 38px;
             color: #b0b0b0;
             text-decoration: line-through;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            font-weight: 400;
         }
 
         .random-new-price {
@@ -160,54 +205,36 @@
             align-items: flex-end;
             line-height: 1;
             color: #ff0b0b;
-            gap: 4px;
+            gap: 6px;
         }
 
         .random-new-price .price-int {
-            font-size: 110px;
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: -4px;
+            font-size: 150px;
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -6px;
+            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
         .random-new-price .price-cents-wrap {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding-bottom: 12px;
+            padding-bottom: 16px;
         }
 
         .random-new-price .price-cents {
-            font-size: 48px;
-            font-weight: 500;
+            font-size: 62px;
+            font-weight: 600;
             line-height: 1;
         }
 
         .random-new-price .price-unit {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 400;
             color: #999;
-            margin-top: 4px;
-        }
-
-        /* ---------- Кнопка ---------- */
-        .random-go-btn {
-            display: inline-block;
-            padding: 16px 36px;
-            background: #2c3e50;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            transition: background 0.25s, transform 0.25s;
-            align-self: flex-start;
-            margin-top: 10px;
-        }
-
-        .random-go-btn:hover {
-            background: #ff0b0b;
-            transform: translateY(-3px);
+            margin-top: 6px;
+            letter-spacing: 0.5px;
         }
 
         /* ============================================================
@@ -220,19 +247,18 @@
 
             body {
                 align-items: flex-start;
-                padding-top: 16px;
-                padding-bottom: 16px;
+                padding: 16px;
             }
 
             .random-container {
-                padding: 16px;
+                padding: 0;
             }
 
             .random-card {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
-                border-radius: 14px;
+                border-radius: 16px;
                 max-height: none;
             }
 
@@ -241,11 +267,16 @@
                 border-radius: 12px;
             }
 
+            .random-image {
+                animation: none; /* на телефоні прибираємо "подих" */
+            }
+
             .random-badge {
                 font-size: 18px;
                 padding: 8px 14px;
                 top: 12px;
                 left: 12px;
+                border-radius: 6px;
             }
 
             .random-best-price {
@@ -257,36 +288,29 @@
 
             .random-manufacturer {
                 font-size: 13px;
-                letter-spacing: 1px;
+                letter-spacing: 1.5px;
             }
 
             .random-name {
-                font-size: 28px;
+                font-size: 30px;
                 letter-spacing: -0.5px;
             }
 
             .random-old-price {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .random-new-price .price-int {
-                font-size: 60px;
-                letter-spacing: -2px;
+                font-size: 78px;
+                letter-spacing: -3px;
             }
 
             .random-new-price .price-cents {
-                font-size: 26px;
+                font-size: 32px;
             }
 
             .random-new-price .price-unit {
-                font-size: 13px;
-            }
-
-            .random-go-btn {
-                width: 100%;
-                text-align: center;
-                padding: 14px 20px;
-                font-size: 16px;
+                font-size: 14px;
             }
         }
 
@@ -296,11 +320,12 @@
             }
 
             .random-new-price .price-int {
-                font-size: 50px;
+                font-size: 64px;
+                letter-spacing: -2px;
             }
 
             .random-new-price .price-cents {
-                font-size: 22px;
+                font-size: 26px;
             }
         }
     </style>
@@ -330,11 +355,9 @@
 
         // ====== ВИБІР ВИПАДКОВОГО ТОВАРУ ======
         function pickRandomItem() {
-            // Фільтр: тільки в наявності
             const available = allItems.filter(it => it.outOfStock !== true);
             if (available.length === 0) return null;
 
-            // Щоб не повторювався той самий товар підряд
             let pool = available;
             if (available.length > 1 && currentId !== null) {
                 pool = available.filter(it => it.id !== currentId);
@@ -354,12 +377,6 @@
                 .toString().padStart(2, '0');
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
-
-            // Отримуємо категорію для посилання
-            const cat = (item.category || '').toLowerCase();
-            let goLink = 'promo.html';
-            if (cat.includes('алкоголь')) goLink = 'alcohol.html';
-            else if (cat.includes('ярня')) goLink = 'coffee.html';
 
             container.innerHTML = `
                 <div class="random-card">
@@ -385,17 +402,14 @@
                                 </span>
                             </div>
                         </div>
-
-                        <a href="${goLink}" class="random-go-btn">
-                            Дивитись всі →
-                        </a>
                     </div>
                 </div>
             `;
 
-            // Анімація появи
+            // Перезапускаємо анімацію появи
+            container.classList.remove('fade-in');
+            void container.offsetWidth;   // force reflow
             container.classList.add('fade-in');
-            setTimeout(() => container.classList.remove('fade-in'), 600);
         }
 
         // ====== ОНОВЛЕННЯ ТОВАРУ ======
@@ -411,9 +425,9 @@
 
         // ====== ЗАПУСК АВТООНОВЛЕННЯ (тільки комп) ======
         function startAutoUpdate() {
-            if (!isDesktop()) return;   // на телефоні — не запускаємо
+            if (!isDesktop()) return;
             stopAutoUpdate();
-            autoTimer = setInterval(updateItem, 10000);   // 10 секунд
+            autoTimer = setInterval(updateItem, 10000);
         }
 
         function stopAutoUpdate() {
@@ -425,11 +439,8 @@
 
         // ====== ПРИ ЗМІНІ РОЗМІРУ ВІКНА ======
         window.addEventListener('resize', () => {
-            if (isDesktop()) {
-                startAutoUpdate();
-            } else {
-                stopAutoUpdate();
-            }
+            if (isDesktop()) startAutoUpdate();
+            else stopAutoUpdate();
         });
 
         // ====== ЗАВАНТАЖЕННЯ ДАНИХ ======
@@ -444,8 +455,8 @@
                     return;
                 }
 
-                updateItem();       // показуємо перший товар одразу
-                startAutoUpdate();  // запускаємо автооновлення (тільки комп)
+                updateItem();
+                startAutoUpdate();
             })
             .catch(err => {
                 console.error(err);
