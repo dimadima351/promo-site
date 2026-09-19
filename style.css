@@ -876,6 +876,12 @@ body.menu-open {
     color: #888;
 }
 
+.nav a.active {
+    color: #ff0b0b;
+    font-weight: 700;
+    position: relative;
+}
+
 
 
 /* Мобільна версія */
