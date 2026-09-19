@@ -54,13 +54,11 @@
             gap: 14px;
         }
 
-        /* Лого — без квадрата, без фону, прозорий PNG */
         .promo-logo img {
             height: 58px;
             width: auto;
             object-fit: contain;
             display: block;
-            /* жодного background, padding чи border-radius */
         }
 
         .promo-logo-text {
@@ -92,6 +90,7 @@
             justify-content: center;
             overflow: hidden;
             padding: 20px 40px 30px;
+            position: relative;
         }
 
         .random-container {
@@ -117,6 +116,33 @@
             text-align: center;
             color: #888;
             font-size: 20px;
+        }
+
+        /* ============================================================
+           ВЕЛИКИЙ АНІМОВАНИЙ "НАЙСПРАЙС" (поверх усього)
+           ============================================================ */
+        .best-price-big {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            z-index: 500;
+            pointer-events: none;
+            filter: drop-shadow(0 12px 30px rgba(255, 11, 11, 0.35));
+            animation: bestBigPulse 2.8s ease-in-out infinite;
+        }
+
+        @keyframes bestBigPulse {
+            0%   { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 12px 30px rgba(255, 11, 11, 0.35)); }
+            50%  { transform: scale(1.12) rotate(3deg); filter: drop-shadow(0 18px 40px rgba(255, 11, 11, 0.55)); }
+            100% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 12px 30px rgba(255, 11, 11, 0.35)); }
+        }
+
+        /* Показується тільки якщо вибраний товар має bestPrice */
+        .best-price-big.hidden {
+            display: none;
         }
 
         /* ============================================================
@@ -194,6 +220,7 @@
             100% { transform: scale(1); }
         }
 
+        /* Іконка найспрайс на картці (маленька) */
         .best-price-icon {
             position: absolute;
             top: 10px;
@@ -248,40 +275,44 @@
             margin-bottom: 4px;
         }
 
+        /* ============================================================
+           ЦІНА — ВИРІВНЯНІ КОПІЙКИ
+           ============================================================ */
         .new-price {
-            display: flex;
-            align-items: flex-end;
+            display: inline-flex;
+            align-items: baseline;   /* ключове — вирівнює по базовій лінії */
             line-height: 1;
             color: #ff0b0b;
-            gap: 6px;
+            gap: 4px;
         }
 
         .new-price .price-int {
             font-size: 140px;
             font-weight: 800;
-            line-height: 0.9;
+            line-height: 0.85;
             letter-spacing: -6px;
             text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
-        .new-price .price-cents-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-bottom: 14px;
-        }
-
+        /* Копійки — на тій самій базовій лінії */
         .new-price .price-cents {
-            font-size: 58px;
+            font-size: 60px;
             font-weight: 600;
-            line-height: 1;
+            line-height: 0.85;
+            letter-spacing: -1px;
+            position: relative;
+            top: -6px;                /* легке підняття для візуальної рівності */
         }
 
+        /* Блок "грн/шт" під копійками */
         .new-price .price-unit {
             font-size: 20px;
             font-weight: 400;
             color: #999;
-            margin-top: 6px;
+            margin-left: 6px;
+            position: relative;
+            top: -22px;               /* піднімаємо до рівня копійок */
+            letter-spacing: 0.5px;
         }
 
         /* ============================================================
@@ -356,7 +387,6 @@
             color: #999;
         }
 
-        /* НАЗВА — більша */
         .grid-card .name {
             font-size: 32px;
             font-weight: 800;
@@ -387,39 +417,35 @@
         }
 
         .grid-card .new-price {
-            display: flex;
-            align-items: flex-end;
+            display: inline-flex;
+            align-items: baseline;
             line-height: 1;
             color: #ff0b0b;
-            gap: 3px;
+            gap: 2px;
         }
 
-        /* ЦІНА — більша */
         .grid-card .new-price .price-int {
             font-size: 80px;
             font-weight: 800;
-            line-height: 0.9;
+            line-height: 0.85;
             letter-spacing: -3px;
-        }
-
-        .grid-card .new-price .price-cents-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-bottom: 8px;
         }
 
         .grid-card .new-price .price-cents {
             font-size: 34px;
             font-weight: 600;
-            line-height: 1;
+            line-height: 0.85;
+            position: relative;
+            top: -4px;
         }
 
         .grid-card .new-price .price-unit {
             font-size: 13px;
             font-weight: 400;
             color: #999;
-            margin-top: 2px;
+            margin-left: 4px;
+            position: relative;
+            top: -12px;
         }
 
         /* ============================================================
@@ -473,6 +499,14 @@
 
             .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
+            /* Найспрайс на телефоні — менший */
+            .best-price-big {
+                top: 120px;
+                right: 12px;
+                width: 100px;
+                height: 100px;
+            }
+
             .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -488,8 +522,8 @@
             .mode-single .manufacturer { font-size: 13px; letter-spacing: 1.5px; }
             .mode-single .old-price { font-size: 20px; }
             .mode-single .new-price .price-int { font-size: 78px; letter-spacing: -3px; }
-            .mode-single .new-price .price-cents { font-size: 32px; }
-            .mode-single .new-price .price-unit { font-size: 14px; }
+            .mode-single .new-price .price-cents { font-size: 34px; top: -4px; }
+            .mode-single .new-price .price-unit { font-size: 14px; top: -14px; }
 
             .mode-single .badge {
                 width: 75px; height: 75px;
@@ -502,7 +536,6 @@
                 top: -4px; right: -4px;
             }
 
-            /* Сітка на телефоні */
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -519,7 +552,8 @@
 
             .grid-card .name { font-size: 20px; }
             .grid-card .new-price .price-int { font-size: 52px; letter-spacing: -2px; }
-            .grid-card .new-price .price-cents { font-size: 22px; }
+            .grid-card .new-price .price-cents { font-size: 22px; top: -3px; }
+            .grid-card .new-price .price-unit { font-size: 11px; top: -8px; }
             .grid-card .old-price { font-size: 16px; }
             .grid-card .badge { width: 52px; height: 52px; font-size: 14px; }
             .grid-card .best-price-icon { width: 40px; height: 40px; }
@@ -530,15 +564,21 @@
         @media (max-width: 400px) {
             .mode-single .name { font-size: 24px; }
             .mode-single .new-price .price-int { font-size: 64px; }
-            .mode-single .new-price .price-cents { font-size: 26px; }
+            .mode-single .new-price .price-cents { font-size: 28px; }
 
             .grid-card .name { font-size: 17px; }
             .grid-card .new-price .price-int { font-size: 42px; }
             .grid-card .new-price .price-cents { font-size: 18px; }
+
+            .best-price-big {
+                top: 130px;
+                width: 80px;
+                height: 80px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .badge, .best-price-icon,
+            .badge, .best-price-icon, .best-price-big,
             .mode-single .img-wrap img.main-img {
                 animation: none !important;
             }
@@ -557,6 +597,14 @@
     </header>
 
     <main class="random-main">
+
+        <!-- ВЕЛИКИЙ НАЙСПРАЙС (поверх усього) -->
+        <img src="./image_site/photo.png"
+             alt="Найспрайс"
+             class="best-price-big hidden"
+             id="bestPriceBig"
+             onerror="this.style.display='none';">
+
         <div class="random-container" id="randomContainer">
             <p class="random-loading">Завантаження...</p>
         </div>
@@ -586,20 +634,19 @@
             return window.innerWidth > 900;
         }
 
+        /* ====== ДАТИ ====== */
         function formatDates() {
             const now = new Date();
             const y = now.getFullYear();
             const m = now.getMonth();
-
             const start = new Date(y, m, 1);
             const end = new Date(y, m + 1, 0);
-
             const pad = n => String(n).padStart(2, '0');
             const fmt = d => `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
-
             return `з ${fmt(start)} - ${fmt(end)}`;
         }
 
+        /* ====== ВИБІР ТОВАРІВ ====== */
         function pickSingle() {
             if (allItems.length === 0) return null;
             let pool = allItems;
@@ -630,7 +677,6 @@
 
             const cat = validCats[Math.floor(Math.random() * validCats.length)];
             const pool = [...groups[cat]];
-
             for (let i = pool.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -638,6 +684,7 @@
             return pool.slice(0, 4);
         }
 
+        /* ====== ЦІНА ====== */
         function priceParts(raw) {
             const num = Number(raw ?? 0);
             const int = Math.floor(num);
@@ -645,6 +692,7 @@
             return { int, cents };
         }
 
+        /* ====== РЕНДЕР ====== */
         function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
@@ -654,7 +702,6 @@
                 <div class="mode-single">
                     <div class="img-wrap">
                         ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                        ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
                         <img src="${imgSrc}" alt="${item.name}" class="main-img"
                              onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
                     </div>
@@ -665,10 +712,8 @@
                             ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
                             <div class="new-price">
                                 <span class="price-int">${int}</span>
-                                <span class="price-cents-wrap">
-                                    <span class="price-cents">${cents}</span>
-                                    <span class="price-unit">грн/шт</span>
-                                </span>
+                                <span class="price-cents">${cents}</span>
+                                <span class="price-unit">грн/шт</span>
                             </div>
                         </div>
                     </div>
@@ -687,7 +732,6 @@
                             <div class="grid-card">
                                 <div class="img-wrap">
                                     ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                                    ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
                                     <img src="${imgSrc}" alt="${item.name}" class="main-img"
                                          onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
                                 </div>
@@ -698,10 +742,8 @@
                                         ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
                                         <div class="new-price">
                                             <span class="price-int">${int}</span>
-                                            <span class="price-cents-wrap">
-                                                <span class="price-cents">${cents}</span>
-                                                <span class="price-unit">грн/шт</span>
-                                            </span>
+                                            <span class="price-cents">${cents}</span>
+                                            <span class="price-unit">грн/шт</span>
                                         </div>
                                     </div>
                                 </div>
@@ -712,25 +754,52 @@
             `;
         }
 
+        /* ====== ПОКАЗ ВЕЛИКОГО НАЙСПРАЙС ====== */
+        function updateBestPriceBig(items) {
+            const bigIcon = document.getElementById('bestPriceBig');
+            if (!bigIcon) return;
+
+            // Чи є серед показаних товарів хоч один з bestPrice?
+            const hasBestPrice = items.some(it => it.bestPrice === true);
+
+            if (hasBestPrice) {
+                bigIcon.classList.remove('hidden');
+            } else {
+                bigIcon.classList.add('hidden');
+            }
+        }
+
+        /* ====== ОНОВЛЕННЯ КОНТЕНТУ ====== */
         function updateContent() {
             const container = document.getElementById('randomContainer');
 
             if (allItems.length === 0) {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
+                updateBestPriceBig([]);
                 return;
             }
 
             let html = '';
+            let currentItems = [];
 
             if (mode === 'single') {
                 const item = pickSingle();
-                if (item) html = renderSingle(item);
+                if (item) {
+                    html = renderSingle(item);
+                    currentItems = [item];
+                }
             } else {
                 const items = pickSameCategory4();
-                if (items.length) html = renderGrid(items);
+                if (items.length) {
+                    html = renderGrid(items);
+                    currentItems = items;
+                }
             }
 
             container.innerHTML = html;
+
+            // Показуємо/ховаємо великий найспрайс
+            updateBestPriceBig(currentItems);
 
             container.classList.remove('fade-in');
             void container.offsetWidth;
@@ -739,6 +808,7 @@
             mode = (mode === 'single') ? 'grid' : 'single';
         }
 
+        /* ====== АВТООНОВЛЕННЯ ====== */
         function startAutoUpdate() {
             if (!isDesktop()) return;
             stopAutoUpdate();
@@ -751,6 +821,7 @@
             if (isDesktop()) startAutoUpdate(); else stopAutoUpdate();
         });
 
+        /* ====== FULLSCREEN ====== */
         function toggleFullscreen() {
             const el = document.documentElement;
             if (!document.fullscreenElement) {
@@ -780,6 +851,7 @@
             }
         });
 
+        /* ====== ЗАПУСК ====== */
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
