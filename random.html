@@ -54,11 +54,13 @@
             gap: 14px;
         }
 
+        /* Лого — без квадрата, без фону, прозорий PNG */
         .promo-logo img {
             height: 58px;
             width: auto;
             object-fit: contain;
             display: block;
+            /* жодного background, padding чи border-radius */
         }
 
         .promo-logo-text {
@@ -90,7 +92,6 @@
             justify-content: center;
             overflow: hidden;
             padding: 20px 40px 30px;
-            position: relative;
         }
 
         .random-container {
@@ -116,32 +117,6 @@
             text-align: center;
             color: #888;
             font-size: 20px;
-        }
-
-        /* ============================================================
-           НАПИС ПРО АЛКОГОЛЬ (виїжджає знизу)
-           ============================================================ */
-        .alcohol-warning {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #2c3e50;
-            color: #fff;
-            text-align: center;
-            padding: 10px 20px;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            z-index: 500;
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .alcohol-warning.show {
-            transform: translateY(0);
         }
 
         /* ============================================================
@@ -259,9 +234,6 @@
             letter-spacing: -1.5px;
         }
 
-        /* ============================================================
-           ЦІНИ — ВИРІВНЯНІ КОПІЙКИ
-           ============================================================ */
         .prices {
             display: flex;
             flex-direction: column;
@@ -278,26 +250,25 @@
 
         .new-price {
             display: flex;
-            align-items: baseline;   /* ← вирівнює по базовій лінії */
+            align-items: flex-end;
             line-height: 1;
             color: #ff0b0b;
-            gap: 4px;
+            gap: 6px;
         }
 
         .new-price .price-int {
             font-size: 140px;
             font-weight: 800;
-            line-height: 1;
+            line-height: 0.9;
             letter-spacing: -6px;
             text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
-        /* Обгортка для копійок + "грн/шт" */
         .new-price .price-cents-wrap {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            line-height: 1;
+            padding-bottom: 14px;
         }
 
         .new-price .price-cents {
@@ -310,11 +281,11 @@
             font-size: 20px;
             font-weight: 400;
             color: #999;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ
+           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНІ ЦІНА І НАЗВА
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -385,6 +356,7 @@
             color: #999;
         }
 
+        /* НАЗВА — більша */
         .grid-card .name {
             font-size: 32px;
             font-weight: 800;
@@ -416,16 +388,17 @@
 
         .grid-card .new-price {
             display: flex;
-            align-items: baseline;   /* ← вирівнює копійки */
+            align-items: flex-end;
             line-height: 1;
             color: #ff0b0b;
             gap: 3px;
         }
 
+        /* ЦІНА — більша */
         .grid-card .new-price .price-int {
             font-size: 80px;
             font-weight: 800;
-            line-height: 1;
+            line-height: 0.9;
             letter-spacing: -3px;
         }
 
@@ -433,7 +406,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            line-height: 1;
+            padding-bottom: 8px;
         }
 
         .grid-card .new-price .price-cents {
@@ -498,7 +471,7 @@
             .promo-logo-text { font-size: 20px; letter-spacing: 1px; }
             .promo-dates { font-size: 12px; padding: 7px 12px; }
 
-            .random-main { padding: 14px 14px 50px; align-items: flex-start; }
+            .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
             .mode-single {
                 grid-template-columns: 1fr;
@@ -529,6 +502,7 @@
                 top: -4px; right: -4px;
             }
 
+            /* Сітка на телефоні */
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -551,12 +525,6 @@
             .grid-card .best-price-icon { width: 40px; height: 40px; }
 
             .fullscreen-hint { display: none; }
-
-            .alcohol-warning {
-                font-size: 10px;
-                letter-spacing: 0.8px;
-                padding: 8px 12px;
-            }
         }
 
         @media (max-width: 400px) {
@@ -593,11 +561,6 @@
             <p class="random-loading">Завантаження...</p>
         </div>
     </main>
-
-    <!-- Напис про алкоголь (виїжджає знизу) -->
-    <div class="alcohol-warning" id="alcoholWarning">
-        Надмірне споживання алкоголю шкідливе для вашого здоров'я
-    </div>
 
     <div class="fullscreen-hint" id="fullscreenHint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -637,20 +600,6 @@
             return `з ${fmt(start)} - ${fmt(end)}`;
         }
 
-        /* ============================================================
-           ПЕРЕВІРКА ЧИ ЦЕ АЛКОГОЛЬ
-           ============================================================ */
-        function isAlcohol(item) {
-            const cat = (item.category || '').toLowerCase();
-            const name = (item.name || '').toLowerCase();
-            return cat.includes('алкоголь') || cat.includes('алко') ||
-                   name.includes('пиво') || name.includes('вино') ||
-                   name.includes('горілка') || name.includes('віскі');
-        }
-
-        /* ============================================================
-           ВИБІР ТОВАРІВ
-           ============================================================ */
         function pickSingle() {
             if (allItems.length === 0) return null;
             let pool = allItems;
@@ -696,25 +645,6 @@
             return { int, cents };
         }
 
-        /* ============================================================
-           ПОКАЗ/ПРИХОВУВАННЯ НАПИСУ ПРО АЛКОГОЛЬ
-           ============================================================ */
-        function updateAlcoholWarning(items) {
-            const warning = document.getElementById('alcoholWarning');
-            if (!warning) return;
-
-            const hasAlcohol = items.some(it => isAlcohol(it));
-
-            if (hasAlcohol) {
-                warning.classList.add('show');
-            } else {
-                warning.classList.remove('show');
-            }
-        }
-
-        /* ============================================================
-           РЕНДЕР
-           ============================================================ */
         function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
@@ -791,26 +721,16 @@
             }
 
             let html = '';
-            let currentItems = [];
 
             if (mode === 'single') {
                 const item = pickSingle();
-                if (item) {
-                    currentItems = [item];
-                    html = renderSingle(item);
-                }
+                if (item) html = renderSingle(item);
             } else {
                 const items = pickSameCategory4();
-                if (items.length) {
-                    currentItems = items;
-                    html = renderGrid(items);
-                }
+                if (items.length) html = renderGrid(items);
             }
 
             container.innerHTML = html;
-
-            // Показуємо/приховуємо напис про алкоголь
-            updateAlcoholWarning(currentItems);
 
             container.classList.remove('fade-in');
             void container.offsetWidth;
@@ -831,9 +751,6 @@
             if (isDesktop()) startAutoUpdate(); else stopAutoUpdate();
         });
 
-        /* ============================================================
-           FULLSCREEN
-           ============================================================ */
         function toggleFullscreen() {
             const el = document.documentElement;
             if (!document.fullscreenElement) {
@@ -863,9 +780,6 @@
             }
         });
 
-        /* ============================================================
-           ЗАПУСК
-           ============================================================ */
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
@@ -876,7 +790,7 @@
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
                     const cat = (it.category || '').toLowerCase();
-                    if (cat.includes('ярня')) return false;   // кав'ярня не показується
+                    if (cat.includes('ярня')) return false;
                     return true;
                 });
 
