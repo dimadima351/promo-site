@@ -224,12 +224,13 @@
             100% { transform: scale(1); }
         }
 
+        /* НАЙСПРАЙС — 2х РОЗМІР на одинарній картці */
         .best-price-icon {
             position: absolute;
             top: 0;
             right: 0;
-            width: clamp(48px, 8vh, 90px);
-            height: clamp(48px, 8vh, 90px);
+            width: clamp(96px, 16vh, 180px);
+            height: clamp(96px, 16vh, 180px);
             object-fit: contain;
             z-index: 5;
             filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
@@ -329,7 +330,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ C: ДВІ ВЕЛИКІ КАРТКИ
+           РЕЖИМ C / D: ДВІ ВЕЛИКІ КАРТКИ
            ============================================================ */
         .mode-double {
             width: 100%;
@@ -382,9 +383,10 @@
                        badgePulse 2.4s ease-in-out 0.8s infinite;
         }
 
+        /* НАЙСПРАЙС — 2х РОЗМІР на подвійній картці */
         .double-card .best-price-icon {
-            width: clamp(44px, 7vh, 78px);
-            height: clamp(44px, 7vh, 78px);
+            width: clamp(88px, 14vh, 156px);
+            height: clamp(88px, 14vh, 156px);
             top: -4px;
             right: -4px;
         }
@@ -483,11 +485,6 @@
             animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: left bottom;
         }
-
-        /* ============================================================
-           РЕЖИМ D: ПАРА (однакова назва або виробник) — стилі як у mode-double
-           ============================================================ */
-        /* Використовує ті ж самі стилі .mode-double / .double-card */
 
         /* ============================================================
            РЕЖИМ B: 4 КАРТКИ
@@ -634,6 +631,138 @@
         }
 
         /* ============================================================
+           РЕЖИМ E: МЕНЮ КАВ'ЯРНІ (усі позиції на одному слайді)
+           ============================================================ */
+        .mode-coffee {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1.2vh, 18px);
+            overflow: hidden;
+        }
+
+        .coffee-title {
+            text-align: center;
+            font-size: clamp(22px, 4vh, 46px);
+            font-weight: 800;
+            color: #2c3e50;
+            letter-spacing: clamp(1px, 0.2vw, 3px);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            padding: clamp(4px, 0.6vh, 10px) 0;
+            opacity: 0;
+            animation: coffeeTitleIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+        }
+
+        @keyframes coffeeTitleIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                letter-spacing: 12px;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                letter-spacing: clamp(1px, 0.2vw, 3px);
+            }
+        }
+
+        .coffee-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 14vw, 220px), 1fr));
+            gap: clamp(8px, 1.2vh, 18px);
+            align-content: center;
+            justify-content: center;
+            min-height: 0;
+            overflow: visible;
+        }
+
+        .coffee-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: clamp(4px, 0.8vh, 10px);
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(12px, 1.8vh, 22px);
+            padding: clamp(8px, 1.4vh, 18px) clamp(6px, 0.8vw, 14px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            min-height: 0;
+            opacity: 0;
+            animation: coffeeItemIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes coffeeItemIn {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9);
+                filter: blur(8px);
+            }
+            60% {
+                opacity: 1;
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .coffee-item .img-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(2px, 0.4vh, 6px);
+            min-height: 0;
+        }
+
+        .coffee-item .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .coffee-item .name {
+            font-size: clamp(12px, 2vh, 22px);
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            line-height: 1.15;
+            width: 100%;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .coffee-item .price {
+            font-size: clamp(18px, 3.2vh, 38px);
+            font-weight: 800;
+            color: #ff0b0b;
+            text-align: center;
+            line-height: 1;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .coffee-item .price .unit {
+            font-size: clamp(9px, 1.3vh, 14px);
+            font-weight: 400;
+            color: #999;
+            margin-left: 2px;
+        }
+
+        /* ============================================================
            FULLSCREEN ПІДКАЗКА
            ============================================================ */
         .fullscreen-hint {
@@ -765,7 +894,7 @@
             }
 
             .mode-single .best-price-icon {
-                width: 48px; height: 48px;
+                width: 72px; height: 72px;
             }
 
             .mode-double {
@@ -786,6 +915,7 @@
             .double-card .new-price .price-int { font-size: 72px; }
             .double-card .new-price .price-cents { font-size: 32px; }
             .double-card .old-price { font-size: 20px; }
+            .double-card .best-price-icon { width: 62px; height: 62px; }
 
             .mode-grid {
                 grid-template-columns: 1fr;
@@ -809,6 +939,16 @@
             .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
             .grid-card .best-price-icon { width: 36px; height: 36px; }
 
+            /* Меню кав'ярні на телефоні */
+            .coffee-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 10px;
+            }
+
+            .coffee-item .name { font-size: 13px; }
+            .coffee-item .price { font-size: 20px; }
+            .coffee-title { font-size: 20px; letter-spacing: 1.5px; }
+
             .fullscreen-hint { display: none; }
         }
 
@@ -824,13 +964,22 @@
             .grid-card .name { font-size: 18px; }
             .grid-card .new-price .price-int { font-size: 62px; }
             .grid-card .new-price .price-cents { font-size: 28px; }
+
+            .coffee-grid {
+                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            }
+            .coffee-item .name { font-size: 12px; }
+            .coffee-item .price { font-size: 18px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .badge, .best-price-icon,
             .mode-single .img-wrap img.main-img,
-            .new-price {
+            .new-price,
+            .coffee-item,
+            .coffee-title {
                 animation: none !important;
+                opacity: 1 !important;
             }
         }
     </style>
@@ -867,8 +1016,13 @@
             return url + separator + 't=' + Date.now();
         }
 
+        /* Промо-товари (без кав'ярні) */
         let allItems = [];
-        let mode = 'single';   // 'single' | 'double' | 'grid' | 'pair'
+
+        /* Позиції кав'ярні (окремо, у фіксованому порядку) */
+        let coffeeItems = [];
+
+        let mode = 'single';   // 'single' | 'double' | 'grid' | 'pair' | 'coffee'
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer = null;
@@ -900,6 +1054,56 @@
             return a;
         }
 
+        /* ============================================================
+           ФІКСОВАНИЙ ПОРЯДОК КАВ'ЯРНІ
+           Еспресо → Еспресо з молоком → Американо → Капучино → Латте → ... → Чай
+           ============================================================ */
+        function coffeeOrderKey(item) {
+            const n = (item.name || '').toLowerCase();
+
+            // Еспресо з молоком / макіато (перевіряємо ПЕРЕД еспресо)
+            if (n.includes('еспресо з молоком') ||
+                n.includes('еспресо+молоко') ||
+                n.includes('макіато') ||
+                n.includes('мак' + 'і' + 'ато') ||
+                (n.includes('еспресо') && n.includes('молок'))) {
+                return 2;
+            }
+
+            // Звичайне еспресо
+            if (n.includes('еспресо') || n.includes('espresso')) {
+                return 1;
+            }
+
+            // Американо
+            if (n.includes('американо') || n.includes('americano')) {
+                return 3;
+            }
+
+            // Капучино
+            if (n.includes('капучино') || n.includes('cappuccino') || n.includes('капу' + 'чіно')) {
+                return 4;
+            }
+
+            // Латте (включно з латте-макіато)
+            if (n.includes('латте') || n.includes('latte') || n.includes('ла́тте')) {
+                return 5;
+            }
+
+            // Флет вайт
+            if (n.includes('флет') || n.includes('flat white')) {
+                return 6;
+            }
+
+            // Чай
+            if (n.includes('чай') || n.includes('tea')) {
+                return 7;
+            }
+
+            // Усе інше — в кінці
+            return 100;
+        }
+
         function pickSingle() {
             if (allItems.length === 0) return null;
             let pool = allItems;
@@ -911,7 +1115,6 @@
             return item;
         }
 
-        /* 2 товари — з однієї категорії, якщо можливо */
         function pickSameCategory2() {
             if (allItems.length < 2) return allItems.slice(0, 2);
 
@@ -929,15 +1132,12 @@
             }
 
             const cat = validCats[Math.floor(Math.random() * validCats.length)];
-            const pool = shuffle(groups[cat]);
-            return pool.slice(0, 2);
+            return shuffle(groups[cat]).slice(0, 2);
         }
 
-        /* НОВИЙ: 2 товари з однаковою назвою АБО однаковим виробником */
         function pickPairSameNameOrManufacturer() {
             if (allItems.length < 2) return allItems.slice(0, 2);
 
-            // 1) Спробувати знайти 2 товари з однаковою назвою
             const byName = {};
             allItems.forEach(it => {
                 const key = (it.name || '').trim().toLowerCase();
@@ -952,7 +1152,6 @@
                 return shuffle(group).slice(0, 2);
             }
 
-            // 2) Якщо немає — спробувати за виробником
             const byManufacturer = {};
             allItems.forEach(it => {
                 const key = (it.manufacturer || '').trim().toLowerCase();
@@ -967,7 +1166,6 @@
                 return shuffle(group).slice(0, 2);
             }
 
-            // 3) Fallback — будь-які 2 товари
             return shuffle(allItems).slice(0, 2);
         }
 
@@ -1101,6 +1299,33 @@
             `;
         }
 
+        /* ============================================================
+           РЕНДЕР МЕНЮ КАВ'ЯРНІ
+           ============================================================ */
+        function renderCoffeeMenu(items) {
+            return `
+                <div class="mode-coffee">
+                    <h2 class="coffee-title">Меню кав'ярні</h2>
+                    <div class="coffee-grid">
+                        ${items.map((item, i) => {
+                            const { int, cents } = priceParts(item.price);
+                            const imgSrc = noCache(item.image);
+                            return `
+                                <div class="coffee-item" style="animation-delay: ${(i * 0.08).toFixed(2)}s">
+                                    <div class="img-wrap">
+                                        <img src="${imgSrc}" alt="${item.name}"
+                                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                    </div>
+                                    <div class="name">${item.name}</div>
+                                    <div class="price">${int}<span class="unit">.${cents} грн</span></div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
         function triggerPriceBounce() {
             const priceEls = document.querySelectorAll('.new-price');
             priceEls.forEach(el => {
@@ -1115,18 +1340,19 @@
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
-        /* Послідовність: single → double → grid → pair → single → ... */
+        /* Послідовність: single → double → grid → pair → coffee → single → ... */
         function nextMode(current) {
             if (current === 'single') return 'double';
             if (current === 'double') return 'grid';
             if (current === 'grid') return 'pair';
+            if (current === 'pair') return 'coffee';
             return 'single';
         }
 
         function updateContent() {
             const container = document.getElementById('randomContainer');
 
-            if (allItems.length === 0) {
+            if (allItems.length === 0 && coffeeItems.length === 0) {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
                 return;
             }
@@ -1144,7 +1370,15 @@
                 if (items.length) html = renderGrid(items);
             } else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
-                if (items.length) html = renderDouble(items);   // той самий вигляд
+                if (items.length) html = renderDouble(items);
+            } else if (mode === 'coffee') {
+                if (coffeeItems.length > 0) {
+                    html = renderCoffeeMenu(coffeeItems);
+                } else {
+                    // якщо кав'ярні немає — показати звичайний слайд
+                    const item = pickSingle();
+                    if (item) html = renderSingle(item);
+                }
             }
 
             container.innerHTML = html;
@@ -1153,7 +1387,13 @@
             void container.offsetWidth;
             container.classList.add('fade-in');
 
-            scheduleBounce();
+            // Підскок ціни тільки на промо-слайдах (не в меню кав'ярні)
+            if (mode !== 'coffee') {
+                scheduleBounce();
+            } else if (bounceTimer) {
+                clearTimeout(bounceTimer);
+                bounceTimer = null;
+            }
 
             mode = nextMode(mode);
         }
@@ -1205,15 +1445,31 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                allItems = (data.items || []).filter(it => {
-                    if (it.visible === false) return false;
+                const rawItems = (data.items || []).filter(it => it.visible !== false);
+
+                /* ===== КАВ'ЯРНЯ — окремо, у фіксованому порядку ===== */
+                coffeeItems = rawItems
+                    .filter(it => {
+                        if (it.outOfStock === true) return false;
+                        const cat = (it.category || '').toLowerCase();
+                        return cat.includes('ярня');
+                    })
+                    .sort((a, b) => {
+                        const ka = coffeeOrderKey(a);
+                        const kb = coffeeOrderKey(b);
+                        if (ka !== kb) return ka - kb;
+                        return (a.name || '').localeCompare(b.name || '', 'uk');
+                    });
+
+                /* ===== ПРОМО — усе, крім кав'ярні, крім "немає в наявності" ===== */
+                allItems = rawItems.filter(it => {
                     if (it.outOfStock === true) return false;
                     const cat = (it.category || '').toLowerCase();
                     if (cat.includes('ярня')) return false;
                     return true;
                 });
 
-                if (allItems.length === 0) {
+                if (allItems.length === 0 && coffeeItems.length === 0) {
                     document.getElementById('randomContainer').innerHTML =
                         '<p class="random-loading">Немає товарів для показу</p>';
                     return;
