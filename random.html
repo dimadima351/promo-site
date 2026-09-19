@@ -22,7 +22,6 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            /* М'який градієнт для ефекту "скла" */
             background: linear-gradient(135deg, #ffd6d6 0%, #fff0f0 25%, #f0f4ff 60%, #d6e4ff 100%);
             background-attachment: fixed;
             color: #333;
@@ -48,7 +47,6 @@
             flex-shrink: 0;
             position: relative;
 
-            /* Матове скло */
             background: linear-gradient(135deg,
                 rgba(255, 43, 43, 0.75) 0%,
                 rgba(217, 0, 0, 0.72) 100%);
@@ -83,7 +81,6 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Скляна капсула з датами */
         .promo-dates {
             font-size: 16px;
             font-weight: 600;
@@ -139,7 +136,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА — GLASS
+           РЕЖИМ A: ОДНА КАРТКА — ГРАДІЄНТ БІЛЕ → СКЛО
            ============================================================ */
         .mode-single {
             display: grid;
@@ -151,7 +148,6 @@
             border-radius: 32px;
             max-height: 100%;
 
-            /* ГРАДІЄНТ: білий зліва → прозорий справа */
             background: linear-gradient(
                 to right,
                 rgba(255, 255, 255, 0.98) 0%,
@@ -178,12 +174,13 @@
             overflow: visible;
         }
 
+        /* Фото без тіні — зливається з білою частиною картки */
         .mode-single .img-wrap img.main-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             animation: imageBreath 6s ease-in-out infinite;
-            filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.12));
+            /* без filter, без drop-shadow */
         }
 
         @keyframes imageBreath {
@@ -191,7 +188,7 @@
             50%      { transform: scale(1.04); }
         }
 
-        /* Бейдж знижки — теж glass */
+        /* Бейдж знижки — glass */
         .badge {
             position: absolute;
             top: 0;
@@ -325,7 +322,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ — GLASS
+           РЕЖИМ B: 4 КАРТКИ — ГРАДІЄНТ БІЛЕ → СКЛО
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -346,7 +343,6 @@
             border-radius: 24px;
             overflow: hidden;
 
-            /* ГРАДІЄНТ: білий зліва (під фото) → прозорий справа */
             background: linear-gradient(
                 to right,
                 rgba(255, 255, 255, 0.98) 0%,
@@ -372,11 +368,12 @@
             overflow: visible;
         }
 
+        /* Фото без тіні */
         .grid-card .img-wrap img.main-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.1));
+            /* без filter, без drop-shadow */
         }
 
         .grid-card .badge {
@@ -529,12 +526,21 @@
 
             .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
+            /* Картка A — вертикальний градієнт на телефоні */
             .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
                 border-radius: 24px;
                 max-height: none;
+
+                background: linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.98) 0%,
+                    rgba(255, 255, 255, 0.98) 50%,
+                    rgba(255, 255, 255, 0.55) 75%,
+                    rgba(255, 255, 255, 0.35) 100%
+                );
             }
 
             .mode-single .img-wrap { padding: 10px; }
@@ -599,11 +605,11 @@
             }
         }
 
-        /* Fallback для браузерів без backdrop-filter */
+        /* Fallback без backdrop-filter */
         @supports not (backdrop-filter: blur(1px)) {
             .mode-single,
             .grid-card {
-                background: rgba(255, 255, 255, 0.85);
+                background: rgba(255, 255, 255, 0.9);
             }
             .promo-header {
                 background: linear-gradient(135deg, #ff2b2b, #d90000);
