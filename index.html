@@ -277,42 +277,21 @@
             return card;
         }
 
-        function makeCard(item) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const isOut = item.outOfStock === true;
-            if (isOut) card.classList.add('out-of-stock');
-
-            const priceRaw = Number(item.price ?? item.newPrice ?? 0);
-            const priceInt = Math.floor(priceRaw);
-            const priceCents = Math.round((priceRaw - priceInt) * 100)
-                .toString().padStart(2, '0');
-
-            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
-            const imgSrc = noCache(item.image);
-
+        function makeGoCard(href, text) {
+            const card = document.createElement('a');
+            card.href = href;
+            card.className = 'card card-go';
             card.innerHTML = `
-                ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
-                ${item.bestPrice && !isOut ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon">` : ''}
-                <div class="card-image">
-                    <img src="${imgSrc}" alt="${item.name}" loading="lazy"
-                        onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
-                </div>
-                <div class="card-body">
-                    ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
-                    ${oldPrice && !isOut ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
-                    <div class="new-price">
-                        <span class="price-int">${priceInt}</span>
-                        <span class="price-cents-wrap">
-                            <span class="price-cents">${priceCents}</span>
-                            <span class="price-unit">грн/шт</span>
-                        </span>
+                <div class="card-go-inner">
+                    <div class="card-go-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
-                    <h3>${item.name}</h3>
-                    ${item.validUntil && !isOut ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                    <span>${text}</span>
                 </div>
             `;
-
             return card;
         }
 
