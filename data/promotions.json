@@ -1750,6 +1750,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": true
+    },
+    {
+      "id": 108,
+      "name": "Горілка GreenDay зі смако Яблука 0,5л",
+      "manufacturer": "GreenDay",
+      "category": "Алкоголь",
+      "price": 135.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/108.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
