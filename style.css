@@ -637,11 +637,38 @@ body.menu-open {
     margin: 0;
 }
 
-.search-box {
+.search-wrap {
     position: relative;
     flex: 1;
     max-width: 340px;
     margin: 0 16px;
+}
+
+/* Іконка лупи (показується тільки на мобільному) */
+.search-icon-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.search-icon-btn:hover {
+    background: #f0f2f5;
+    color: #ff0b0b;
+}
+
+.search-icon-btn svg {
+    display: block;
+}
+
+/* Поле пошуку */
+.search-box {
+    position: relative;
+    width: 100%;
 }
 
 .search-input {
@@ -657,9 +684,7 @@ body.menu-open {
     outline: none;
 }
 
-.search-input::placeholder {
-    color: #999;
-}
+.search-input::placeholder { color: #999; }
 
 .search-input:focus {
     border-color: #ff0b0b;
@@ -698,6 +723,19 @@ body.menu-open {
     display: flex;
 }
 
+/* Кнопка "Скасувати" (тільки мобільна) */
+.search-close-mobile {
+    display: none;
+    background: none;
+    border: none;
+    color: #ff0b0b;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 10px;
+    white-space: nowrap;
+}
+
 /* Випадаючий список */
 .search-results {
     position: absolute;
@@ -715,9 +753,7 @@ body.menu-open {
     overflow-y: auto;
 }
 
-.search-results.active {
-    display: block;
-}
+.search-results.active { display: block; }
 
 /* Один результат */
 .search-item {
@@ -732,13 +768,8 @@ body.menu-open {
     cursor: pointer;
 }
 
-.search-item:last-child {
-    border-bottom: none;
-}
-
-.search-item:hover {
-    background: #f8f9fa;
-}
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: #f8f9fa; }
 
 .search-item-img {
     width: 44px;
@@ -808,7 +839,6 @@ body.menu-open {
     color: #999;
     font-size: 13px;
 }
-
 
 
 /* ============================================================
@@ -1478,47 +1508,110 @@ body.menu-open {
     }
 }
 @media (max-width: 900px) {
-    .search-box {
+    .search-wrap {
+        max-width: none;
         margin: 0;
-        max-width: 100%;
+        flex: none;
+        order: -1;                    /* ставимо перед логотипом? — ні, далі */
+    }
+
+    /* Показуємо іконку лупи */
+    .search-icon-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Ховаємо поле пошуку за замовчуванням */
+    .search-box {
+        display: none;
+    }
+
+    /* Коли активний — показуємо на весь екран */
+    .search-wrap.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        z-index: 3000;
+        max-width: none;
+        margin: 0;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .search-wrap.active .search-icon-btn {
+        display: none;                /* ховаємо іконку */
+    }
+
+    .search-wrap.active .search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         width: 100%;
-        order: 10;
-        margin-top: 8px;
+        position: relative;
     }
 
-    .search-input {
-        padding: 8px 34px 8px 12px;
-        font-size: 13px;
+    .search-wrap.active .search-input {
+        flex: 1;
+        font-size: 16px;              /* щоб Safari не зумив */
+        padding: 12px 36px 12px 14px;
+        background: #f8f9fa;
     }
 
-    .search-results {
-        max-height: 400px;
+    .search-wrap.active .search-close-mobile {
+        display: block;               /* показуємо "Скасувати" */
+        flex-shrink: 0;
+    }
+
+    /* Список результатів — на всю ширину екрана */
+    .search-wrap.active .search-results {
+        position: static;
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: none;
+        border: 1px solid #eee;
+        max-height: none;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .search-item {
-        padding: 8px 10px;
-        gap: 8px;
+        padding: 10px 12px;
+        gap: 10px;
     }
 
     .search-item-img {
-        width: 38px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
     }
 
     .search-item-name {
-        font-size: 12px;
+        font-size: 14px;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .search-item-price {
-        font-size: 13px;
+        font-size: 15px;
+    }
+
+    /* Блокуємо прокрутку сторінки під час пошуку */
+    body.search-open {
+        overflow: hidden;
     }
 }
 
-@media (max-width: 400px) {
-    .search-item-name {
-        font-size: 11px;
-    }
-    .search-item-manufacturer {
-        display: none;
+/* На великих телефонах / маленьких планшетах */
+@media (max-width: 700px) {
+    .search-icon-btn svg {
+        width: 24px;
+        height: 24px;
     }
 }

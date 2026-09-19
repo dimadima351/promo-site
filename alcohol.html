@@ -41,22 +41,35 @@
             </a>
 
             <!-- Пошук -->
-            <div class="search-box" id="searchBox">
-                <input type="text" 
-                    id="searchInput" 
-                    class="search-input" 
-                    placeholder="Пошук товарів..."
-                    autocomplete="off">
-                <button class="search-clear" id="searchClear" type="button" aria-label="Очистити">×</button>
-                
-                <!-- Випадаючий список результатів -->
-                <div class="search-results" id="searchResults">
-                    <div class="search-results-list" id="searchResultsList">
-                        <!-- Заповнюється JS -->
+            <!-- Пошук -->
+            <div class="search-wrap" id="searchWrap">
+                <!-- Іконка лупи (видно тільки на мобільному) -->
+                <button class="search-icon-btn" id="searchIconBtn" aria-label="Пошук">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+
+                <!-- Поле пошуку -->
+                <div class="search-box" id="searchBox">
+                    <input type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Пошук товарів..."
+                        autocomplete="off">
+                    <button class="search-clear" id="searchClear" type="button" aria-label="Очистити">×</button>
+                    <button class="search-close-mobile" id="searchCloseMobile" type="button" aria-label="Закрити">
+                        Скасувати
+                    </button>
+
+                    <!-- Випадаючий список результатів -->
+                    <div class="search-results" id="searchResults">
+                        <div class="search-results-list" id="searchResultsList"></div>
+                        <a href="#" class="search-all-link" id="searchAllLink" style="display:none;">
+                            Перейти до всіх результатів →
+                        </a>
                     </div>
-                    <a href="#" class="search-all-link" id="searchAllLink" style="display:none;">
-                        Перейти до всіх результатів →
-                    </a>
                 </div>
             </div>
 
@@ -292,6 +305,44 @@
                 if (e.key === 'Escape') {
                     hideSearchResults();
                     searchInput.blur();
+                }
+            });
+            // ====== МОБІЛЬНИЙ ПОШУК ======
+            const searchWrap = document.getElementById('searchWrap');
+            const searchIconBtn = document.getElementById('searchIconBtn');
+            const searchCloseMobile = document.getElementById('searchCloseMobile');
+
+            function openMobileSearch() {
+                if (searchWrap) {
+                    searchWrap.classList.add('active');
+                    document.body.classList.add('search-open');
+                    setTimeout(() => searchInput && searchInput.focus(), 50);
+                }
+            }
+
+            function closeMobileSearch() {
+                if (searchWrap) {
+                    searchWrap.classList.remove('active');
+                    document.body.classList.remove('search-open');
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                    hideSearchResults();
+                }
+            }
+
+            if (searchIconBtn) {
+                searchIconBtn.addEventListener('click', openMobileSearch);
+            }
+
+            if (searchCloseMobile) {
+                searchCloseMobile.addEventListener('click', closeMobileSearch);
+            }
+
+            // Escape закриває
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchWrap && searchWrap.classList.contains('active')) {
+                    closeMobileSearch();
                 }
             });
         }
