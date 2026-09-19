@@ -485,7 +485,12 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ — ЩЕ БІЛЬШЕ ЗБІЛЬШЕНО НАЗВИ І ЦІНИ
+           РЕЖИМ D: ПАРА (однакова назва або виробник) — стилі як у mode-double
+           ============================================================ */
+        /* Використовує ті ж самі стилі .mode-double / .double-card */
+
+        /* ============================================================
+           РЕЖИМ B: 4 КАРТКИ
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -499,7 +504,7 @@
 
         .grid-card {
             display: grid;
-            grid-template-columns: 0.72fr 1.58fr;   /* менше фото → більше тексту */
+            grid-template-columns: 0.72fr 1.58fr;
             gap: clamp(6px, 0.9vw, 14px);
             align-items: center;
             background: #fff;
@@ -562,7 +567,6 @@
             text-overflow: ellipsis;
         }
 
-        /* НАЗВА на 4 картках — ЩЕ ЗБІЛЬШЕНО */
         .grid-card .name {
             font-size: clamp(24px, 5.2vh, 60px);
             font-weight: 800;
@@ -586,7 +590,6 @@
             overflow: visible;
         }
 
-        /* СТАРА ЦІНА на 4 картках — ЩЕ ЗБІЛЬШЕНО */
         .grid-card .old-price {
             font-size: clamp(22px, 4.2vh, 50px);
             color: #b0b0b0;
@@ -603,7 +606,6 @@
             will-change: transform;
         }
 
-        /* ЦІНА на 4 картках — ЩЕ ЗБІЛЬШЕНО */
         .grid-card .new-price .price-int {
             font-size: clamp(95px, 18vh, 210px);
             font-weight: 800;
@@ -618,7 +620,6 @@
             padding-bottom: clamp(4px, 1.2vh, 14px);
         }
 
-        /* КОПІЙКИ на 4 картках — ЩЕ ЗБІЛЬШЕНО */
         .grid-card .new-price .price-cents {
             font-size: clamp(42px, 8.5vh, 96px);
             font-weight: 600;
@@ -867,7 +868,7 @@
         }
 
         let allItems = [];
-        let mode = 'single';
+        let mode = 'single';   // 'single' | 'double' | 'grid' | 'pair'
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer = null;
@@ -890,6 +891,15 @@
             return `з ${fmt(start)} - ${fmt(end)}`;
         }
 
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
         function pickSingle() {
             if (allItems.length === 0) return null;
             let pool = allItems;
@@ -901,6 +911,7 @@
             return item;
         }
 
+        /* 2 товари — з однієї категорії, якщо можливо */
         function pickSameCategory2() {
             if (allItems.length < 2) return allItems.slice(0, 2);
 
@@ -914,18 +925,50 @@
             const validCats = Object.keys(groups).filter(c => groups[c].length >= 2);
 
             if (validCats.length === 0) {
-                const shuffled = [...allItems].sort(() => Math.random() - 0.5);
-                return shuffled.slice(0, 2);
+                return shuffle(allItems).slice(0, 2);
             }
 
             const cat = validCats[Math.floor(Math.random() * validCats.length)];
-            const pool = [...groups[cat]];
-
-            for (let i = pool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [pool[i], pool[j]] = [pool[j], pool[i]];
-            }
+            const pool = shuffle(groups[cat]);
             return pool.slice(0, 2);
+        }
+
+        /* НОВИЙ: 2 товари з однаковою назвою АБО однаковим виробником */
+        function pickPairSameNameOrManufacturer() {
+            if (allItems.length < 2) return allItems.slice(0, 2);
+
+            // 1) Спробувати знайти 2 товари з однаковою назвою
+            const byName = {};
+            allItems.forEach(it => {
+                const key = (it.name || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byName[key]) byName[key] = [];
+                byName[key].push(it);
+            });
+
+            let nameGroups = Object.values(byName).filter(g => g.length >= 2);
+            if (nameGroups.length > 0) {
+                const group = shuffle(nameGroups)[0];
+                return shuffle(group).slice(0, 2);
+            }
+
+            // 2) Якщо немає — спробувати за виробником
+            const byManufacturer = {};
+            allItems.forEach(it => {
+                const key = (it.manufacturer || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byManufacturer[key]) byManufacturer[key] = [];
+                byManufacturer[key].push(it);
+            });
+
+            let manGroups = Object.values(byManufacturer).filter(g => g.length >= 2);
+            if (manGroups.length > 0) {
+                const group = shuffle(manGroups)[0];
+                return shuffle(group).slice(0, 2);
+            }
+
+            // 3) Fallback — будь-які 2 товари
+            return shuffle(allItems).slice(0, 2);
         }
 
         function pickSameCategory4() {
@@ -941,18 +984,11 @@
             const validCats = Object.keys(groups).filter(c => groups[c].length >= 4);
 
             if (validCats.length === 0) {
-                const shuffled = [...allItems].sort(() => Math.random() - 0.5);
-                return shuffled.slice(0, 4);
+                return shuffle(allItems).slice(0, 4);
             }
 
             const cat = validCats[Math.floor(Math.random() * validCats.length)];
-            const pool = [...groups[cat]];
-
-            for (let i = pool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [pool[i], pool[j]] = [pool[j], pool[i]];
-            }
-            return pool.slice(0, 4);
+            return shuffle(groups[cat]).slice(0, 4);
         }
 
         function priceParts(raw) {
@@ -1079,9 +1115,11 @@
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
+        /* Послідовність: single → double → grid → pair → single → ... */
         function nextMode(current) {
             if (current === 'single') return 'double';
             if (current === 'double') return 'grid';
+            if (current === 'grid') return 'pair';
             return 'single';
         }
 
@@ -1101,9 +1139,12 @@
             } else if (mode === 'double') {
                 const items = pickSameCategory2();
                 if (items.length) html = renderDouble(items);
-            } else {
+            } else if (mode === 'grid') {
                 const items = pickSameCategory4();
                 if (items.length) html = renderGrid(items);
+            } else if (mode === 'pair') {
+                const items = pickPairSameNameOrManufacturer();
+                if (items.length) html = renderDouble(items);   // той самий вигляд
             }
 
             container.innerHTML = html;
