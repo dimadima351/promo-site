@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Реклама | Ваш ПАРТНЕР</title>
+    <title>Смачні ціни | Ваш ПАРТНЕР</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
     <style>
         /* ============================================================
-           БАЗОВІ НАЛАШТУВАННЯ
+           БАЗОВІ
            ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             height: 100%;
@@ -29,20 +25,82 @@
             background: #ffffff;
             color: #333;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        body.is-fullscreen {
-            cursor: default;
+        body.is-fullscreen { cursor: default; }
+
+        /* ============================================================
+           ШАПКА
+           ============================================================ */
+        .promo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(255, 11, 11, 0.25);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .promo-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .promo-logo img {
+            height: 46px;
+            width: auto;
+            object-fit: contain;
+            background: #fff;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .promo-logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .promo-dates {
+            font-size: 16px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        /* ============================================================
+           ОСНОВНА ЧАСТИНА
+           ============================================================ */
+        .random-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px 40px 30px;
         }
 
         .random-container {
             width: 100%;
             max-width: 1500px;
-            padding: 40px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .random-container.fade-in {
@@ -50,20 +108,9 @@
         }
 
         @keyframes fadeInCard {
-            0% {
-                opacity: 0;
-                transform: translateY(40px) scale(0.96);
-                filter: blur(8px);
-            }
-            60% {
-                opacity: 1;
-                filter: blur(0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(8px); }
+            60% { opacity: 1; filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         .random-loading {
@@ -73,18 +120,319 @@
         }
 
         /* ============================================================
-           ПІДКАЗКА ПОВНОЕКРАННОГО РЕЖИМУ
+           РЕЖИМ A: ОДНА КАРТКА
+           ============================================================ */
+        .mode-single {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            width: 100%;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 24px;
+            padding: 40px 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            max-height: 100%;
+        }
+
+        .mode-single .img-wrap {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            max-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: visible;
+        }
+
+        .mode-single .img-wrap img.main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: imageBreath 6s ease-in-out infinite;
+        }
+
+        @keyframes imageBreath {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.04); }
+        }
+
+        /* Бейдж знижки */
+        .badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 800;
+            z-index: 10;
+            box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
+            letter-spacing: -1px;
+            animation: badgePop 0.5s ease-out 0.3s backwards,
+                       badgePulse 2.4s ease-in-out 0.8s infinite;
+            will-change: transform;
+        }
+
+        @keyframes badgePop {
+            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70%  { transform: scale(1.15) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        @keyframes badgePulse {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        .best-price-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            z-index: 5;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+            animation: bestSpin 0.7s ease-out 0.5s backwards;
+        }
+
+        @keyframes bestSpin {
+            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70%  { transform: scale(1.1) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .mode-single .info {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .manufacturer {
+            font-size: 20px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 500;
+        }
+
+        .name {
+            font-size: 58px;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+        }
+
+        .prices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .old-price {
+            font-size: 36px;
+            color: #b0b0b0;
+            text-decoration: line-through;
+            margin-bottom: 4px;
+        }
+
+        .new-price {
+            display: flex;
+            align-items: flex-end;
+            line-height: 1;
+            color: #ff0b0b;
+            gap: 6px;
+        }
+
+        .new-price .price-int {
+            font-size: 140px;
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -6px;
+            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
+        }
+
+        .new-price .price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 14px;
+        }
+
+        .new-price .price-cents {
+            font-size: 58px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .new-price .price-unit {
+            font-size: 20px;
+            font-weight: 400;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        /* ============================================================
+           РЕЖИМ B: 4 КАРТКИ ОДНІЄЇ КАТЕГОРІЇ (2×2)
+           ============================================================ */
+        .mode-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 24px;
+            max-height: 100%;
+        }
+
+        .grid-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 18px;
+            padding: 20px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .grid-card .img-wrap {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            overflow: visible;
+        }
+
+        .grid-card .img-wrap img.main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .grid-card .badge {
+            width: 62px;
+            height: 62px;
+            font-size: 17px;
+            top: -6px;
+            left: -6px;
+            animation: badgePop 0.5s ease-out 0.3s backwards,
+                       badgePulse 2.4s ease-in-out 0.8s infinite;
+        }
+
+        .grid-card .best-price-icon {
+            width: 50px;
+            height: 50px;
+            top: -4px;
+            right: -4px;
+        }
+
+        .grid-card .info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .grid-card .manufacturer {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: #999;
+        }
+
+        .grid-card .name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .grid-card .prices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 4px;
+        }
+
+        .grid-card .old-price {
+            font-size: 16px;
+            color: #b0b0b0;
+            text-decoration: line-through;
+            margin-bottom: 2px;
+        }
+
+        .grid-card .new-price {
+            display: flex;
+            align-items: flex-end;
+            line-height: 1;
+            color: #ff0b0b;
+            gap: 2px;
+        }
+
+        .grid-card .new-price .price-int {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+
+        .grid-card .new-price .price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 4px;
+        }
+
+        .grid-card .new-price .price-cents {
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .grid-card .new-price .price-unit {
+            font-size: 10px;
+            font-weight: 400;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           FULLSCREEN ПІДКАЗКА
            ============================================================ */
         .fullscreen-hint {
             position: fixed;
-            bottom: 20px;
+            bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(44, 62, 80, 0.9);
             color: #fff;
-            padding: 12px 24px;
+            padding: 10px 22px;
             border-radius: 30px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             z-index: 9999;
             display: flex;
@@ -101,226 +449,29 @@
             50%      { transform: translateX(-50%) scale(1.05); }
         }
 
-        .fullscreen-hint.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .fullscreen-hint svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* ============================================================
-           КАРТКА ТОВАРУ
-           ============================================================ */
-        .random-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            background: #ffffff;
-            border: 2px solid #f0f0f0;
-            border-radius: 24px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            max-height: 90vh;
-        }
-
-        /* ---------- Картинка ---------- */
-        .random-image-wrap {
-            position: relative;
-            aspect-ratio: 1 / 1;
-            background: #ffffff;
-            border: 1px solid #f5f5f5;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            overflow: visible;   /* щоб бейдж не обрізався */
-        }
-
-        .random-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            animation: imageBreath 6s ease-in-out infinite;
-        }
-
-        @keyframes imageBreath {
-            0%, 100% { transform: scale(1); }
-            50%      { transform: scale(1.04); }
-        }
-
-        /* ---------- БЕЙДЖ ЗНИЖКИ — КРУГЛИЙ + ПУЛЬСАЦІЯ ---------- */
-        .random-badge {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff2b2b, #d90000);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: 800;
-            z-index: 10;
-            box-shadow:
-                0 8px 24px rgba(255, 11, 11, 0.45),
-                inset 0 -4px 10px rgba(0, 0, 0, 0.12);
-            letter-spacing: -1px;
-            animation:
-                badgePop 0.5s ease-out 0.3s backwards,
-                badgePulse 2.4s ease-in-out 0.8s infinite;
-            transform-origin: center center;
-            will-change: transform;
-        }
-
-        /* Поява */
-        @keyframes badgePop {
-            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
-            70%  { transform: scale(1.15) rotate(10deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
-        }
-
-        /* Постійне "дихання" — збільшується і зменшується */
-        @keyframes badgePulse {
-            0%   { transform: scale(1); }
-            50%  { transform: scale(1.12); }
-            100% { transform: scale(1); }
-        }
-
-        /* ---------- НАЙСПРАЙС ---------- */
-        .random-best-price {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            z-index: 5;
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
-            animation: bestSpin 0.7s ease-out 0.5s backwards;
-        }
-
-        @keyframes bestSpin {
-            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
-            70%  { transform: scale(1.1) rotate(10deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
-        }
-
-        /* ---------- ІНФОРМАЦІЯ ---------- */
-        .random-info {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .random-manufacturer {
-            font-size: 20px;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 500;
-            opacity: 0;
-            animation: fadeUp 0.6s ease-out 0.2s forwards;
-        }
-
-        .random-name {
-            font-size: 62px;
-            font-weight: 700;
-            color: #2c3e50;
-            line-height: 1.05;
-            margin: 0;
-            letter-spacing: -1.5px;
-            opacity: 0;
-            animation: fadeUp 0.7s ease-out 0.3s forwards;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- ЦІНИ ---------- */
-        .random-prices {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 10px;
-            opacity: 0;
-            animation: fadeUp 0.7s ease-out 0.45s forwards;
-        }
-
-        .random-old-price {
-            font-size: 38px;
-            color: #b0b0b0;
-            text-decoration: line-through;
-            margin-bottom: 6px;
-            font-weight: 400;
-        }
-
-        .random-new-price {
-            display: flex;
-            align-items: flex-end;
-            line-height: 1;
-            color: #ff0b0b;
-            gap: 6px;
-        }
-
-        .random-new-price .price-int {
-            font-size: 150px;
-            font-weight: 800;
-            line-height: 0.9;
-            letter-spacing: -6px;
-            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
-        }
-
-        .random-new-price .price-cents-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-bottom: 16px;
-        }
-
-        .random-new-price .price-cents {
-            font-size: 62px;
-            font-weight: 600;
-            line-height: 1;
-        }
-
-        .random-new-price .price-unit {
-            font-size: 20px;
-            font-weight: 400;
-            color: #999;
-            margin-top: 6px;
-            letter-spacing: 0.5px;
-        }
+        .fullscreen-hint.hidden { opacity: 0; }
+        .fullscreen-hint svg { width: 18px; height: 18px; }
 
         /* ============================================================
            МОБІЛЬНА ВЕРСІЯ
            ============================================================ */
         @media (max-width: 900px) {
-            html, body {
-                overflow: auto;
-                cursor: default;
-            }
+            html, body { overflow: auto; cursor: default; }
 
-            body {
+            .promo-header {
+                flex-direction: column;
                 align-items: flex-start;
-                padding: 16px;
+                gap: 10px;
+                padding: 12px 16px;
             }
 
-            .random-container {
-                padding: 0;
-            }
+            .promo-logo img { height: 34px; }
+            .promo-logo-text { font-size: 20px; letter-spacing: 1px; }
+            .promo-dates { font-size: 12px; padding: 7px 12px; }
 
-            .random-card {
+            .random-main { padding: 14px 14px 20px; align-items: flex-start; }
+
+            .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
@@ -328,89 +479,58 @@
                 max-height: none;
             }
 
-            .random-image-wrap {
-                padding: 16px;
-                border-radius: 12px;
-            }
+            .mode-single .img-wrap { padding: 10px; }
+            .mode-single .img-wrap img.main-img { animation: none; }
 
-            .random-image {
-                animation: none;
-            }
+            .mode-single .name { font-size: 28px; }
+            .mode-single .manufacturer { font-size: 13px; letter-spacing: 1.5px; }
+            .mode-single .old-price { font-size: 20px; }
+            .mode-single .new-price .price-int { font-size: 78px; letter-spacing: -3px; }
+            .mode-single .new-price .price-cents { font-size: 32px; }
+            .mode-single .new-price .price-unit { font-size: 14px; }
 
-            /* Бейдж на телефоні */
-            .random-badge {
-                width: 75px;
-                height: 75px;
+            .mode-single .badge {
+                width: 75px; height: 75px;
                 font-size: 20px;
-                top: 10px;
-                left: 10px;
+                top: -4px; left: -4px;
             }
 
-            .random-best-price {
-                width: 55px;
-                height: 55px;
-                top: 12px;
-                right: 12px;
+            .mode-single .best-price-icon {
+                width: 55px; height: 55px;
+                top: -4px; right: -4px;
             }
 
-            .random-manufacturer {
-                font-size: 13px;
-                letter-spacing: 1.5px;
+            .mode-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, auto);
+                gap: 14px;
+                height: auto;
             }
 
-            .random-name {
-                font-size: 30px;
-                letter-spacing: -0.5px;
+            .grid-card {
+                padding: 14px 16px;
+                gap: 14px;
+                border-radius: 14px;
             }
 
-            .random-old-price {
-                font-size: 20px;
-            }
+            .grid-card .name { font-size: 18px; }
+            .grid-card .new-price .price-int { font-size: 42px; letter-spacing: -1px; }
+            .grid-card .new-price .price-cents { font-size: 18px; }
+            .grid-card .badge { width: 52px; height: 52px; font-size: 14px; }
+            .grid-card .best-price-icon { width: 40px; height: 40px; }
 
-            .random-new-price .price-int {
-                font-size: 78px;
-                letter-spacing: -3px;
-            }
-
-            .random-new-price .price-cents {
-                font-size: 32px;
-            }
-
-            .random-new-price .price-unit {
-                font-size: 14px;
-            }
-
-            .fullscreen-hint {
-                display: none;
-            }
+            .fullscreen-hint { display: none; }
         }
 
         @media (max-width: 400px) {
-            .random-name {
-                font-size: 24px;
-            }
-
-            .random-new-price .price-int {
-                font-size: 64px;
-                letter-spacing: -2px;
-            }
-
-            .random-new-price .price-cents {
-                font-size: 26px;
-            }
-
-            .random-badge {
-                width: 65px;
-                height: 65px;
-                font-size: 17px;
-            }
+            .mode-single .name { font-size: 24px; }
+            .mode-single .new-price .price-int { font-size: 64px; }
+            .mode-single .new-price .price-cents { font-size: 26px; }
         }
 
-        /* Повага до налаштувань користувача — якщо він вимкнув анімації */
         @media (prefers-reduced-motion: reduce) {
-            .random-badge,
-            .random-image,
-            .random-best-price {
+            .badge, .best-price-icon,
+            .mode-single .img-wrap img.main-img {
                 animation: none !important;
             }
         }
@@ -418,9 +538,20 @@
 </head>
 <body>
 
-    <div class="random-container" id="randomContainer">
-        <p class="random-loading">Завантаження...</p>
-    </div>
+    <header class="promo-header">
+        <div class="promo-logo">
+            <img src="./image_site/_2.jpg" alt="Логотип"
+                 onerror="this.style.display='none';">
+            <div class="promo-logo-text">Смачні ціни</div>
+        </div>
+        <div class="promo-dates" id="promoDates">Акційна пропозиція діє...</div>
+    </header>
+
+    <main class="random-main">
+        <div class="random-container" id="randomContainer">
+            <p class="random-loading">Завантаження...</p>
+        </div>
+    </main>
 
     <div class="fullscreen-hint" id="fullscreenHint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -438,93 +569,104 @@
         }
 
         let allItems = [];
-        let currentId = null;
+        let mode = 'single';
+        let lastSingleId = null;
         let autoTimer = null;
 
         function isDesktop() {
             return window.innerWidth > 900;
         }
 
-        // ====== ПОВНОЕКРАННИЙ РЕЖИМ ======
-        function toggleFullscreen() {
-            const el = document.documentElement;
-            if (!document.fullscreenElement) {
-                const request = el.requestFullscreen
-                    || el.webkitRequestFullscreen
-                    || el.mozRequestFullScreen
-                    || el.msRequestFullscreen;
+        /* ============================================================
+           ДАТИ: з 1-го по останній день ПОТОЧНОГО місяця
+           ============================================================ */
+        function formatDates() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth();
 
-                if (request) {
-                    request.call(el).then(() => {
-                        document.body.classList.add('is-fullscreen');
-                        document.getElementById('fullscreenHint').classList.add('hidden');
-                    }).catch((err) => {
-                        console.log('Fullscreen недоступний:', err);
-                    });
-                }
-            }
+            const start = new Date(y, m, 1);
+            const end = new Date(y, m + 1, 0);   // останній день поточного місяця
+
+            const pad = n => String(n).padStart(2, '0');
+            const fmt = d => `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
+
+            return `з ${fmt(start)} - ${fmt(end)}`;
         }
 
-        if (isDesktop()) {
-            document.addEventListener('click', function handleFirstClick() {
-                if (document.fullscreenElement) return;
-                toggleFullscreen();
-                document.removeEventListener('click', handleFirstClick);
-            }, { once: true });
-        }
-
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                document.body.classList.remove('is-fullscreen');
-                document.getElementById('fullscreenHint').classList.remove('hidden');
+        /* ============================================================
+           ВИБІР ТОВАРІВ
+           ============================================================ */
+        function pickSingle() {
+            if (allItems.length === 0) return null;
+            let pool = allItems;
+            if (allItems.length > 1 && lastSingleId !== null) {
+                pool = allItems.filter(it => it.id !== lastSingleId);
             }
-        });
-
-        // ====== ВИБІР ТОВАРУ ======
-        function pickRandomItem() {
-            const available = allItems.filter(it => it.outOfStock !== true);
-            if (available.length === 0) return null;
-
-            let pool = available;
-            if (available.length > 1 && currentId !== null) {
-                pool = available.filter(it => it.id !== currentId);
-            }
-
             const item = pool[Math.floor(Math.random() * pool.length)];
-            currentId = item.id;
+            lastSingleId = item.id;
             return item;
         }
 
-        // ====== РЕНДЕР ======
-        function renderItem(item) {
-            const container = document.getElementById('randomContainer');
-            const priceRaw = Number(item.price ?? 0);
-            const priceInt = Math.floor(priceRaw);
-            const priceCents = Math.round((priceRaw - priceInt) * 100)
-                .toString().padStart(2, '0');
+        function pickSameCategory4() {
+            if (allItems.length < 4) return allItems.slice(0, 4);
+
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+
+            const validCats = Object.keys(groups).filter(c => groups[c].length >= 4);
+
+            if (validCats.length === 0) {
+                const shuffled = [...allItems].sort(() => Math.random() - 0.5);
+                return shuffled.slice(0, 4);
+            }
+
+            const cat = validCats[Math.floor(Math.random() * validCats.length)];
+            const pool = [...groups[cat]];
+
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            return pool.slice(0, 4);
+        }
+
+        /* ============================================================
+           РЕНДЕР
+           ============================================================ */
+        function priceParts(raw) {
+            const num = Number(raw ?? 0);
+            const int = Math.floor(num);
+            const cents = Math.round((num - int) * 100).toString().padStart(2, '0');
+            return { int, cents };
+        }
+
+        function renderSingle(item) {
+            const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
 
-            container.innerHTML = `
-                <div class="random-card">
-                    <div class="random-image-wrap">
-                        ${item.badge ? `<div class="random-badge">${item.badge}</div>` : ''}
-                        ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="random-best-price" onerror="this.style.display='none';">` : ''}
-                        <img src="${imgSrc}" alt="${item.name}" class="random-image"
+            return `
+                <div class="mode-single">
+                    <div class="img-wrap">
+                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                        ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                        <img src="${imgSrc}" alt="${item.name}" class="main-img"
                              onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
                     </div>
-
-                    <div class="random-info">
-                        ${item.manufacturer ? `<div class="random-manufacturer">${item.manufacturer}</div>` : ''}
-
-                        <h1 class="random-name">${item.name}</h1>
-
-                        <div class="random-prices">
-                            ${oldPrice ? `<div class="random-old-price">${oldPrice} ₴</div>` : ''}
-                            <div class="random-new-price">
-                                <span class="price-int">${priceInt}</span>
+                    <div class="info">
+                        ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                        <h1 class="name">${item.name}</h1>
+                        <div class="prices">
+                            ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                            <div class="new-price">
+                                <span class="price-int">${int}</span>
                                 <span class="price-cents-wrap">
-                                    <span class="price-cents">${priceCents}</span>
+                                    <span class="price-cents">${cents}</span>
                                     <span class="price-unit">грн/шт</span>
                                 </span>
                             </div>
@@ -532,53 +674,142 @@
                     </div>
                 </div>
             `;
+        }
+
+        function renderGrid(items) {
+            return `
+                <div class="mode-grid">
+                    ${items.map(item => {
+                        const { int, cents } = priceParts(item.price);
+                        const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+                        const imgSrc = noCache(item.image);
+                        return `
+                            <div class="grid-card">
+                                <div class="img-wrap">
+                                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                                    ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                                    <img src="${imgSrc}" alt="${item.name}" class="main-img"
+                                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                </div>
+                                <div class="info">
+                                    ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                                    <div class="name">${item.name}</div>
+                                    <div class="prices">
+                                        ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                                        <div class="new-price">
+                                            <span class="price-int">${int}</span>
+                                            <span class="price-cents-wrap">
+                                                <span class="price-cents">${cents}</span>
+                                                <span class="price-unit">грн/шт</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function updateContent() {
+            const container = document.getElementById('randomContainer');
+
+            if (allItems.length === 0) {
+                container.innerHTML = '<p class="random-loading">Немає товарів</p>';
+                return;
+            }
+
+            let html = '';
+
+            if (mode === 'single') {
+                const item = pickSingle();
+                if (item) html = renderSingle(item);
+            } else {
+                const items = pickSameCategory4();
+                if (items.length) html = renderGrid(items);
+            }
+
+            container.innerHTML = html;
 
             container.classList.remove('fade-in');
             void container.offsetWidth;
             container.classList.add('fade-in');
+
+            mode = (mode === 'single') ? 'grid' : 'single';
         }
 
-        function updateItem() {
-            const item = pickRandomItem();
-            if (!item) {
-                document.getElementById('randomContainer').innerHTML =
-                    '<p class="random-loading">Немає товарів у наявності</p>';
-                return;
-            }
-            renderItem(item);
-        }
-
+        /* ============================================================
+           АВТООНОВЛЕННЯ
+           ============================================================ */
         function startAutoUpdate() {
             if (!isDesktop()) return;
             stopAutoUpdate();
-            autoTimer = setInterval(updateItem, 10000);
+            autoTimer = setInterval(updateContent, 10000);
         }
-
         function stopAutoUpdate() {
-            if (autoTimer) {
-                clearInterval(autoTimer);
-                autoTimer = null;
-            }
+            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
         }
-
         window.addEventListener('resize', () => {
-            if (isDesktop()) startAutoUpdate();
-            else stopAutoUpdate();
+            if (isDesktop()) startAutoUpdate(); else stopAutoUpdate();
         });
 
-        // ====== ЗАВАНТАЖЕННЯ ======
+        /* ============================================================
+           FULLSCREEN
+           ============================================================ */
+        function toggleFullscreen() {
+            const el = document.documentElement;
+            if (!document.fullscreenElement) {
+                const req = el.requestFullscreen
+                    || el.webkitRequestFullscreen
+                    || el.mozRequestFullScreen
+                    || el.msRequestFullscreen;
+                if (req) {
+                    req.call(el).then(() => {
+                        document.body.classList.add('is-fullscreen');
+                        document.getElementById('fullscreenHint').classList.add('hidden');
+                    }).catch(err => console.log('Fullscreen недоступний:', err));
+                }
+            }
+        }
+        if (isDesktop()) {
+            document.addEventListener('click', function handleFirstClick() {
+                if (document.fullscreenElement) return;
+                toggleFullscreen();
+                document.removeEventListener('click', handleFirstClick);
+            }, { once: true });
+        }
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('is-fullscreen');
+                document.getElementById('fullscreenHint').classList.remove('hidden');
+            }
+        });
+
+        /* ============================================================
+           ЗАПУСК
+           ============================================================ */
+        document.getElementById('promoDates').textContent =
+            'Акційна пропозиція діє ' + formatDates();
+
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                allItems = (data.items || []).filter(it => it.visible !== false);
+                allItems = (data.items || []).filter(it => {
+                    if (it.visible === false) return false;
+                    if (it.outOfStock === true) return false;
+                    const cat = (it.category || '').toLowerCase();
+                    if (cat.includes('ярня')) return false;   // кав'ярня не показується
+                    return true;
+                });
 
                 if (allItems.length === 0) {
                     document.getElementById('randomContainer').innerHTML =
-                        '<p class="random-loading">Немає товарів</p>';
+                        '<p class="random-loading">Немає товарів для показу</p>';
                     return;
                 }
 
-                updateItem();
+                updateContent();
                 startAutoUpdate();
             })
             .catch(err => {
