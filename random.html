@@ -22,7 +22,15 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #ffd6d6 0%, #fff0f0 25%, #f0f4ff 60%, #d6e4ff 100%);
+
+            /* ТЕПЛИЙ ГРАДІЄНТ: жовтий → оранжевий → червоний */
+            background: linear-gradient(135deg,
+                #fff4cc 0%,      /* світло-жовтий */
+                #ffe0a3 25%,     /* теплий жовтий */
+                #ffb84d 55%,     /* оранжевий */
+                #ff8533 80%,     /* насичений оранжевий */
+                #ff5c33 100%     /* червоно-оранжевий */
+            );
             background-attachment: fixed;
             color: #333;
             display: flex;
@@ -34,7 +42,7 @@
         body.is-fullscreen { cursor: default; }
 
         /* ============================================================
-           ШАПКА — iOS GLASS
+           ШАПКА — GLASS
            ============================================================ */
         .promo-header {
             display: flex;
@@ -48,14 +56,14 @@
             position: relative;
 
             background: linear-gradient(135deg,
-                rgba(255, 43, 43, 0.75) 0%,
-                rgba(217, 0, 0, 0.72) 100%);
+                rgba(255, 43, 43, 0.78) 0%,
+                rgba(255, 110, 20, 0.72) 100%);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow:
-                0 8px 32px rgba(255, 11, 11, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                0 8px 32px rgba(255, 90, 0, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
 
         .promo-logo {
@@ -90,10 +98,10 @@
             background: rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(16px) saturate(160%);
             -webkit-backdrop-filter: blur(16px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                0 4px 12px rgba(0, 0, 0, 0.08);
+                0 4px 12px rgba(0, 0, 0, 0.1);
             color: #fff;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
@@ -131,8 +139,9 @@
 
         .random-loading {
             text-align: center;
-            color: #888;
+            color: #8a5a00;
             font-size: 20px;
+            font-weight: 600;
         }
 
         /* ============================================================
@@ -157,10 +166,10 @@
             );
             backdrop-filter: blur(30px) saturate(180%);
             -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.75);
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 20px 60px rgba(180, 80, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .mode-single .img-wrap {
@@ -174,13 +183,11 @@
             overflow: visible;
         }
 
-        /* Фото без тіні — зливається з білою частиною картки */
         .mode-single .img-wrap img.main-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             animation: imageBreath 6s ease-in-out infinite;
-            /* без filter, без drop-shadow */
         }
 
         @keyframes imageBreath {
@@ -188,7 +195,7 @@
             50%      { transform: scale(1.04); }
         }
 
-        /* Бейдж знижки — glass */
+        /* Бейдж знижки */
         .badge {
             position: absolute;
             top: 0;
@@ -197,8 +204,8 @@
             height: 110px;
             border-radius: 50%;
             background: linear-gradient(135deg,
-                rgba(255, 43, 43, 0.95),
-                rgba(217, 0, 0, 0.92));
+                rgba(255, 43, 43, 0.98),
+                rgba(217, 0, 0, 0.95));
             color: #fff;
             display: flex;
             align-items: center;
@@ -209,7 +216,7 @@
             letter-spacing: -1px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.45);
             box-shadow:
                 0 8px 24px rgba(255, 11, 11, 0.45),
                 inset 0 -4px 10px rgba(0, 0, 0, 0.12),
@@ -257,7 +264,7 @@
 
         .manufacturer {
             font-size: 20px;
-            color: #888;
+            color: #a06020;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 500;
@@ -322,7 +329,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ — ГРАДІЄНТ БІЛЕ → СКЛО
+           РЕЖИМ B: 4 КАРТКИ
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -352,10 +359,10 @@
             );
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.06),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 10px 30px rgba(180, 80, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .grid-card .img-wrap {
@@ -368,12 +375,10 @@
             overflow: visible;
         }
 
-        /* Фото без тіні */
         .grid-card .img-wrap img.main-img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            /* без filter, без drop-shadow */
         }
 
         .grid-card .badge {
@@ -403,7 +408,7 @@
         .grid-card .manufacturer {
             font-size: 12px;
             letter-spacing: 1.5px;
-            color: #999;
+            color: #a06020;
         }
 
         .grid-card .name {
@@ -471,7 +476,7 @@
         }
 
         /* ============================================================
-           FULLSCREEN ПІДКАЗКА — GLASS
+           FULLSCREEN ПІДКАЗКА
            ============================================================ */
         .fullscreen-hint {
             position: fixed;
@@ -487,10 +492,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(44, 62, 80, 0.55);
+            background: rgba(70, 40, 10, 0.55);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow:
                 0 8px 32px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -526,7 +531,6 @@
 
             .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
-            /* Картка A — вертикальний градієнт на телефоні */
             .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -605,14 +609,13 @@
             }
         }
 
-        /* Fallback без backdrop-filter */
         @supports not (backdrop-filter: blur(1px)) {
             .mode-single,
             .grid-card {
                 background: rgba(255, 255, 255, 0.9);
             }
             .promo-header {
-                background: linear-gradient(135deg, #ff2b2b, #d90000);
+                background: linear-gradient(135deg, #ff2b2b, #ff6e14);
             }
         }
     </style>
