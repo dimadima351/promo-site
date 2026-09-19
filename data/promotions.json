@@ -35,14 +35,17 @@
       "name": "Пиво Хольстен Пілзнер 0,48л банка",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
-      "price": 29,
+      "price": 29.0,
       "oldPrice": 48.68,
       "badge": "-40%",
       "image": "./images/3.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 4,
@@ -77,14 +80,17 @@
       "name": "Пиво Гараж Гранат 0,44л скло",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
-      "price": 42,
-      "oldPrice": 70,
+      "price": 42.0,
+      "oldPrice": 70.0,
       "badge": "-40%",
       "image": "./images/6.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 7,
@@ -118,7 +124,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 9,
@@ -135,7 +141,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 10,
@@ -169,7 +175,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 12,
@@ -470,7 +476,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 31,
@@ -598,7 +605,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 39,
@@ -1327,7 +1335,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 84,
