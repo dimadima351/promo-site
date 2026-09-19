@@ -21,7 +21,7 @@
         html, body {
             height: 100%;
             overflow: hidden;
-            cursor: pointer;   /* показуємо, що можна клікнути */
+            cursor: pointer;
         }
 
         body {
@@ -35,7 +35,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Коли повноекранний режим увімкнено — курсор звичайний */
         body.is-fullscreen {
             cursor: default;
         }
@@ -74,7 +73,7 @@
         }
 
         /* ============================================================
-           ПІДКАЗКА "КЛІКНІТЬ ДЛЯ ПОВНОГО ЕКРАНУ"
+           ПІДКАЗКА ПОВНОЕКРАННОГО РЕЖИМУ
            ============================================================ */
         .fullscreen-hint {
             position: fixed;
@@ -113,7 +112,7 @@
         }
 
         /* ============================================================
-           КАРТКА ТОВАРУ — БІЛА РАМКА
+           КАРТКА ТОВАРУ
            ============================================================ */
         .random-card {
             display: grid;
@@ -139,7 +138,7 @@
             align-items: center;
             justify-content: center;
             padding: 30px;
-            overflow: hidden;
+            overflow: visible;   /* щоб бейдж не обрізався */
         }
 
         .random-image {
@@ -155,27 +154,48 @@
             50%      { transform: scale(1.04); }
         }
 
+        /* ---------- БЕЙДЖ ЗНИЖКИ — КРУГЛИЙ + ПУЛЬСАЦІЯ ---------- */
         .random-badge {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #ff0b0b;
+            top: 14px;
+            left: 14px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-size: 26px;
-            font-weight: 700;
-            z-index: 5;
-            box-shadow: 0 6px 18px rgba(255, 11, 11, 0.35);
-            animation: badgePop 0.5s ease-out 0.3s backwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 800;
+            z-index: 10;
+            box-shadow:
+                0 8px 24px rgba(255, 11, 11, 0.45),
+                inset 0 -4px 10px rgba(0, 0, 0, 0.12);
+            letter-spacing: -1px;
+            animation:
+                badgePop 0.5s ease-out 0.3s backwards,
+                badgePulse 2.4s ease-in-out 0.8s infinite;
+            transform-origin: center center;
+            will-change: transform;
         }
 
+        /* Поява */
         @keyframes badgePop {
-            0%   { transform: scale(0.3) rotate(-15deg); opacity: 0; }
-            70%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+            0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70%  { transform: scale(1.15) rotate(10deg); opacity: 1; }
             100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
+        /* Постійне "дихання" — збільшується і зменшується */
+        @keyframes badgePulse {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        /* ---------- НАЙСПРАЙС ---------- */
         .random-best-price {
             position: absolute;
             top: 20px;
@@ -194,7 +214,7 @@
             100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
-        /* ---------- Інформація ---------- */
+        /* ---------- ІНФОРМАЦІЯ ---------- */
         .random-info {
             display: flex;
             flex-direction: column;
@@ -227,7 +247,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ---------- Ціни ---------- */
+        /* ---------- ЦІНИ ---------- */
         .random-prices {
             display: flex;
             flex-direction: column;
@@ -317,12 +337,13 @@
                 animation: none;
             }
 
+            /* Бейдж на телефоні */
             .random-badge {
-                font-size: 18px;
-                padding: 8px 14px;
-                top: 12px;
-                left: 12px;
-                border-radius: 6px;
+                width: 75px;
+                height: 75px;
+                font-size: 20px;
+                top: 10px;
+                left: 10px;
             }
 
             .random-best-price {
@@ -360,7 +381,7 @@
             }
 
             .fullscreen-hint {
-                display: none;   /* на телефоні підказку ховаємо */
+                display: none;
             }
         }
 
@@ -377,6 +398,21 @@
             .random-new-price .price-cents {
                 font-size: 26px;
             }
+
+            .random-badge {
+                width: 65px;
+                height: 65px;
+                font-size: 17px;
+            }
+        }
+
+        /* Повага до налаштувань користувача — якщо він вимкнув анімації */
+        @media (prefers-reduced-motion: reduce) {
+            .random-badge,
+            .random-image,
+            .random-best-price {
+                animation: none !important;
+            }
         }
     </style>
 </head>
@@ -386,7 +422,6 @@
         <p class="random-loading">Завантаження...</p>
     </div>
 
-    <!-- Підказка для повноекранного режиму -->
     <div class="fullscreen-hint" id="fullscreenHint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
@@ -406,17 +441,14 @@
         let currentId = null;
         let autoTimer = null;
 
-        // ====== ЧИ ЦЕ КОМП'ЮТЕР? ======
         function isDesktop() {
             return window.innerWidth > 900;
         }
 
         // ====== ПОВНОЕКРАННИЙ РЕЖИМ ======
         function toggleFullscreen() {
-            const el = document.documentElement;   // вся сторінка
-
+            const el = document.documentElement;
             if (!document.fullscreenElement) {
-                // Входимо в повноекранний режим
                 const request = el.requestFullscreen
                     || el.webkitRequestFullscreen
                     || el.mozRequestFullScreen
@@ -427,28 +459,20 @@
                         document.body.classList.add('is-fullscreen');
                         document.getElementById('fullscreenHint').classList.add('hidden');
                     }).catch((err) => {
-                        console.log('Повноекранний режим недоступний:', err);
+                        console.log('Fullscreen недоступний:', err);
                     });
                 }
             }
         }
 
-        // Слухаємо перший клік будь-де на сторінці
-        // (тільки на комп'ютері, і тільки один раз)
         if (isDesktop()) {
             document.addEventListener('click', function handleFirstClick() {
-                // Якщо вже в повноекранному режимі — нічого не робимо
                 if (document.fullscreenElement) return;
-
                 toggleFullscreen();
-
-                // Більше не слухаємо
                 document.removeEventListener('click', handleFirstClick);
             }, { once: true });
         }
 
-        // Якщо користувач вийшов з повноекранного режиму (Escape) —
-        // повертаємо підказку
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) {
                 document.body.classList.remove('is-fullscreen');
@@ -456,7 +480,7 @@
             }
         });
 
-        // ====== ВИБІР ВИПАДКОВОГО ТОВАРУ ======
+        // ====== ВИБІР ТОВАРУ ======
         function pickRandomItem() {
             const available = allItems.filter(it => it.outOfStock !== true);
             if (available.length === 0) return null;
@@ -471,7 +495,7 @@
             return item;
         }
 
-        // ====== РЕНДЕР ТОВАРУ ======
+        // ====== РЕНДЕР ======
         function renderItem(item) {
             const container = document.getElementById('randomContainer');
             const priceRaw = Number(item.price ?? 0);
@@ -509,13 +533,11 @@
                 </div>
             `;
 
-            // Перезапускаємо анімацію
             container.classList.remove('fade-in');
             void container.offsetWidth;
             container.classList.add('fade-in');
         }
 
-        // ====== ОНОВЛЕННЯ ТОВАРУ ======
         function updateItem() {
             const item = pickRandomItem();
             if (!item) {
@@ -526,7 +548,6 @@
             renderItem(item);
         }
 
-        // ====== ЗАПУСК АВТООНОВЛЕННЯ (тільки комп) ======
         function startAutoUpdate() {
             if (!isDesktop()) return;
             stopAutoUpdate();
@@ -545,7 +566,7 @@
             else stopAutoUpdate();
         });
 
-        // ====== ЗАВАНТАЖЕННЯ ДАНИХ ======
+        // ====== ЗАВАНТАЖЕННЯ ======
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
