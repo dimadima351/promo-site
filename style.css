@@ -1187,23 +1187,23 @@ body.menu-open {
 
     /* Hero-банер на мобільному */
     .hero-banner {
-        padding: 20px 0 6px;
+        padding: 14px 0 6px;
     }
     .hero-banner-link {
-        padding: 18px 20px;
-        border-radius: 10px;
+        padding: 10px 16px;
+        border-radius: 8px;
     }
     .hero-banner-text {
-        font-size: 17px;
-        letter-spacing: 0.5px;
+        font-size: 14px;
+        letter-spacing: 0.3px;
     }
     .hero-banner-arrow {
-        width: 42px;
-        height: 42px;
+        width: 30px;
+        height: 30px;
     }
     .hero-banner-arrow svg {
-        width: 20px;
-        height: 20px;
+        width: 14px;
+        height: 14px;
     }
 
     /* Карусель на мобільному */
