@@ -1132,7 +1132,7 @@
       "id": 73,
       "name": "Сік Мультифрукт 1,93л Наш Сік",
       "manufacturer": "Наш Сік",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 99.0,
       "oldPrice": 131.0,
       "badge": "-24%",
@@ -1142,13 +1142,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 74,
       "name": "Сік Яблуко - Виноград 0,95л Наш Сік",
       "manufacturer": "Наш Сік",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 55.0,
       "oldPrice": 69.0,
       "badge": "-20%",
@@ -1158,13 +1159,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 75,
       "name": "Сік Томатний 0,95л Наш Сік",
       "manufacturer": "Наш Сік",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 59.0,
       "oldPrice": 78.0,
       "badge": "-24%",
@@ -1174,13 +1176,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 76,
       "name": "Сік Мультифрукт 0,5л Наш Сік",
       "manufacturer": "Наш Сік",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 39.0,
       "oldPrice": 52.0,
       "badge": "-25%",
@@ -1190,13 +1193,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 77,
       "name": "Сік Яблуко - Виноград 0,2л Наш Сік",
       "manufacturer": "Наш Сік",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 17.0,
       "oldPrice": 22.0,
       "badge": "-23%",
@@ -1206,13 +1210,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 78,
       "name": "Нектар Апельсин 0,95л Jaffa",
       "manufacturer": "Jaffa",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 95.0,
       "oldPrice": 123.0,
       "badge": "-23%",
@@ -1222,13 +1227,14 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 79,
       "name": "Напій газований Живчик Яблуко 2л",
       "manufacturer": "Оболонь",
-      "category": "Безалкогольні напої",
+      "category": "Кава та чай",
       "price": 58.0,
       "oldPrice": 72.0,
       "badge": "-19%",
@@ -1238,7 +1244,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true
+      "outOfStock": true,
+      "bestPrice": false
     },
     {
       "id": 80,
