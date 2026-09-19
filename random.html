@@ -54,13 +54,11 @@
             gap: 14px;
         }
 
-        /* Лого — без квадрата, без фону, прозорий PNG */
         .promo-logo img {
             height: 58px;
             width: auto;
             object-fit: contain;
             display: block;
-            /* жодного background, padding чи border-radius */
         }
 
         .promo-logo-text {
@@ -117,6 +115,22 @@
             text-align: center;
             color: #888;
             font-size: 20px;
+        }
+
+        /* ============================================================
+           АНІМАЦІЯ "ПІДСКОК" ЦІНИ
+           ============================================================ */
+        @keyframes priceBounce {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.25); }
+            50%  { transform: scale(1.15); }
+            70%  { transform: scale(1.22); }
+            100% { transform: scale(1); }
+        }
+
+        .new-price.bounce-animate {
+            animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: left center;
         }
 
         /* ============================================================
@@ -254,6 +268,8 @@
             line-height: 1;
             color: #ff0b0b;
             gap: 6px;
+            transform-origin: left center;
+            will-change: transform;
         }
 
         .new-price .price-int {
@@ -285,7 +301,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНІ ЦІНА І НАЗВА
+           РЕЖИМ B: 4 КАРТКИ
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -356,7 +372,6 @@
             color: #999;
         }
 
-        /* НАЗВА — більша */
         .grid-card .name {
             font-size: 32px;
             font-weight: 800;
@@ -392,9 +407,10 @@
             line-height: 1;
             color: #ff0b0b;
             gap: 3px;
+            transform-origin: left center;
+            will-change: transform;
         }
 
-        /* ЦІНА — більша */
         .grid-card .new-price .price-int {
             font-size: 80px;
             font-weight: 800;
@@ -502,7 +518,6 @@
                 top: -4px; right: -4px;
             }
 
-            /* Сітка на телефоні */
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -539,7 +554,8 @@
 
         @media (prefers-reduced-motion: reduce) {
             .badge, .best-price-icon,
-            .mode-single .img-wrap img.main-img {
+            .mode-single .img-wrap img.main-img,
+            .new-price {
                 animation: none !important;
             }
         }
@@ -581,6 +597,7 @@
         let mode = 'single';
         let lastSingleId = null;
         let autoTimer = null;
+        let bounceTimer = null;
 
         function isDesktop() {
             return window.innerWidth > 900;
@@ -712,6 +729,22 @@
             `;
         }
 
+        /* ====== АНІМАЦІЯ ПІДСКОКУ ЦІНИ ====== */
+        function triggerPriceBounce() {
+            const priceEls = document.querySelectorAll('.new-price');
+            priceEls.forEach(el => {
+                el.classList.remove('bounce-animate');
+                void el.offsetWidth;   // перезапуск анімації
+                el.classList.add('bounce-animate');
+            });
+        }
+
+        function scheduleBounce() {
+            if (bounceTimer) clearTimeout(bounceTimer);
+            // через 3 секунди після появи картки — "підскок" ціни
+            bounceTimer = setTimeout(triggerPriceBounce, 3000);
+        }
+
         function updateContent() {
             const container = document.getElementById('randomContainer');
 
@@ -735,6 +768,9 @@
             container.classList.remove('fade-in');
             void container.offsetWidth;
             container.classList.add('fade-in');
+
+            // Плануємо анімацію підскоку через 3 секунди
+            scheduleBounce();
 
             mode = (mode === 'single') ? 'grid' : 'single';
         }
