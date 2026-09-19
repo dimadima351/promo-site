@@ -269,6 +269,12 @@ class AdminApp:
             .grid(row=row, column=0, sticky='w', pady=3)
         row += 1
 
+        self.var_best_price = tk.BooleanVar(value=False)
+        ttk.Checkbutton(right, text="⭐ Найспрайс (найкраща ціна)",
+                        variable=self.var_best_price)\
+            .grid(row=row, column=0, sticky='w', pady=3)
+        row += 1
+
         form_btns = ttk.Frame(right)
         form_btns.grid(row=row, column=0, pady=15, sticky='we')
         self.btn_save = ttk.Button(form_btns, text="💾 Зберегти товар",
@@ -353,7 +359,8 @@ class AdminApp:
         self.var_is_action.set(False)
         self.var_is_month.set(False)
         self.var_visible.set(True)
-        self.var_out_of_stock.set(False)   # ← нова
+        self.var_out_of_stock.set(False)  
+        self.var_best_price.set(False)  # ← нова
         self._toggle_discount()
         self.lbl_image.config(text="не вибрано", foreground='#777')
         self.btn_save.config(text="💾 Зберегти товар")
@@ -397,6 +404,7 @@ class AdminApp:
         self.var_is_month.set(item.get('isMonthAction', False))
         self.var_visible.set(item.get('visible', True))
         self.var_out_of_stock.set(item.get('outOfStock', False))   # ← нова
+        self.var_best_price.set(item.get('bestPrice', False))
 
         img_file = Path(item['image']).name
         exists = (IMAGES_DIR / img_file).exists()
@@ -506,7 +514,8 @@ class AdminApp:
             "isAction": self.var_is_action.get(),
             "isMonthAction": self.var_is_month.get(),
             "visible": self.var_visible.get(),
-            "outOfStock": self.var_out_of_stock.get()   # ← нова
+            "outOfStock": self.var_out_of_stock.get(),
+            "bestPrice": self.var_best_price.get()   # ← нова
         }
 
         if self.editing_id is None:
