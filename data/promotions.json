@@ -1478,6 +1478,22 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false
+    },
+    {
+      "id": 95,
+      "name": "Ром Oakheart 1л",
+      "manufacturer": "Мартіні",
+      "category": "Алкоголь",
+      "price": 435.0,
+      "oldPrice": 589.0,
+      "badge": "-26%",
+      "image": "./images/95.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false
     }
   ]
 }
