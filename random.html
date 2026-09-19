@@ -149,11 +149,11 @@
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА
+           РЕЖИМ A: ОДНА КАРТКА — ЗБІЛЬШЕНО
            ============================================================ */
         .mode-single {
             display: grid;
-            grid-template-columns: 0.85fr 1.15fr;
+            grid-template-columns: 0.82fr 1.18fr;
             gap: clamp(14px, 2.5vh, 36px);
             align-items: center;
             width: 100%;
@@ -250,8 +250,9 @@
             overflow: visible;
         }
 
+        /* ВИРОБНИК — збільшено */
         .manufacturer {
-            font-size: clamp(16px, 2.5vh, 30px);
+            font-size: clamp(18px, 2.9vh, 36px);
             color: #999;
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.2vw, 3px);
@@ -261,8 +262,9 @@
             white-space: nowrap;
         }
 
+        /* НАЗВА — збільшено */
         .name {
-            font-size: clamp(34px, 7.5vh, 92px);
+            font-size: clamp(40px, 8.8vh, 108px);
             font-weight: 700;
             color: #2c3e50;
             line-height: 1.05;
@@ -283,8 +285,9 @@
             overflow: visible;
         }
 
+        /* СТАРА ЦІНА — збільшено */
         .old-price {
-            font-size: clamp(26px, 4.6vh, 62px);
+            font-size: clamp(32px, 5.6vh, 76px);
             color: #b0b0b0;
             text-decoration: line-through;
             margin-bottom: 2px;
@@ -300,8 +303,9 @@
             will-change: transform;
         }
 
+        /* ЦІЛА ЧАСТИНА ЦІНИ — збільшено */
         .new-price .price-int {
-            font-size: clamp(90px, 23vh, 260px);
+            font-size: clamp(105px, 27vh, 300px);
             font-weight: 800;
             line-height: 0.85;
             letter-spacing: -5px;
@@ -315,21 +319,22 @@
             padding-bottom: clamp(10px, 2vh, 22px);
         }
 
+        /* КОПІЙКИ — збільшено */
         .new-price .price-cents {
-            font-size: clamp(42px, 10vh, 108px);
+            font-size: clamp(52px, 12vh, 128px);
             font-weight: 600;
             line-height: 1;
         }
 
         .new-price .price-unit {
-            font-size: clamp(13px, 2.2vh, 26px);
+            font-size: clamp(15px, 2.5vh, 30px);
             font-weight: 400;
             color: #999;
             margin-top: 4px;
         }
 
         /* ============================================================
-           РЕЖИМ C: ДВІ ВЕЛИКІ КАРТКИ (нова)
+           РЕЖИМ C: ДВІ ВЕЛИКІ КАРТКИ — ЗБІЛЬШЕНО ЦІНИ
            ============================================================ */
         .mode-double {
             width: 100%;
@@ -342,7 +347,7 @@
 
         .double-card {
             display: grid;
-            grid-template-rows: 1.15fr 1fr;   /* фото зверху, текст знизу */
+            grid-template-rows: 1.15fr 1fr;
             gap: clamp(6px, 1vh, 14px);
             align-items: center;
             background: #fff;
@@ -400,7 +405,7 @@
         }
 
         .double-card .manufacturer {
-            font-size: clamp(12px, 1.8vh, 20px);
+            font-size: clamp(13px, 2vh, 22px);
             letter-spacing: clamp(0.8px, 0.18vw, 2.5px);
             color: #999;
             text-transform: uppercase;
@@ -412,7 +417,7 @@
         }
 
         .double-card .name {
-            font-size: clamp(22px, 4.2vh, 52px);
+            font-size: clamp(24px, 4.6vh, 56px);
             font-weight: 700;
             color: #2c3e50;
             line-height: 1.1;
@@ -434,8 +439,9 @@
             overflow: visible;
         }
 
+        /* СТАРА ЦІНА в режимі C — ЗБІЛЬШЕНО */
         .double-card .old-price {
-            font-size: clamp(20px, 3.2vh, 42px);
+            font-size: clamp(26px, 4.4vh, 58px);
             color: #b0b0b0;
             text-decoration: line-through;
             margin-bottom: 2px;
@@ -451,8 +457,9 @@
             will-change: transform;
         }
 
+        /* ЦІНА в режимі C — ЗБІЛЬШЕНО */
         .double-card .new-price .price-int {
-            font-size: clamp(76px, 16vh, 180px);
+            font-size: clamp(92px, 19vh, 220px);
             font-weight: 800;
             line-height: 0.85;
             letter-spacing: -4px;
@@ -466,27 +473,27 @@
             padding-bottom: clamp(8px, 1.6vh, 18px);
         }
 
+        /* КОПІЙКИ в режимі C — ЗБІЛЬШЕНО */
         .double-card .new-price .price-cents {
-            font-size: clamp(36px, 7.5vh, 84px);
+            font-size: clamp(44px, 9.5vh, 104px);
             font-weight: 600;
             line-height: 1;
         }
 
         .double-card .new-price .price-unit {
-            font-size: clamp(12px, 1.9vh, 22px);
+            font-size: clamp(13px, 2.1vh, 24px);
             font-weight: 400;
             color: #999;
             margin-top: 3px;
         }
 
-        /* Анімація підскоку для режиму C */
         .double-card .new-price.bounce-animate {
             animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: left bottom;
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ
+           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНО ЦІНИ І НАЗВИ
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -500,7 +507,7 @@
 
         .grid-card {
             display: grid;
-            grid-template-columns: 0.8fr 1.5fr;
+            grid-template-columns: 0.78fr 1.52fr;
             gap: clamp(8px, 1vw, 16px);
             align-items: center;
             background: #fff;
@@ -555,7 +562,7 @@
         }
 
         .grid-card .manufacturer {
-            font-size: clamp(9px, 1.1vh, 12px);
+            font-size: clamp(10px, 1.3vh, 15px);
             letter-spacing: clamp(0.5px, 0.15vw, 1.5px);
             color: #999;
             white-space: nowrap;
@@ -563,8 +570,9 @@
             text-overflow: ellipsis;
         }
 
+        /* НАЗВА на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .name {
-            font-size: clamp(16px, 3.2vh, 38px);
+            font-size: clamp(19px, 4vh, 46px);
             font-weight: 800;
             color: #2c3e50;
             line-height: 1.1;
@@ -586,8 +594,9 @@
             overflow: visible;
         }
 
+        /* СТАРА ЦІНА на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .old-price {
-            font-size: clamp(14px, 2.4vh, 30px);
+            font-size: clamp(17px, 3.2vh, 38px);
             color: #b0b0b0;
             text-decoration: line-through;
             margin-bottom: 1px;
@@ -602,8 +611,9 @@
             will-change: transform;
         }
 
+        /* ЦІНА на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .new-price .price-int {
-            font-size: clamp(58px, 11vh, 130px);
+            font-size: clamp(72px, 14vh, 165px);
             font-weight: 800;
             line-height: 0.85;
             letter-spacing: -2px;
@@ -616,14 +626,15 @@
             padding-bottom: clamp(3px, 1vh, 12px);
         }
 
+        /* КОПІЙКИ на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .new-price .price-cents {
-            font-size: clamp(26px, 5vh, 58px);
+            font-size: clamp(32px, 6.4vh, 72px);
             font-weight: 600;
             line-height: 1;
         }
 
         .grid-card .new-price .price-unit {
-            font-size: clamp(9px, 1.3vh, 16px);
+            font-size: clamp(10px, 1.5vh, 18px);
             font-weight: 400;
             color: #999;
             margin-top: 1px;
@@ -675,45 +686,45 @@
            ============================================================ */
         @media (max-height: 700px) {
             .name {
-                font-size: clamp(24px, 5vh, 52px);
+                font-size: clamp(28px, 6vh, 64px);
             }
             .new-price .price-int {
-                font-size: clamp(70px, 17vh, 160px);
+                font-size: clamp(80px, 20vh, 200px);
             }
             .new-price .price-cents {
-                font-size: clamp(30px, 7vh, 72px);
+                font-size: clamp(38px, 9vh, 92px);
             }
             .old-price {
-                font-size: clamp(20px, 3.5vh, 42px);
+                font-size: clamp(24px, 4.2vh, 52px);
             }
             .manufacturer {
-                font-size: clamp(12px, 1.8vh, 22px);
+                font-size: clamp(14px, 2.2vh, 26px);
             }
 
             .double-card .name {
-                font-size: clamp(18px, 3.2vh, 34px);
+                font-size: clamp(20px, 3.6vh, 40px);
             }
             .double-card .new-price .price-int {
-                font-size: clamp(60px, 13vh, 130px);
+                font-size: clamp(70px, 15vh, 155px);
             }
             .double-card .new-price .price-cents {
-                font-size: clamp(28px, 6vh, 60px);
+                font-size: clamp(34px, 7.5vh, 74px);
             }
             .double-card .old-price {
-                font-size: clamp(16px, 2.5vh, 30px);
+                font-size: clamp(20px, 3.4vh, 42px);
             }
 
             .grid-card .name {
-                font-size: clamp(14px, 2.4vh, 26px);
+                font-size: clamp(16px, 3vh, 32px);
             }
             .grid-card .new-price .price-int {
-                font-size: clamp(44px, 8vh, 88px);
+                font-size: clamp(56px, 11vh, 120px);
             }
             .grid-card .new-price .price-cents {
-                font-size: clamp(20px, 3.6vh, 42px);
+                font-size: clamp(25px, 5vh, 55px);
             }
             .grid-card .old-price {
-                font-size: clamp(11px, 1.8vh, 22px);
+                font-size: clamp(14px, 2.5vh, 30px);
             }
         }
 
@@ -748,11 +759,11 @@
             .mode-single .img-wrap { padding: 8px; max-height: 40vh; }
             .mode-single .img-wrap img.main-img { animation: none; }
 
-            .mode-single .name { font-size: 28px; }
-            .mode-single .manufacturer { font-size: 14px; letter-spacing: 1.5px; }
-            .mode-single .old-price { font-size: 24px; }
-            .mode-single .new-price .price-int { font-size: 88px; letter-spacing: -3px; }
-            .mode-single .new-price .price-cents { font-size: 38px; }
+            .mode-single .name { font-size: 30px; }
+            .mode-single .manufacturer { font-size: 15px; letter-spacing: 1.5px; }
+            .mode-single .old-price { font-size: 26px; }
+            .mode-single .new-price .price-int { font-size: 96px; letter-spacing: -3px; }
+            .mode-single .new-price .price-cents { font-size: 42px; }
             .mode-single .new-price .price-unit { font-size: 13px; }
 
             .mode-single .badge {
@@ -764,7 +775,6 @@
                 width: 48px; height: 48px;
             }
 
-            /* Режим C на телефоні */
             .mode-double {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto;
@@ -779,10 +789,10 @@
                 gap: 10px;
             }
 
-            .double-card .name { font-size: 20px; }
-            .double-card .new-price .price-int { font-size: 64px; }
-            .double-card .new-price .price-cents { font-size: 28px; }
-            .double-card .old-price { font-size: 18px; }
+            .double-card .name { font-size: 22px; }
+            .double-card .new-price .price-int { font-size: 72px; }
+            .double-card .new-price .price-cents { font-size: 32px; }
+            .double-card .old-price { font-size: 20px; }
 
             .mode-grid {
                 grid-template-columns: 1fr;
@@ -799,10 +809,10 @@
                 min-height: 120px;
             }
 
-            .grid-card .name { font-size: 17px; }
-            .grid-card .new-price .price-int { font-size: 58px; letter-spacing: -2px; }
-            .grid-card .new-price .price-cents { font-size: 26px; }
-            .grid-card .old-price { font-size: 14px; }
+            .grid-card .name { font-size: 19px; }
+            .grid-card .new-price .price-int { font-size: 64px; letter-spacing: -2px; }
+            .grid-card .new-price .price-cents { font-size: 28px; }
+            .grid-card .old-price { font-size: 16px; }
             .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
             .grid-card .best-price-icon { width: 36px; height: 36px; }
 
@@ -810,17 +820,17 @@
         }
 
         @media (max-width: 400px) {
-            .mode-single .name { font-size: 24px; }
-            .mode-single .new-price .price-int { font-size: 74px; }
-            .mode-single .new-price .price-cents { font-size: 32px; }
+            .mode-single .name { font-size: 26px; }
+            .mode-single .new-price .price-int { font-size: 80px; }
+            .mode-single .new-price .price-cents { font-size: 36px; }
 
-            .double-card .name { font-size: 17px; }
-            .double-card .new-price .price-int { font-size: 54px; }
-            .double-card .new-price .price-cents { font-size: 24px; }
+            .double-card .name { font-size: 19px; }
+            .double-card .new-price .price-int { font-size: 60px; }
+            .double-card .new-price .price-cents { font-size: 26px; }
 
-            .grid-card .name { font-size: 15px; }
-            .grid-card .new-price .price-int { font-size: 48px; }
-            .grid-card .new-price .price-cents { font-size: 20px; }
+            .grid-card .name { font-size: 16px; }
+            .grid-card .new-price .price-int { font-size: 52px; }
+            .grid-card .new-price .price-cents { font-size: 22px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -865,7 +875,7 @@
         }
 
         let allItems = [];
-        let mode = 'single';       // 'single' | 'double' | 'grid'
+        let mode = 'single';
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer = null;
@@ -899,7 +909,6 @@
             return item;
         }
 
-        /* 2 товари — з однієї категорії, якщо можливо */
         function pickSameCategory2() {
             if (allItems.length < 2) return allItems.slice(0, 2);
 
@@ -1078,7 +1087,6 @@
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
-        /* Логіка послідовності: single → double → grid → single → ... */
         function nextMode(current) {
             if (current === 'single') return 'double';
             if (current === 'double') return 'grid';
@@ -1114,7 +1122,6 @@
 
             scheduleBounce();
 
-            /* Перемикаємо режим: single → double → grid → single */
             mode = nextMode(mode);
         }
 
