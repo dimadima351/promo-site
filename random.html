@@ -54,19 +54,17 @@
             gap: 14px;
         }
 
-        /* Логотип без білого квадрата */
+        /* Лого — без квадрата, без фону, прозорий PNG */
         .promo-logo img {
-            height: 46px;
+            height: 58px;
             width: auto;
             object-fit: contain;
-            background: transparent;   /* ← прибрали білий фон */
-            padding: 0;                /* ← прибрали відступи */
-            border-radius: 0;          /* ← прибрали заокруглення */
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));  /* тінь, щоб не губилось */
+            display: block;
+            /* жодного background, padding чи border-radius */
         }
 
         .promo-logo-text {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -287,7 +285,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ (ЗБІЛЬШЕНІ ЦІНА І НАЗВА)
+           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНІ ЦІНА І НАЗВА
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -295,19 +293,19 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 24px;
+            gap: 20px;
             max-height: 100%;
         }
 
         .grid-card {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 20px;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 16px;
             align-items: center;
             background: #fff;
             border: 2px solid #f0f0f0;
             border-radius: 18px;
-            padding: 24px 28px;
+            padding: 18px 22px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             overflow: hidden;
         }
@@ -318,7 +316,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8px;
+            padding: 6px;
             overflow: visible;
         }
 
@@ -331,44 +329,44 @@
         .grid-card .badge {
             width: 70px;
             height: 70px;
-            font-size: 20px;
-            top: -6px;
-            left: -6px;
+            font-size: 19px;
+            top: -8px;
+            left: -8px;
             animation: badgePop 0.5s ease-out 0.3s backwards,
                        badgePulse 2.4s ease-in-out 0.8s infinite;
         }
 
         .grid-card .best-price-icon {
-            width: 60px;
-            height: 60px;
-            top: -4px;
-            right: -4px;
+            width: 55px;
+            height: 55px;
+            top: -6px;
+            right: -6px;
         }
 
         .grid-card .info {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             min-width: 0;
         }
 
         .grid-card .manufacturer {
-            font-size: 13px;
-            letter-spacing: 2px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
             color: #999;
         }
 
-        /* ЗБІЛЬШЕНА НАЗВА */
+        /* НАЗВА — більша */
         .grid-card .name {
-            font-size: 34px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: #2c3e50;
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -0.8px;
 
             display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -378,7 +376,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .grid-card .old-price {
@@ -396,13 +394,12 @@
             gap: 3px;
         }
 
-        /* ЗБІЛЬШЕНА ЦІНА */
+        /* ЦІНА — більша */
         .grid-card .new-price .price-int {
-            font-size: 88px;
+            font-size: 80px;
             font-weight: 800;
             line-height: 0.9;
             letter-spacing: -3px;
-            text-shadow: 0 3px 14px rgba(255, 11, 11, 0.15);
         }
 
         .grid-card .new-price .price-cents-wrap {
@@ -413,16 +410,16 @@
         }
 
         .grid-card .new-price .price-cents {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 600;
             line-height: 1;
         }
 
         .grid-card .new-price .price-unit {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
             color: #999;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         /* ============================================================
@@ -470,7 +467,7 @@
                 padding: 12px 16px;
             }
 
-            .promo-logo img { height: 34px; }
+            .promo-logo img { height: 40px; }
             .promo-logo-text { font-size: 20px; letter-spacing: 1px; }
             .promo-dates { font-size: 12px; padding: 7px 12px; }
 
@@ -505,7 +502,7 @@
                 top: -4px; right: -4px;
             }
 
-            /* Сітка на телефоні — 1 колонка */
+            /* Сітка на телефоні */
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -514,18 +511,18 @@
             }
 
             .grid-card {
-                padding: 16px 18px;
-                gap: 14px;
-                grid-template-columns: 1fr 1.4fr;
+                grid-template-columns: 1fr 1.2fr;
+                padding: 12px 14px;
+                gap: 12px;
                 border-radius: 14px;
             }
 
-            .grid-card .name { font-size: 22px; -webkit-line-clamp: 2; }
-            .grid-card .new-price .price-int { font-size: 56px; letter-spacing: -2px; }
-            .grid-card .new-price .price-cents { font-size: 24px; }
+            .grid-card .name { font-size: 20px; }
+            .grid-card .new-price .price-int { font-size: 52px; letter-spacing: -2px; }
+            .grid-card .new-price .price-cents { font-size: 22px; }
             .grid-card .old-price { font-size: 16px; }
-            .grid-card .badge { width: 55px; height: 55px; font-size: 16px; }
-            .grid-card .best-price-icon { width: 44px; height: 44px; }
+            .grid-card .badge { width: 52px; height: 52px; font-size: 14px; }
+            .grid-card .best-price-icon { width: 40px; height: 40px; }
 
             .fullscreen-hint { display: none; }
         }
@@ -535,9 +532,9 @@
             .mode-single .new-price .price-int { font-size: 64px; }
             .mode-single .new-price .price-cents { font-size: 26px; }
 
-            .grid-card .name { font-size: 18px; }
-            .grid-card .new-price .price-int { font-size: 44px; }
-            .grid-card .new-price .price-cents { font-size: 20px; }
+            .grid-card .name { font-size: 17px; }
+            .grid-card .new-price .price-int { font-size: 42px; }
+            .grid-card .new-price .price-cents { font-size: 18px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -552,7 +549,7 @@
 
     <header class="promo-header">
         <div class="promo-logo">
-            <img src="./image_site/_22.jpg" alt="Логотип"
+            <img src="./image_site/_22.png" alt="Логотип"
                  onerror="this.style.display='none';">
             <div class="promo-logo-text">Смачні ціни</div>
         </div>
@@ -589,9 +586,6 @@
             return window.innerWidth > 900;
         }
 
-        /* ============================================================
-           ДАТИ
-           ============================================================ */
         function formatDates() {
             const now = new Date();
             const y = now.getFullYear();
@@ -606,9 +600,6 @@
             return `з ${fmt(start)} - ${fmt(end)}`;
         }
 
-        /* ============================================================
-           ВИБІР ТОВАРІВ
-           ============================================================ */
         function pickSingle() {
             if (allItems.length === 0) return null;
             let pool = allItems;
@@ -647,9 +638,6 @@
             return pool.slice(0, 4);
         }
 
-        /* ============================================================
-           РЕНДЕР
-           ============================================================ */
         function priceParts(raw) {
             const num = Number(raw ?? 0);
             const int = Math.floor(num);
@@ -751,9 +739,6 @@
             mode = (mode === 'single') ? 'grid' : 'single';
         }
 
-        /* ============================================================
-           АВТООНОВЛЕННЯ
-           ============================================================ */
         function startAutoUpdate() {
             if (!isDesktop()) return;
             stopAutoUpdate();
@@ -766,9 +751,6 @@
             if (isDesktop()) startAutoUpdate(); else stopAutoUpdate();
         });
 
-        /* ============================================================
-           FULLSCREEN
-           ============================================================ */
         function toggleFullscreen() {
             const el = document.documentElement;
             if (!document.fullscreenElement) {
@@ -798,9 +780,6 @@
             }
         });
 
-        /* ============================================================
-           ЗАПУСК
-           ============================================================ */
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
