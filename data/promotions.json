@@ -939,7 +939,7 @@
     },
     {
       "id": 60,
-      "name": "Молоко 2,6% 900г ультрапастеризоване",
+      "name": "Молоко 2,6% 900г ультрапастеризоване Яготинське",
       "manufacturer": "Яготинське",
       "category": "Молочні продукти",
       "price": 38.0,
@@ -951,7 +951,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 61,
