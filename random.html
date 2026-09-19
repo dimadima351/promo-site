@@ -22,7 +22,6 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            /* ТЕМНИЙ ФОН ХЕЛЛОВІНУ: глибокий фіолетово-чорний з відблисками */
             background:
                 radial-gradient(ellipse at top left, rgba(255, 140, 0, 0.12) 0%, transparent 45%),
                 radial-gradient(ellipse at bottom right, rgba(155, 0, 220, 0.15) 0%, transparent 50%),
@@ -38,7 +37,7 @@
         body.is-fullscreen { cursor: default; }
 
         /* ============================================================
-           ШАПКА — ГАРБУЗОВИЙ ГРАДІЄНТ
+           ШАПКА
            ============================================================ */
         .promo-header {
             display: flex;
@@ -151,7 +150,8 @@
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА — ТЕМНА З ОРАНЖЕВИМ СВІТЛОМ
+           РЕЖИМ A: ОДНА КАРТКА
+           ЛІВА ЧАСТИНА БІЛА (під фото) → ПРАВА ТЕМНА (під текст)
            ============================================================ */
         .mode-single {
             display: grid;
@@ -159,23 +159,29 @@
             gap: 50px;
             align-items: center;
             width: 100%;
-            /* Темна картка з відблиском світла знизу */
-            background:
-                radial-gradient(ellipse at bottom, rgba(255, 120, 0, 0.15) 0%, transparent 60%),
-                linear-gradient(135deg, #221338 0%, #150a26 100%);
+            padding: 40px 50px;
             border: 2px solid rgba(255, 140, 0, 0.35);
             border-radius: 24px;
-            padding: 40px 50px;
             box-shadow:
                 0 20px 60px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(255, 120, 0, 0.15),
-                inset 0 1px 0 rgba(255, 200, 100, 0.15);
+                0 0 40px rgba(255, 120, 0, 0.15);
             max-height: 100%;
             position: relative;
             overflow: hidden;
+
+            /* БІЛА ЗОНА під фото → плавний перехід → ТЕМНА під текст */
+            background: linear-gradient(
+                to right,
+                #ffffff 0%,
+                #ffffff 42%,
+                #f6ecff 48%,
+                #2a1a45 55%,
+                #1a0f2e 65%,
+                #150a26 100%
+            );
         }
 
-        /* Внутрішнє світіння по кутах */
+        /* Внутрішнє світіння */
         .mode-single::before {
             content: '';
             position: absolute;
@@ -203,7 +209,6 @@
             height: 100%;
             object-fit: contain;
             animation: imageBreath 6s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.25));
         }
 
         @keyframes imageBreath {
@@ -351,6 +356,7 @@
 
         /* ============================================================
            РЕЖИМ B: 4 КАРТКИ
+           ЛІВА ЧАСТИНА БІЛА (під фото) → ПРАВА ТЕМНА (під текст)
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -367,17 +373,24 @@
             grid-template-columns: 1fr 1.3fr;
             gap: 16px;
             align-items: center;
-            background:
-                radial-gradient(ellipse at bottom right, rgba(255, 120, 0, 0.1) 0%, transparent 60%),
-                linear-gradient(135deg, #221338 0%, #150a26 100%);
             border: 2px solid rgba(255, 140, 0, 0.3);
             border-radius: 18px;
             padding: 18px 22px;
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 200, 100, 0.12);
+                0 10px 30px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             position: relative;
+
+            /* БІЛА ЗОНА під фото → плавний перехід → ТЕМНА під текст */
+            background: linear-gradient(
+                to right,
+                #ffffff 0%,
+                #ffffff 35%,
+                #f6ecff 42%,
+                #2a1a45 50%,
+                #1a0f2e 60%,
+                #150a26 100%
+            );
         }
 
         .grid-card .img-wrap {
@@ -394,7 +407,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.2));
         }
 
         .grid-card .badge {
@@ -551,12 +563,23 @@
 
             .random-main { padding: 14px 14px 20px; align-items: flex-start; }
 
+            /* На телефоні картка вертикальна — градієнт зверху-вниз */
             .mode-single {
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
                 border-radius: 16px;
                 max-height: none;
+
+                background: linear-gradient(
+                    to bottom,
+                    #ffffff 0%,
+                    #ffffff 45%,
+                    #f6ecff 52%,
+                    #2a1a45 60%,
+                    #1a0f2e 75%,
+                    #150a26 100%
+                );
             }
 
             .mode-single .img-wrap { padding: 10px; }
@@ -791,7 +814,6 @@
             `;
         }
 
-        /* ====== АНІМАЦІЯ ПІДСКОКУ ЦІНИ ====== */
         function triggerPriceBounce() {
             const priceEls = document.querySelectorAll('.new-price');
             priceEls.forEach(el => {
