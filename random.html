@@ -1,0 +1,274 @@
+/* ============================================================
+   СТОРІНКА "ВИПАДКОВИЙ ТОВАР" (random.html)
+   ============================================================ */
+
+.random-page {
+    background: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.random-container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 40px;
+    animation: none;
+}
+
+.random-container.fade-in {
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.random-loading {
+    text-align: center;
+    color: #888;
+    font-size: 20px;
+}
+
+/* Картка */
+.random-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    background: #fff;
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    max-height: 90vh;
+}
+
+/* Картинка */
+.random-image-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f8f9fa;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    overflow: hidden;
+}
+
+.random-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.random-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #ff0b0b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    z-index: 5;
+    box-shadow: 0 4px 12px rgba(255, 11, 11, 0.3);
+}
+
+.random-best-price {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    z-index: 5;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+}
+
+/* Інформація */
+.random-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.random-manufacturer {
+    font-size: 18px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.random-name {
+    font-size: 56px;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+/* Ціни */
+.random-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.random-old-price {
+    font-size: 32px;
+    color: #b0b0b0;
+    text-decoration: line-through;
+    margin-bottom: 4px;
+}
+
+.random-new-price {
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+    color: #ff0b0b;
+    gap: 4px;
+}
+
+.random-new-price .price-int {
+    font-size: 110px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -4px;
+}
+
+.random-new-price .price-cents-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 12px;
+}
+
+.random-new-price .price-cents {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.random-new-price .price-unit {
+    font-size: 18px;
+    font-weight: 400;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* Кнопка */
+.random-go-btn {
+    display: inline-block;
+    padding: 16px 36px;
+    background: #2c3e50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.25s, transform 0.25s;
+    align-self: flex-start;
+    margin-top: 10px;
+}
+
+.random-go-btn:hover {
+    background: #ff0b0b;
+    transform: translateY(-3px);
+}
+
+/* Мобільна версія */
+@media (max-width: 900px) {
+    .random-page {
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .random-container {
+        padding: 16px;
+    }
+
+    .random-card {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 20px;
+        border-radius: 14px;
+        max-height: none;
+    }
+
+    .random-image-wrap {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .random-badge {
+        font-size: 18px;
+        padding: 8px 14px;
+        top: 12px;
+        left: 12px;
+    }
+
+    .random-best-price {
+        width: 55px;
+        height: 55px;
+        top: 12px;
+        right: 12px;
+    }
+
+    .random-manufacturer {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .random-name {
+        font-size: 28px;
+    }
+
+    .random-old-price {
+        font-size: 18px;
+    }
+
+    .random-new-price .price-int {
+        font-size: 60px;
+        letter-spacing: -2px;
+    }
+
+    .random-new-price .price-cents {
+        font-size: 26px;
+    }
+
+    .random-new-price .price-unit {
+        font-size: 13px;
+    }
+
+    .random-go-btn {
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Дуже маленькі екрани */
+@media (max-width: 400px) {
+    .random-name {
+        font-size: 24px;
+    }
+
+    .random-new-price .price-int {
+        font-size: 50px;
+    }
+
+    .random-new-price .price-cents {
+        font-size: 22px;
+    }
+}
