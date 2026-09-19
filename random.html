@@ -21,6 +21,7 @@
         html, body {
             height: 100%;
             overflow: hidden;
+            cursor: pointer;   /* показуємо, що можна клікнути */
         }
 
         body {
@@ -32,6 +33,11 @@
             justify-content: center;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Коли повноекранний режим увімкнено — курсор звичайний */
+        body.is-fullscreen {
+            cursor: default;
         }
 
         .random-container {
@@ -65,6 +71,45 @@
             text-align: center;
             color: #888;
             font-size: 20px;
+        }
+
+        /* ============================================================
+           ПІДКАЗКА "КЛІКНІТЬ ДЛЯ ПОВНОГО ЕКРАНУ"
+           ============================================================ */
+        .fullscreen-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.9);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            animation: hintPulse 2s ease-in-out infinite;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50%      { transform: translateX(-50%) scale(1.05); }
+        }
+
+        .fullscreen-hint.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fullscreen-hint svg {
+            width: 18px;
+            height: 18px;
         }
 
         /* ============================================================
@@ -243,6 +288,7 @@
         @media (max-width: 900px) {
             html, body {
                 overflow: auto;
+                cursor: default;
             }
 
             body {
@@ -268,7 +314,7 @@
             }
 
             .random-image {
-                animation: none; /* на телефоні прибираємо "подих" */
+                animation: none;
             }
 
             .random-badge {
@@ -312,6 +358,10 @@
             .random-new-price .price-unit {
                 font-size: 14px;
             }
+
+            .fullscreen-hint {
+                display: none;   /* на телефоні підказку ховаємо */
+            }
         }
 
         @media (max-width: 400px) {
@@ -336,6 +386,14 @@
         <p class="random-loading">Завантаження...</p>
     </div>
 
+    <!-- Підказка для повноекранного режиму -->
+    <div class="fullscreen-hint" id="fullscreenHint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+        <span>Клікніть будь-де для повного екрану</span>
+    </div>
+
     <script>
         const PLACEHOLDER = './images/0.png';
 
@@ -352,6 +410,51 @@
         function isDesktop() {
             return window.innerWidth > 900;
         }
+
+        // ====== ПОВНОЕКРАННИЙ РЕЖИМ ======
+        function toggleFullscreen() {
+            const el = document.documentElement;   // вся сторінка
+
+            if (!document.fullscreenElement) {
+                // Входимо в повноекранний режим
+                const request = el.requestFullscreen
+                    || el.webkitRequestFullscreen
+                    || el.mozRequestFullScreen
+                    || el.msRequestFullscreen;
+
+                if (request) {
+                    request.call(el).then(() => {
+                        document.body.classList.add('is-fullscreen');
+                        document.getElementById('fullscreenHint').classList.add('hidden');
+                    }).catch((err) => {
+                        console.log('Повноекранний режим недоступний:', err);
+                    });
+                }
+            }
+        }
+
+        // Слухаємо перший клік будь-де на сторінці
+        // (тільки на комп'ютері, і тільки один раз)
+        if (isDesktop()) {
+            document.addEventListener('click', function handleFirstClick() {
+                // Якщо вже в повноекранному режимі — нічого не робимо
+                if (document.fullscreenElement) return;
+
+                toggleFullscreen();
+
+                // Більше не слухаємо
+                document.removeEventListener('click', handleFirstClick);
+            }, { once: true });
+        }
+
+        // Якщо користувач вийшов з повноекранного режиму (Escape) —
+        // повертаємо підказку
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('is-fullscreen');
+                document.getElementById('fullscreenHint').classList.remove('hidden');
+            }
+        });
 
         // ====== ВИБІР ВИПАДКОВОГО ТОВАРУ ======
         function pickRandomItem() {
@@ -406,9 +509,9 @@
                 </div>
             `;
 
-            // Перезапускаємо анімацію появи
+            // Перезапускаємо анімацію
             container.classList.remove('fade-in');
-            void container.offsetWidth;   // force reflow
+            void container.offsetWidth;
             container.classList.add('fade-in');
         }
 
@@ -437,7 +540,6 @@
             }
         }
 
-        // ====== ПРИ ЗМІНІ РОЗМІРУ ВІКНА ======
         window.addEventListener('resize', () => {
             if (isDesktop()) startAutoUpdate();
             else stopAutoUpdate();
