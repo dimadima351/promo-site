@@ -120,8 +120,7 @@
         }
 
         /* ============================================================
-           АНІМАЦІЯ ПІДСКОКУ — ДВІ ВЕРСІЇ
-           origin: left bottom → ріст вгору і вправо (не вниз)
+           АНІМАЦІЯ ПІДСКОКУ
            ============================================================ */
         @keyframes priceBounce {
             0%   { transform: scale(1); }
@@ -165,8 +164,6 @@
             border-radius: clamp(14px, 2vh, 24px);
             padding: clamp(12px, 2vh, 28px) clamp(16px, 2.2vw, 36px);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-
-            /* ДОЗВОЛЯЄМО ціні "підскакувати" без обрізання */
             overflow: visible;
         }
 
@@ -250,7 +247,6 @@
             flex-direction: column;
             gap: clamp(4px, 0.8vh, 12px);
             min-width: 0;
-            /* Дозволяємо ціні виходити за межі info при підскоку */
             overflow: visible;
         }
 
@@ -284,7 +280,6 @@
             flex-direction: column;
             align-items: flex-start;
             margin-top: clamp(2px, 0.5vh, 8px);
-            /* Дозволяємо ціні виходити за межі */
             overflow: visible;
         }
 
@@ -334,6 +329,163 @@
         }
 
         /* ============================================================
+           РЕЖИМ C: ДВІ ВЕЛИКІ КАРТКИ (нова)
+           ============================================================ */
+        .mode-double {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(10px, 1.8vh, 24px);
+            max-height: 100%;
+        }
+
+        .double-card {
+            display: grid;
+            grid-template-rows: 1.15fr 1fr;   /* фото зверху, текст знизу */
+            gap: clamp(6px, 1vh, 14px);
+            align-items: center;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(14px, 2vh, 24px);
+            padding: clamp(12px, 1.8vh, 24px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: visible;
+            min-height: 0;
+        }
+
+        .double-card .img-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(2px, 0.6vh, 8px);
+            overflow: visible;
+        }
+
+        .double-card .img-wrap img.main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .double-card .badge {
+            width: clamp(56px, 9vh, 100px);
+            height: clamp(56px, 9vh, 100px);
+            font-size: clamp(15px, 2.5vh, 26px);
+            top: -4px;
+            left: -4px;
+            animation: badgePop 0.5s ease-out 0.3s backwards,
+                       badgePulse 2.4s ease-in-out 0.8s infinite;
+        }
+
+        .double-card .best-price-icon {
+            width: clamp(44px, 7vh, 78px);
+            height: clamp(44px, 7vh, 78px);
+            top: -4px;
+            right: -4px;
+        }
+
+        .double-card .info {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(2px, 0.5vh, 8px);
+            min-width: 0;
+            overflow: visible;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .double-card .manufacturer {
+            font-size: clamp(12px, 1.8vh, 20px);
+            letter-spacing: clamp(0.8px, 0.18vw, 2.5px);
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .double-card .name {
+            font-size: clamp(22px, 4.2vh, 52px);
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.1;
+            letter-spacing: -0.8px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .double-card .prices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: clamp(2px, 0.4vh, 6px);
+            overflow: visible;
+        }
+
+        .double-card .old-price {
+            font-size: clamp(20px, 3.2vh, 42px);
+            color: #b0b0b0;
+            text-decoration: line-through;
+            margin-bottom: 2px;
+            font-weight: 400;
+        }
+
+        .double-card .new-price {
+            display: flex;
+            align-items: flex-end;
+            line-height: 1;
+            color: #ff0b0b;
+            gap: clamp(2px, 0.35vw, 6px);
+            will-change: transform;
+        }
+
+        .double-card .new-price .price-int {
+            font-size: clamp(76px, 16vh, 180px);
+            font-weight: 800;
+            line-height: 0.85;
+            letter-spacing: -4px;
+            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
+        }
+
+        .double-card .new-price .price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: clamp(8px, 1.6vh, 18px);
+        }
+
+        .double-card .new-price .price-cents {
+            font-size: clamp(36px, 7.5vh, 84px);
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .double-card .new-price .price-unit {
+            font-size: clamp(12px, 1.9vh, 22px);
+            font-weight: 400;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        /* Анімація підскоку для режиму C */
+        .double-card .new-price.bounce-animate {
+            animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: left bottom;
+        }
+
+        /* ============================================================
            РЕЖИМ B: 4 КАРТКИ
            ============================================================ */
         .mode-grid {
@@ -357,8 +509,6 @@
             padding: clamp(8px, 1.4vh, 16px) clamp(10px, 1.4vw, 20px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             min-height: 0;
-
-            /* ДОЗВОЛЯЄМО ціні "підскакувати" без обрізання */
             overflow: visible;
         }
 
@@ -540,6 +690,19 @@
                 font-size: clamp(12px, 1.8vh, 22px);
             }
 
+            .double-card .name {
+                font-size: clamp(18px, 3.2vh, 34px);
+            }
+            .double-card .new-price .price-int {
+                font-size: clamp(60px, 13vh, 130px);
+            }
+            .double-card .new-price .price-cents {
+                font-size: clamp(28px, 6vh, 60px);
+            }
+            .double-card .old-price {
+                font-size: clamp(16px, 2.5vh, 30px);
+            }
+
             .grid-card .name {
                 font-size: clamp(14px, 2.4vh, 26px);
             }
@@ -601,6 +764,26 @@
                 width: 48px; height: 48px;
             }
 
+            /* Режим C на телефоні */
+            .mode-double {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                gap: 14px;
+                height: auto;
+            }
+
+            .double-card {
+                grid-template-rows: auto auto;
+                padding: 14px;
+                border-radius: 14px;
+                gap: 10px;
+            }
+
+            .double-card .name { font-size: 20px; }
+            .double-card .new-price .price-int { font-size: 64px; }
+            .double-card .new-price .price-cents { font-size: 28px; }
+            .double-card .old-price { font-size: 18px; }
+
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -630,6 +813,10 @@
             .mode-single .name { font-size: 24px; }
             .mode-single .new-price .price-int { font-size: 74px; }
             .mode-single .new-price .price-cents { font-size: 32px; }
+
+            .double-card .name { font-size: 17px; }
+            .double-card .new-price .price-int { font-size: 54px; }
+            .double-card .new-price .price-cents { font-size: 24px; }
 
             .grid-card .name { font-size: 15px; }
             .grid-card .new-price .price-int { font-size: 48px; }
@@ -678,7 +865,7 @@
         }
 
         let allItems = [];
-        let mode = 'single';
+        let mode = 'single';       // 'single' | 'double' | 'grid'
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer = null;
@@ -710,6 +897,34 @@
             const item = pool[Math.floor(Math.random() * pool.length)];
             lastSingleId = item.id;
             return item;
+        }
+
+        /* 2 товари — з однієї категорії, якщо можливо */
+        function pickSameCategory2() {
+            if (allItems.length < 2) return allItems.slice(0, 2);
+
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+
+            const validCats = Object.keys(groups).filter(c => groups[c].length >= 2);
+
+            if (validCats.length === 0) {
+                const shuffled = [...allItems].sort(() => Math.random() - 0.5);
+                return shuffled.slice(0, 2);
+            }
+
+            const cat = validCats[Math.floor(Math.random() * validCats.length)];
+            const pool = [...groups[cat]];
+
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            return pool.slice(0, 2);
         }
 
         function pickSameCategory4() {
@@ -777,6 +992,42 @@
             `;
         }
 
+        function renderDouble(items) {
+            return `
+                <div class="mode-double">
+                    ${items.map(item => {
+                        const { int, cents } = priceParts(item.price);
+                        const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+                        const imgSrc = noCache(item.image);
+                        return `
+                            <div class="double-card">
+                                <div class="img-wrap">
+                                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                                    ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                                    <img src="${imgSrc}" alt="${item.name}" class="main-img"
+                                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                </div>
+                                <div class="info">
+                                    ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                                    <div class="name">${item.name}</div>
+                                    <div class="prices">
+                                        ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                                        <div class="new-price">
+                                            <span class="price-int">${int}</span>
+                                            <span class="price-cents-wrap">
+                                                <span class="price-cents">${cents}</span>
+                                                <span class="price-unit">грн/шт</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
         function renderGrid(items) {
             return `
                 <div class="mode-grid">
@@ -827,6 +1078,13 @@
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
+        /* Логіка послідовності: single → double → grid → single → ... */
+        function nextMode(current) {
+            if (current === 'single') return 'double';
+            if (current === 'double') return 'grid';
+            return 'single';
+        }
+
         function updateContent() {
             const container = document.getElementById('randomContainer');
 
@@ -840,6 +1098,9 @@
             if (mode === 'single') {
                 const item = pickSingle();
                 if (item) html = renderSingle(item);
+            } else if (mode === 'double') {
+                const items = pickSameCategory2();
+                if (items.length) html = renderDouble(items);
             } else {
                 const items = pickSameCategory4();
                 if (items.length) html = renderGrid(items);
@@ -853,7 +1114,8 @@
 
             scheduleBounce();
 
-            mode = (mode === 'single') ? 'grid' : 'single';
+            /* Перемикаємо режим: single → double → grid → single */
+            mode = nextMode(mode);
         }
 
         function startAutoUpdate() {
