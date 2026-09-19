@@ -33,17 +33,17 @@
         body.is-fullscreen { cursor: default; }
 
         /* ============================================================
-           ШАПКА
+           ШАПКА — компактніше + в один рядок
            ============================================================ */
         .promo-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            padding: 14px 40px;
+            gap: clamp(10px, 1.5vh, 20px);
+            padding: clamp(8px, 1.4vh, 16px) clamp(20px, 2.5vw, 40px);
             background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
-            box-shadow: 0 6px 20px rgba(255, 11, 11, 0.25);
+            box-shadow: 0 4px 16px rgba(255, 11, 11, 0.25);
             z-index: 100;
             flex-shrink: 0;
         }
@@ -51,37 +51,43 @@
         .promo-logo {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: clamp(8px, 1vw, 14px);
+            flex-shrink: 1;
+            min-width: 0;
         }
 
         .promo-logo img {
-            height: 58px;
+            height: clamp(32px, 5vh, 58px);
             width: auto;
             object-fit: contain;
             display: block;
+            flex-shrink: 0;
         }
 
         .promo-logo-text {
-            font-size: 30px;
+            /* Гнучкий розмір — не більше 4vh заввишки */
+            font-size: clamp(16px, 3.2vh, 30px);
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: clamp(0.5px, 0.15vw, 2px);
             text-transform: uppercase;
             line-height: 1;
+            white-space: nowrap;   /* НЕ переносити в два рядки */
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .promo-dates {
-            font-size: 16px;
+            font-size: clamp(11px, 1.7vh, 16px);
             font-weight: 600;
             background: rgba(255, 255, 255, 0.18);
-            padding: 10px 20px;
+            padding: clamp(5px, 1vh, 10px) clamp(10px, 1.4vw, 20px);
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         /* ============================================================
-           ОСНОВНА ЧАСТИНА
+           ОСНОВНА ЧАСТИНА — все через vh/vw
            ============================================================ */
         .random-main {
             flex: 1;
@@ -89,7 +95,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding: 20px 40px 30px;
+            padding: clamp(8px, 1.2vh, 20px) clamp(16px, 2vw, 40px) clamp(10px, 1.5vh, 30px);
         }
 
         .random-container {
@@ -114,7 +120,7 @@
         .random-loading {
             text-align: center;
             color: #888;
-            font-size: 20px;
+            font-size: clamp(14px, 2.5vh, 20px);
         }
 
         /* ============================================================
@@ -134,30 +140,32 @@
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА
+           РЕЖИМ A: ОДНА КАРТКА — все через vh
            ============================================================ */
         .mode-single {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: clamp(20px, 4vh, 50px);
             align-items: center;
             width: 100%;
+            height: 100%;
+            max-height: 100%;
             background: #fff;
             border: 2px solid #f0f0f0;
-            border-radius: 24px;
-            padding: 40px 50px;
+            border-radius: clamp(14px, 2vh, 24px);
+            padding: clamp(16px, 3vh, 40px) clamp(20px, 3vw, 50px);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            max-height: 100%;
+            overflow: hidden;
         }
 
         .mode-single .img-wrap {
             position: relative;
             aspect-ratio: 1 / 1;
-            max-height: 70vh;
+            max-height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: clamp(8px, 1.5vh, 20px);
             overflow: visible;
         }
 
@@ -178,15 +186,15 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 110px;
-            height: 110px;
+            width: clamp(60px, 11vh, 110px);
+            height: clamp(60px, 11vh, 110px);
             border-radius: 50%;
             background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: clamp(16px, 3vh, 30px);
             font-weight: 800;
             z-index: 10;
             box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
@@ -210,10 +218,10 @@
 
         .best-price-icon {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 90px;
-            height: 90px;
+            top: 0;
+            right: 0;
+            width: clamp(50px, 9vh, 90px);
+            height: clamp(50px, 9vh, 90px);
             object-fit: contain;
             z-index: 5;
             filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
@@ -229,37 +237,39 @@
         .mode-single .info {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: clamp(4px, 1vh, 14px);
+            min-width: 0;
         }
 
         .manufacturer {
-            font-size: 20px;
+            font-size: clamp(12px, 1.8vh, 20px);
             color: #999;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: clamp(1px, 0.2vw, 3px);
             font-weight: 500;
         }
 
         .name {
-            font-size: 58px;
+            font-size: clamp(24px, 5vh, 58px);
             font-weight: 700;
             color: #2c3e50;
             line-height: 1.05;
-            letter-spacing: -1.5px;
+            letter-spacing: -0.5px;
+            overflow: hidden;
         }
 
         .prices {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-top: 10px;
+            margin-top: clamp(4px, 0.8vh, 10px);
         }
 
         .old-price {
-            font-size: 36px;
+            font-size: clamp(16px, 2.6vh, 36px);
             color: #b0b0b0;
             text-decoration: line-through;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .new-price {
@@ -267,16 +277,16 @@
             align-items: flex-end;
             line-height: 1;
             color: #ff0b0b;
-            gap: 6px;
+            gap: clamp(2px, 0.4vw, 6px);
             transform-origin: left center;
             will-change: transform;
         }
 
         .new-price .price-int {
-            font-size: 140px;
+            font-size: clamp(60px, 13vh, 140px);
             font-weight: 800;
             line-height: 0.9;
-            letter-spacing: -6px;
+            letter-spacing: -3px;
             text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
@@ -284,24 +294,24 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding-bottom: 14px;
+            padding-bottom: clamp(6px, 1.4vh, 14px);
         }
 
         .new-price .price-cents {
-            font-size: 58px;
+            font-size: clamp(26px, 5.5vh, 58px);
             font-weight: 600;
             line-height: 1;
         }
 
         .new-price .price-unit {
-            font-size: 20px;
+            font-size: clamp(10px, 1.8vh, 20px);
             font-weight: 400;
             color: #999;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ
+           РЕЖИМ B: 4 КАРТКИ — зменшені відступи
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -309,30 +319,32 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 20px;
+            gap: clamp(8px, 1.2vh, 16px);   /* ← було 20px, тепер менше */
             max-height: 100%;
         }
 
         .grid-card {
             display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 16px;
+            grid-template-columns: 0.9fr 1.4fr;   /* трохи більше місця тексту */
+            gap: clamp(8px, 1vw, 16px);
             align-items: center;
             background: #fff;
             border: 2px solid #f0f0f0;
-            border-radius: 18px;
-            padding: 18px 22px;
+            border-radius: clamp(10px, 1.6vh, 18px);
+            padding: clamp(10px, 1.6vh, 18px) clamp(12px, 1.6vw, 22px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             overflow: hidden;
+            min-height: 0;
         }
 
         .grid-card .img-wrap {
             position: relative;
             aspect-ratio: 1 / 1;
+            max-height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6px;
+            padding: 2px;
             overflow: visible;
         }
 
@@ -343,41 +355,46 @@
         }
 
         .grid-card .badge {
-            width: 70px;
-            height: 70px;
-            font-size: 19px;
-            top: -8px;
-            left: -8px;
+            width: clamp(42px, 7vh, 70px);
+            height: clamp(42px, 7vh, 70px);
+            font-size: clamp(12px, 1.9vh, 19px);
+            top: -6px;
+            left: -6px;
             animation: badgePop 0.5s ease-out 0.3s backwards,
                        badgePulse 2.4s ease-in-out 0.8s infinite;
         }
 
         .grid-card .best-price-icon {
-            width: 55px;
-            height: 55px;
-            top: -6px;
-            right: -6px;
+            width: clamp(34px, 5.5vh, 55px);
+            height: clamp(34px, 5.5vh, 55px);
+            top: -4px;
+            right: -4px;
         }
 
         .grid-card .info {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 2px;
             min-width: 0;
+            overflow: hidden;
         }
 
         .grid-card .manufacturer {
-            font-size: 12px;
-            letter-spacing: 1.5px;
+            font-size: clamp(9px, 1.2vh, 12px);
+            letter-spacing: clamp(0.5px, 0.15vw, 1.5px);
             color: #999;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
+        /* НАЗВА — компактніша, обрізається на 2 рядки */
         .grid-card .name {
-            font-size: 32px;
+            font-size: clamp(15px, 2.6vh, 32px);
             font-weight: 800;
             color: #2c3e50;
-            line-height: 1.15;
-            letter-spacing: -0.8px;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
 
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -391,14 +408,14 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .grid-card .old-price {
-            font-size: 22px;
+            font-size: clamp(12px, 1.8vh, 22px);
             color: #b0b0b0;
             text-decoration: line-through;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .grid-card .new-price {
@@ -406,36 +423,36 @@
             align-items: flex-end;
             line-height: 1;
             color: #ff0b0b;
-            gap: 3px;
+            gap: 2px;
             transform-origin: left center;
             will-change: transform;
         }
 
         .grid-card .new-price .price-int {
-            font-size: 80px;
+            font-size: clamp(40px, 7vh, 80px);
             font-weight: 800;
             line-height: 0.9;
-            letter-spacing: -3px;
+            letter-spacing: -2px;
         }
 
         .grid-card .new-price .price-cents-wrap {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding-bottom: 8px;
+            padding-bottom: clamp(2px, 0.6vh, 8px);
         }
 
         .grid-card .new-price .price-cents {
-            font-size: 34px;
+            font-size: clamp(17px, 3vh, 34px);
             font-weight: 600;
             line-height: 1;
         }
 
         .grid-card .new-price .price-unit {
-            font-size: 13px;
+            font-size: clamp(8px, 1.1vh, 13px);
             font-weight: 400;
             color: #999;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         /* ============================================================
@@ -443,19 +460,19 @@
            ============================================================ */
         .fullscreen-hint {
             position: fixed;
-            bottom: 16px;
+            bottom: 12px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(44, 62, 80, 0.9);
             color: #fff;
-            padding: 10px 22px;
+            padding: 8px 18px;
             border-radius: 30px;
-            font-size: 13px;
+            font-size: clamp(10px, 1.4vh, 13px);
             font-weight: 500;
             z-index: 9999;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             animation: hintPulse 2s ease-in-out infinite;
             pointer-events: none;
@@ -468,7 +485,44 @@
         }
 
         .fullscreen-hint.hidden { opacity: 0; }
-        .fullscreen-hint svg { width: 18px; height: 18px; }
+        .fullscreen-hint svg { width: 14px; height: 14px; }
+
+        /* ============================================================
+           ДЛЯ ДУЖЕ ШИРОКИХ ЕКРАНІВ (ТВ 1920+)
+           ============================================================ */
+        @media (min-width: 1600px) {
+            .random-container {
+                max-width: 1700px;
+            }
+            .mode-grid {
+                gap: clamp(10px, 1vh, 18px);
+            }
+            .grid-card {
+                padding: clamp(12px, 1.5vh, 20px) clamp(14px, 1.4vw, 24px);
+            }
+        }
+
+        /* ============================================================
+           ДЛЯ НЕВИСОКИХ ЕКРАНІВ (ноутбуки, ТВ з невеликою висотою)
+           ============================================================ */
+        @media (max-height: 700px) {
+            .mode-single {
+                padding: 16px 24px;
+                gap: 20px;
+            }
+            .name {
+                font-size: clamp(20px, 4vh, 40px);
+            }
+            .new-price .price-int {
+                font-size: clamp(50px, 11vh, 100px);
+            }
+            .grid-card .name {
+                font-size: clamp(14px, 2.2vh, 24px);
+            }
+            .grid-card .new-price .price-int {
+                font-size: clamp(36px, 6vh, 64px);
+            }
+        }
 
         /* ============================================================
            МОБІЛЬНА ВЕРСІЯ
@@ -479,77 +533,77 @@
             .promo-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
-                padding: 12px 16px;
+                gap: 8px;
+                padding: 10px 14px;
             }
 
-            .promo-logo img { height: 40px; }
-            .promo-logo-text { font-size: 20px; letter-spacing: 1px; }
-            .promo-dates { font-size: 12px; padding: 7px 12px; }
+            .promo-logo img { height: 32px; }
+            .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
+            .promo-dates { font-size: 11px; padding: 6px 10px; }
 
-            .random-main { padding: 14px 14px 20px; align-items: flex-start; }
+            .random-main { padding: 12px 12px 16px; align-items: flex-start; }
 
             .mode-single {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-                border-radius: 16px;
+                gap: 16px;
+                padding: 16px;
+                border-radius: 14px;
                 max-height: none;
+                height: auto;
             }
 
-            .mode-single .img-wrap { padding: 10px; }
+            .mode-single .img-wrap { padding: 8px; max-height: 40vh; }
             .mode-single .img-wrap img.main-img { animation: none; }
 
-            .mode-single .name { font-size: 28px; }
-            .mode-single .manufacturer { font-size: 13px; letter-spacing: 1.5px; }
-            .mode-single .old-price { font-size: 20px; }
-            .mode-single .new-price .price-int { font-size: 78px; letter-spacing: -3px; }
-            .mode-single .new-price .price-cents { font-size: 32px; }
-            .mode-single .new-price .price-unit { font-size: 14px; }
+            .mode-single .name { font-size: 24px; }
+            .mode-single .manufacturer { font-size: 12px; letter-spacing: 1.5px; }
+            .mode-single .old-price { font-size: 16px; }
+            .mode-single .new-price .price-int { font-size: 64px; letter-spacing: -2px; }
+            .mode-single .new-price .price-cents { font-size: 28px; }
+            .mode-single .new-price .price-unit { font-size: 12px; }
 
             .mode-single .badge {
-                width: 75px; height: 75px;
-                font-size: 20px;
-                top: -4px; left: -4px;
+                width: 60px; height: 60px;
+                font-size: 16px;
             }
 
             .mode-single .best-price-icon {
-                width: 55px; height: 55px;
-                top: -4px; right: -4px;
+                width: 48px; height: 48px;
             }
 
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
-                gap: 14px;
+                gap: 12px;
                 height: auto;
             }
 
             .grid-card {
-                grid-template-columns: 1fr 1.2fr;
-                padding: 12px 14px;
-                gap: 12px;
-                border-radius: 14px;
+                grid-template-columns: 0.9fr 1.4fr;
+                padding: 10px 12px;
+                gap: 10px;
+                border-radius: 12px;
+                min-height: 100px;
             }
 
-            .grid-card .name { font-size: 20px; }
-            .grid-card .new-price .price-int { font-size: 52px; letter-spacing: -2px; }
-            .grid-card .new-price .price-cents { font-size: 22px; }
-            .grid-card .old-price { font-size: 16px; }
-            .grid-card .badge { width: 52px; height: 52px; font-size: 14px; }
-            .grid-card .best-price-icon { width: 40px; height: 40px; }
+            .grid-card .name { font-size: 16px; }
+            .grid-card .new-price .price-int { font-size: 40px; letter-spacing: -1px; }
+            .grid-card .new-price .price-cents { font-size: 18px; }
+            .grid-card .old-price { font-size: 13px; }
+            .grid-card .badge { width: 42px; height: 42px; font-size: 12px; }
+            .grid-card .best-price-icon { width: 34px; height: 34px; }
 
             .fullscreen-hint { display: none; }
         }
 
         @media (max-width: 400px) {
-            .mode-single .name { font-size: 24px; }
-            .mode-single .new-price .price-int { font-size: 64px; }
-            .mode-single .new-price .price-cents { font-size: 26px; }
+            .mode-single .name { font-size: 20px; }
+            .mode-single .new-price .price-int { font-size: 54px; }
+            .mode-single .new-price .price-cents { font-size: 24px; }
 
-            .grid-card .name { font-size: 17px; }
-            .grid-card .new-price .price-int { font-size: 42px; }
-            .grid-card .new-price .price-cents { font-size: 18px; }
+            .grid-card .name { font-size: 14px; }
+            .grid-card .new-price .price-int { font-size: 34px; }
+            .grid-card .new-price .price-cents { font-size: 15px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -729,19 +783,17 @@
             `;
         }
 
-        /* ====== АНІМАЦІЯ ПІДСКОКУ ЦІНИ ====== */
         function triggerPriceBounce() {
             const priceEls = document.querySelectorAll('.new-price');
             priceEls.forEach(el => {
                 el.classList.remove('bounce-animate');
-                void el.offsetWidth;   // перезапуск анімації
+                void el.offsetWidth;
                 el.classList.add('bounce-animate');
             });
         }
 
         function scheduleBounce() {
             if (bounceTimer) clearTimeout(bounceTimer);
-            // через 3 секунди після появи картки — "підскок" ціни
             bounceTimer = setTimeout(triggerPriceBounce, 3000);
         }
 
@@ -769,7 +821,6 @@
             void container.offsetWidth;
             container.classList.add('fade-in');
 
-            // Плануємо анімацію підскоку через 3 секунди
             scheduleBounce();
 
             mode = (mode === 'single') ? 'grid' : 'single';
