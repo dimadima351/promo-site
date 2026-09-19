@@ -1124,5 +1124,11 @@ body.menu-open {
         min-height: 130px;
         padding: 24px 0;
     }
+    .best-price-icon {
+    width: 35px;
+    height: 35px;
+    top: 1px;          /* було 6px */
+    right: 6px;
+}
 }
 
