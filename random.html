@@ -120,27 +120,41 @@
         }
 
         /* ============================================================
-           АНІМАЦІЯ ПІДСКОКУ ЦІНИ
+           АНІМАЦІЯ ПІДСКОКУ — ДВІ ВЕРСІЇ
+           origin: left bottom → ріст вгору і вправо (не вниз)
            ============================================================ */
         @keyframes priceBounce {
             0%   { transform: scale(1); }
-            30%  { transform: scale(1.25); }
-            50%  { transform: scale(1.15); }
-            70%  { transform: scale(1.22); }
+            30%  { transform: scale(1.18); }
+            50%  { transform: scale(1.10); }
+            70%  { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes priceBounceSmall {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.12); }
+            50%  { transform: scale(1.06); }
+            70%  { transform: scale(1.10); }
             100% { transform: scale(1); }
         }
 
         .new-price.bounce-animate {
             animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: left center;
+            transform-origin: left bottom;
+        }
+
+        .grid-card .new-price.bounce-animate {
+            animation: priceBounceSmall 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: left bottom;
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА — ЗБІЛЬШЕНО ЦІНУ, СТАРУ ЦІНУ, ТЕКСТ
+           РЕЖИМ A: ОДНА КАРТКА
            ============================================================ */
         .mode-single {
             display: grid;
-            grid-template-columns: 0.85fr 1.15fr;   /* фото менше, тексту більше */
+            grid-template-columns: 0.85fr 1.15fr;
             gap: clamp(14px, 2.5vh, 36px);
             align-items: center;
             width: 100%;
@@ -151,7 +165,9 @@
             border-radius: clamp(14px, 2vh, 24px);
             padding: clamp(12px, 2vh, 28px) clamp(16px, 2.2vw, 36px);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+
+            /* ДОЗВОЛЯЄМО ціні "підскакувати" без обрізання */
+            overflow: visible;
         }
 
         .mode-single .img-wrap {
@@ -177,7 +193,6 @@
             50%      { transform: scale(1.04); }
         }
 
-        /* Бейдж знижки */
         .badge {
             position: absolute;
             top: 0;
@@ -235,10 +250,10 @@
             flex-direction: column;
             gap: clamp(4px, 0.8vh, 12px);
             min-width: 0;
-            overflow: hidden;
+            /* Дозволяємо ціні виходити за межі info при підскоку */
+            overflow: visible;
         }
 
-        /* ВИРОБНИК — збільшено */
         .manufacturer {
             font-size: clamp(16px, 2.5vh, 30px);
             color: #999;
@@ -250,7 +265,6 @@
             white-space: nowrap;
         }
 
-        /* НАЗВА — збільшено */
         .name {
             font-size: clamp(34px, 7.5vh, 92px);
             font-weight: 700;
@@ -270,9 +284,10 @@
             flex-direction: column;
             align-items: flex-start;
             margin-top: clamp(2px, 0.5vh, 8px);
+            /* Дозволяємо ціні виходити за межі */
+            overflow: visible;
         }
 
-        /* СТАРА ЦІНА — збільшено */
         .old-price {
             font-size: clamp(26px, 4.6vh, 62px);
             color: #b0b0b0;
@@ -287,11 +302,9 @@
             line-height: 1;
             color: #ff0b0b;
             gap: clamp(2px, 0.4vw, 8px);
-            transform-origin: left center;
             will-change: transform;
         }
 
-        /* ЦІЛА ЧАСТИНА ЦІНИ — ще більша */
         .new-price .price-int {
             font-size: clamp(90px, 23vh, 260px);
             font-weight: 800;
@@ -307,7 +320,6 @@
             padding-bottom: clamp(10px, 2vh, 22px);
         }
 
-        /* КОПІЙКИ — більші */
         .new-price .price-cents {
             font-size: clamp(42px, 10vh, 108px);
             font-weight: 600;
@@ -322,7 +334,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНО ТІЛЬКИ ЦІНИ
+           РЕЖИМ B: 4 КАРТКИ
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -336,7 +348,7 @@
 
         .grid-card {
             display: grid;
-            grid-template-columns: 0.8fr 1.5fr;   /* більше місця для тексту */
+            grid-template-columns: 0.8fr 1.5fr;
             gap: clamp(8px, 1vw, 16px);
             align-items: center;
             background: #fff;
@@ -344,8 +356,10 @@
             border-radius: clamp(10px, 1.6vh, 18px);
             padding: clamp(8px, 1.4vh, 16px) clamp(10px, 1.4vw, 20px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
             min-height: 0;
+
+            /* ДОЗВОЛЯЄМО ціні "підскакувати" без обрізання */
+            overflow: visible;
         }
 
         .grid-card .img-wrap {
@@ -387,7 +401,7 @@
             flex-direction: column;
             gap: 2px;
             min-width: 0;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .grid-card .manufacturer {
@@ -399,7 +413,6 @@
             text-overflow: ellipsis;
         }
 
-        /* НАЗВА на 4 картках — без змін */
         .grid-card .name {
             font-size: clamp(16px, 3.2vh, 38px);
             font-weight: 800;
@@ -420,9 +433,9 @@
             flex-direction: column;
             align-items: flex-start;
             margin-top: 2px;
+            overflow: visible;
         }
 
-        /* СТАРА ЦІНА на 4 картках — без змін */
         .grid-card .old-price {
             font-size: clamp(14px, 2.4vh, 30px);
             color: #b0b0b0;
@@ -436,11 +449,9 @@
             line-height: 1;
             color: #ff0b0b;
             gap: 2px;
-            transform-origin: left center;
             will-change: transform;
         }
 
-        /* ЦІНА на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .new-price .price-int {
             font-size: clamp(58px, 11vh, 130px);
             font-weight: 800;
@@ -455,7 +466,6 @@
             padding-bottom: clamp(3px, 1vh, 12px);
         }
 
-        /* КОПІЙКИ на 4 картках — ЗБІЛЬШЕНО */
         .grid-card .new-price .price-cents {
             font-size: clamp(26px, 5vh, 58px);
             font-weight: 600;
@@ -511,7 +521,7 @@
         }
 
         /* ============================================================
-           ДЛЯ НИЗЬКИХ ЕКРАНІВ — ЗМЕНШУЄМО, ЩОБ ВМІСТИЛОСЬ
+           ДЛЯ НИЗЬКИХ ЕКРАНІВ
            ============================================================ */
         @media (max-height: 700px) {
             .name {
