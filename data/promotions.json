@@ -209,18 +209,20 @@
     },
     {
       "id": 14,
-      "name": "Пиво Ноунейм",
-      "manufacturer": "Львівське",
+      "name": "Напій Алкогольний Соджу Ананас 0,35л",
+      "manufacturer": "Соджу",
       "category": "Алкоголь",
-      "price": 1.0,
-      "oldPrice": 2399.0,
-      "badge": "-100%",
+      "price": 62.0,
+      "oldPrice": 89.0,
+      "badge": "-30%",
       "image": "./images/14.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 15,
@@ -1711,6 +1713,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 106,
+      "name": "Напій Алкогольний Соджу Яблуко 0,35л",
+      "manufacturer": "Соджу",
+      "category": "Алкоголь",
+      "price": 62.0,
+      "oldPrice": 89.0,
+      "badge": "-30%",
+      "image": "./images/106.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 107,
+      "name": "Напій Алкогольний Соджу Персик 0,35л",
+      "manufacturer": "Соджу",
+      "category": "Алкоголь",
+      "price": 62.0,
+      "oldPrice": 89.0,
+      "badge": "-30%",
+      "image": "./images/107.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     }
   ]
 }
