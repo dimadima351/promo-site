@@ -81,6 +81,12 @@ body.menu-open {
     white-space: nowrap;
 }
 
+.nav a.active {
+    color: #ff0b0b;
+    font-weight: 700;
+    position: relative;
+}
+
 .nav a:hover {
     color: #ff0b0b;
 }
@@ -876,11 +882,7 @@ body.menu-open {
     color: #888;
 }
 
-.nav a.active {
-    color: #ff0b0b;
-    font-weight: 700;
-    position: relative;
-}
+
 
 
 
