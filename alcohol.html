@@ -40,6 +40,26 @@
                 <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
             </a>
 
+            <!-- Пошук -->
+            <div class="search-box" id="searchBox">
+                <input type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Пошук товарів..."
+                    autocomplete="off">
+                <button class="search-clear" id="searchClear" type="button" aria-label="Очистити">×</button>
+                
+                <!-- Випадаючий список результатів -->
+                <div class="search-results" id="searchResults">
+                    <div class="search-results-list" id="searchResultsList">
+                        <!-- Заповнюється JS -->
+                    </div>
+                    <a href="#" class="search-all-link" id="searchAllLink" style="display:none;">
+                        Перейти до всіх результатів →
+                    </a>
+                </div>
+            </div>
+
             <button class="burger" id="burgerBtn" aria-label="Меню">
                 <span></span>
                 <span></span>
@@ -134,6 +154,147 @@
             return url + separator + 't=' + Date.now();
         }
 
+                // ====== ПОШУК ======
+        const PLACEHOLDER_SEARCH = './images/0.png';
+        let searchAllItems = [];       // усі товари (з JSON)
+        let searchDebounceTimer = null;
+        let searchLoaded = false;
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const searchAllLink = document.getElementById('searchAllLink');
+        const searchClear = document.getElementById('searchClear');
+
+        // Завантажуємо дані для пошуку
+        function loadSearchData() {
+            if (searchLoaded) return Promise.resolve(searchAllItems);
+            return fetch(noCache('./data/promotions.json'))
+                .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+                .then(data => {
+                    searchAllItems = (data.items || []).filter(it => it.visible !== false);
+                    searchLoaded = true;
+                    return searchAllItems;
+                })
+                .catch(err => {
+                    console.error('Пошук: помилка завантаження', err);
+                    return [];
+                });
+        }
+
+        // Пошук
+        function searchItems(query) {
+            const q = query.trim().toLowerCase();
+            if (!q) return [];
+
+            return searchAllItems.filter(it => {
+                const name = (it.name || '').toLowerCase();
+                const manufacturer = (it.manufacturer || '').toLowerCase();
+                const category = (it.category || '').toLowerCase();
+                return name.includes(q) || manufacturer.includes(q) || category.includes(q);
+            });
+        }
+
+        // Рендер результатів
+        function renderSearchResults(results, query) {
+            if (results.length === 0) {
+                searchResultsList.innerHTML = '<div class="search-empty">Нічого не знайдено</div>';
+                searchAllLink.style.display = 'none';
+                return;
+            }
+
+            // Показуємо до 4 результатів
+            const top = results.slice(0, 4);
+
+            searchResultsList.innerHTML = top.map(item => {
+                const img = noCache(item.image);
+                const price = Number(item.price ?? 0);
+                const priceStr = price.toFixed(2).replace('.', ',');
+                
+                return `
+                    <a href="javascript:void(0)" class="search-item" data-id="${item.id}">
+                        <img src="${img}" alt="${item.name}" class="search-item-img"
+                            onerror="this.onerror=null; this.src='${PLACEHOLDER_SEARCH}';">
+                        <div class="search-item-info">
+                            <div class="search-item-name">${item.name}</div>
+                            ${item.manufacturer ? `<div class="search-item-manufacturer">${item.manufacturer}</div>` : ''}
+                        </div>
+                        <div class="search-item-price">${priceStr} ₴</div>
+                    </a>
+                `;
+            }).join('');
+
+            // Кнопка "Перейти до всіх результатів"
+            searchAllLink.style.display = 'block';
+            searchAllLink.href = 'search.html?q=' + encodeURIComponent(query);
+
+            // Клік на результат — нічого не робить (бо сторінка товару видалена)
+            // Але якщо потрібно — можна зробити перехід на search.html з підсвіткою
+            searchResultsList.querySelectorAll('.search-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    // Поки що — перехід на загальний пошук
+                    window.location.href = 'search.html?q=' + encodeURIComponent(query) + '&focus=' + el.dataset.id;
+                });
+            });
+        }
+
+        // Показ/приховування результатів
+        function showSearchResults() {
+            searchResults.classList.add('active');
+        }
+
+        function hideSearchResults() {
+            searchResults.classList.remove('active');
+        }
+
+        // Обробка введення
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+
+                clearTimeout(searchDebounceTimer);
+                searchDebounceTimer = setTimeout(async () => {
+                    if (query.trim().length < 2) {
+                        hideSearchResults();
+                        return;
+                    }
+
+                    await loadSearchData();
+                    const results = searchItems(query);
+                    renderSearchResults(results, query);
+                    showSearchResults();
+                }, 150);
+            });
+
+            // Показ при фокусі, якщо вже щось введено
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value.trim().length >= 2) {
+                    showSearchResults();
+                }
+            });
+
+            // Кнопка очищення
+            searchClear.addEventListener('click', () => {
+                searchInput.value = '';
+                hideSearchResults();
+                searchInput.focus();
+            });
+
+            // Клік поза полем — приховуємо
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-box')) {
+                    hideSearchResults();
+                }
+            });
+
+            // Escape — приховуємо
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    hideSearchResults();
+                    searchInput.blur();
+                }
+            });
+        }
         // ====== БУРГЕР-МЕНЮ ======
         const burgerBtn = document.getElementById('burgerBtn');
         const mainNav = document.getElementById('mainNav');
