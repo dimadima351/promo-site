@@ -151,8 +151,14 @@
             border-radius: 32px;
             max-height: 100%;
 
-            /* Матове скло */
-            background: rgba(255, 255, 255, 0.55);
+            /* ГРАДІЄНТ: білий зліва → прозорий справа */
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.98) 0%,
+                rgba(255, 255, 255, 0.98) 45%,
+                rgba(255, 255, 255, 0.55) 65%,
+                rgba(255, 255, 255, 0.35) 100%
+            );
             backdrop-filter: blur(30px) saturate(180%);
             -webkit-backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.7);
@@ -340,8 +346,14 @@
             border-radius: 24px;
             overflow: hidden;
 
-            /* Матове скло */
-            background: rgba(255, 255, 255, 0.55);
+            /* ГРАДІЄНТ: білий зліва (під фото) → прозорий справа */
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.98) 0%,
+                rgba(255, 255, 255, 0.98) 40%,
+                rgba(255, 255, 255, 0.55) 60%,
+                rgba(255, 255, 255, 0.35) 100%
+            );
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.65);
