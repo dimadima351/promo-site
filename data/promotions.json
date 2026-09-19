@@ -1453,7 +1453,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 92,
@@ -1469,7 +1470,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 93,
@@ -1501,7 +1503,8 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 95,
