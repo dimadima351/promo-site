@@ -22,17 +22,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-
-            /* ТЕПЛИЙ, АЛЕ М'ЯКИЙ ГРАДІЄНТ: багато білого + теплі акценти */
-            background: linear-gradient(135deg,
-                #ffffff 0%,      /* білий */
-                #fffefb 15%,     /* майже білий */
-                #fff8e6 35%,     /* ледь жовтуватий */
-                #ffeac2 60%,     /* світло-пісочний */
-                #ffd9a0 85%,     /* м'який оранжевий */
-                #ffc880 100%     /* теплий оранжевий */
-            );
-            background-attachment: fixed;
+            background: #ffffff;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -43,7 +33,7 @@
         body.is-fullscreen { cursor: default; }
 
         /* ============================================================
-           ШАПКА — GLASS
+           ШАПКА
            ============================================================ */
         .promo-header {
             display: flex;
@@ -51,20 +41,11 @@
             justify-content: space-between;
             gap: 20px;
             padding: 14px 40px;
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
+            box-shadow: 0 6px 20px rgba(255, 11, 11, 0.25);
             z-index: 100;
             flex-shrink: 0;
-            position: relative;
-
-            background: linear-gradient(135deg,
-                rgba(255, 43, 43, 0.78) 0%,
-                rgba(255, 110, 20, 0.72) 100%);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow:
-                0 8px 32px rgba(255, 90, 0, 0.28),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35);
         }
 
         .promo-logo {
@@ -73,12 +54,13 @@
             gap: 14px;
         }
 
+        /* Лого — без квадрата, без фону, прозорий PNG */
         .promo-logo img {
             height: 58px;
             width: auto;
             object-fit: contain;
             display: block;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+            /* жодного background, padding чи border-radius */
         }
 
         .promo-logo-text {
@@ -87,24 +69,17 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .promo-dates {
             font-size: 16px;
             font-weight: 600;
-            padding: 10px 22px;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 10px 20px;
             border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             white-space: nowrap;
-            background: rgba(255, 255, 255, 0.22);
-            backdrop-filter: blur(16px) saturate(160%);
-            -webkit-backdrop-filter: blur(16px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                0 4px 12px rgba(0, 0, 0, 0.1);
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         /* ============================================================
@@ -140,13 +115,12 @@
 
         .random-loading {
             text-align: center;
-            color: #8a5a00;
+            color: #888;
             font-size: 20px;
-            font-weight: 600;
         }
 
         /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА — ГРАДІЄНТ БІЛЕ → СКЛО
+           РЕЖИМ A: ОДНА КАРТКА
            ============================================================ */
         .mode-single {
             display: grid;
@@ -154,23 +128,12 @@
             gap: 50px;
             align-items: center;
             width: 100%;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 24px;
             padding: 40px 50px;
-            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             max-height: 100%;
-
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0.98) 0%,
-                rgba(255, 255, 255, 0.98) 45%,
-                rgba(255, 255, 255, 0.55) 65%,
-                rgba(255, 255, 255, 0.35) 100%
-            );
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.75);
-            box-shadow:
-                0 20px 60px rgba(180, 80, 0, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .mode-single .img-wrap {
@@ -204,9 +167,7 @@
             width: 110px;
             height: 110px;
             border-radius: 50%;
-            background: linear-gradient(135deg,
-                rgba(255, 43, 43, 0.98),
-                rgba(217, 0, 0, 0.95));
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
             display: flex;
             align-items: center;
@@ -214,14 +175,8 @@
             font-size: 30px;
             font-weight: 800;
             z-index: 10;
+            box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
             letter-spacing: -1px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.45);
-            box-shadow:
-                0 8px 24px rgba(255, 11, 11, 0.45),
-                inset 0 -4px 10px rgba(0, 0, 0, 0.12),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4);
             animation: badgePop 0.5s ease-out 0.3s backwards,
                        badgePulse 2.4s ease-in-out 0.8s infinite;
             will-change: transform;
@@ -247,7 +202,7 @@
             height: 90px;
             object-fit: contain;
             z-index: 5;
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
             animation: bestSpin 0.7s ease-out 0.5s backwards;
         }
 
@@ -265,7 +220,7 @@
 
         .manufacturer {
             font-size: 20px;
-            color: #a06020;
+            color: #999;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 500;
@@ -306,7 +261,7 @@
             font-weight: 800;
             line-height: 0.9;
             letter-spacing: -6px;
-            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.2);
+            text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15);
         }
 
         .new-price .price-cents-wrap {
@@ -330,7 +285,7 @@
         }
 
         /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ
+           РЕЖИМ B: 4 КАРТКИ — ЗБІЛЬШЕНІ ЦІНА І НАЗВА
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -347,23 +302,12 @@
             grid-template-columns: 1fr 1.3fr;
             gap: 16px;
             align-items: center;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 18px;
             padding: 18px 22px;
-            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0.98) 0%,
-                rgba(255, 255, 255, 0.98) 40%,
-                rgba(255, 255, 255, 0.55) 60%,
-                rgba(255, 255, 255, 0.35) 100%
-            );
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow:
-                0 10px 30px rgba(180, 80, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .grid-card .img-wrap {
@@ -409,9 +353,10 @@
         .grid-card .manufacturer {
             font-size: 12px;
             letter-spacing: 1.5px;
-            color: #a06020;
+            color: #999;
         }
 
+        /* НАЗВА — більша */
         .grid-card .name {
             font-size: 32px;
             font-weight: 800;
@@ -449,6 +394,7 @@
             gap: 3px;
         }
 
+        /* ЦІНА — більша */
         .grid-card .new-price .price-int {
             font-size: 80px;
             font-weight: 800;
@@ -484,6 +430,7 @@
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.9);
             color: #fff;
             padding: 10px 22px;
             border-radius: 30px;
@@ -493,13 +440,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(70, 40, 10, 0.55);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             animation: hintPulse 2s ease-in-out infinite;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -536,16 +477,8 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
                 padding: 20px;
-                border-radius: 24px;
+                border-radius: 16px;
                 max-height: none;
-
-                background: linear-gradient(
-                    to bottom,
-                    rgba(255, 255, 255, 0.98) 0%,
-                    rgba(255, 255, 255, 0.98) 50%,
-                    rgba(255, 255, 255, 0.55) 75%,
-                    rgba(255, 255, 255, 0.35) 100%
-                );
             }
 
             .mode-single .img-wrap { padding: 10px; }
@@ -569,6 +502,7 @@
                 top: -4px; right: -4px;
             }
 
+            /* Сітка на телефоні */
             .mode-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, auto);
@@ -580,7 +514,7 @@
                 grid-template-columns: 1fr 1.2fr;
                 padding: 12px 14px;
                 gap: 12px;
-                border-radius: 20px;
+                border-radius: 14px;
             }
 
             .grid-card .name { font-size: 20px; }
@@ -607,16 +541,6 @@
             .badge, .best-price-icon,
             .mode-single .img-wrap img.main-img {
                 animation: none !important;
-            }
-        }
-
-        @supports not (backdrop-filter: blur(1px)) {
-            .mode-single,
-            .grid-card {
-                background: rgba(255, 255, 255, 0.9);
-            }
-            .promo-header {
-                background: linear-gradient(135deg, #ff2b2b, #ff6e14);
             }
         }
     </style>
