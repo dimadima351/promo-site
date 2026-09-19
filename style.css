@@ -488,7 +488,14 @@ body.menu-open {
 .alcohol-warning .container {
     padding: 0 20px;
 }
-
+.hero-banner-count {
+    display: inline-block;
+    font-size: 0.75em;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-left: 6px;
+    white-space: nowrap;
+}
 /* Мобільна
 
 /* ============================================================
@@ -657,7 +664,7 @@ body.menu-open {
     background: linear-gradient(135deg, #ff0b0b, #c90808);
     color: #fff;
     text-decoration: none;
-    padding: 24px 28px;
+    padding: 12px 22px;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(255, 11, 11, 0.25);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -669,9 +676,9 @@ body.menu-open {
 }
 
 .hero-banner-text {
-    font-size: 26px;
+    font-size: 20px;         /* ← було 26px */
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
 }
 
@@ -679,8 +686,8 @@ body.menu-open {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
+    width: 36px;             /* ← було 52px */
+    height: 36px;            /* ← було 52px */
     background: #fff;
     color: #ff0b0b;
     border-radius: 50%;
@@ -689,8 +696,8 @@ body.menu-open {
 }
 
 .hero-banner-arrow svg {
-    width: 24px;
-    height: 24px;
+    width: 18px;             /* ← було 24px */
+    height: 18px;
 }
 
 .hero-banner-link:hover .hero-banner-arrow {
@@ -1304,5 +1311,11 @@ body.menu-open {
 
     .footer-logo img {
         height: 36px;
+    }
+}
+@media (max-width: 700px) {
+    .hero-banner-count {
+        font-size: 0.8em;
+        margin-left: 4px;
     }
 }

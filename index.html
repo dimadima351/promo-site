@@ -76,7 +76,10 @@
     <section class="hero-banner">
         <div class="container">
             <a href="promo.html" class="hero-banner-link">
-                <span class="hero-banner-text">АКЦІЇ ЦЬОГО МІСЯЦЯ</span>
+                <span class="hero-banner-text">
+                    АКЦІЇ ЦЬОГО МІСЯЦЯ
+                    <span class="hero-banner-count" id="promoCount"></span>
+                </span>
                 <span class="hero-banner-arrow" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -491,6 +494,26 @@
                     });
                 }, 4000);   // 4000 мс = 4 секунди
             })();
+        // ====== ЛІЧИЛЬНИК ТОВАРІВ НА ГОЛОВНІЙ ======
+        (function() {
+            fetch('./data/promotions.json?t=' + Date.now())
+                .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+                .then(data => {
+                    const count = (data.items || []).filter(it => {
+                        if (it.visible === false) return false;
+                        if (it.outOfStock === true) return false;
+                        const cat = (it.category || '').toLowerCase();
+                        if (cat.includes('ярня')) return false;   // кав'ярня не рахується
+                        return true;
+                    }).length;
+
+                    const el = document.getElementById('promoCount');
+                    if (el) el.textContent = '(' + count + ')';
+                })
+                .catch(err => {
+                    console.error('Не вдалося підрахувати товари:', err);
+                });
+        })();
     </script>
 
 </body>
