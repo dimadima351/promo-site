@@ -318,6 +318,7 @@
 
         /* ============================================================
            СЛАЙД "ТІЛЬКИ НАЙСПРАЙС" — жовта обводка + жовта більша ціна
+           (без жовтого фону!)
            ============================================================ */
 
         .mode-single.best-card {
@@ -363,6 +364,13 @@
             color: #b38f00;
         }
 
+        /* Стара ціна на найспрайс — більша */
+        .mode-single.best-card .old-price {
+            font-size: clamp(48px, 8.4vh, 114px);
+            color: #b0b0b0;
+            margin-bottom: 4px;
+        }
+
         /* Ціна більша ніж звичайна */
         .mode-single.best-card .new-price .price-int {
             font-size: clamp(125px, 32vh, 360px);
@@ -372,18 +380,33 @@
             font-size: clamp(62px, 14vh, 154px);
         }
 
-        /* Анімація підскоку — БІЛЬША для найспрайс */
+        /* Анімація підскоку — збільшується ВНИЗ + ВПРАВО */
         @keyframes priceBounceBest {
-            0%   { transform: scale(1); }
-            30%  { transform: scale(1.35); }
-            50%  { transform: scale(1.20); }
-            70%  { transform: scale(1.28); }
-            100% { transform: scale(1); }
+            0%   {
+                transform: scale(1);
+                transform-origin: left top;
+            }
+            30%  {
+                transform: scale(1.35);
+                transform-origin: left top;
+            }
+            50%  {
+                transform: scale(1.20);
+                transform-origin: left top;
+            }
+            70%  {
+                transform: scale(1.28);
+                transform-origin: left top;
+            }
+            100% {
+                transform: scale(1);
+                transform-origin: left top;
+            }
         }
 
         .mode-single.best-card .new-price.bounce-animate {
             animation: priceBounceBest 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: left bottom;
+            transform-origin: left top;
         }
 
         .mode-double {
@@ -732,6 +755,7 @@
 
             .mode-single.best-card .new-price .price-int { font-size: clamp(100px, 24vh, 240px); }
             .mode-single.best-card .new-price .price-cents { font-size: clamp(50px, 11vh, 110px); }
+            .mode-single.best-card .old-price { font-size: clamp(38px, 6.5vh, 84px); }
         }
 
         @media (max-width: 900px) {
@@ -780,6 +804,7 @@
 
             .mode-single.best-card .new-price .price-int { font-size: 110px; }
             .mode-single.best-card .new-price .price-cents { font-size: 50px; }
+            .mode-single.best-card .old-price { font-size: 42px; }
 
             .mode-double {
                 grid-template-columns: 1fr;
@@ -844,6 +869,7 @@
 
             .mode-single.best-card .new-price .price-int { font-size: 92px; }
             .mode-single.best-card .new-price .price-cents { font-size: 42px; }
+            .mode-single.best-card .old-price { font-size: 34px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
