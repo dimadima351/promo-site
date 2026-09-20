@@ -1090,6 +1090,11 @@ body.menu-open {
     width: 220px;
     scroll-snap-align: start;
 }
+.carousel .card {
+    flex: 0 0 220px;
+    width: 220px;
+    scroll-snap-align: start;
+}
 
 .carousel-loading {
     color: #888;
@@ -1331,7 +1336,11 @@ body.menu-open {
     color: #888;
 }
 
-
+.card-link {
+    display: contents;   /* магія — <a> стає «невидимою» для flex/grid */
+    text-decoration: none;
+    color: inherit;
+}
 
 
 
