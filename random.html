@@ -29,9 +29,6 @@
 
         body.is-fullscreen { cursor: default; }
 
-        /* ============================================================
-           ШАПКА
-           ============================================================ */
         .promo-header {
             display: flex;
             align-items: center;
@@ -82,9 +79,6 @@
             flex-shrink: 0;
         }
 
-        /* ============================================================
-           ОСНОВНА ЧАСТИНА
-           ============================================================ */
         .random-main {
             flex: 1;
             display: flex;
@@ -119,9 +113,6 @@
             font-size: clamp(14px, 2.5vh, 20px);
         }
 
-        /* ============================================================
-           АНІМАЦІЯ ПІДСКОКУ
-           ============================================================ */
         @keyframes priceBounce {
             0%   { transform: scale(1); }
             30%  { transform: scale(1.18); }
@@ -148,9 +139,6 @@
             transform-origin: left bottom;
         }
 
-        /* ============================================================
-           РЕЖИМ A: ОДНА КАРТКА
-           ============================================================ */
         .mode-single {
             display: grid;
             grid-template-columns: 0.82fr 1.18fr;
@@ -224,7 +212,6 @@
             100% { transform: scale(1); }
         }
 
-        /* НАЙСПРАЙС на 1 картці — ×2.5 */
         .best-price-icon {
             position: absolute;
             top: -10px;
@@ -329,9 +316,6 @@
             margin-top: 4px;
         }
 
-        /* ============================================================
-           РЕЖИМ C/D: ДВІ ВЕЛИКІ КАРТКИ
-           ============================================================ */
         .mode-double {
             width: 100%;
             height: 100%;
@@ -383,7 +367,6 @@
                        badgePulse 2.4s ease-in-out 0.8s infinite;
         }
 
-        /* НАЙСПРАЙС на 2 картках — ×2.5 */
         .double-card .best-price-icon {
             top: -8px;
             right: -8px;
@@ -486,9 +469,6 @@
             transform-origin: left bottom;
         }
 
-        /* ============================================================
-           РЕЖИМ B: 4 КАРТКИ
-           ============================================================ */
         .mode-grid {
             width: 100%;
             height: 100%;
@@ -630,9 +610,6 @@
             margin-top: 1px;
         }
 
-        /* ============================================================
-           FULLSCREEN ПІДКАЗКА
-           ============================================================ */
         .fullscreen-hint {
             position: fixed;
             bottom: 12px;
@@ -662,74 +639,28 @@
         .fullscreen-hint.hidden { opacity: 0; }
         .fullscreen-hint svg { width: 14px; height: 14px; }
 
-        /* ============================================================
-           ДЛЯ ШИРОКИХ ЕКРАНІВ
-           ============================================================ */
         @media (min-width: 1600px) {
-            .random-container {
-                max-width: 1800px;
-            }
+            .random-container { max-width: 1800px; }
         }
 
-        /* ============================================================
-           ДЛЯ НИЗЬКИХ ЕКРАНІВ
-           ============================================================ */
         @media (max-height: 700px) {
-            .name {
-                font-size: clamp(28px, 6vh, 64px);
-            }
-            .new-price .price-int {
-                font-size: clamp(80px, 20vh, 200px);
-            }
-            .new-price .price-cents {
-                font-size: clamp(38px, 9vh, 92px);
-            }
-            .old-price {
-                font-size: clamp(24px, 4.2vh, 52px);
-            }
-            .manufacturer {
-                font-size: clamp(14px, 2.2vh, 26px);
-            }
-
-            .best-price-icon {
-                width: clamp(100px, 16vh, 175px);
-                height: clamp(100px, 16vh, 175px);
-            }
-
-            .double-card .name {
-                font-size: clamp(20px, 3.6vh, 40px);
-            }
-            .double-card .new-price .price-int {
-                font-size: clamp(70px, 15vh, 155px);
-            }
-            .double-card .new-price .price-cents {
-                font-size: clamp(34px, 7.5vh, 74px);
-            }
-            .double-card .old-price {
-                font-size: clamp(20px, 3.4vh, 42px);
-            }
-            .double-card .best-price-icon {
-                width: clamp(90px, 14vh, 150px);
-                height: clamp(90px, 14vh, 150px);
-            }
-
-            .grid-card .name {
-                font-size: clamp(20px, 4vh, 42px);
-            }
-            .grid-card .new-price .price-int {
-                font-size: clamp(72px, 13vh, 150px);
-            }
-            .grid-card .new-price .price-cents {
-                font-size: clamp(32px, 6.5vh, 72px);
-            }
-            .grid-card .old-price {
-                font-size: clamp(18px, 3.2vh, 38px);
-            }
+            .name { font-size: clamp(28px, 6vh, 64px); }
+            .new-price .price-int { font-size: clamp(80px, 20vh, 200px); }
+            .new-price .price-cents { font-size: clamp(38px, 9vh, 92px); }
+            .old-price { font-size: clamp(24px, 4.2vh, 52px); }
+            .manufacturer { font-size: clamp(14px, 2.2vh, 26px); }
+            .best-price-icon { width: clamp(100px, 16vh, 175px); height: clamp(100px, 16vh, 175px); }
+            .double-card .name { font-size: clamp(20px, 3.6vh, 40px); }
+            .double-card .new-price .price-int { font-size: clamp(70px, 15vh, 155px); }
+            .double-card .new-price .price-cents { font-size: clamp(34px, 7.5vh, 74px); }
+            .double-card .old-price { font-size: clamp(20px, 3.4vh, 42px); }
+            .double-card .best-price-icon { width: clamp(90px, 14vh, 150px); height: clamp(90px, 14vh, 150px); }
+            .grid-card .name { font-size: clamp(20px, 4vh, 42px); }
+            .grid-card .new-price .price-int { font-size: clamp(72px, 13vh, 150px); }
+            .grid-card .new-price .price-cents { font-size: clamp(32px, 6.5vh, 72px); }
+            .grid-card .old-price { font-size: clamp(18px, 3.2vh, 38px); }
         }
 
-        /* ============================================================
-           МОБІЛЬНА ВЕРСІЯ
-           ============================================================ */
         @media (max-width: 900px) {
             html, body { overflow: auto; cursor: default; }
 
@@ -765,15 +696,9 @@
             .mode-single .new-price .price-cents { font-size: 42px; }
             .mode-single .new-price .price-unit { font-size: 13px; }
 
-            .mode-single .badge {
-                width: 64px; height: 64px;
-                font-size: 17px;
-            }
+            .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
 
-            .best-price-icon {
-                width: 90px; height: 90px;
-                top: -4px; right: -4px;
-            }
+            .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
 
             .mode-double {
                 grid-template-columns: 1fr;
@@ -878,12 +803,17 @@
             return url + separator + 't=' + Date.now();
         }
 
-        let allItems = [];
-        let mode = 'single';   // 'single' | 'double' | 'grid' | 'pair'
+        let allItems = [];        // всі товари без кав'ярні
+        let bestItems = [];       // тільки найспрайс
+        let mode = 'single';      // 'single' | 'double' | 'grid' | 'pair' | 'singleBest'
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer1 = null;
         let bounceTimer2 = null;
+
+        /* Історія показів: масив останніх 4 ID товарів (щоб не повторюватись) */
+        const RECENT_LIMIT = 4;
+        let recentIds = [];       // масив id, що показувались останні 4 слайди
 
         function isDesktop() {
             return window.innerWidth > 900;
@@ -912,14 +842,50 @@
             return a;
         }
 
+        /* Фільтр: не показувати товари, що вже були в останніх RECENT_LIMIT слайдах */
+        function filterRecent(arr) {
+            if (recentIds.length === 0) return arr;
+            const filtered = arr.filter(it => !recentIds.includes(it.id));
+            // Якщо після фільтру нічого не залишилось — повертаємо оригінал (щоб не залишитись з порожнім екраном)
+            return filtered.length > 0 ? filtered : arr;
+        }
+
+        /* Додати ID товарів у "нещодавні" */
+        function rememberShown(items) {
+            items.forEach(it => {
+                recentIds.push(it.id);
+            });
+            // Обрізаємо до RECENT_LIMIT останніх
+            while (recentIds.length > RECENT_LIMIT) {
+                recentIds.shift();
+            }
+        }
+
         function pickSingle() {
             if (allItems.length === 0) return null;
-            let pool = allItems;
-            if (allItems.length > 1 && lastSingleId !== null) {
-                pool = allItems.filter(it => it.id !== lastSingleId);
+
+            // Фільтруємо ті, що не показувались останні 4 слайди
+            let pool = filterRecent(allItems);
+
+            // Уникаємо повтору підряд
+            if (pool.length > 1 && lastSingleId !== null) {
+                const filtered = pool.filter(it => it.id !== lastSingleId);
+                if (filtered.length > 0) pool = filtered;
             }
+
             const item = pool[Math.floor(Math.random() * pool.length)];
             lastSingleId = item.id;
+            return item;
+        }
+
+        /* НОВИЙ: тільки товари з bestPrice: true */
+        function pickSingleBest() {
+            if (bestItems.length === 0) return null;
+
+            let pool = filterRecent(bestItems);
+            if (pool.length === 0) pool = bestItems;
+
+            const item = pool[Math.floor(Math.random() * pool.length)];
             return item;
         }
 
@@ -1110,48 +1076,79 @@
             });
         }
 
-        /* ДВА підскоки: на 3 секунді та на 7 секунді */
         function scheduleBounce() {
             if (bounceTimer1) clearTimeout(bounceTimer1);
             if (bounceTimer2) clearTimeout(bounceTimer2);
 
-            bounceTimer1 = setTimeout(triggerPriceBounce, 3000);   // 1-й підскок
-            bounceTimer2 = setTimeout(triggerPriceBounce, 7000);   // 2-й підскок
+            bounceTimer1 = setTimeout(triggerPriceBounce, 3000);
+            bounceTimer2 = setTimeout(triggerPriceBounce, 7000);
         }
 
-        /* Послідовність: single → double → grid → pair → single → ... */
+        /* Послідовність: single → double → grid → pair → singleBest → single → ... */
         function nextMode(current) {
             if (current === 'single') return 'double';
             if (current === 'double') return 'grid';
             if (current === 'grid') return 'pair';
+            if (current === 'pair') return 'singleBest';
             return 'single';
         }
 
         function updateContent() {
             const container = document.getElementById('randomContainer');
 
-            if (allItems.length === 0) {
+            if (allItems.length === 0 && bestItems.length === 0) {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
                 return;
             }
 
             let html = '';
+            let shownItems = [];
 
             if (mode === 'single') {
                 const item = pickSingle();
-                if (item) html = renderSingle(item);
+                if (item) {
+                    html = renderSingle(item);
+                    shownItems = [item];
+                }
             } else if (mode === 'double') {
                 const items = pickSameCategory2();
-                if (items.length) html = renderDouble(items);
+                if (items.length) {
+                    html = renderDouble(items);
+                    shownItems = items;
+                }
             } else if (mode === 'grid') {
                 const items = pickSameCategory4();
-                if (items.length) html = renderGrid(items);
+                if (items.length) {
+                    html = renderGrid(items);
+                    shownItems = items;
+                }
             } else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
-                if (items.length) html = renderDouble(items);
+                if (items.length) {
+                    html = renderDouble(items);
+                    shownItems = items;
+                }
+            } else if (mode === 'singleBest') {
+                const item = pickSingleBest();
+                if (item) {
+                    html = renderSingle(item);
+                    shownItems = [item];
+                } else {
+                    // Fallback — якщо немає товарів з найспрайс, показуємо звичайний
+                    const fallback = pickSingle();
+                    if (fallback) {
+                        html = renderSingle(fallback);
+                        shownItems = [fallback];
+                    }
+                }
             }
 
             container.innerHTML = html;
+
+            // Запам'ятовуємо показані товари
+            if (shownItems.length > 0) {
+                rememberShown(shownItems);
+            }
 
             container.classList.remove('fade-in');
             void container.offsetWidth;
@@ -1209,7 +1206,8 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                allItems = (data.items || []).filter(it => {
+                // Фільтр загальний
+                const all = (data.items || []).filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
                     const cat = (it.category || '').toLowerCase();
@@ -1217,7 +1215,10 @@
                     return true;
                 });
 
-                if (allItems.length === 0) {
+                allItems = all;
+                bestItems = all.filter(it => it.bestPrice === true);
+
+                if (allItems.length === 0 && bestItems.length === 0) {
                     document.getElementById('randomContainer').innerHTML =
                         '<p class="random-loading">Немає товарів для показу</p>';
                     return;
