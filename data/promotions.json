@@ -1767,6 +1767,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 109,
+      "name": "Сік Яблучний прямого віджиму 185мл GardenGadz",
+      "manufacturer": "GardenGadz",
+      "category": "Дитяче харчування",
+      "price": 25.0,
+      "oldPrice": 31.0,
+      "badge": "-19%",
+      "image": "./images/109.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 110,
+      "name": "Сік Томатний з мʼякотю 1л GardenGadz",
+      "manufacturer": "GardenGadz",
+      "category": "Дитяче харчування",
+      "price": 75.0,
+      "oldPrice": 93.0,
+      "badge": "-19%",
+      "image": "./images/110.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
