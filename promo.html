@@ -173,7 +173,13 @@
         setInterval(updateCountdown, 5 * 60 * 1000);
 
         // ====== РЕНДЕР КАРТОК ======
-function makeCard(item) {
+        function makeCard(item) {
+            // Обгортка-посилання (не змінює розміри картки)
+            const link = document.createElement('a');
+            link.href = 'product.html?id=' + item.id;
+            link.className = 'card-link';
+            link.style.cssText = 'display:block; text-decoration:none; color:inherit; height:100%;';
+
             const card = document.createElement('div');
             card.className = 'card';
             const isOut = item.outOfStock === true;
@@ -189,7 +195,7 @@ function makeCard(item) {
 
             card.innerHTML = `
                 ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
-                ${item.bestPrice && !isOut ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon">` : ''}
+                ${item.bestPrice && !isOut ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
                 <div class="card-image">
                     <img src="${imgSrc}" alt="${item.name}" loading="lazy"
                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
@@ -209,7 +215,8 @@ function makeCard(item) {
                 </div>
             `;
 
-            return card;
+            link.appendChild(card);
+            return link;
         }
 
         // ====== ПОКАЗ ЩЕ ======
