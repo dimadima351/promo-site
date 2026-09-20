@@ -1085,11 +1085,6 @@ body.menu-open {
     background: #ff0b0b;
 }
 
-.carousel .card-link {
-    flex: 0 0 220px;
-    width: 220px;
-    scroll-snap-align: start;
-}
 .carousel .card {
     flex: 0 0 220px;
     width: 220px;
@@ -1336,11 +1331,7 @@ body.menu-open {
     color: #888;
 }
 
-.card-link {
-    display: contents;   /* магія — <a> стає «невидимою» для flex/grid */
-    text-decoration: none;
-    color: inherit;
-}
+
 
 
 
@@ -1530,7 +1521,7 @@ body.menu-open {
         font-size: 18px;
         margin-bottom: 12px;
     }
-    .carousel .card-link {
+    .carousel .card {
         flex: 0 0 180px;
         width: 180px;
     }
@@ -1701,7 +1692,7 @@ body.menu-open {
         width: 100%;
         text-align: center;
     }
-    .carousel .card-link {
+        .carousel .card-link {
         flex: 0 0 180px;
         width: 180px;
     }
