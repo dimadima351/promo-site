@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Товар | Ваш ПАРТНЕР</title>
-    <link rel="stylesheet" href="style.css?v=30">
+    <link rel="stylesheet" href="style.css?v=100">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -14,13 +14,12 @@
     <header class="header">
         <div class="container">
             <a href="/" class="logo">
-                <img src="./image_site/_2.jpg" alt="Логотип" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
+                <img src="./image_site/_2.jpg" alt="Логотип"
+                     onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
             </a>
 
             <button class="burger" id="burgerBtn" aria-label="Меню">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
 
             <nav class="nav" id="mainNav">
@@ -58,9 +57,11 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+            <div class="footer-bottom" style="padding-top:0;">
+                <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+            </div>
         </div>
     </footer>
 
@@ -93,28 +94,40 @@
         menuOverlay.addEventListener('click', closeMenu);
         mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
 
-        // ====== ОТРИМАННЯ ID З URL ======
+        // ====== АКТИВНЕ МЕНЮ ======
+        (function() {
+            let currentPath = window.location.pathname;
+            if (currentPath === '/' || currentPath === '') currentPath = '/index.html';
+            document.querySelectorAll('.nav a').forEach(link => {
+                let href = link.getAttribute('href');
+                if (!href || href === '#') return;
+                if (href.startsWith('http')) href = new URL(href).pathname;
+                else if (!href.startsWith('/')) href = '/' + href;
+                if (href === currentPath) link.classList.add('active');
+            });
+        })();
+
+        // ====== ID ТОВАРУ ======
         function getIdFromUrl() {
             return new URLSearchParams(window.location.search).get('id');
         }
 
-        // ====== РЕНДЕР СТОРІНКИ ТОВАРУ ======
+        // ====== РЕНДЕР СТОРІНКИ ======
         function renderProduct(item) {
             const container = document.getElementById('product-container');
             const isOut = item.outOfStock === true;
 
-            const priceRaw = Number(item.price ?? item.newPrice ?? 0);
+            const priceRaw = Number(item.price ?? 0);
             const priceInt = Math.floor(priceRaw);
             const priceCents = Math.round((priceRaw - priceInt) * 100)
                 .toString().padStart(2, '0');
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
 
-            // Оновлюємо title
             document.title = item.name + ' | Ваш ПАРТНЕР';
             document.getElementById('breadcrumb-name').textContent = item.name;
 
-            // Оновлюємо батьківську крихту (Акції / Алкоголь / Кава та чай)
+            // Визначаємо батьківську категорію для хлібних крихт
             const cat = (item.category || '').toLowerCase();
             const parentLink = document.getElementById('breadcrumb-parent');
             if (cat.includes('алкоголь')) {
@@ -132,6 +145,7 @@
                 <div class="product-layout ${isOut ? 'out-of-stock' : ''}">
                     <div class="product-image-wrap">
                         ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
+                        ${item.bestPrice && !isOut ? `<img src="./image_site/photo.png" alt="Найспрайс" class="product-best-price" onerror="this.style.display='none';">` : ''}
                         ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
                         <div class="product-image">
                             <img src="${imgSrc}" alt="${item.name}"
