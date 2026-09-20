@@ -769,6 +769,44 @@
                 animation: none !important;
             }
         }
+                /* ============================================================
+        СЛАЙД "ТІЛЬКИ НАЙСПРАЙС" — жовтий фон + анімація
+        ============================================================ */
+
+        /* Фон для слайду singleBest */
+        .random-main.best-bg {
+            background: #fff7cc;
+            animation: bestBgPulse 3s ease-in-out;
+            border-radius: 20px;
+            transition: background 0.6s ease;
+        }
+
+        @keyframes bestBgPulse {
+            0%   { background: #ffffff; }
+            15%  { background: #ffe066; }
+            30%  { background: #fff7cc; }
+            50%  { background: #ffe066; }
+            70%  { background: #fff7cc; }
+            100% { background: #ffffff; }
+        }
+
+        /* Плавна поява картки з легким "підскоком" */
+        .random-container.fade-in .mode-single {
+            animation: bestCardAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes bestCardAppear {
+            0%   { transform: scale(0.85); opacity: 0; }
+            60%  { transform: scale(1.03); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* На телефоні — теж */
+        @media (max-width: 900px) {
+            .random-main.best-bg {
+                border-radius: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1095,6 +1133,7 @@
 
         function updateContent() {
             const container = document.getElementById('randomContainer');
+            const mainEl = document.querySelector('.random-main');
 
             if (allItems.length === 0 && bestItems.length === 0) {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
@@ -1134,7 +1173,6 @@
                     html = renderSingle(item);
                     shownItems = [item];
                 } else {
-                    // Fallback — якщо немає товарів з найспрайс, показуємо звичайний
                     const fallback = pickSingle();
                     if (fallback) {
                         html = renderSingle(fallback);
@@ -1145,7 +1183,23 @@
 
             container.innerHTML = html;
 
-            // Запам'ятовуємо показані товари
+            /* ЖОВТИЙ ФОН ТІЛЬКИ ДЛЯ СЛАЙДУ singleBest */
+            if (mainEl) {
+                if (mode === 'singleBest') {
+                    // Перезапуск анімації
+                    mainEl.classList.remove('best-bg');
+                    void mainEl.offsetWidth;
+                    mainEl.classList.add('best-bg');
+
+                    // Через 3 секунди — прибираємо клас (повертається білий фон)
+                    setTimeout(() => {
+                        mainEl.classList.remove('best-bg');
+                    }, 3000);
+                } else {
+                    mainEl.classList.remove('best-bg');
+                }
+            }
+
             if (shownItems.length > 0) {
                 rememberShown(shownItems);
             }
