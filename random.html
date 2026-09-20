@@ -316,99 +316,6 @@
             margin-top: 4px;
         }
 
-        /* ============================================================
-           СЛАЙД "ТІЛЬКИ НАЙСПРАЙС" — жовта обводка + жовта більша ціна
-           (без жовтого фону!)
-           ============================================================ */
-
-        .mode-single.best-card {
-            border: 4px solid #ffcc00;
-            box-shadow:
-                0 0 0 2px rgba(255, 204, 0, 0.25),
-                0 20px 60px rgba(255, 204, 0, 0.35),
-                0 0 60px rgba(255, 204, 0, 0.25);
-            animation: bestBorderPulse 2.4s ease-in-out infinite;
-        }
-
-        @keyframes bestBorderPulse {
-            0%, 100% {
-                border-color: #ffcc00;
-                box-shadow:
-                    0 0 0 2px rgba(255, 204, 0, 0.25),
-                    0 20px 60px rgba(255, 204, 0, 0.35),
-                    0 0 60px rgba(255, 204, 0, 0.25);
-            }
-            50% {
-                border-color: #ffdd33;
-                box-shadow:
-                    0 0 0 4px rgba(255, 204, 0, 0.4),
-                    0 20px 60px rgba(255, 204, 0, 0.5),
-                    0 0 80px rgba(255, 204, 0, 0.4);
-            }
-        }
-
-        /* Ціна на слайді найспрайс — жовта */
-        .mode-single.best-card .new-price {
-            color: #ffcc00;
-        }
-
-        .mode-single.best-card .new-price .price-int,
-        .mode-single.best-card .new-price .price-cents {
-            color: #ffcc00;
-            text-shadow:
-                0 0 20px rgba(255, 204, 0, 0.6),
-                0 4px 20px rgba(255, 180, 0, 0.4);
-        }
-
-        .mode-single.best-card .new-price .price-unit {
-            color: #b38f00;
-        }
-
-        /* Стара ціна на найспрайс — більша */
-        .mode-single.best-card .old-price {
-            font-size: clamp(48px, 8.4vh, 114px);
-            color: #b0b0b0;
-            margin-bottom: 4px;
-        }
-
-        /* Ціна більша ніж звичайна */
-        .mode-single.best-card .new-price .price-int {
-            font-size: clamp(125px, 32vh, 360px);
-        }
-
-        .mode-single.best-card .new-price .price-cents {
-            font-size: clamp(62px, 14vh, 154px);
-        }
-
-        /* Анімація підскоку — збільшується ВНИЗ + ВПРАВО */
-        @keyframes priceBounceBest {
-            0%   {
-                transform: scale(1);
-                transform-origin: left top;
-            }
-            30%  {
-                transform: scale(1.35);
-                transform-origin: left top;
-            }
-            50%  {
-                transform: scale(1.20);
-                transform-origin: left top;
-            }
-            70%  {
-                transform: scale(1.28);
-                transform-origin: left top;
-            }
-            100% {
-                transform: scale(1);
-                transform-origin: left top;
-            }
-        }
-
-        .mode-single.best-card .new-price.bounce-animate {
-            animation: priceBounceBest 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: left top;
-        }
-
         .mode-double {
             width: 100%;
             height: 100%;
@@ -752,10 +659,6 @@
             .grid-card .new-price .price-int { font-size: clamp(72px, 13vh, 150px); }
             .grid-card .new-price .price-cents { font-size: clamp(32px, 6.5vh, 72px); }
             .grid-card .old-price { font-size: clamp(18px, 3.2vh, 38px); }
-
-            .mode-single.best-card .new-price .price-int { font-size: clamp(100px, 24vh, 240px); }
-            .mode-single.best-card .new-price .price-cents { font-size: clamp(50px, 11vh, 110px); }
-            .mode-single.best-card .old-price { font-size: clamp(38px, 6.5vh, 84px); }
         }
 
         @media (max-width: 900px) {
@@ -796,15 +699,6 @@
             .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
 
             .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
-
-            /* best-card на телефоні */
-            .mode-single.best-card {
-                border-width: 3px;
-            }
-
-            .mode-single.best-card .new-price .price-int { font-size: 110px; }
-            .mode-single.best-card .new-price .price-cents { font-size: 50px; }
-            .mode-single.best-card .old-price { font-size: 42px; }
 
             .mode-double {
                 grid-template-columns: 1fr;
@@ -866,113 +760,16 @@
             .grid-card .name { font-size: 18px; }
             .grid-card .new-price .price-int { font-size: 62px; }
             .grid-card .new-price .price-cents { font-size: 28px; }
-
-            .mode-single.best-card .new-price .price-int { font-size: 92px; }
-            .mode-single.best-card .new-price .price-cents { font-size: 42px; }
-            .mode-single.best-card .old-price { font-size: 34px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .badge, .best-price-icon,
             .mode-single .img-wrap img.main-img,
-            .new-price, .mode-single.best-card {
+            .new-price {
                 animation: none !important;
             }
         }
-        /* ============================================================
-   ОПТИМІЗАЦІЯ ДЛЯ ТВ / СЛАБКИХ ПРИСТРОЇВ
-   ============================================================ */
-
-/* 1. Примусово використовувати GPU для анімованих елементів */
-        .new-price,
-        .badge,
-        .best-price-icon,
-        .mode-single .img-wrap img.main-img {
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            perspective: 1000px;
-        }
-
-        /* 2. Замінюємо важку box-shadow-анімацію на легку (тільки transform) */
-        @keyframes bestBorderPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.015);
-            }
-        }
-
-        /* Прибираємо анімацію box-shadow — залишаємо тільки статичну тінь */
-        .mode-single.best-card {
-            border: 4px solid #ffcc00;
-            box-shadow:
-                0 0 0 3px rgba(255, 204, 0, 0.35),
-                0 20px 60px rgba(255, 204, 0, 0.4);
-            animation: bestBorderPulse 2.4s ease-in-out infinite;
-            will-change: transform;
-        }
-
-        /* 3. Спрощуємо drop-shadow → звичайна тінь (швидше в 5-10 разів) */
-        .best-price-icon {
-            filter: none;   /* прибираємо важкий filter */
-            /* Замість filter використовуємо легкий box-shadow на img */
-            box-shadow: none;
-            /* Або, якщо хочемо тінь — додаємо border навколо: */
-            /* нічого — просто іконка */
-        }
-
-        /* Якщо все ж хочемо тінь для найспрайс — робимо її через окремий псевдоелемент */
-        .best-price-icon::after {
-            display: none;
-        }
-
-        /* 4. Оптимізація великої картинки — без важких фільтрів */
-        .mode-single .img-wrap img.main-img,
-        .double-card .img-wrap img.main-img,
-        .grid-card .img-wrap img.main-img {
-            filter: none;   /* без drop-shadow */
-            will-change: transform;
-        }
-
-        /* 5. Ключове: для анімації підскоку використовуємо ТІЛЬКИ transform */
-        @keyframes priceBounce {
-            0%   { transform: translateZ(0) scale(1); }
-            30%  { transform: translateZ(0) scale(1.18); }
-            50%  { transform: translateZ(0) scale(1.10); }
-            70%  { transform: translateZ(0) scale(1.15); }
-            100% { transform: translateZ(0) scale(1); }
-        }
-
-        @keyframes priceBounceSmall {
-            0%   { transform: translateZ(0) scale(1); }
-            30%  { transform: translateZ(0) scale(1.12); }
-            50%  { transform: translateZ(0) scale(1.06); }
-            70%  { transform: translateZ(0) scale(1.10); }
-            100% { transform: translateZ(0) scale(1); }
-        }
-
-        @keyframes priceBounceBest {
-            0%   { transform: translateZ(0) scale(1); }
-            30%  { transform: translateZ(0) scale(1.35); }
-            50%  { transform: translateZ(0) scale(1.20); }
-            70%  { transform: translateZ(0) scale(1.28); }
-            100% { transform: translateZ(0) scale(1); }
-        }
-
-        /* 6. Прискорюємо анімацію badge (пульсація) */
-        @keyframes badgePulse {
-            0%   { transform: translateZ(0) scale(1); }
-            50%  { transform: translateZ(0) scale(1.12); }
-            100% { transform: translateZ(0) scale(1); }
-        }
-
-        /* 7. Анімація "подих" картинки — теж без filter */
-        @keyframes imageBreath {
-            0%, 100% { transform: translateZ(0) scale(1); }
-            50%      { transform: translateZ(0) scale(1.04); }
-        }
+        
     </style>
 </head>
 <body>
@@ -1007,16 +804,17 @@
             return url + separator + 't=' + Date.now();
         }
 
-        let allItems = [];
-        let bestItems = [];
-        let mode = 'single';
+        let allItems = [];        // всі товари без кав'ярні
+        let bestItems = [];       // тільки найспрайс
+        let mode = 'single';      // 'single' | 'double' | 'grid' | 'pair' | 'singleBest'
         let lastSingleId = null;
         let autoTimer = null;
         let bounceTimer1 = null;
         let bounceTimer2 = null;
 
+        /* Історія показів: масив останніх 4 ID товарів (щоб не повторюватись) */
         const RECENT_LIMIT = 6;
-        let recentIds = [];
+        let recentIds = [];       // масив id, що показувались останні 4 слайди
 
         function isDesktop() {
             return window.innerWidth > 900;
@@ -1045,16 +843,20 @@
             return a;
         }
 
+        /* Фільтр: не показувати товари, що вже були в останніх RECENT_LIMIT слайдах */
         function filterRecent(arr) {
             if (recentIds.length === 0) return arr;
             const filtered = arr.filter(it => !recentIds.includes(it.id));
+            // Якщо після фільтру нічого не залишилось — повертаємо оригінал (щоб не залишитись з порожнім екраном)
             return filtered.length > 0 ? filtered : arr;
         }
 
+        /* Додати ID товарів у "нещодавні" */
         function rememberShown(items) {
             items.forEach(it => {
                 recentIds.push(it.id);
             });
+            // Обрізаємо до RECENT_LIMIT останніх
             while (recentIds.length > RECENT_LIMIT) {
                 recentIds.shift();
             }
@@ -1063,8 +865,10 @@
         function pickSingle() {
             if (allItems.length === 0) return null;
 
+            // Фільтруємо ті, що не показувались останні 4 слайди
             let pool = filterRecent(allItems);
 
+            // Уникаємо повтору підряд
             if (pool.length > 1 && lastSingleId !== null) {
                 const filtered = pool.filter(it => it.id !== lastSingleId);
                 if (filtered.length > 0) pool = filtered;
@@ -1075,6 +879,7 @@
             return item;
         }
 
+        /* НОВИЙ: тільки товари з bestPrice: true */
         function pickSingleBest() {
             if (bestItems.length === 0) return null;
 
@@ -1105,6 +910,7 @@
         function pickPairSameNameOrManufacturer() {
             if (allItems.length < 2) return allItems.slice(0, 2);
 
+            // 1) однакова назва
             const byName = {};
             allItems.forEach(it => {
                 const key = (it.name || '').trim().toLowerCase();
@@ -1118,6 +924,7 @@
                 return shuffle(group).slice(0, 2);
             }
 
+            // 2) однаковий виробник
             const byMan = {};
             allItems.forEach(it => {
                 const key = (it.manufacturer || '').trim().toLowerCase();
@@ -1158,15 +965,13 @@
             return { int, cents };
         }
 
-        function renderSingle(item, isBest = false) {
+        function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
 
-            const cardClass = 'mode-single' + (isBest ? ' best-card' : '');
-
             return `
-                <div class="${cardClass}">
+                <div class="mode-single">
                     <div class="img-wrap">
                         ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
                         ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
@@ -1280,6 +1085,7 @@
             bounceTimer2 = setTimeout(triggerPriceBounce, 7000);
         }
 
+        /* Послідовність: single → double → grid → pair → singleBest → single → ... */
         function nextMode(current) {
             if (current === 'single') return 'double';
             if (current === 'double') return 'grid';
@@ -1302,7 +1108,7 @@
             if (mode === 'single') {
                 const item = pickSingle();
                 if (item) {
-                    html = renderSingle(item, false);
+                    html = renderSingle(item);
                     shownItems = [item];
                 }
             } else if (mode === 'double') {
@@ -1326,12 +1132,13 @@
             } else if (mode === 'singleBest') {
                 const item = pickSingleBest();
                 if (item) {
-                    html = renderSingle(item, true);
+                    html = renderSingle(item);
                     shownItems = [item];
                 } else {
+                    // Fallback — якщо немає товарів з найспрайс, показуємо звичайний
                     const fallback = pickSingle();
                     if (fallback) {
-                        html = renderSingle(fallback, false);
+                        html = renderSingle(fallback);
                         shownItems = [fallback];
                     }
                 }
@@ -1339,6 +1146,7 @@
 
             container.innerHTML = html;
 
+            // Запам'ятовуємо показані товари
             if (shownItems.length > 0) {
                 rememberShown(shownItems);
             }
@@ -1399,6 +1207,7 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
+                // Фільтр загальний
                 const all = (data.items || []).filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
