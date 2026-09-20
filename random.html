@@ -879,6 +879,100 @@
                 animation: none !important;
             }
         }
+        /* ============================================================
+   ОПТИМІЗАЦІЯ ДЛЯ ТВ / СЛАБКИХ ПРИСТРОЇВ
+   ============================================================ */
+
+/* 1. Примусово використовувати GPU для анімованих елементів */
+        .new-price,
+        .badge,
+        .best-price-icon,
+        .mode-single .img-wrap img.main-img {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* 2. Замінюємо важку box-shadow-анімацію на легку (тільки transform) */
+        @keyframes bestBorderPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.015);
+            }
+        }
+
+        /* Прибираємо анімацію box-shadow — залишаємо тільки статичну тінь */
+        .mode-single.best-card {
+            border: 4px solid #ffcc00;
+            box-shadow:
+                0 0 0 3px rgba(255, 204, 0, 0.35),
+                0 20px 60px rgba(255, 204, 0, 0.4);
+            animation: bestBorderPulse 2.4s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* 3. Спрощуємо drop-shadow → звичайна тінь (швидше в 5-10 разів) */
+        .best-price-icon {
+            filter: none;   /* прибираємо важкий filter */
+            /* Замість filter використовуємо легкий box-shadow на img */
+            box-shadow: none;
+            /* Або, якщо хочемо тінь — додаємо border навколо: */
+            /* нічого — просто іконка */
+        }
+
+        /* Якщо все ж хочемо тінь для найспрайс — робимо її через окремий псевдоелемент */
+        .best-price-icon::after {
+            display: none;
+        }
+
+        /* 4. Оптимізація великої картинки — без важких фільтрів */
+        .mode-single .img-wrap img.main-img,
+        .double-card .img-wrap img.main-img,
+        .grid-card .img-wrap img.main-img {
+            filter: none;   /* без drop-shadow */
+            will-change: transform;
+        }
+
+        /* 5. Ключове: для анімації підскоку використовуємо ТІЛЬКИ transform */
+        @keyframes priceBounce {
+            0%   { transform: translateZ(0) scale(1); }
+            30%  { transform: translateZ(0) scale(1.18); }
+            50%  { transform: translateZ(0) scale(1.10); }
+            70%  { transform: translateZ(0) scale(1.15); }
+            100% { transform: translateZ(0) scale(1); }
+        }
+
+        @keyframes priceBounceSmall {
+            0%   { transform: translateZ(0) scale(1); }
+            30%  { transform: translateZ(0) scale(1.12); }
+            50%  { transform: translateZ(0) scale(1.06); }
+            70%  { transform: translateZ(0) scale(1.10); }
+            100% { transform: translateZ(0) scale(1); }
+        }
+
+        @keyframes priceBounceBest {
+            0%   { transform: translateZ(0) scale(1); }
+            30%  { transform: translateZ(0) scale(1.35); }
+            50%  { transform: translateZ(0) scale(1.20); }
+            70%  { transform: translateZ(0) scale(1.28); }
+            100% { transform: translateZ(0) scale(1); }
+        }
+
+        /* 6. Прискорюємо анімацію badge (пульсація) */
+        @keyframes badgePulse {
+            0%   { transform: translateZ(0) scale(1); }
+            50%  { transform: translateZ(0) scale(1.12); }
+            100% { transform: translateZ(0) scale(1); }
+        }
+
+        /* 7. Анімація "подих" картинки — теж без filter */
+        @keyframes imageBreath {
+            0%, 100% { transform: translateZ(0) scale(1); }
+            50%      { transform: translateZ(0) scale(1.04); }
+        }
     </style>
 </head>
 <body>
