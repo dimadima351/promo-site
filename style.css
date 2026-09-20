@@ -773,6 +773,7 @@ body.menu-open {
 /* Сітка тримає однакову висоту рядків */
 .grid {
     align-items: stretch;
+    
 }
 
 /* Обгортка-посилання розтягується на всю висоту рядка */
@@ -999,6 +1000,22 @@ body.menu-open {
     padding: 30px 0 40px;
 }
 
+.carousel .card-link {
+    flex: 0 0 220px;
+    width: 220px;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    scroll-snap-align: start;
+}
+
+/* Картка всередині обгортки — на всю висоту */
+.carousel .card-link .card {
+    height: 100%;
+    width: 100%;
+}
+
 .section-title {
     font-size: 22px;
     color: #2c3e50;
@@ -1068,7 +1085,7 @@ body.menu-open {
     background: #ff0b0b;
 }
 
-.carousel .card {
+.carousel .card-link {
     flex: 0 0 220px;
     width: 220px;
     scroll-snap-align: start;
@@ -1504,7 +1521,7 @@ body.menu-open {
         font-size: 18px;
         margin-bottom: 12px;
     }
-    .carousel .card {
+    .carousel .card-link {
         flex: 0 0 180px;
         width: 180px;
     }
@@ -1674,5 +1691,9 @@ body.menu-open {
     .product-back-btn {
         width: 100%;
         text-align: center;
+    }
+    .carousel .card-link {
+        flex: 0 0 180px;
+        width: 180px;
     }
 }
