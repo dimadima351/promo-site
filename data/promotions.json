@@ -1920,6 +1920,57 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 118,
+      "name": "Віскі Джеймсон 40% 0,5л",
+      "manufacturer": "Джкймсон",
+      "category": "Алкоголь",
+      "price": 689.0,
+      "oldPrice": 799.0,
+      "badge": "-14%",
+      "image": "./images/118.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 119,
+      "name": "Віскі Балантайс Файнест 0,5л",
+      "manufacturer": "Балантайс Файнест",
+      "category": "Алкоголь",
+      "price": 555.0,
+      "oldPrice": 699.0,
+      "badge": "-21%",
+      "image": "./images/119.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 120,
+      "name": "Віскі Балантайс Файнест 0,7л",
+      "manufacturer": "Балантайс Файнест",
+      "category": "Алкоголь",
+      "price": 725.0,
+      "oldPrice": 849.0,
+      "badge": "-15%",
+      "image": "./images/120.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     }
   ]
 }
