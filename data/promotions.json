@@ -1971,6 +1971,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": true
+    },
+    {
+      "id": 121,
+      "name": "Желейки Yummi Gummi Mini Bear Mix 70г Рошен",
+      "manufacturer": "Рошен",
+      "category": "Солодощі",
+      "price": 22.9,
+      "oldPrice": 43.0,
+      "badge": "-47%",
+      "image": "./images/121.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 122,
+      "name": "Желейки Yummi Gummi Funny Cola 70г Рошен",
+      "manufacturer": "Рошен",
+      "category": "Солодощі",
+      "price": 22.9,
+      "oldPrice": 43.0,
+      "badge": "-47%",
+      "image": "./images/122.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     }
   ]
 }
