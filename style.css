@@ -1703,7 +1703,7 @@ body.menu-open {
    ============================================================ */
 
 .suppliers-info {
-    max-width: 900px;
+    max-width: 1300px;
     margin: 30px auto 60px;
     padding: 40px 45px;
     background: #fff;
@@ -1986,7 +1986,7 @@ body.menu-open {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.6;
     color: #444;
 }
