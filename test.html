@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🎄 Відлік до Нового Року 🎄</title>
+  <style>
+    /* ----- ЗАГАЛЬНІ СКИДАННЯ ТА ШРИФТИ ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, #0a1f2e, #04131f);
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ----- СНІГ (імітація без JavaScript, чистий CSS) ----- */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #ffffff;
+      font-size: 1.2em;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+      user-select: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* ----- ГОЛОВНА КАРТКА ----- */
+    .countdown-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(10, 25, 40, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 60px 60px 40px 40px;
+      padding: 40px 20px 50px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 215, 0, 0.2) inset;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    /* ----- ЯЛИНКОВА ГІРЛЯНДА (світлодіодна стрічка) ----- */
+    .garland {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
+
+    .light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffd966;
+      box-shadow: 0 0 12px #ffb347, 0 0 20px #ff8c00;
+      animation: blink 1.5s infinite alternate;
+    }
+
+    .light:nth-child(2n) {
+      background: #ff4d4d;
+      box-shadow: 0 0 12px #ff4d4d, 0 0 20px #ff1a1a;
+      animation-delay: 0.3s;
+    }
+
+    .light:nth-child(3n) {
+      background: #6eff6e;
+      box-shadow: 0 0 12px #6eff6e, 0 0 20px #00cc00;
+      animation-delay: 0.6s;
+    }
+
+    .light:nth-child(5n) {
+      background: #6ec8ff;
+      box-shadow: 0 0 12px #6ec8ff, 0 0 20px #0088ff;
+      animation-delay: 0.9s;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ----- ЗАГОЛОВОК ----- */
+    h1 {
+      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      font-weight: 800;
+      color: #fff5e6;
+      text-shadow: 0 0 10px #ffbb33, 0 0 20px #ff8800, 0 0 40px #ff5500;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .subhead {
+      font-size: clamp(1rem, 4vw, 1.8rem);
+      color: #cfecff;
+      text-shadow: 0 0 8px #4aa8ff;
+      margin-bottom: 30px;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    /* ----- ТАЙМЕР (сітка) ----- */
+    .timer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 15px 10px;
+      margin: 30px 0 20px;
+    }
+
+    .time-block {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      border-radius: 30px;
+      padding: 18px 10px;
+      min-width: 100px;
+      flex: 1 0 100px;
+      max-width: 160px;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 200, 0, 0.3);
+      transition: transform 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .time-block:hover {
+      transform: scale(1.02);
+    }
+
+    .time-value {
+      font-size: clamp(2.5rem, 10vw, 4.2rem);
+      font-weight: 900;
+      color: #fff9e6;
+      text-shadow: 0 0 15px #ffaa00, 0 0 30px #ff8800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-label {
+      font-size: clamp(0.8rem, 3vw, 1.3rem);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b8d9ff;
+      margin-top: 8px;
+      font-weight: 400;
+      text-shadow: 0 0 6px #2a6f9c;
+    }
+
+    /* ----- НОВОРІЧНІ ПРИКРАСИ (ялинка, сніжинки) ----- */
+    .deco {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 25px;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      filter: drop-shadow(0 0 12px gold);
+    }
+
+    .deco span {
+      animation: sparkle 2s infinite alternate;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0.7; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    /* ----- ПРИВІТАННЯ / ПІДПИС ----- */
+    .message {
+      margin-top: 25px;
+      font-size: clamp(0.9rem, 3.5vw, 1.4rem);
+      color: #ffecb3;
+      text-shadow: 0 0 12px #ffaa33;
+      font-style: italic;
+      letter-spacing: 1px;
+      border-top: 1px dashed rgba(255, 255, 150, 0.5);
+      padding-top: 20px;
+    }
+
+    /* ----- АДАПТИВНІСТЬ ПІД СМАРТФОНИ ----- */
+    @media (max-width: 700px) {
+      .countdown-container {
+        padding: 25px 12px 35px;
+        border-radius: 40px;
+      }
+
+      .timer {
+        gap: 8px;
+      }
+
+      .time-block {
+        min-width: 70px;
+        padding: 12px 6px;
+        border-radius: 20px;
+      }
+
+      .time-value {
+        font-size: clamp(1.8rem, 11vw, 3rem);
+      }
+
+      .time-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+      }
+
+      .garland .light {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .time-block {
+        min-width: 60px;
+        padding: 8px 4px;
+      }
+
+      .time-value {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* ----- ДЛЯ ДУЖЕ ВЕЛИКИХ ЕКРАНІВ ----- */
+    @media (min-width: 1400px) {
+      .countdown-container {
+        max-width: 1200px;
+        padding: 60px 40px 70px;
+      }
+
+      .time-value {
+        font-size: 5rem;
+      }
+    }
+
+    /* Плавна поява */
+    .countdown-container {
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Сніжинки (CSS) -->
+  <div class="snow" id="snowfield"></div>
+
+  <div class="countdown-container">
+    <!-- Гірлянда -->
+    <div class="garland">
+      <div class="light"></div><div class="light"></div><div class="light"></div>
+      <div class="light"></div><div class="light"></div><div class="light"></div>
+      <div class="light"></div><div class="light"></div><div class="light"></div>
+      <div class="light"></div><div class="light"></div><div class="light"></div>
+    </div>
+
+    <h1>🎄 НОВИЙ РІК 🎄</h1>
+    <div class="subhead">2026</div>
+
+    <!-- ТАЙМЕР -->
+    <div class="timer" id="timer">
+      <div class="time-block">
+        <div class="time-value" id="days">00</div>
+        <div class="time-label">днів</div>
+      </div>
+      <div class="time-block">
+        <div class="time-value" id="hours">00</div>
+        <div class="time-label">годин</div>
+      </div>
+      <div class="time-block">
+        <div class="time-value" id="minutes">00</div>
+        <div class="time-label">хвилин</div>
+      </div>
+      <div class="time-block">
+        <div class="time-value" id="seconds">00</div>
+        <div class="time-label">секунд</div>
+      </div>
+    </div>
+
+    <!-- Новорічні прикраси -->
+    <div class="deco">
+      <span>❄️</span>
+      <span>🎅</span>
+      <span>🎁</span>
+      <span>⛄</span>
+      <span>✨</span>
+    </div>
+
+    <div class="message">
+      ⏳ Час до 1 січня 00:00:00
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---- 1. ГЕНЕРАЦІЯ СНІЖИНОК ----
+      const snowfield = document.getElementById('snowfield');
+      const snowflakeCount = window.innerWidth < 600 ? 50 : 100; // менше на телефоні для продуктивності
+
+      for (let i = 0; i < snowflakeCount; i++) {
+        const flake = document.createElement('div');
+        flake.classList.add('snowflake');
+        // Випадкові символи: сніжинки та зірочки
+        const symbols = ['❄️', '❅', '❆', '✻', '✼', '•', '✦'];
+        flake.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        // Випадкові позиції та анімація
+        const left = Math.random() * 100;
+        const fontSize = Math.random() * 1.5 + 0.5; // від 0.5 до 2em
+        const duration = Math.random() * 8 + 6; // від 6 до 14 секунд
+        const delay = Math.random() * 10;
+        const opacity = Math.random() * 0.5 + 0.3;
+
+        flake.style.left = left + '%';
+        flake.style.fontSize = fontSize + 'em';
+        flake.style.animationDuration = duration + 's';
+        flake.style.animationDelay = delay + 's';
+        flake.style.opacity = opacity;
+        // Додатковий різний колір для декору
+        if (Math.random() > 0.7) {
+          flake.style.color = '#e0f0ff';
+        } else if (Math.random() > 0.8) {
+          flake.style.color = '#fff0b5';
+        } else {
+          flake.style.color = '#ffffff';
+        }
+
+        snowfield.appendChild(flake);
+      }
+
+      // ---- 2. ТАЙМЕР ДО 1 СІЧНЯ 00:00:00 ----
+      function getTargetYear() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        // Якщо зараз 1 січня і час менше 00:00:00 (тобто вже настав новий рік, 
+        // але ми хочемо наступний), то цільовий рік = поточний + 1.
+        // Але оскільки після 00:00:00 1 січня таймер має показувати 0, 
+        // ми все одно робимо перевірку: якщо поточна дата < 1 січня поточного року 00:00:00, 
+        // то ціль - 1 січня поточного року. Інакше - 1 січня наступного.
+        const targetThisYear = new Date(currentYear, 0, 1, 0, 0, 0); // 1 січня поточного року
+        // Якщо зараз до 1 січня поточного року (наприклад, 31 грудня 2025, а зараз 2026 вже після НР? ні),
+        // Але краще порівняти: якщо now < targetThisYear, то ціль - targetThisYear, інакше - наступний рік.
+        if (now < targetThisYear) {
+          return targetThisYear;
+        } else {
+          // Після 1 січня 00:00:00 поточного року => наступний рік
+          return new Date(currentYear + 1, 0, 1, 0, 0, 0);
+        }
+      }
+
+      const targetDate = getTargetYear();
+
+      // Елементи для виводу
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+
+      function updateTimer() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          // Якщо час вже настав (Новий рік) — показуємо нулі
+          daysEl.textContent = '00';
+          hoursEl.textContent = '00';
+          minutesEl.textContent = '00';
+          secondsEl.textContent = '00';
+          // Можна додати святковий ефект, але залишимо так
+          return;
+        }
+
+        // Розрахунок днів, годин, хвилин, секунд
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        // Форматування з двома цифрами
+        daysEl.textContent = days < 10 ? '0' + days : days;
+        hoursEl.textContent = hours < 10 ? '0' + hours : hours;
+        minutesEl.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsEl.textContent = seconds < 10 ? '0' + seconds : seconds;
+      }
+
+      // Оновлення кожну секунду
+      updateTimer();
+      setInterval(updateTimer, 1000);
+
+      // Додатковий захист: якщо раптом змінився рік під час роботи, перерахувати ціль?
+      // Але це не критично, оскільки після Нового року diff стане <=0 і покаже 00.
+      // Для краси можна оновлювати ціль кожні 5 хвилин, але залишимо так.
+
+      // ---- 3. ДОДАТКОВО: ОНОВЛЕННЯ ЦІЛІ, ЯКЩО ПЕРІОД ПЕРЕЙШОВ ЗА НОВИЙ РІК ----
+      // (на випадок, якщо сторінка відкрита дуже довго)
+      setInterval(() => {
+        const newTarget = getTargetYear();
+        // Якщо цільовий рік змінився (тобто настав новий рік і ми хочемо наступний)
+        if (newTarget.getFullYear() !== targetDate.getFullYear()) {
+          // Оновлюємо targetDate (але змінна targetDate оголошена як const, 
+          // тому треба використовувати let. Виправимо це)
+          // Для цього перепишемо логіку з let
+          // Але у нас const targetDate, тому просто перезавантажимо сторінку? 
+          // Краще змінити на let:
+        }
+      }, 60000); // раз на хвилину
+
+      // Переробимо: змінимо const на let для targetDate
+      // (але код вище вже виконався, тому просто змінимо підхід: динамічна функція)
+      // Щоб не ускладнювати, зробимо так: при досягненні нуля оновлюємо targetDate на наступний рік.
+      // Це додамо в updateTimer.
+
+      // Перезапишемо updateTimer з урахуванням динамічної цілі:
+      // Але щоб не дублювати, зробимо невеликий хак: замінимо функцію.
+      // Оскільки код виконується зверху вниз, я перевизначу updateTimer після першого запуску.
+      // Красивіше: зробимо змінну targetDate змінною.
+
+      // Але оскільки я вже написав код з const, трохи пізно. 
+      // Тому просто додам перевірку в кінці: якщо diff <= 0, змінюємо targetDate на наступний рік
+      // і продовжуємо. Але щоб не ламати логіку, зробимо це акуратно.
+
+      // Змінимо підхід: 
+      // оголосимо targetDate як let і перепишемо функцію getTargetYear та updateTimer.
+      // Але щоб не переписувати весь код, я просто додам нижче оновлену версію.
+
+      // Зробимо "перезавантаження" логіки:
+      // (Це не вплине на попередній код, але зробить його гнучкішим)
+      // Я перепишу функцію updateTimer з новою логікою.
+
+      // Але щоб не заплутатися, я повністю перепишу нижню частину скрипта.
+      // (У реальному коді краще одразу писати правильно)
+    })();
+  </script>
+
+  <!-- Додатковий скрипт для коректної роботи після Нового року -->
+  <script>
+    (function() {
+      // Ця частина перезаписує таймер, щоб він був динамічним і завжди вів до наступного Нового року
+      // Видалимо старі інтервали? Простіше зробити новий, але щоб уникнути дублювання,
+      // зробимо так: 
+      // (Оскільки попередній код вже створив інтервал, цей код створить новий, 
+      //  і буде два таймери. Тому краще зупинити попередній. 
+      //  Але я не зберіг ID інтервалу. Тому зробимо інакше: 
+      //  перезапишемо функцію updateTimer і перезапустимо інтервал.)
+
+      // Зупинимо всі інтервали (небезпечно, але працює в даному контексті)
+      // Кращий спосіб: не використовувати попередній скрипт, а цей зробити основним.
+      // Але щоб не переписувати HTML, я просто залишу попередній скрипт, 
+      // а тут додам більш досконалу логіку і скасую попередній інтервал.
+      
+      // Оскільки я не знаю ID інтервалу, зробимо так:
+      // Змінимо функцію updateTimer на нову і перезапустимо з новим інтервалом.
+      // Старий інтервал продовжить викликати стару функцію, що погано.
+      // Але в даному випадку краще зробити чистий код з самого початку.
+      // Тому я просто видалю попередній скрипт і заміню його на цей.
+
+      // Але в HTML вже є скрипт. Тому я перепишу його повністю.
+      // Зупинимо всі інтервали:
+      const highestIntervalId = setInterval(() => {}, 1000);
+      for (let i = 0; i <= highestIntervalId; i++) {
+        clearInterval(i);
+      }
+      // Це грубо, але в навчальному прикладі припустимо.
+
+      // Тепер нова логіка:
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+
+      function getTargetDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const targetThisYear = new Date(year, 0, 1, 0, 0, 0);
+        if (now < targetThisYear) {
+          return targetThisYear;
+        } else {
+          return new Date(year + 1, 0, 1, 0, 0, 0);
+        }
+      }
+
+      let targetDate = getTargetDate();
+
+      function updateTimer() {
+        const now = new Date();
+        let diff = targetDate - now;
+
+        // Якщо час вийшов (настав Новий рік), оновлюємо ціль на наступний рік
+        if (diff <= 0) {
+          targetDate = getTargetDate();
+          diff = targetDate - now;
+          // Якщо після оновлення diff все ще <= 0 (малоймовірно), показуємо нулі
+          if (diff <= 0) {
+            daysEl.textContent = '00';
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            return;
+          }
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        daysEl.textContent = days < 10 ? '0' + days : days;
+        hoursEl.textContent = hours < 10 ? '0' + hours : hours;
+        minutesEl.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsEl.textContent = seconds < 10 ? '0' + seconds : seconds;
+      }
+
+      // Запускаємо оновлення
+      updateTimer();
+      setInterval(updateTimer, 1000);
+
+      // Також оновлюємо targetDate при кожному виклику, якщо рік змінився
+      // (це вже враховано в getTargetDate)
+    })();
+  </script>
+</body>
+</html>
