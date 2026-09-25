@@ -40,17 +40,109 @@
 
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <nav class="breadcrumbs">
-        <div class="container">
-            <a href="/">Головна</a>
-            <span class="sep">›</span>
-            <span class="current" id="bc-current">Пошук</span>
-        </div>
-    </nav>
+    <!-- БАНЕР-КАРУСЕЛЬ (як на головній) -->
+    <section class="banner-carousel" id="bannerCarousel">
+        <img src="./image_site/banner1.jpg" alt="" class="banner-slide active" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner2.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner3.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner4.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
+        <img src="./image_site/banner5.jpg" alt="" class="banner-slide" onerror="this.style.opacity=0.3">
 
-    <section class="page-title">
+        <div class="banner-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+            <span class="dot" data-slide="3"></span>
+            <span class="dot" data-slide="4"></span>
+        </div>
+    </section>
+
+    <!-- ПОШУК + КАТЕГОРІЇ -->
+    <section class="search-categories-section">
         <div class="container">
-            <h2 id="page-title">Результати пошуку</h2>
+            <div class="search-cat-row">
+
+                <!-- Пошук (без випадаючих результатів — оновлює сторінку) -->
+                <div class="search-box-wrap">
+                    <div class="search-input-wrap">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="mainSearchInput" class="search-input-main" placeholder="Пошук товарів..." autocomplete="off">
+                        <button class="search-clear-btn" id="mainSearchClear" type="button" aria-label="Очистити">×</button>
+                    </div>
+                </div>
+
+                <!-- Карусель категорій -->
+                <div class="categories-carousel" id="categoriesCarousel">
+
+                    <button class="cat-circle" data-cat="Солодощі" type="button">
+                        <div class="cat-img-wrap">
+                            🍫
+                            <img src="./image_site/cat-solodoshchi.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Солодощі</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Молочні продукти" type="button">
+                        <div class="cat-img-wrap">
+                            🥛
+                            <img src="./image_site/cat-molochni.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Молочні</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Бакалія" type="button">
+                        <div class="cat-img-wrap">
+                            🍞
+                            <img src="./image_site/cat-bakaliya.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Бакалія</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Алкоголь" type="button">
+                        <div class="cat-img-wrap">
+                            🍷
+                            <img src="./image_site/cat-alkohol.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Алкоголь</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Заморожені" type="button">
+                        <div class="cat-img-wrap">
+                            ❄️
+                            <img src="./image_site/cat-zamorozheni.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Заморожені</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Кава" type="button">
+                        <div class="cat-img-wrap">
+                            ☕
+                            <img src="./image_site/cat-kava.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Кава</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Дитяче харчування" type="button">
+                        <div class="cat-img-wrap">
+                            🍼
+                            <img src="./image_site/cat-dytiache.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Дитяче</span>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Заголовок -->
+    <section class="page-title" style="padding: 20px 0;">
+        <div class="container">
+            <h2 id="page-title">Всі товари</h2>
             <p id="page-subtitle">Завантаження...</p>
         </div>
     </section>
@@ -77,7 +169,7 @@
             return url + separator + 't=' + Date.now();
         }
 
-        // Бургер-меню
+        // ====== БУРГЕР-МЕНЮ ======
         const burgerBtn = document.getElementById('burgerBtn');
         const mainNav = document.getElementById('mainNav');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -98,11 +190,42 @@
         menuOverlay.addEventListener('click', closeMenu);
         mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
 
-        // URL параметри
-        function getParam(name) {
-            return new URLSearchParams(window.location.search).get(name);
-        }
+        // ====== БАНЕР-КАРУСЕЛЬ ======
+        (function() {
+            const slides = document.querySelectorAll('.banner-slide');
+            const dots = document.querySelectorAll('.banner-dots .dot');
+            if (slides.length === 0) return;
 
+            let current = 0;
+            let timer = null;
+
+            function show(i) {
+                slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+                dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+                current = i;
+            }
+            function next() { show((current + 1) % slides.length); }
+            function start() { stop(); timer = setInterval(next, 5000); }
+            function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+            show(0);
+            start();
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    show(parseInt(dot.dataset.slide));
+                    start();
+                });
+            });
+
+            const el = document.getElementById('bannerCarousel');
+            if (el) {
+                el.addEventListener('mouseenter', stop);
+                el.addEventListener('mouseleave', start);
+            }
+        })();
+
+        // ====== КАРТКА ТОВАРУ ======
         function makeCard(item) {
             const link = document.createElement('a');
             link.href = 'product.html?id=' + item.id;
@@ -146,49 +269,101 @@
             return link;
         }
 
-        const q = getParam('q');
-        const cat = getParam('cat');
+        // ====== СТАН ======
+        let allProducts = [];
         const container = document.getElementById('search-container');
         const titleEl = document.getElementById('page-title');
         const subtitleEl = document.getElementById('page-subtitle');
-        const bcEl = document.getElementById('bc-current');
+        const searchInput = document.getElementById('mainSearchInput');
+        const clearBtn = document.getElementById('mainSearchClear');
 
+        // ====== ФІЛЬТРАЦІЯ ======
+        function filterAndRender() {
+            const q = searchInput.value.trim().toLowerCase();
+            const urlCat = new URLSearchParams(window.location.search).get('cat');
+
+            let items = allProducts.slice();
+
+            // Фільтр по категорії (з кружечка)
+            if (urlCat) {
+                const c = urlCat.toLowerCase();
+                items = items.filter(it => (it.category || '').toLowerCase().includes(c));
+            }
+
+            // Фільтр по пошуку
+            if (q.length >= 2) {
+                items = items.filter(it => {
+                    const name = (it.name || '').toLowerCase();
+                    const man = (it.manufacturer || '').toLowerCase();
+                    const cat = (it.category || '').toLowerCase();
+                    return name.includes(q) || man.includes(q) || cat.includes(q);
+                });
+                titleEl.textContent = 'Пошук: «' + searchInput.value.trim() + '»';
+            } else if (urlCat) {
+                titleEl.textContent = urlCat;
+            } else {
+                titleEl.textContent = 'Всі товари';
+            }
+
+            subtitleEl.textContent = 'Знайдено товарів: ' + items.length;
+
+            container.innerHTML = '';
+            if (items.length === 0) {
+                container.innerHTML = '<p class="loading">Нічого не знайдено 😔</p>';
+                return;
+            }
+            items.forEach(it => container.appendChild(makeCard(it)));
+        }
+
+        // ====== ОНОВЛЕННЯ URL БЕЗ ПЕРЕЗАВАНТАЖЕННЯ ======
+        function updateUrl(params) {
+            const url = new URL(window.location);
+            url.search = '';
+            Object.keys(params).forEach(k => {
+                if (params[k]) url.searchParams.set(k, params[k]);
+            });
+            history.pushState(params, '', url);
+        }
+
+        // ====== ПОШУК ======
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.trim();
+            // Очищаємо категорію з URL, якщо почали пошук
+            updateUrl({ q: q });
+            filterAndRender();
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                updateUrl({});
+                filterAndRender();
+                searchInput.focus();
+            });
+        }
+
+        // ====== КЛІК НА КРУЖЕЧОК ======
+        document.querySelectorAll('.cat-circle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cat = btn.dataset.cat;
+                searchInput.value = '';
+                updateUrl({ cat: cat });
+                filterAndRender();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // ====== ЗАВАНТАЖЕННЯ ======
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
             .then(data => {
-                let items = (data.items || []).filter(it => it.visible !== false);
+                allProducts = (data.items || []).filter(it => it.visible !== false);
 
-                if (q) {
-                    const query = q.toLowerCase().trim();
-                    items = items.filter(it => {
-                        const name = (it.name || '').toLowerCase();
-                        const man = (it.manufacturer || '').toLowerCase();
-                        const c = (it.category || '').toLowerCase();
-                        return name.includes(query) || man.includes(query) || c.includes(query);
-                    });
-                    titleEl.textContent = 'Пошук: «' + q + '»';
-                    bcEl.textContent = 'Пошук';
-                    document.title = 'Пошук «' + q + '» | Ваш ПАРТНЕР';
-                } else if (cat) {
-                    const c = cat.toLowerCase();
-                    items = items.filter(it => (it.category || '').toLowerCase().includes(c));
-                    titleEl.textContent = cat;
-                    bcEl.textContent = cat;
-                    document.title = cat + ' | Ваш ПАРТНЕР';
-                } else {
-                    titleEl.textContent = 'Всі товари';
-                    bcEl.textContent = 'Товари';
-                }
+                // Заповнюємо поле пошуку з URL
+                const q = new URLSearchParams(window.location.search).get('q');
+                if (q) searchInput.value = q;
 
-                subtitleEl.textContent = 'Знайдено товарів: ' + items.length;
-
-                container.innerHTML = '';
-                if (items.length === 0) {
-                    container.innerHTML = '<p class="loading">Нічого не знайдено 😔</p>';
-                    return;
-                }
-
-                items.forEach(it => container.appendChild(makeCard(it)));
+                filterAndRender();
             })
             .catch(err => {
                 console.error(err);
