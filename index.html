@@ -78,7 +78,90 @@
             <span class="dot" data-slide="4"></span>
         </div>
     </section>
-    
+        <!-- ПОШУК + КАТЕГОРІЇ -->
+    <section class="search-categories-section">
+        <div class="container">
+            <div class="search-cat-row">
+
+                <!-- Пошук -->
+                <div class="search-box-wrap">
+                    <div class="search-input-wrap">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="mainSearchInput" class="search-input-main" placeholder="Пошук товарів..." autocomplete="off">
+                        <button class="search-clear-btn" id="mainSearchClear" type="button" aria-label="Очистити">×</button>
+                    </div>
+
+                    <!-- Результати пошуку / категорії -->
+                    <div class="search-results-main" id="mainSearchResults"></div>
+                </div>
+
+                <!-- Карусель категорій -->
+                <div class="categories-carousel" id="categoriesCarousel">
+
+                    <button class="cat-circle" data-cat="Солодощі" type="button">
+                        <div class="cat-img-wrap">
+                            🍫
+                            <img src="./image_site/cat-solodoshchi.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Солодощі</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Молочні продукти" type="button">
+                        <div class="cat-img-wrap">
+                            🥛
+                            <img src="./image_site/cat-molochni.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Молочні</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Бакалія" type="button">
+                        <div class="cat-img-wrap">
+                            🍞
+                            <img src="./image_site/cat-bakaliya.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Бакалія</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Алкоголь" type="button">
+                        <div class="cat-img-wrap">
+                            🍷
+                            <img src="./image_site/cat-alkohol.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Алкоголь</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Заморожені" type="button">
+                        <div class="cat-img-wrap">
+                            ❄️
+                            <img src="./image_site/cat-zamorozheni.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Заморожені</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Кава" type="button">
+                        <div class="cat-img-wrap">
+                            ☕
+                            <img src="./image_site/cat-kava.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Кава</span>
+                    </button>
+
+                    <button class="cat-circle" data-cat="Дитяче харчування" type="button">
+                        <div class="cat-img-wrap">
+                            🍼
+                            <img src="./image_site/cat-dytiache.png" alt="" onerror="this.remove()">
+                        </div>
+                        <span class="cat-label">Дитяче</span>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- БЛОК 1: Акції цього місяця -->
     <section class="hero-banner">
@@ -522,6 +605,127 @@
                 .catch(err => {
                     console.error('Не вдалося підрахувати товари:', err);
                 });
+        })();
+
+        (function() {
+            let searchData = [];
+
+            const searchInput = document.getElementById('mainSearchInput');
+            const resultsBox = document.getElementById('mainSearchResults');
+            const clearBtn = document.getElementById('mainSearchClear');
+
+            if (!searchInput || !resultsBox) return;
+
+            // Завантаження товарів
+            fetch('./data/promotions.json?t=' + Date.now())
+                .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+                .then(data => {
+                    searchData = (data.items || []).filter(it => it.visible !== false);
+                })
+                .catch(err => console.error('Пошук: не вдалось завантажити товари', err));
+
+            // Пошук за всіма полями
+            function searchProducts(query) {
+                const q = query.toLowerCase().trim();
+                if (!q) return [];
+                return searchData.filter(it => {
+                    const name = (it.name || '').toLowerCase();
+                    const man = (it.manufacturer || '').toLowerCase();
+                    const cat = (it.category || '').toLowerCase();
+                    return name.includes(q) || man.includes(q) || cat.includes(q);
+                });
+            }
+
+            // Знайти товари за категорією
+            function findCategory(cat) {
+                const c = cat.toLowerCase();
+                return searchData.filter(it => (it.category || '').toLowerCase().includes(c));
+            }
+
+            // Відображення результатів
+            function renderResults(items, type, query) {
+                const total = items.length;
+                const shown = items.slice(0, 4);
+
+                if (total === 0) {
+                    resultsBox.innerHTML = '<div class="search-empty">Нічого не знайдено 😔</div>';
+                    resultsBox.classList.add('active');
+                    return;
+                }
+
+                const allUrl = type === 'search'
+                    ? 'search.html?q=' + encodeURIComponent(query)
+                    : 'search.html?cat=' + encodeURIComponent(query);
+
+                resultsBox.innerHTML = shown.map(it => {
+                    const price = Math.floor(Number(it.price ?? 0));
+                    return `
+                        <a href="product.html?id=${it.id}" class="search-item">
+                            <img src="${it.image}" alt="${it.name}" onerror="this.onerror=null; this.src='./images/0.png';">
+                            <div class="search-item-info">
+                                <div class="search-item-name">${it.name}</div>
+                                <div class="search-item-price">${price} ₴</div>
+                            </div>
+                        </a>
+                    `;
+                }).join('') + `
+                    <a href="${allUrl}" class="search-show-all">
+                        Показати всі (${total}) →
+                    </a>
+                `;
+
+                resultsBox.classList.add('active');
+            }
+
+            // Пошук у реальному часі
+            searchInput.addEventListener('input', () => {
+                const q = searchInput.value.trim();
+                if (q.length < 2) {
+                    resultsBox.classList.remove('active');
+                    return;
+                }
+                renderResults(searchProducts(q), 'search', q);
+            });
+
+            searchInput.addEventListener('focus', () => {
+                const q = searchInput.value.trim();
+                if (q.length >= 2) {
+                    renderResults(searchProducts(q), 'search', q);
+                }
+            });
+
+            // Очищення
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    resultsBox.classList.remove('active');
+                    searchInput.focus();
+                });
+            }
+
+            // Клік на кружечок категорії
+            document.querySelectorAll('.cat-circle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const cat = btn.dataset.cat;
+                    const items = findCategory(cat);
+                    renderResults(items, 'cat', cat);
+                });
+            });
+
+            // Закриття при кліку поза
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-categories-section')) {
+                    resultsBox.classList.remove('active');
+                }
+            });
+
+            // Escape — закрити
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    resultsBox.classList.remove('active');
+                    searchInput.blur();
+                }
+            });
         })();
     </script>
 

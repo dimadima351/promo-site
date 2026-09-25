@@ -2094,3 +2094,330 @@ body.menu-open {
         margin-bottom: 16px;
     }
 }
+
+/* ============================================================
+   ПОШУК + КАТЕГОРІЇ (головна сторінка)
+   ============================================================ */
+.search-categories-section {
+    padding: 12px 0;            /* маленькі відступи зверху і знизу */
+    background: #fff;
+    position: relative;
+    z-index: 50;
+}
+
+.search-cat-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ---------- Пошук ---------- */
+.search-box-wrap {
+    position: relative;
+    flex: 0 0 320px;            /* фіксована ширина на компі */
+    max-width: 320px;
+}
+
+.search-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #999;
+    pointer-events: none;
+}
+
+.search-input-main {
+    width: 100%;
+    padding: 12px 40px 12px 44px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    background: #fff;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input-main:focus {
+    border-color: #ff0b0b;
+    box-shadow: 0 0 0 4px rgba(255, 11, 11, 0.1);
+}
+
+.search-input-main::placeholder {
+    color: #999;
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    border: none;
+    color: #666;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+.search-clear-btn:hover {
+    background: #e0e0e0;
+}
+
+.search-input-main:not(:placeholder-shown) ~ .search-clear-btn {
+    display: flex;
+}
+
+/* ---------- Випадаючі результати ---------- */
+.search-results-main {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #eee;
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+    max-height: 460px;
+    overflow-y: auto;
+    min-width: 340px;
+}
+
+.search-results-main.active {
+    display: block;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background 0.15s;
+}
+
+.search-item:hover {
+    background: #fff8e6;
+}
+
+.search-item img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #f8f9fa;
+    flex-shrink: 0;
+    padding: 3px;
+}
+
+.search-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.search-item-price {
+    font-size: 15px;
+    font-weight: 800;
+    color: #ff0b0b;
+}
+
+.search-show-all {
+    display: block;
+    padding: 14px;
+    text-align: center;
+    background: #f8f9fa;
+    color: #ff0b0b;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+    transition: background 0.2s, color 0.2s;
+}
+
+.search-show-all:hover {
+    background: #ff0b0b;
+    color: #fff;
+}
+
+.search-empty {
+    padding: 24px 14px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* ---------- Карусель категорій ---------- */
+.categories-carousel {
+    flex: 1;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 6px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f0f0f0;
+    min-width: 0;
+}
+
+.categories-carousel::-webkit-scrollbar {
+    height: 5px;
+}
+.categories-carousel::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+.categories-carousel::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+.categories-carousel::-webkit-scrollbar-thumb:hover {
+    background: #ff0b0b;
+}
+
+.cat-circle {
+    flex: 0 0 auto;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: transform 0.2s;
+    width: 80px;
+}
+
+.cat-circle:hover {
+    transform: translateY(-3px);
+}
+
+.cat-circle:active {
+    transform: translateY(-1px) scale(0.97);
+}
+
+.cat-img-wrap {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff2b2b, #d90000);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(255, 11, 11, 0.25);
+    transition: box-shadow 0.2s;
+    border: 2px solid #fff;
+}
+
+.cat-circle:hover .cat-img-wrap {
+    box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45);
+}
+
+.cat-img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.cat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    text-align: center;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+}
+
+/* ---------- Мобільна версія ---------- */
+@media (max-width: 900px) {
+    .search-categories-section {
+        padding: 10px 0;
+    }
+
+    .search-cat-row {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .search-box-wrap {
+        flex: 1 1 auto;
+        max-width: 100%;
+    }
+
+    .search-results-main {
+        min-width: 0;
+    }
+
+    /* На телефоні — 5 кружечків на екран */
+    .cat-circle {
+        width: calc((100vw - 60px) / 5);
+        min-width: 60px;
+    }
+
+    .cat-img-wrap {
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+    }
+
+    .cat-label {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .cat-img-wrap {
+        width: 46px;
+        height: 46px;
+        font-size: 20px;
+    }
+
+    .cat-label {
+        font-size: 9px;
+    }
+}
