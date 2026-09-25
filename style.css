@@ -997,7 +997,7 @@ body.menu-open {
 
 /* ---------- Секція каруселі ---------- */
 .carousel-section {
-    padding: 30px 0 40px;
+    padding: 18px 0 12px;
 }
 
 .carousel .card-link {
@@ -1515,7 +1515,7 @@ body.menu-open {
 
     /* Карусель на мобільному */
     .carousel-section {
-        padding: 20px 0 30px;
+        padding: 18px 0 12px;
     }
     .section-title {
         font-size: 18px;
