@@ -349,28 +349,35 @@
                 );
 
                 // Сортування
+                // Сортування
                 allItems.sort((a, b) => {
                     // 1. Товари "немає в наявності" — завжди в кінці
                     const aOut = a.outOfStock === true ? 1 : 0;
                     const bOut = b.outOfStock === true ? 1 : 0;
                     if (aOut !== bOut) return aOut - bOut;
-                
+
                     // 2. Алкоголь — у кінці (після всіх інших категорій)
                     const aAlc = (a.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
                     const bAlc = (b.category || '').toLowerCase().includes('алкоголь') ? 1 : 0;
                     if (aAlc !== bAlc) return aAlc - bAlc;
-                
+
                     // 3. Акція місяця — вгору
                     if (a.isMonthAction && !b.isMonthAction) return -1;
                     if (!a.isMonthAction && b.isMonthAction) return 1;
-                
+
                     // 4. За категорією (А-Я)
                     const catA = a.category || '';
                     const catB = b.category || '';
                     const catCompare = catA.localeCompare(catB, 'uk');
                     if (catCompare !== 0) return catCompare;
-                
-                    // 5. Всередині категорії — за назвою (А-Я)
+
+                    // 5. Всередині категорії — за виробником (А-Я)
+                    const manA = (a.manufacturer || '').trim();
+                    const manB = (b.manufacturer || '').trim();
+                    const manCompare = manA.localeCompare(manB, 'uk');
+                    if (manCompare !== 0) return manCompare;
+
+                    // 6. Всередині виробника — за назвою (А-Я)
                     return (a.name || '').localeCompare(b.name || '', 'uk');
                 });
 
