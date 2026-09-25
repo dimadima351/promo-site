@@ -56,6 +56,14 @@
         <p class="loading">Завантаження...</p>
     </main>
 
+    <!-- СХОЖІ ТОВАРИ -->
+    <section class="similar-section" id="similarSection" style="display:none;">
+        <div class="container">
+            <h2 class="similar-title">Схожі товари</h2>
+            <div class="grid" id="similarContainer"></div>
+        </div>
+    </section>
+
     <footer class="site-footer">
         <div class="container">
 
@@ -90,12 +98,12 @@
                     <h4 class="footer-title">Контакти</h4>
                     <ul class="footer-links">
                         <li>
-                            <a href="mailto:0000@vashpartner.pp.ua">
+                            <a href="mailto:pronichev.i@smpartner.com.ua">
                                 ✉ pronichev.i@smpartner.com.ua
                             </a>
                         </li>
                         <li>
-                            <a href="tel:+380000000000">
+                            <a href="tel:+380987754321">
                                 ☎ +38 (098) 775-43-21
                             </a>
                         </li>
@@ -151,6 +159,7 @@
 
     <script>
         const PLACEHOLDER = './images/0.png';
+        const SIMILAR_LIMIT = 20;
 
         function noCache(url) {
             const separator = url.includes('?') ? '&' : '?';
@@ -181,6 +190,123 @@
         // ====== ОТРИМАННЯ ID З URL ======
         function getIdFromUrl() {
             return new URLSearchParams(window.location.search).get('id');
+        }
+
+        // ====== ПЕРЕМІШУВАННЯ МАСИВУ ======
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // ====== ПОШУК СХОЖИХ ТОВАРІВ ======
+        function findSimilarProducts(currentItem, allItems) {
+            const currentName = (currentItem.name || '').toLowerCase();
+            const currentCat = (currentItem.category || '').toLowerCase().trim();
+
+            if (!currentCat) return [];
+
+            // Витягуємо слова з назви (>= 4 символи, щоб відкинути "і", "та", "з")
+            const currentWords = currentName
+                .split(/[\s,.\-()\/]+/)
+                .filter(w => w.length >= 4);
+
+            // Фільтр: та ж категорія, не поточний товар, видимий, в наявності
+            let candidates = allItems.filter(it => {
+                if (String(it.id) === String(currentItem.id)) return false;
+                if (it.visible === false) return false;
+                if (it.outOfStock === true) return false;
+                const cat = (it.category || '').toLowerCase().trim();
+                return cat === currentCat;
+            });
+
+            // Оцінка схожості назв
+            candidates.forEach(it => {
+                const name = (it.name || '').toLowerCase();
+                let score = 0;
+                currentWords.forEach(word => {
+                    if (name.includes(word)) score += 1;
+                });
+                it._score = score;
+            });
+
+            // Розділяємо на "схожі за назвою" та "решту з категорії"
+            const similarByName = candidates.filter(it => it._score > 0);
+            const restInCategory = candidates.filter(it => it._score === 0);
+
+            // Перемішуємо обидві групи
+            const similarShuffled = shuffle(similarByName);
+            const restShuffled = shuffle(restInCategory);
+
+            // Схожі за назвою — вперед, потім решта категорії, максимум 20
+            return [...similarShuffled, ...restShuffled].slice(0, SIMILAR_LIMIT);
+        }
+
+        // ====== КАРТКА ТОВАРУ (як в promo.html) ======
+        function makeCard(item) {
+            const link = document.createElement('a');
+            link.href = 'product.html?id=' + item.id;
+            link.className = 'card-link';
+            link.style.cssText = 'display:block; text-decoration:none; color:inherit; height:100%;';
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            const isOut = item.outOfStock === true;
+            if (isOut) card.classList.add('out-of-stock');
+
+            const priceRaw = Number(item.price ?? item.newPrice ?? 0);
+            const priceInt = Math.floor(priceRaw);
+            const priceCents = Math.round((priceRaw - priceInt) * 100)
+                .toString().padStart(2, '0');
+
+            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+            const imgSrc = noCache(item.image);
+
+            card.innerHTML = `
+                ${item.badge && !isOut ? `<div class="badge">${item.badge}</div>` : ''}
+                ${item.bestPrice && !isOut ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                <div class="card-image">
+                    <img src="${imgSrc}" alt="${item.name}" loading="lazy"
+                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                </div>
+                <div class="card-body">
+                    ${isOut ? `<div class="out-of-stock-label">НЕМАЄ В НАЯВНОСТІ</div>` : ''}
+                    ${oldPrice && !isOut ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                    <div class="new-price">
+                        <span class="price-int">${priceInt}</span>
+                        <span class="price-cents-wrap">
+                            <span class="price-cents">${priceCents}</span>
+                            <span class="price-unit">грн/шт</span>
+                        </span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    ${item.validUntil && !isOut ? `<p class="valid-until">Акція діє до ${item.validUntil}</p>` : ''}
+                </div>
+            `;
+
+            link.appendChild(card);
+            return link;
+        }
+
+        // ====== РЕНДЕР СХОЖИХ ТОВАРІВ ======
+        function renderSimilar(currentItem, allItems) {
+            const section = document.getElementById('similarSection');
+            const container = document.getElementById('similarContainer');
+
+            const similar = findSimilarProducts(currentItem, allItems);
+
+            if (similar.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = '';
+            similar.forEach(item => container.appendChild(makeCard(item)));
+
+            section.style.display = 'block';
         }
 
         // ====== РЕНДЕР СТОРІНКИ ТОВАРУ ======
@@ -303,6 +429,7 @@
                     }
 
                     renderProduct(item);
+                    renderSimilar(item, items);
                 })
                 .catch(err => {
                     console.error(err);
