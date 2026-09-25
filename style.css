@@ -2038,9 +2038,9 @@ body.menu-open {
    ============================================================ */
 
 .similar-section {
-    margin-top: 20px;        /* було 50px */
-    padding: 16px 0 10px;    /* було 30px 0 20px */
-    border-top: 2px solid #f0f0f0;
+    margin-top: 10px;
+    padding: 10px 0 6px;
+    border-top: 1px solid #f0f0f0;
     background: #fff;
 }
 
@@ -2061,13 +2061,13 @@ body.menu-open {
 /* Мобільна версія */
 @media (max-width: 700px) {
     .similar-section {
-        margin-top: 30px;
-        padding: 20px 0 10px;
+        margin-top: 10px;
+        padding: 10px 0 4px;
     }
 
     .similar-title {
-        font-size: 22px;
-        margin-bottom: 16px;
+        font-size: 18px;
+        margin-bottom: 10px;
     }
 
     /* На телефоні — 2 картки в рядку (як у promo.html) */
