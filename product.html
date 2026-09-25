@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Супер Ціни | Ваш ПАРТНЕР</title>
+    <link rel="canonical" href="https://vashpartner.pp.ua/product.html">
+    <title>Супер Ціна | Ваш ПАРТНЕР</title>
 
     <link rel="icon" type="image/png" href="./image_site/favicon.png">
     <link rel="apple-touch-icon" href="./image_site/favicon.png">
+
+    <meta name="description" content="Товар за акційною ціною в магазині Ваш Партнер. Знижки на продукти, алкоголь, напої.">
+    <meta name="keywords" content="Ваш Партнер, акції, знижки, продукти, товар">
+    <meta name="author" content="Ваш Партнер">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Viber, Telegram, Facebook) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vashpartner.pp.ua/product.html">
+    <meta property="og:title" content="Товар за акційною ціною | Ваш ПАРТНЕР">
+    <meta property="og:description" content="Найкращі пропозиції на продукти. Знижки до 50%!">
+    <meta property="og:image" content="https://vashpartner.pp.ua/image_site/og-image.png">
+    <meta property="og:image:secure_url" content="https://vashpartner.pp.ua/image_site/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:site_name" content="Ваш ПАРТНЕР">
+    <meta property="og:locale" content="uk_UA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Товар за акційною ціною | Ваш ПАРТНЕР">
+    <meta name="twitter:description" content="Найкращі пропозиції на продукти.">
+    <meta name="twitter:image" content="https://vashpartner.pp.ua/image_site/og-image.png">
 
     <link rel="stylesheet" href="style.css?v=60">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -209,12 +234,10 @@
 
             if (!currentCat) return [];
 
-            // Витягуємо слова з назви (>= 4 символи, щоб відкинути "і", "та", "з")
             const currentWords = currentName
                 .split(/[\s,.\-()\/]+/)
                 .filter(w => w.length >= 4);
 
-            // Фільтр: та ж категорія, не поточний товар, видимий, в наявності
             let candidates = allItems.filter(it => {
                 if (String(it.id) === String(currentItem.id)) return false;
                 if (it.visible === false) return false;
@@ -223,7 +246,6 @@
                 return cat === currentCat;
             });
 
-            // Оцінка схожості назв
             candidates.forEach(it => {
                 const name = (it.name || '').toLowerCase();
                 let score = 0;
@@ -233,19 +255,16 @@
                 it._score = score;
             });
 
-            // Розділяємо на "схожі за назвою" та "решту з категорії"
             const similarByName = candidates.filter(it => it._score > 0);
             const restInCategory = candidates.filter(it => it._score === 0);
 
-            // Перемішуємо обидві групи
             const similarShuffled = shuffle(similarByName);
             const restShuffled = shuffle(restInCategory);
 
-            // Схожі за назвою — вперед, потім решта категорії, максимум 20
             return [...similarShuffled, ...restShuffled].slice(0, SIMILAR_LIMIT);
         }
 
-        // ====== КАРТКА ТОВАРУ (як в promo.html) ======
+        // ====== КАРТКА ТОВАРУ ======
         function makeCard(item) {
             const link = document.createElement('a');
             link.href = 'product.html?id=' + item.id;
@@ -321,11 +340,9 @@
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
             const imgSrc = noCache(item.image);
 
-            // Оновлюємо title
             document.title = item.name + ' | Ваш ПАРТНЕР';
             document.getElementById('breadcrumb-name').textContent = item.name;
 
-            // Хлібні крихти: куди вести "батька"
             const cat = (item.category || '').toLowerCase();
             const parentLink = document.getElementById('breadcrumb-parent');
             if (cat.includes('алкоголь')) {
