@@ -2076,3 +2076,21 @@ body.menu-open {
         gap: 12px;
     }
 }
+.page-image-block {
+    width: 100%;
+    margin-top: 0px;       /* ← відступ зверху */
+    margin-bottom: 30px;    /* ← відступ знизу */
+}
+
+.full-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+@media (max-width: 700px) {
+    .page-image-block {
+        margin-top: 0px;
+        margin-bottom: 16px;
+    }
+}
