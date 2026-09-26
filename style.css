@@ -2534,12 +2534,51 @@ body.menu-open {
     margin-top: 2px;
 }
 
-.event-card-readmore {
+.event-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     margin-top: auto;
     padding-top: 10px;
+}
+
+.event-card-readmore {
     color: #ff0b0b;
     font-size: 14px;
     font-weight: 600;
+}
+
+.event-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #ff0b0b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+}
+
+.event-share-btn:hover {
+    background: #d90000;
+    transform: translateY(-1px);
+}
+
+.event-share-btn:active {
+    transform: translateY(0);
+}
+
+.event-share-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
 }
 
 /* ============================================================
@@ -2754,6 +2793,61 @@ body.event-modal-open {
     line-height: 1.7;
     color: #333;
     white-space: pre-line;
+    margin-bottom: 20px;
+}
+
+/* Кнопка "Поділитись" у модалці */
+.event-modal-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.event-modal-share:hover {
+    background: #ff0b0b;
+    transform: translateY(-2px);
+}
+
+.event-modal-share svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================================
+   ТОСТ "СКОПІЙОВАНО"
+   ============================================================ */
+.share-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(44, 62, 80, 0.95);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.share-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* ============================================================
@@ -2829,5 +2923,22 @@ body.event-modal-open {
 
     .event-modal-description {
         font-size: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .event-share-btn span {
+        display: none;
+    }
+    .event-share-btn {
+        padding: 8px;
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    .event-share-btn svg {
+        width: 18px;
+        height: 18px;
     }
 }

@@ -136,6 +136,17 @@
                 </div>
 
                 <p class="event-modal-description" id="eventModalDescription"></p>
+
+                <button class="event-modal-share" id="eventModalShareBtn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <span>Поділитись</span>
+                </button>
             </div>
 
         </div>
@@ -179,6 +190,56 @@
             return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
         }
 
+        // ====== ПОДІЛИТИСЬ ПОДІЄЮ ======
+        async function shareEvent(ev) {
+            const eventUrl = window.location.origin + '/events.html?id=' + ev.id;
+            const shareData = {
+                title: ev.title || 'Подія',
+                text: ev.subtitle ? ev.title + ' — ' + ev.subtitle : ev.title,
+                url: eventUrl
+            };
+
+            // Web Share API (телефон)
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                }
+            }
+
+            // Fallback: копіювання в буфер
+            try {
+                await navigator.clipboard.writeText(eventUrl);
+                showShareToast('Посилання скопійовано ✅');
+            } catch (err) {
+                const temp = document.createElement('input');
+                temp.value = eventUrl;
+                document.body.appendChild(temp);
+                temp.select();
+                try {
+                    document.execCommand('copy');
+                    showShareToast('Посилання скопійовано ✅');
+                } catch (e) {
+                    prompt('Скопіюйте посилання:', eventUrl);
+                }
+                document.body.removeChild(temp);
+            }
+        }
+
+        function showShareToast(text) {
+            const toast = document.createElement('div');
+            toast.className = 'share-toast';
+            toast.textContent = text;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 2200);
+        }
+
         // ====== РЕНДЕР СПИСКУ ПОДІЙ ======
         function renderEvents(events) {
             const grid = document.getElementById('eventsGrid');
@@ -189,7 +250,6 @@
                 return;
             }
 
-            // Сортуємо: спочатку за датою події (новіші зверху)
             events.sort((a, b) => {
                 const da = new Date(a.eventDate || a.publishedAt || 0).getTime();
                 const db = new Date(b.eventDate || b.publishedAt || 0).getTime();
@@ -215,11 +275,34 @@
                         <h3 class="event-card-title">${ev.title}</h3>
                         ${ev.subtitle ? `<p class="event-card-subtitle">${ev.subtitle}</p>` : ''}
                         ${ev.address ? `<div class="event-card-address">📍 ${ev.address}</div>` : ''}
-                        <div class="event-card-readmore">Читати далі →</div>
+                        <div class="event-card-actions">
+                            <div class="event-card-readmore">Читати далі →</div>
+                            <button class="event-share-btn" data-event-id="${ev.id}" title="Поділитись" aria-label="Поділитись">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
+                                <span>Поділитись</span>
+                            </button>
+                        </div>
                     </div>
                 `;
 
+                // Клік на картку — відкриває модалку
                 card.addEventListener('click', () => openEventModal(ev));
+
+                // Кнопка "Поділитись" — не відкриває модалку
+                const shareBtn = card.querySelector('.event-share-btn');
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        shareEvent(ev);
+                    });
+                }
+
                 grid.appendChild(card);
             });
         }
@@ -228,6 +311,7 @@
         const modal = document.getElementById('eventModal');
         const modalOverlay = document.getElementById('eventModalOverlay');
         const modalClose = document.getElementById('eventModalClose');
+        const modalShareBtn = document.getElementById('eventModalShareBtn');
 
         const carouselTrack = document.getElementById('eventCarouselTrack');
         const carouselDots = document.getElementById('eventCarouselDots');
@@ -236,9 +320,11 @@
 
         let currentSlide = 0;
         let totalSlides = 0;
+        let currentEvent = null;
 
         function openEventModal(ev) {
-            // Заповнюємо текст
+            currentEvent = ev;
+
             document.getElementById('eventModalTitle').textContent = ev.title || '';
             document.getElementById('eventModalSubtitle').textContent = ev.subtitle || '';
             document.getElementById('eventModalDescription').textContent = ev.description || '';
@@ -263,10 +349,12 @@
 
             document.getElementById('eventModalPublished').textContent = formatDateTime(ev.publishedAt) || '—';
 
-            // Карусель
             renderCarousel(ev.images || []);
 
-            // Відкриваємо
+            // Оновлюємо URL
+            const newUrl = window.location.pathname + '?id=' + ev.id;
+            history.replaceState({ id: ev.id }, '', newUrl);
+
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('event-modal-open');
@@ -279,10 +367,19 @@
             modal.classList.remove('active');
             modal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('event-modal-open');
+
+            // Прибираємо ?id з URL
+            history.replaceState({}, '', window.location.pathname);
         }
 
         modalOverlay.addEventListener('click', closeEventModal);
         modalClose.addEventListener('click', closeEventModal);
+
+        if (modalShareBtn) {
+            modalShareBtn.addEventListener('click', () => {
+                if (currentEvent) shareEvent(currentEvent);
+            });
+        }
 
         document.addEventListener('keydown', (e) => {
             if (!modal.classList.contains('active')) return;
@@ -369,6 +466,15 @@
             .then(data => {
                 const events = (data.events || []).filter(ev => ev.visible !== false);
                 renderEvents(events);
+
+                // Авто-відкриття події за ?id=X
+                const urlId = new URLSearchParams(window.location.search).get('id');
+                if (urlId) {
+                    const target = events.find(ev => String(ev.id) === String(urlId));
+                    if (target) {
+                        setTimeout(() => openEventModal(target), 300);
+                    }
+                }
             })
             .catch(err => {
                 console.error(err);
