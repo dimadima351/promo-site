@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Події | Ваш ПАРТНЕР</title>
+
+    <link rel="icon" type="image/png" href="./image_site/favicon.png">
+    <link rel="apple-touch-icon" href="./image_site/favicon.png">
+
+    <meta name="description" content="Новини та події мережі магазинів Ваш Партнер.">
+    <meta name="author" content="Ваш Партнер">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vashpartner.pp.ua/events.html">
+    <meta property="og:title" content="Події | Ваш ПАРТНЕР">
+    <meta property="og:description" content="Новини та події мережі магазинів Ваш Партнер.">
+    <meta property="og:image" content="https://vashpartner.pp.ua/image_site/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Ваш ПАРТНЕР">
+    <meta property="og:locale" content="uk_UA">
+
+    <link rel="stylesheet" href="style.css?v=61">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="./image_site/_2.jpg" alt="Логотип"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='Ваш<span>ПАРТНЕР</span>';">
+            </a>
+
+            <button class="burger" id="burgerBtn" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="mainNav">
+                <a href="/">Головна</a>
+                <a href="promo.html">Акції</a>
+                <a href="alcohol.html">Алкоголь</a>
+                <a href="coffee.html">Кава та чай</a>
+                <a href="events.html" class="active">Події</a>
+                <a href="suppliers.html">Партнерам</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="breadcrumbs">
+        <div class="container">
+            <a href="/">Головна</a>
+            <span class="sep">›</span>
+            <span class="current">Події</span>
+        </div>
+    </nav>
+
+    <section class="page-title">
+        <div class="container">
+            <h2>Наші події</h2>
+            <p>Новини, святкування та важливі моменти мережі «Ваш Партнер»</p>
+        </div>
+    </section>
+
+    <main class="container" id="eventsPage">
+        <div class="events-grid" id="eventsGrid">
+            <p class="loading">Завантаження подій...</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ваш ПАРТНЕР. Усі права захищено.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+         МОДАЛЬНЕ ВІКНО ПОДІЇ
+         ============================================================ -->
+    <div class="event-modal" id="eventModal" aria-hidden="true">
+        <div class="event-modal-overlay" id="eventModalOverlay"></div>
+
+        <div class="event-modal-content">
+
+            <button class="event-modal-close" id="eventModalClose" aria-label="Закрити">×</button>
+
+            <!-- Карусель фото -->
+            <div class="event-carousel">
+                <div class="event-carousel-track" id="eventCarouselTrack"></div>
+
+                <button class="event-carousel-btn prev" id="eventCarouselPrev" aria-label="Назад">‹</button>
+                <button class="event-carousel-btn next" id="eventCarouselNext" aria-label="Вперед">›</button>
+
+                <div class="event-carousel-dots" id="eventCarouselDots"></div>
+            </div>
+
+            <!-- Інформація -->
+            <div class="event-modal-info">
+                <h2 class="event-modal-title" id="eventModalTitle">Заголовок</h2>
+                <p class="event-modal-subtitle" id="eventModalSubtitle">Підзаголовок</p>
+
+                <div class="event-modal-meta">
+                    <div class="event-meta-row" id="eventMetaDateRow">
+                        <span class="event-meta-icon">📅</span>
+                        <div>
+                            <strong>Дата події:</strong>
+                            <span id="eventModalDate">—</span>
+                        </div>
+                    </div>
+
+                    <div class="event-meta-row" id="eventMetaAddressRow">
+                        <span class="event-meta-icon">📍</span>
+                        <div>
+                            <strong>Адреса:</strong>
+                            <span id="eventModalAddress">—</span>
+                        </div>
+                    </div>
+
+                    <div class="event-meta-row">
+                        <span class="event-meta-icon">🕓</span>
+                        <div>
+                            <strong>Опубліковано:</strong>
+                            <span id="eventModalPublished">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="event-modal-description" id="eventModalDescription"></p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const PLACEHOLDER = './images/0.png';
+
+        function noCache(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + 't=' + Date.now();
+        }
+
+        // ====== БУРГЕР-МЕНЮ ======
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mainNav = document.getElementById('mainNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            burgerBtn.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
+        function closeMenu() {
+            burgerBtn.classList.remove('active');
+            mainNav.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+        burgerBtn.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+        mainNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+        // ====== ФОРМАТУВАННЯ ДАТ ======
+        function formatDateTime(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return iso;
+            const pad = n => String(n).padStart(2, '0');
+            return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+
+        // ====== РЕНДЕР СПИСКУ ПОДІЙ ======
+        function renderEvents(events) {
+            const grid = document.getElementById('eventsGrid');
+            grid.innerHTML = '';
+
+            if (!events || events.length === 0) {
+                grid.innerHTML = '<p class="loading">Подій поки що немає</p>';
+                return;
+            }
+
+            // Сортуємо: спочатку за датою події (новіші зверху)
+            events.sort((a, b) => {
+                const da = new Date(a.eventDate || a.publishedAt || 0).getTime();
+                const db = new Date(b.eventDate || b.publishedAt || 0).getTime();
+                return db - da;
+            });
+
+            events.forEach(ev => {
+                const firstImg = (ev.images && ev.images[0]) ? noCache(ev.images[0]) : PLACEHOLDER;
+                const imgsCount = (ev.images || []).length;
+
+                const card = document.createElement('article');
+                card.className = 'event-card';
+                card.dataset.id = ev.id;
+
+                card.innerHTML = `
+                    <div class="event-card-image">
+                        <img src="${firstImg}" alt="${ev.title}" loading="lazy"
+                             onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        ${imgsCount > 1 ? `<div class="event-card-photos-count">📷 ${imgsCount}</div>` : ''}
+                    </div>
+                    <div class="event-card-body">
+                        <div class="event-card-date">${formatDateTime(ev.eventDate || ev.publishedAt)}</div>
+                        <h3 class="event-card-title">${ev.title}</h3>
+                        ${ev.subtitle ? `<p class="event-card-subtitle">${ev.subtitle}</p>` : ''}
+                        ${ev.address ? `<div class="event-card-address">📍 ${ev.address}</div>` : ''}
+                        <div class="event-card-readmore">Читати далі →</div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => openEventModal(ev));
+                grid.appendChild(card);
+            });
+        }
+
+        // ====== МОДАЛЬНЕ ВІКНО ======
+        const modal = document.getElementById('eventModal');
+        const modalOverlay = document.getElementById('eventModalOverlay');
+        const modalClose = document.getElementById('eventModalClose');
+
+        const carouselTrack = document.getElementById('eventCarouselTrack');
+        const carouselDots = document.getElementById('eventCarouselDots');
+        const prevBtn = document.getElementById('eventCarouselPrev');
+        const nextBtn = document.getElementById('eventCarouselNext');
+
+        let currentSlide = 0;
+        let totalSlides = 0;
+
+        function openEventModal(ev) {
+            // Заповнюємо текст
+            document.getElementById('eventModalTitle').textContent = ev.title || '';
+            document.getElementById('eventModalSubtitle').textContent = ev.subtitle || '';
+            document.getElementById('eventModalDescription').textContent = ev.description || '';
+
+            const dateEl = document.getElementById('eventModalDate');
+            const dateRow = document.getElementById('eventMetaDateRow');
+            if (ev.eventDate) {
+                dateEl.textContent = formatDateTime(ev.eventDate);
+                dateRow.style.display = '';
+            } else {
+                dateRow.style.display = 'none';
+            }
+
+            const addrEl = document.getElementById('eventModalAddress');
+            const addrRow = document.getElementById('eventMetaAddressRow');
+            if (ev.address) {
+                addrEl.textContent = ev.address;
+                addrRow.style.display = '';
+            } else {
+                addrRow.style.display = 'none';
+            }
+
+            document.getElementById('eventModalPublished').textContent = formatDateTime(ev.publishedAt) || '—';
+
+            // Карусель
+            renderCarousel(ev.images || []);
+
+            // Відкриваємо
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('event-modal-open');
+
+            currentSlide = 0;
+            updateCarousel();
+        }
+
+        function closeEventModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('event-modal-open');
+        }
+
+        modalOverlay.addEventListener('click', closeEventModal);
+        modalClose.addEventListener('click', closeEventModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeEventModal();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        function renderCarousel(images) {
+            carouselTrack.innerHTML = '';
+            carouselDots.innerHTML = '';
+            totalSlides = images.length;
+
+            if (totalSlides === 0) {
+                carouselTrack.innerHTML = `<img src="${PLACEHOLDER}" alt="">`;
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                return;
+            }
+
+            images.forEach((src, i) => {
+                const img = document.createElement('img');
+                img.src = noCache(src);
+                img.alt = 'Фото ' + (i + 1);
+                img.loading = 'lazy';
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = PLACEHOLDER;
+                };
+                carouselTrack.appendChild(img);
+
+                const dot = document.createElement('span');
+                dot.className = 'event-carousel-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => {
+                    currentSlide = i;
+                    updateCarousel();
+                });
+                carouselDots.appendChild(dot);
+            });
+
+            prevBtn.style.display = totalSlides > 1 ? 'flex' : 'none';
+            nextBtn.style.display = totalSlides > 1 ? 'flex' : 'none';
+        }
+
+        function updateCarousel() {
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            const dots = carouselDots.querySelectorAll('.event-carousel-dot');
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }
+
+        function prevSlide() {
+            if (totalSlides === 0) return;
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+        function nextSlide() {
+            if (totalSlides === 0) return;
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Свайп на телефоні
+        let touchStartX = 0;
+        let touchEndX = 0;
+        carouselTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        carouselTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) nextSlide();
+                else prevSlide();
+            }
+        }, { passive: true });
+
+        // ====== ЗАВАНТАЖЕННЯ ПОДІЙ ======
+        fetch(noCache('./data/events.json'))
+            .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+            .then(data => {
+                const events = (data.events || []).filter(ev => ev.visible !== false);
+                renderEvents(events);
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('eventsGrid').innerHTML =
+                    '<p class="error">Не вдалося завантажити події</p>';
+            });
+    </script>
+
+</body>
+</html>
