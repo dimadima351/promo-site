@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-Адмін-панель для керування подіями.
+Адмін-панель для керування подіями (з вертикальним скролом правої панелі).
 Запуск: python3 admin_events.py
 """
 
 import os
+import sys
 import json
 import shutil
 import subprocess
@@ -61,7 +62,6 @@ def get_next_id(events):
 
 
 def delete_event_folder(event_id):
-    """Видаляє папку події, якщо існує."""
     folder = EVENTS_DIR / str(event_id)
     if folder.exists():
         shutil.rmtree(folder, ignore_errors=True)
@@ -71,7 +71,6 @@ def renumber_events(events):
     """Перенумеровує події та перейменовує папки 1, 2, 3..."""
     temp_map = {}
 
-    # Крок 1: тимчасово перейменовуємо всі папки
     for i, ev in enumerate(events, 1):
         old_id = ev.get('id')
         if old_id is None:
@@ -85,17 +84,14 @@ def renumber_events(events):
             except Exception as e:
                 print(f"Не вдалося перейменувати {old_folder}: {e}")
 
-    # Крок 2: присвоюємо нові ID і перейменовуємо папки у фінальні назви
     for i, ev in enumerate(events, 1):
         old_id = ev.get('id')
         new_id = i
         ev['id'] = new_id
 
-        # Оновлюємо шляхи до фото
         old_images = ev.get('images', [])
         new_images = []
         for img in old_images:
-            # img має вигляд './events/1/1.jpg'
             parts = img.split('/')
             if len(parts) >= 4:
                 filename = parts[-1]
@@ -104,7 +100,6 @@ def renumber_events(events):
                 new_images.append(img)
         ev['images'] = new_images
 
-        # Перейменовуємо папку
         temp_folder = temp_map.get(old_id)
         new_folder = EVENTS_DIR / str(new_id)
         if temp_folder and temp_folder.exists():
@@ -122,16 +117,15 @@ class EventsAdminApp:
         self.root = root
         self.root.title("Адмін-панель ПОДІЙ")
         self.root.geometry("1200x750")
-        self.root.minsize(1000, 650)
+        self.root.minsize(900, 600)
 
         self.data = load_data()
         self.editing_id = None
-        self.new_photos = []  # шляхи до нових фото, які треба додати
+        self.new_photos = []
 
         self._build_ui()
         self._refresh_table()
 
-    # ---------- UI ----------
     def _build_ui(self):
         top = ttk.Frame(self.root, padding=10)
         top.pack(fill='x')
@@ -146,27 +140,31 @@ class EventsAdminApp:
         main = ttk.Frame(self.root, padding=10)
         main.pack(fill='both', expand=True)
 
-        # === ЛІВА ЧАСТИНА ===
+        # ============================================================
+        # ЛІВА ЧАСТИНА (таблиця)
+        # ============================================================
         left = ttk.Frame(main)
         left.pack(side='left', fill='both', expand=True)
 
         ttk.Label(left, text="📋 Список подій",
                   font=('', 12, 'bold')).pack(anchor='w', pady=(0, 6))
 
-        cols = ('id', 'title', 'eventDate', 'photos', 'visible')
+        cols = ('id', 'title', 'eventDate', 'photos', 'link', 'visible')
         self.tree = ttk.Treeview(left, columns=cols, show='headings', height=25)
 
         self.tree.heading('id', text='№')
         self.tree.heading('title', text='Заголовок')
         self.tree.heading('eventDate', text='Дата події')
         self.tree.heading('photos', text='Фото')
+        self.tree.heading('link', text='Лінк')
         self.tree.heading('visible', text='Показ')
 
         self.tree.column('id', width=40, anchor='center')
-        self.tree.column('title', width=280)
-        self.tree.column('eventDate', width=140, anchor='center')
-        self.tree.column('photos', width=60, anchor='center')
-        self.tree.column('visible', width=60, anchor='center')
+        self.tree.column('title', width=240)
+        self.tree.column('eventDate', width=130, anchor='center')
+        self.tree.column('photos', width=55, anchor='center')
+        self.tree.column('link', width=55, anchor='center')
+        self.tree.column('visible', width=55, anchor='center')
 
         self.tree.pack(fill='both', expand=True)
         self.tree.bind('<<TreeviewSelect>>', self.on_select)
@@ -179,58 +177,138 @@ class EventsAdminApp:
         ttk.Button(btns, text="🗑 Видалити", command=self.delete_selected).pack(side='left', padx=2)
         ttk.Button(btns, text="👁 Показати/Сховати", command=self.toggle_visibility).pack(side='left', padx=2)
 
-        # === ПРАВА ЧАСТИНА ===
-        right = ttk.LabelFrame(main, text="Форма події", padding=10)
-        right.pack(side='right', fill='y', padx=(15, 0))
-        right.configure(width=430)
+        # ============================================================
+        # ПРАВА ЧАСТИНА (форма) — З ВЕРТИКАЛЬНИМ СКРОЛОМ
+        # ============================================================
 
+        # Зовнішній контейнер фіксованої ширини
+        right_outer = ttk.Frame(main)
+        right_outer.pack(side='right', fill='y', padx=(15, 0))
+
+        # Canvas + Scrollbar
+        right_canvas = tk.Canvas(right_outer, width=470, highlightthickness=0, bd=0)
+        right_scrollbar = ttk.Scrollbar(right_outer, orient='vertical', command=right_canvas.yview)
+        right_canvas.configure(yscrollcommand=right_scrollbar.set)
+
+        right_scrollbar.pack(side='right', fill='y')
+        right_canvas.pack(side='left', fill='both', expand=True)
+
+        # Внутрішній фрейм (форма) — усередині Canvas
+        right = ttk.LabelFrame(right_canvas, text="Форма події", padding=10)
+        right_window = right_canvas.create_window((0, 0), window=right, anchor='nw')
+
+        # Оновлення scrollregion при зміні вмісту
+        def _on_right_configure(event=None):
+            right_canvas.configure(scrollregion=right_canvas.bbox('all'))
+
+        right.bind('<Configure>', _on_right_configure)
+
+        # Розтягування внутрішнього фрейму на ширину Canvas
+        def _on_canvas_configure(event):
+            right_canvas.itemconfig(right_window, width=event.width)
+
+        right_canvas.bind('<Configure>', _on_canvas_configure)
+
+        # Скрол коліщатком миші (тільки коли мишка над правою панеллю)
+        def _on_mousewheel(event):
+            if sys.platform == 'darwin':   # macOS
+                right_canvas.yview_scroll(int(-1 * event.delta), 'units')
+            else:                          # Windows / Linux
+                right_canvas.yview_scroll(int(-1 * (event.delta / 120)), 'units')
+
+        def _on_mousewheel_linux_up(event):
+            right_canvas.yview_scroll(-1, 'units')
+
+        def _on_mousewheel_linux_down(event):
+            right_canvas.yview_scroll(1, 'units')
+
+        def _bind_mousewheel(event):
+            right_canvas.bind_all('<MouseWheel>', _on_mousewheel)
+            right_canvas.bind_all('<Button-4>', _on_mousewheel_linux_up)
+            right_canvas.bind_all('<Button-5>', _on_mousewheel_linux_down)
+
+        def _unbind_mousewheel(event):
+            right_canvas.unbind_all('<MouseWheel>')
+            right_canvas.unbind_all('<Button-4>')
+            right_canvas.unbind_all('<Button-5>')
+
+        right_canvas.bind('<Enter>', _bind_mousewheel)
+        right_canvas.bind('<Leave>', _unbind_mousewheel)
+
+        # ============================================================
+        # ФОРМА (як і раніше, усередині right)
+        # ============================================================
         row = 0
 
-        # Заголовок
         ttk.Label(right, text="Заголовок *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.e_title = ttk.Entry(right, width=45)
+        self.e_title = ttk.Entry(right, width=50)
         self.e_title.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Підзаголовок
         ttk.Label(right, text="Підзаголовок").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.e_subtitle = ttk.Entry(right, width=45)
+        self.e_subtitle = ttk.Entry(right, width=50)
         self.e_subtitle.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Адреса
         ttk.Label(right, text="Адреса (не обов'язково)").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.e_address = ttk.Entry(right, width=45)
+        self.e_address = ttk.Entry(right, width=50)
         self.e_address.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Дата публікації
         ttk.Label(right, text="Дата публікації (РРРР-ММ-ДДTГГ:ХХ) *").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.e_published = ttk.Entry(right, width=45)
+        self.e_published = ttk.Entry(right, width=50)
         self.e_published.grid(row=row, column=0, pady=3, sticky='we')
         self.e_published.insert(0, datetime.now().strftime('%Y-%m-%dT%H:%M'))
         row += 1
 
-        # Дата події
         ttk.Label(right, text="Дата події (РРРР-ММ-ДДTГГ:ХХ)").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.e_eventdate = ttk.Entry(right, width=45)
+        self.e_eventdate = ttk.Entry(right, width=50)
         self.e_eventdate.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Опис
         ttk.Label(right, text="Опис").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
-        self.t_description = tk.Text(right, width=45, height=6, wrap='word')
+        self.t_description = tk.Text(right, width=50, height=5, wrap='word')
         self.t_description.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Фото
-        ttk.Label(right, text="Фотографії (виберіть декілька)").grid(row=row, column=0, sticky='w', pady=3)
+        # === БЛОК ЛІНКА ===
+        ttk.Separator(right, orient='horizontal').grid(row=row, column=0, sticky='we', pady=8)
+        row += 1
+
+        ttk.Label(right, text="🔗 Кнопка-лінк (не обов'язково)",
+                  font=('', 11, 'bold')).grid(row=row, column=0, sticky='w', pady=(0, 4))
+        row += 1
+
+        ttk.Label(right, text="Текст над кнопкою (підпис)").grid(row=row, column=0, sticky='w', pady=3)
+        row += 1
+        self.e_linklabel = ttk.Entry(right, width=50)
+        self.e_linklabel.grid(row=row, column=0, pady=3, sticky='we')
+        row += 1
+
+        ttk.Label(right, text="Текст на кнопці").grid(row=row, column=0, sticky='w', pady=3)
+        row += 1
+        self.e_linktext = ttk.Entry(right, width=50)
+        self.e_linktext.grid(row=row, column=0, pady=3, sticky='we')
+        self.e_linktext.insert(0, "Перейти")
+        row += 1
+
+        ttk.Label(right, text="URL куди веде кнопка (https://...)").grid(row=row, column=0, sticky='w', pady=3)
+        row += 1
+        self.e_linkurl = ttk.Entry(right, width=50)
+        self.e_linkurl.grid(row=row, column=0, pady=3, sticky='we')
+        row += 1
+
+        # === ФОТО ===
+        ttk.Separator(right, orient='horizontal').grid(row=row, column=0, sticky='we', pady=8)
+        row += 1
+
+        ttk.Label(right, text="📷 Фотографії (виберіть декілька)").grid(row=row, column=0, sticky='w', pady=3)
         row += 1
         photo_frame = ttk.Frame(right)
         photo_frame.grid(row=row, column=0, pady=3, sticky='we')
@@ -239,25 +317,24 @@ class EventsAdminApp:
         self.lbl_photos.pack(side='left', padx=8)
         row += 1
 
-        # Список обраних фото
-        self.lb_photos = tk.Listbox(right, height=4, width=45)
+        self.lb_photos = tk.Listbox(right, height=3, width=50)
         self.lb_photos.grid(row=row, column=0, pady=3, sticky='we')
         row += 1
 
-        # Видимість
+        # === ВИДИМІСТЬ ===
         self.var_visible = tk.BooleanVar(value=True)
         ttk.Checkbutton(right, text="✅ Показувати на сайті",
                         variable=self.var_visible).grid(row=row, column=0, sticky='w', pady=3)
         row += 1
 
-        # Кнопки
+        # === КНОПКИ ФОРМИ ===
         form_btns = ttk.Frame(right)
         form_btns.grid(row=row, column=0, pady=15, sticky='we')
         self.btn_save = ttk.Button(form_btns, text="💾 Зберегти подію", command=self.save_event)
         self.btn_save.pack(side='left', padx=2)
         ttk.Button(form_btns, text="🔄 Очистити", command=self.clear_form).pack(side='left', padx=2)
 
-    # ---------- Оновлення таблиці ----------
+    # ---------- Таблиця ----------
     def _refresh_table(self):
         for row in self.tree.get_children():
             self.tree.delete(row)
@@ -265,13 +342,13 @@ class EventsAdminApp:
         for ev in self.data['events']:
             visible = '✅' if ev.get('visible', True) else '❌'
             photos_count = len(ev.get('images', []))
+            has_link = '🔗' if ev.get('linkUrl') else ''
             event_date = ev.get('eventDate', '') or ev.get('publishedAt', '')
             self.tree.insert('', 'end', iid=str(ev['id']),
                              values=(ev['id'], ev['title'],
                                      event_date.replace('T', ' '),
-                                     photos_count, visible))
+                                     photos_count, has_link, visible))
 
-    # ---------- Вибір ----------
     def on_select(self, event):
         sel = self.tree.selection()
         if not sel:
@@ -289,6 +366,12 @@ class EventsAdminApp:
         self.e_published.insert(0, datetime.now().strftime('%Y-%m-%dT%H:%M'))
         self.e_eventdate.delete(0, 'end')
         self.t_description.delete('1.0', 'end')
+
+        self.e_linklabel.delete(0, 'end')
+        self.e_linktext.delete(0, 'end')
+        self.e_linktext.insert(0, "Перейти")
+        self.e_linkurl.delete(0, 'end')
+
         self.lb_photos.delete(0, 'end')
         self.lbl_photos.config(text="0 фото", foreground='#777')
         self.var_visible.set(True)
@@ -319,6 +402,13 @@ class EventsAdminApp:
 
         self.t_description.delete('1.0', 'end')
         self.t_description.insert('1.0', ev.get('description', ''))
+
+        self.e_linklabel.delete(0, 'end')
+        self.e_linklabel.insert(0, ev.get('linkLabel', ''))
+        self.e_linktext.delete(0, 'end')
+        self.e_linktext.insert(0, ev.get('linkText', 'Перейти'))
+        self.e_linkurl.delete(0, 'end')
+        self.e_linkurl.insert(0, ev.get('linkUrl', ''))
 
         self.lb_photos.delete(0, 'end')
         for img in ev.get('images', []):
@@ -356,7 +446,12 @@ class EventsAdminApp:
             messagebox.showerror("Помилка", "Введіть дату публікації")
             return
 
-        # Нова чи редагування?
+        link_url = self.e_linkurl.get().strip()
+        if link_url and not (link_url.startswith('http://') or link_url.startswith('https://')):
+            if not messagebox.askyesno("Підтвердження",
+                                       "URL не починається з http:// або https://.\nПродовжити?"):
+                return
+
         if self.editing_id is None:
             new_id = get_next_id(self.data['events'])
             folder = EVENTS_DIR / str(new_id)
@@ -366,24 +461,16 @@ class EventsAdminApp:
 
         folder.mkdir(exist_ok=True)
 
-        # Обробка фото
         images = []
 
-        # Якщо редагування — залишаємо старі фото, які ще є у списку
-        existing_photos = []
         if self.editing_id is not None:
             ev = next((e for e in self.data['events'] if e['id'] == self.editing_id), None)
             if ev:
-                # Фото, які залишились у списку (не [НОВЕ])
                 for i in range(self.lb_photos.size()):
                     item = self.lb_photos.get(i)
                     if not item.startswith('[НОВЕ]'):
-                        existing_photos.append(item)
-                images = existing_photos
+                        images.append(item)
 
-        # Додаємо нові фото — стискаємо і зберігаємо
-        # Визначаємо наступний номер для нових фото
-        # Беремо максимум з існуючих
         max_num = 0
         for img in images:
             try:
@@ -418,6 +505,9 @@ class EventsAdminApp:
             "eventDate": self.e_eventdate.get().strip(),
             "description": self.t_description.get('1.0', 'end').strip(),
             "images": images,
+            "linkLabel": self.e_linklabel.get().strip(),
+            "linkText": self.e_linktext.get().strip() or "Перейти",
+            "linkUrl": link_url,
             "visible": self.var_visible.get()
         }
 
@@ -454,7 +544,7 @@ class EventsAdminApp:
         self._refresh_table()
         self.clear_form()
 
-    # ---------- Перемикач видимості ----------
+    # ---------- Видимість ----------
     def toggle_visibility(self):
         sel = self.tree.selection()
         if not sel:

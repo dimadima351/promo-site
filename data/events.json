@@ -11,6 +11,9 @@
       "images": [
         "./events/1/1.jpg"
       ],
+      "linkLabel": "Переглянути всі акційні пропозиції за посиланням",
+      "linkText": "Перейти до акцій",
+      "linkUrl": "https://vashpartner.pp.ua/promo",
       "visible": true
     }
   ]
