@@ -2611,7 +2611,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2628,7 +2628,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2645,7 +2645,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2662,7 +2662,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2679,7 +2679,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2696,12 +2696,12 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
       "id": 163,
-      "name": "000",
+      "name": "Пиво Варштайнер Преміум 0,5л банка Львівське",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
       "price": 85.0,
@@ -2711,10 +2711,10 @@
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": false,
-      "visible": false,
-      "outOfStock": true,
-      "bestPrice": false
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     },
     {
       "id": 164,
@@ -2730,7 +2730,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2747,7 +2747,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2764,7 +2764,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2781,7 +2781,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2798,7 +2798,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     },
     {
@@ -2815,7 +2815,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
       "bestPrice": true
     }
   ]
