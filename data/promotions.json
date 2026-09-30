@@ -515,16 +515,17 @@
       "name": "Пиво Зіберт Світле 0,5л банка",
       "manufacturer": "Оболонь",
       "category": "Алкоголь",
-      "price": 28.0,
+      "price": 29.0,
       "oldPrice": 39.0,
-      "badge": "-28%",
+      "badge": "-26%",
       "image": "./images/32.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 33,
