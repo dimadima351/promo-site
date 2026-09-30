@@ -2493,7 +2493,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 151,
@@ -2510,13 +2510,13 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 152,
       "name": "Пиво б/а спец. \"Seth&Riley`s Garage fun zero №0 taste Pomegranate\" бан.0.5л Львівське",
       "manufacturer": "Львівське",
-      "category": "Алкоголь",
+      "category": "Бакалія",
       "price": 39.0,
       "oldPrice": 55.0,
       "badge": "-29%",
@@ -2527,7 +2527,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 153,
@@ -2544,7 +2544,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 154,
@@ -2561,7 +2561,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 155,
@@ -2578,7 +2578,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 156,
@@ -2595,7 +2595,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 157,
@@ -2612,7 +2612,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 158,
@@ -2629,7 +2629,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 159,
@@ -2646,7 +2646,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 160,
@@ -2663,7 +2663,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 161,
@@ -2680,7 +2680,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 162,
@@ -2697,11 +2697,11 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 163,
-      "name": "Пиво \"Варштайнер Преміум Бір\", з/б 0.5л Львівське",
+      "name": "000",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
       "price": 85.0,
@@ -2711,8 +2711,8 @@
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true,
-      "visible": true,
+      "isMonthAction": false,
+      "visible": false,
       "outOfStock": true,
       "bestPrice": false
     },
@@ -2731,11 +2731,11 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 165,
-      "name": "Сидр \"Сомерсбі\" з грушевим соком (\"Somersby\") бан.0.5л Львівське",
+      "name": "Сидр Сомерсбі з грушевим соком банка 0.5л Львівське",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
       "price": 43.0,
@@ -2748,11 +2748,11 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 166,
-      "name": "Сидр \"Somersby with Peach & Guava taste (Сомерсбі Смак Персик-Гуава)\" ПЕТ 0.95л Львівське",
+      "name": "Сидр Сомерсбі Персик-Гуава ПЕТ 0.95л Львівське",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
       "price": 66.0,
@@ -2765,13 +2765,13 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 167,
-      "name": "Напій б/а \"Розмай Лісовий Сигро\" бан.0.5л Львівське",
+      "name": "Напій б/а \"Розмай Лісовий Ситро\" банка 0.5л Львівське",
       "manufacturer": "Львівське",
-      "category": "Алкоголь",
+      "category": "Бакалія",
       "price": 28.0,
       "oldPrice": 41.0,
       "badge": "-32%",
@@ -2782,13 +2782,13 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 168,
       "name": "Напій б/а енергетичний сил/газ на аром. «Battery EXOTIC» бан. 0.5л Львівське",
       "manufacturer": "Львівське",
-      "category": "Алкоголь",
+      "category": "Бакалія",
       "price": 35.0,
       "oldPrice": 49.0,
       "badge": "-29%",
@@ -2799,13 +2799,13 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 169,
       "name": "Напій б/а енергетичний соковий серед/газ «Battery Juiced Sour Apple» бан.0.5л Львівське",
       "manufacturer": "Львівське",
-      "category": "Алкоголь",
+      "category": "Бакалія",
       "price": 39.0,
       "oldPrice": 57.0,
       "badge": "-32%",
@@ -2816,7 +2816,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": true,
-      "bestPrice": false
+      "bestPrice": true
     }
   ]
 }
