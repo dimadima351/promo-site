@@ -28,7 +28,8 @@
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": true
     },
     {
       "id": 3,
@@ -59,7 +60,8 @@
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": true
     },
     {
       "id": 5,
@@ -73,7 +75,8 @@
       "link": "#",
       "validUntil": "",
       "isAction": false,
-      "isMonthAction": true
+      "isMonthAction": true,
+      "visible": true
     },
     {
       "id": 6,
