@@ -2480,7 +2480,7 @@
     },
     {
       "id": 150,
-      "name": "Пиво \"Арсенал Мішн\", ПЕТ 1.96л Львівське",
+      "name": "Пиво \"Арсенал Міцне\" ПЕТ 1.96л Львівське",
       "manufacturer": "Львівське",
       "category": "Алкоголь",
       "price": 89.0,
@@ -2492,7 +2492,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2509,7 +2509,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2526,7 +2526,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2543,7 +2543,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2560,7 +2560,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2577,7 +2577,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2594,7 +2594,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2611,7 +2611,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2628,7 +2628,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2645,7 +2645,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2662,7 +2662,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2679,7 +2679,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2696,7 +2696,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2713,7 +2713,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2730,7 +2730,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2747,7 +2747,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2764,7 +2764,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2781,7 +2781,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2798,7 +2798,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -2815,7 +2815,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     }
   ]
