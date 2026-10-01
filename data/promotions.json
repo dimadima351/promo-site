@@ -1001,7 +1001,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -2868,6 +2868,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": true
+    },
+    {
+      "id": 173,
+      "name": "Масло Селянське 72,5% 180г",
+      "manufacturer": "Селянське",
+      "category": "Молочні продукти",
+      "price": 89.0,
+      "oldPrice": 119.0,
+      "badge": "-25%",
+      "image": "./images/173.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 174,
+      "name": "Масло Селянське 82% 180г",
+      "manufacturer": "Селянське",
+      "category": "Молочні продукти",
+      "price": 99.0,
+      "oldPrice": 132.0,
+      "badge": "-25%",
+      "image": "./images/174.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
