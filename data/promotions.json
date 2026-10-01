@@ -2817,6 +2817,57 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": true
+    },
+    {
+      "id": 170,
+      "name": "Молоко До Кави ультрапастеризоване 2% 900г Яготинске",
+      "manufacturer": "Яготинське",
+      "category": "Молочні продукти",
+      "price": 39.0,
+      "oldPrice": 65.0,
+      "badge": "-40%",
+      "image": "./images/170.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 171,
+      "name": "Кефір 1% 870г ПЕТ Яготинський",
+      "manufacturer": "Яготинське",
+      "category": "Молочні продукти",
+      "price": 52.0,
+      "oldPrice": 72.0,
+      "badge": "-28%",
+      "image": "./images/171.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
+    },
+    {
+      "id": 172,
+      "name": "Кефір 2,5% 870г ПЕТ Яготинський",
+      "manufacturer": "Яготинське",
+      "category": "Молочні продукти",
+      "price": 56.0,
+      "oldPrice": 77.0,
+      "badge": "-27%",
+      "image": "./images/172.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": true
     }
   ]
 }
