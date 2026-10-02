@@ -889,7 +889,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": false,
-      "outOfStock": false
+      "outOfStock": true
     },
     {
       "id": 55,
