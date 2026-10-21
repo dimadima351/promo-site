@@ -3381,6 +3381,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 203,
+      "name": "Сік Мультивітамін 0,95л Наш Сік",
+      "manufacturer": "Сік Мультивітамін 0,95л Наш Сік",
+      "category": "Здорове харчування",
+      "price": 55.0,
+      "oldPrice": 71.0,
+      "badge": "-23%",
+      "image": "./images/203.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
