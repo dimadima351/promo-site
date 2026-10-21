@@ -3347,6 +3347,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 201,
+      "name": "Нектар Манго 0,95л Jaffa",
+      "manufacturer": "Jaffa",
+      "category": "Здорове харчування",
+      "price": 79.0,
+      "oldPrice": 110.0,
+      "badge": "-28%",
+      "image": "./images/201.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
