@@ -3396,7 +3396,7 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": false,
+      "outOfStock": true,
       "bestPrice": false
     }
   ]
