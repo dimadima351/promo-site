@@ -3362,7 +3362,24 @@
       "isAction": false,
       "isMonthAction": true,
       "visible": true,
-      "outOfStock": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 202,
+      "name": "Сік Томатний з морською сіллю 0,95л Jaffa",
+      "manufacturer": "Jaffa",
+      "category": "Здорове харчування",
+      "price": 79.0,
+      "oldPrice": 110.0,
+      "badge": "-28%",
+      "image": "./images/202.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
       "bestPrice": false
     }
   ]
