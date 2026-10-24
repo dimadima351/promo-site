@@ -3633,7 +3633,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": false,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": false
     }
