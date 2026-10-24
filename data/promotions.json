@@ -3517,6 +3517,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 211,
+      "name": "Йогурт Чорниця 400г плівка Радимо111",
+      "manufacturer": "Радимо",
+      "category": "Молочні продукти",
+      "price": 99.0,
+      "oldPrice": 199.0,
+      "badge": "-50%",
+      "image": "./images/211.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
