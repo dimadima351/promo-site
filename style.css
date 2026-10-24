@@ -3026,126 +3026,128 @@ body.event-modal-open {
     }
 }
 
-/* ============================================================
-   ТЕМА: ЧОРНА П'ЯТНИЦЯ (BLACK FRIDAY)
-   ============================================================ */
-
-/* Головний фон сторінки — темний */
 body.black-friday {
-    background-color: #0a0a0a;
+    background: linear-gradient(135deg, #0f0717 0%, #2a0e4d 50%, #120822 100%);
+    background-attachment: fixed; /* Щоб фон не скролився разом з контентом */
     color: #e0e0e0;
 }
 
-/* Шапка та підвал */
+/* 2. Шапка та підвал (напівпрозорий темний фон) */
 body.black-friday .header,
 body.black-friday .site-footer {
-    background-color: #111111;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-    border-bottom: 1px solid #222;
+    background-color: rgba(18, 8, 34, 0.9);
+    backdrop-filter: blur(10px); /* Ефект матового скла */
+    border-bottom: 1px solid rgba(138, 43, 226, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Логотип та текст у шапці */
-body.black-friday .logo span,
-body.black-friday .nav a.active {
-    color: #ffcc00; /* Жовтий акцент */
-    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+/* Логотип та меню */
+body.black-friday .logo span {
+    color: #ff00ff; /* Неоновий рожевий */
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
 }
-
-body.black-friday .nav a {
-    color: #ccc;
-}
+body.black-friday .nav a { color: #d1c4e9; }
+body.black-friday .nav a.active,
 body.black-friday .nav a:hover {
-    color: #ffcc00;
+    color: #ffea00; /* Неоновий жовтий */
+    text-shadow: 0 0 8px rgba(255, 234, 0, 0.5);
 }
 
-/* Картки товарів — темні */
+/* 3. Білі картки товарів (щоб товар було добре видно) */
 body.black-friday .card {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3); /* Фіолетова тінь */
+    transition: all 0.3s ease;
 }
 
 body.black-friday .card:hover {
-    border-color: #ffcc00;
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+    border-color: #ff00ff;
+    box-shadow: 0 15px 40px rgba(255, 0, 255, 0.4); /* Світіння при наведенні */
+    transform: translateY(-5px);
 }
 
-/* Назва товару */
+/* Текст всередині білої картки має бути темним */
 body.black-friday .card-body h3 {
-    color: #ffffff;
+    color: #1a1a1a; 
 }
 
-/* Стара ціна */
-body.black-friday .old-price {
+body.black-friday .manufacturer {
     color: #666;
 }
 
-/* Нова ціна — неонова */
-body.black-friday .new-price,
-body.black-friday .new-price .price-int,
-body.black-friday .new-price .price-cents {
-    color: #ffcc00;
-    text-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
-}
-
-body.black-friday .new-price .price-unit {
+/* 4. Ціни на білій картці */
+body.black-friday .old-price {
     color: #999;
 }
 
-/* Бейдж знижки (жовтий з чорним текстом для максимального контрасту) */
+body.black-friday .new-price,
+body.black-friday .new-price .price-int,
+body.black-friday .new-price .price-cents {
+    color: #d90000; /* Соковитий червоний для контрасту */
+    text-shadow: none;
+}
+
+body.black-friday .new-price .price-unit {
+    color: #888;
+}
+
+/* 5. Бейдж знижки (Неоновий градієнт) */
 body.black-friday .badge {
-    background: #ffcc00;
-    color: #000;
+    background: linear-gradient(135deg, #ff00ff, #8a2be2); /* Рожево-фіолетовий */
+    color: #ffffff;
     font-weight: 900;
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
-    animation: none; /* можна прибрати пульсацію, щоб не відволікала */
+    box-shadow: 0 4px 15px rgba(255, 0, 255, 0.5);
+    border: 1px solid #fff;
 }
 
-/* Банер (Hero) */
+/* 6. Банери та Кнопки (Hero) */
 body.black-friday .hero-banner-link {
-    background: linear-gradient(135deg, #1a1a1a, #000000);
-    border: 2px solid #ffcc00;
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+    background: linear-gradient(135deg, #1a0033, #330066);
+    border: 2px solid #ffea00;
+    box-shadow: 0 0 25px rgba(255, 234, 0, 0.2);
 }
-
 body.black-friday .hero-banner-text {
-    color: #ffcc00;
+    color: #ffea00;
+    text-shadow: 0 0 10px rgba(255, 234, 0, 0.5);
 }
-
 body.black-friday .hero-banner-arrow {
-    background: #ffcc00;
-    color: #000;
-}
-
-/* Блок сортування/пошуку (якщо є) */
-body.black-friday .search-categories-section {
-    background: #111;
-    border-bottom: 1px solid #222;
-}
-
-body.black-friday .search-input-main {
-    background: #222;
-    border-color: #444;
+    background: #ff00ff;
     color: #fff;
 }
 
+/* 7. Пошук та Категорії (кружечки) */
+body.black-friday .search-categories-section {
+    background: transparent; /* Прозорий, щоб було видно фіолетовий фон */
+}
+body.black-friday .search-input-main {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #8a2be2;
+    color: #fff;
+}
+body.black-friday .search-input-main::placeholder { color: #ccc; }
 body.black-friday .cat-label {
-    color: #ccc;
+    color: #e0e0e0;
 }
 
-/* Кнопка "Показати ще" */
+/* 8. Кнопка "Показати ще" */
 body.black-friday .load-more-btn {
-    background: #1a1a1a;
-    color: #ffcc00;
-    border-color: #ffcc00;
-}
-
-body.black-friday .load-more-btn:hover {
-    background: #ffcc00;
-    color: #000;
-}
-
-/* Сітка товарів: зміна фону (якщо він заданий жорстко) */
-body.black-friday .random-main {
     background: transparent;
+    color: #ffea00;
+    border: 2px solid #ffea00;
+}
+body.black-friday .load-more-btn:hover {
+    background: #ffea00;
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 234, 0, 0.5);
+}
+
+/* 9. Кнопки "Купити" всередині білих карток */
+body.black-friday .card-body .btn {
+    background: #1a1a1a;
+    color: #ffea00;
+}
+body.black-friday .card-body .btn:hover {
+    background: #ff00ff;
+    color: #fff;
 }
