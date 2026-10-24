@@ -13,7 +13,6 @@ from pathlib import Path
 from PIL import Image, ImageTk
 import threading
 import io
-import re
 import uuid
 import requests
 from ddgs import DDGS
@@ -107,8 +106,8 @@ class ImageSearchPopup(tk.Toplevel):
         super().__init__(parent_app.root)
         self.parent_app = parent_app
         
-        self.title("Пошук картинок (Висока якість, білий фон)")
-        self.geometry("1000x750")
+        self.title("Пошук картинок (Розширений)")
+        self.geometry("1050x750")
         self.configure(bg="#f0f0f0")
         
         self.bad_domains = [
@@ -124,9 +123,9 @@ class ImageSearchPopup(tk.Toplevel):
         top_frame = tk.Frame(self, bg="#f0f0f0", pady=10, padx=10)
         top_frame.pack(fill=tk.X)
 
-        tk.Label(top_frame, text="Запит:", font=("Arial", 12), bg="#f0f0f0").pack(side=tk.LEFT, padx=(0, 5))
+        tk.Label(top_frame, text="Запит (назва + виробник + вага):", font=("Arial", 12), bg="#f0f0f0").pack(side=tk.LEFT, padx=(0, 5))
 
-        self.query_entry = tk.Entry(top_frame, font=("Arial", 12), width=40)
+        self.query_entry = tk.Entry(top_frame, font=("Arial", 12), width=45)
         self.query_entry.pack(side=tk.LEFT, padx=(0, 10))
         self.query_entry.insert(0, initial_query)
         self.query_entry.bind("<Return>", lambda e: self.start_search())
@@ -134,7 +133,16 @@ class ImageSearchPopup(tk.Toplevel):
         self.search_btn = tk.Button(top_frame, text="🔍 Шукати", font=("Arial", 11, "bold"), bg="#ff0b0b", fg="white", command=self.start_search)
         self.search_btn.pack(side=tk.LEFT)
 
-        self.status_lbl = tk.Label(top_frame, text="", bg="#f0f0f0", fg="#555")
+        filter_frame = tk.Frame(self, bg="#f0f0f0", pady=5, padx=10)
+        filter_frame.pack(fill=tk.X)
+
+        self.var_exact_match = tk.BooleanVar(value=False)
+        tk.Checkbutton(filter_frame, text="Шукати точну фразу (лапки)", variable=self.var_exact_match, bg="#f0f0f0").pack(side=tk.LEFT, padx=10)
+
+        self.var_strict_white = tk.BooleanVar(value=True)
+        tk.Checkbutton(filter_frame, text="Тільки білий фон", variable=self.var_strict_white, bg="#f0f0f0").pack(side=tk.LEFT, padx=10)
+
+        self.status_lbl = tk.Label(filter_frame, text="", bg="#f0f0f0", fg="#555")
         self.status_lbl.pack(side=tk.LEFT, padx=15)
 
         self.canvas = tk.Canvas(self, bg="#f0f0f0", highlightthickness=0)
@@ -159,25 +167,9 @@ class ImageSearchPopup(tk.Toplevel):
         if initial_query:
             self.start_search()
 
-    def _clean_query(self, raw_query):
-        match = re.search(r'[«"](.*?)[»"]', raw_query)
-        if match:
-            return match.group(1).strip()
-        stop_words = [
-            r'\bнапій\b', r'\bб/а\b', r'\bенергетичний\b', r'\bсоковий\b', 
-            r'\bсеред/газ\b', r'\bбан\.?\s*\d+[\.,]?\d*\s*л\b', r'\bпляшка\b', 
-            r'\bскло\b', r'\bбанка\b', r'\b\d+[\.,]?\d*\s*л\b'
-        ]
-        cleaned = raw_query
-        for word in stop_words:
-            cleaned = re.sub(word, '', cleaned, flags=re.IGNORECASE)
-        return cleaned.strip()
-
     def start_search(self):
         raw_query = self.query_entry.get().strip()
         if not raw_query: return
-        
-        clean_q = self._clean_query(raw_query) or raw_query
 
         for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
@@ -186,20 +178,21 @@ class ImageSearchPopup(tk.Toplevel):
         self.status_lbl.config(text="Шукаю... ⏳")
         self.search_btn.config(state=tk.DISABLED)
         
-        threading.Thread(target=self._search_thread, args=(clean_q,), daemon=True).start()
+        check_white = self.var_strict_white.get()
+        exact_match = self.var_exact_match.get()
+        
+        threading.Thread(target=self._search_thread, args=(raw_query, check_white, exact_match), daemon=True).start()
 
-    def _search_thread(self, query):
-        # Шукаємо англійською для кращих результатів (PNG, isolated)
-        search_query = f'{query} png isolated product'
+    def _search_thread(self, query, check_white, exact_match):
+        search_query = f'"{query}"' if exact_match else query
         valid = 0
         
         try:
             with DDGS() as ddgs:
-                # Беремо до 200 результатів для фільтрації
                 results = list(ddgs.images(search_query, max_results=200))
 
             for res in results:
-                if valid >= 50: # Показуємо до 50 гарних картинок
+                if valid >= 50: 
                     break
                     
                 url = res.get("image", "")
@@ -213,15 +206,16 @@ class ImageSearchPopup(tk.Toplevel):
                     img = Image.open(io.BytesIO(resp.content))
                     img.load()
 
-                    # Перевірка розміру (мінімум 400x400 для хорошої якості)
-                    if img.width < 400 or img.height < 400: continue
+                    if img.width < 300 or img.height < 300: continue
                     
-                    # Робимо білий фон для перевірки та відображення
                     img_white_bg = process_image_bg(img)
                     
-                    if self._is_white_bg(img_white_bg):
-                        valid += 1
-                        self.after(0, lambda i=img_white_bg, u=url: self._add_result(i, u))
+                    if check_white:
+                        if not self._is_white_bg(img_white_bg):
+                            continue
+                    
+                    valid += 1
+                    self.after(0, lambda i=img_white_bg, u=url: self._add_result(i, u))
                 except Exception:
                     pass
             
@@ -232,17 +226,16 @@ class ImageSearchPopup(tk.Toplevel):
             self.after(0, lambda: self.search_btn.config(state=tk.NORMAL))
 
     def _is_white_bg(self, img):
-        # img вже у форматі RGB з білим фоном
         w, h = img.size
-        cw, ch = int(w * 0.1), int(h * 0.1) # Беремо 10% від краю
+        cw, ch = int(w * 0.1), int(h * 0.1)
         corners = [img.crop((0,0,cw,ch)), img.crop((w-cw,0,w,ch)), img.crop((0,h-ch,cw,h)), img.crop((w-cw,h-ch,w,h))]
         
         white = 0
         for c in corners:
             gray = c.convert('L')
-            if sum(gray.getdata()) / len(gray.getdata()) > 235: # Поріг білизни
+            if sum(gray.getdata()) / len(gray.getdata()) > 215:
                 white += 1
-        return white >= 3
+        return white >= 2
 
     def _add_result(self, pil_img, url):
         display = pil_img.copy()
@@ -271,7 +264,6 @@ class ImageSearchPopup(tk.Toplevel):
         temp_path = IMAGES_DIR / temp_filename
 
         try:
-            # pil_img вже має білий фон завдяки process_image_bg
             pil_img.save(str(temp_path), 'JPEG', quality=95)
             
             self.parent_app.current_image_src = str(temp_path)
@@ -350,6 +342,8 @@ class AdminApp:
         btns.pack(fill='x', pady=5)
         ttk.Button(btns, text="➕ Новий товар", command=self.new_item).pack(side='left', padx=2)
         ttk.Button(btns, text="✏️ Редагувати", command=self.edit_selected).pack(side='left', padx=2)
+        # НОВА КНОПКА КОПІЮВАННЯ
+        ttk.Button(btns, text="📋 Копіювати", command=self.duplicate_selected).pack(side='left', padx=2)
         ttk.Button(btns, text="🗑 Видалити", command=self.delete_selected).pack(side='left', padx=2)
         ttk.Button(btns, text="👁 Показати/Сховати", command=self.toggle_visibility).pack(side='left', padx=2)
         ttk.Button(btns, text="📦 В наявності/Немає", command=self.toggle_stock).pack(side='left', padx=2)
@@ -543,6 +537,51 @@ class AdminApp:
                               foreground='#555' if exists else '#ff0b0b')
         self.btn_save.config(text="💾 Оновити товар")
 
+    # ---------- НОВА ФУНКЦІЯ КОПІЮВАННЯ ----------
+    def duplicate_selected(self):
+        sel = self.tree.selection()
+        if not sel:
+            messagebox.showinfo("Інфо", "Виберіть товар для копіювання")
+            return
+
+        item_id = int(sel[0])
+        item = next((it for it in self.data['items'] if it['id'] == item_id), None)
+        if not item:
+            return
+
+        # Очищаємо форму (щоб editing_id став None)
+        self.clear_form()
+
+        # Заповнюємо поля
+        self.e_name.delete(0, 'end'); self.e_name.insert(0, item.get('name', ''))
+        self.e_manufacturer.delete(0, 'end'); self.e_manufacturer.insert(0, item.get('manufacturer', ''))
+        self.cb_category.set(item.get('category', ''))
+        
+        self.e_price.delete(0, 'end'); self.e_price.insert(0, str(item.get('price', '')))
+
+        old_price = item.get('oldPrice')
+        self.var_discount.set(bool(old_price))
+        self.e_old_price.delete(0, 'end')
+        if old_price: self.e_old_price.insert(0, str(old_price))
+        self._toggle_discount()
+        self._update_discount_preview()
+
+        self.e_valid_until.delete(0, 'end'); self.e_valid_until.insert(0, item.get('validUntil', ''))
+
+        self.var_is_action.set(item.get('isAction', False))
+        self.var_is_month.set(item.get('isMonthAction', False))
+        self.var_visible.set(item.get('visible', True))
+        self.var_out_of_stock.set(item.get('outOfStock', False))
+        self.var_best_price.set(item.get('bestPrice', False))
+
+        # ВАЖЛИВО: картинку НЕ копіюємо
+        self.current_image_src = None
+        self.lbl_image.config(text="❗ Виберіть нове фото для копії", foreground='#ff0b0b')
+        
+        # Змінюємо текст кнопки
+        self.btn_save.config(text="💾 Зберегти копію")
+        self.e_name.focus_set()
+
     def _toggle_discount(self):
         if self.var_discount.get():
             self.e_old_price.config(state='normal')
@@ -585,7 +624,7 @@ class AdminApp:
         if self.editing_id is None:
             new_id = get_next_id(self.data['items'])
             file_name = f"{new_id}.jpg"
-            if not self.current_image_src: return messagebox.showerror("Помилка", "Виберіть картинку")
+            if not self.current_image_src: return messagebox.showerror("Помилка", "Виберіть картинку для нового товару")
         else:
             item = next((it for it in self.data['items'] if it['id'] == self.editing_id), None)
             if not item: return

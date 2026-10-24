@@ -3534,6 +3534,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 212,
+      "name": "Йогурт Лісові Ягоди 870г ПЕТ Радимо",
+      "manufacturer": "Радимо",
+      "category": "Молочні продукти",
+      "price": 69.0,
+      "oldPrice": 85.0,
+      "badge": "-19%",
+      "image": "./images/212.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 213,
+      "name": "Йогурт Полуниця 870г ПЕТ Радимо",
+      "manufacturer": "Радимо",
+      "category": "Молочні продукти",
+      "price": 69.0,
+      "oldPrice": 83.0,
+      "badge": "-17%",
+      "image": "./images/213.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
