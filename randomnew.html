@@ -27,7 +27,7 @@
         }
 
         /* ============================================================
-           ФАЗИ (3 екрани по черзі)
+           ФАЗИ
            ============================================================ */
         .phase {
             position: fixed;
@@ -48,7 +48,7 @@
         }
 
         /* ============================================================
-           ФАЗА 1: ПРОМО ("Смачні ціни")
+           ФАЗА 1: ПРОМО
            ============================================================ */
         .promo-header {
             display: flex;
@@ -130,10 +130,12 @@
             transform-origin: left bottom;
         }
 
-        /* режим single */
+        /* ============================================================
+           SINGLE — 50/50, шрифти без змін
+           ============================================================ */
         .mode-single {
             display: grid;
-            grid-template-columns: 0.82fr 1.18fr;
+            grid-template-columns: 1fr 1fr;
             gap: clamp(14px, 2.5vh, 36px);
             align-items: center;
             width: 100%;
@@ -215,6 +217,7 @@
             font-weight: 500;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
+        /* SINGLE name — БЕЗ ЗМІН, 2 рядки */
         .name {
             font-size: clamp(40px, 8.8vh, 108px);
             font-weight: 700;
@@ -242,7 +245,9 @@
         .new-price .price-cents { font-size: clamp(52px, 12vh, 128px); font-weight: 600; line-height: 1; }
         .new-price .price-unit { font-size: clamp(15px, 2.5vh, 30px); font-weight: 400; color: #999; margin-top: 4px; }
 
-        /* режим double / pair */
+        /* ============================================================
+           DOUBLE / PAIR — карточки, name 3 рядки
+           ============================================================ */
         .mode-double { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.8vh, 24px); max-height: 100%; }
         .double-card {
             display: grid;
@@ -263,7 +268,20 @@
         .double-card .best-price-icon { top: -8px; right: -8px; width: clamp(110px, 17.5vh, 195px); height: clamp(110px, 17.5vh, 195px); }
         .double-card .info { display: flex; flex-direction: column; gap: clamp(2px, 0.5vh, 8px); min-width: 0; overflow: visible; align-items: flex-start; justify-content: center; }
         .double-card .manufacturer { font-size: clamp(13px, 2vh, 22px); letter-spacing: clamp(0.8px, 0.18vw, 2.5px); color: #999; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        .double-card .name { font-size: clamp(24px, 4.6vh, 56px); font-weight: 700; color: #2c3e50; line-height: 1.1; letter-spacing: -0.8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        /* DOUBLE name — 3 рядки */
+        .double-card .name {
+            font-size: clamp(24px, 4.6vh, 56px);
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.1;
+            letter-spacing: -0.8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .double-card .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(2px, 0.4vh, 6px); overflow: visible; }
         .double-card .old-price { font-size: clamp(26px, 4.4vh, 58px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 2px; font-weight: 400; }
         .double-card .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: clamp(2px, 0.35vw, 6px); will-change: transform; }
@@ -273,11 +291,13 @@
         .double-card .new-price .price-unit { font-size: clamp(13px, 2.1vh, 24px); font-weight: 400; color: #999; margin-top: 3px; }
         .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
 
-        /* режим grid (4 товари) */
+        /* ============================================================
+           GRID — картки 50/50, name 3 рядки
+           ============================================================ */
         .mode-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: clamp(8px, 1.2vh, 16px); max-height: 100%; }
         .grid-card {
             display: grid;
-            grid-template-columns: 0.72fr 1.58fr;
+            grid-template-columns: 1fr 1fr;
             gap: clamp(6px, 0.9vw, 14px);
             align-items: center;
             background: #fff;
@@ -294,7 +314,20 @@
         .grid-card .best-price-icon { width: clamp(32px, 5vh, 52px); height: clamp(32px, 5vh, 52px); top: -4px; right: -4px; }
         .grid-card .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; }
         .grid-card .manufacturer { font-size: clamp(10px, 1.3vh, 15px); letter-spacing: clamp(0.5px, 0.15vw, 1.5px); color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .grid-card .name { font-size: clamp(24px, 5.2vh, 60px); font-weight: 800; color: #2c3e50; line-height: 1.05; letter-spacing: -0.8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        /* GRID name — 3 рядки */
+        .grid-card .name {
+            font-size: clamp(24px, 5.2vh, 60px);
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1.05;
+            letter-spacing: -0.8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .grid-card .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: 2px; overflow: visible; }
         .grid-card .old-price { font-size: clamp(22px, 4.2vh, 50px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 1px; }
         .grid-card .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: 2px; will-change: transform; }
@@ -331,7 +364,7 @@
         .fullscreen-hint svg { width: 14px; height: 14px; }
 
         /* ============================================================
-           ФАЗА 2: ВІДЕО-ІНТРО
+           ФАЗА 2: ВІДЕО
            ============================================================ */
         .phase-video video {
             width: 100%;
@@ -597,7 +630,7 @@
             .double-card .old-price { font-size: 20px; }
             .double-card .best-price-icon { width: 80px; height: 80px; }
             .mode-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); gap: 12px; height: auto; }
-            .grid-card { grid-template-columns: 0.72fr 1.58fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 130px; }
+            .grid-card { grid-template-columns: 1fr 1fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 130px; }
             .grid-card .name { font-size: 22px; }
             .grid-card .new-price .price-int { font-size: 78px; letter-spacing: -2px; }
             .grid-card .new-price .price-cents { font-size: 34px; }
@@ -645,9 +678,6 @@
 </head>
 <body>
 
-    <!-- ============================================================
-         ФАЗА 1: ПРОМО "Смачні ціни"
-         ============================================================ -->
     <div class="phase phase-promo" id="phasePromo">
         <header class="promo-header">
             <div class="promo-logo">
@@ -671,17 +701,11 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         ФАЗА 2: ВІДЕО-ІНТРО
-         ============================================================ -->
     <div class="phase phase-video" id="phaseVideo">
         <video id="introVideoEl" src="./image_site/_000.mp4" autoplay muted playsinline preload="auto"></video>
         <button class="skip-btn" id="skipVideoBtn">Пропустити →</button>
     </div>
 
-    <!-- ============================================================
-         ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
-         ============================================================ -->
     <div class="phase phase-menu" id="phaseMenu">
         <img src="./image_site/0.png" alt="Логотип" class="header-logo" onerror="this.style.display='none';">
         <h1 class="title"><span>МЕНЮ</span></h1>
@@ -695,7 +719,7 @@
         'use strict';
 
         /* ============================================================
-           КОНСТАНТИ ТА СТАН
+           КОНСТАНТИ
            ============================================================ */
         const PLACEHOLDER = './images/0.png';
 
@@ -703,52 +727,39 @@
         const PHASE_VIDEO = 'video';
         const PHASE_MENU  = 'menu';
 
-        /*
-         * ПОСЛІДОВНІСТЬ ПРОМО-СЛАЙДІВ (9 слайдів):
-         * ── Оригінальні 5 режимів ─────────────────────
-         * 1. single       — 1 товар (випадковий)
-         * 2. double       — 2 товари однієї категорії
-         * 3. grid         — 4 товари однієї категорії
-         * 4. pair         — 2 товари однакової назви/виробника
-         * 5. singleBest   — 1 товар із bestPrice: true
-         * ── Нові 4 слайди ─────────────────────────────
-         * 6. single       — ще один одиночний товар
-         * 7. single       — ще один одиночний товар
-         * 8. doubleRandom — 2 довільні товари (не обов'язково однієї категорії)
-         * 9. doubleRandom — 2 довільні товари (інші)
-         */
         const PROMO_SEQUENCE = [
-            'single',        // 1 (оригінал)
-            'double',        // 2 (оригінал, одна категорія)
-            'grid',          // 3 (оригінал, 4 товари)
-            'pair',          // 4 (оригінал, одна назва/виробник)
-            'singleBest',    // 5 (оригінал, тільки bestPrice)
-            'single',        // 6 (новий)
-            'single',        // 7 (новий)
-            'doubleRandom',  // 8 (новий, довільна пара)
-            'doubleRandom'   // 9 (новий, довільна пара)
+            'single',
+            'double',
+            'grid',
+            'pair',
+            'singleBest',
+            'single',
+            'single',
+            'doubleRandom',
+            'doubleRandom'
         ];
 
-        const PROMO_SLIDE_DURATION = 10000;       // 10 с на слайд
-        const PROMO_TOTAL_SLIDES   = PROMO_SEQUENCE.length; // 9
-        const MENU_DURATION        = 20000;       // 20 с меню кав'ярні (без змін)
+        const PROMO_SLIDE_DURATION = 10000;
+        const PROMO_TOTAL_SLIDES   = PROMO_SEQUENCE.length;
+        const MENU_DURATION        = 20000;
 
         let currentPhase = null;
         let promoSlideIndex = 0;
 
-        // Дані товарів
-        let allItems    = [];   // промо (без кав'ярні, без Фра Гулі)
-        let bestItems   = [];   // промо з bestPrice: true
-        let coffeeItems = [];   // товари кав'ярні (для меню)
+        let allItems    = [];
+        let bestItems   = [];
+        let coffeeItems = [];
         let dataLoaded  = false;
         let dataError   = false;
 
-        // Стан промо
+        /* ============================================================
+           ТРЕКЕР "КОЛА" — товари не повторюються, поки не покажуться всі.
+           Скидається автоматично, коли для нового слота немає жодного
+           "невикористаного" товару.
+           ============================================================ */
+        let usedIds = new Set();
         let lastSingleId = null;
-        const RECENT_LIMIT = 8;
-        let recentIds = [];
 
-        // Таймери
         let promoRotationId      = null;
         let videoFallbackTimeout = null;
         let menuEntranceTimeout  = null;
@@ -788,17 +799,6 @@
             return a;
         }
 
-        function filterRecent(arr) {
-            if (recentIds.length === 0) return arr;
-            const filtered = arr.filter(it => !recentIds.includes(it.id));
-            return filtered.length > 0 ? filtered : arr;
-        }
-
-        function rememberShown(items) {
-            items.forEach(it => recentIds.push(it.id));
-            while (recentIds.length > RECENT_LIMIT) recentIds.shift();
-        }
-
         function priceParts(raw) {
             const num = Number(raw ?? 0);
             const int = Math.floor(num);
@@ -806,7 +806,6 @@
             return { int, cents };
         }
 
-        /* Виключення шампанського "Фра Гулі" */
         function isChampagneFraGuli(item) {
             const name = (item.name || '').toLowerCase();
             const man  = (item.manufacturer || '').toLowerCase();
@@ -817,6 +816,175 @@
             if (both.includes('fra') && both.includes('guli')) return true;
             if (both.includes('fra') && both.includes('gouli')) return true;
             return false;
+        }
+
+        function markUsed(items) {
+            items.forEach(it => usedIds.add(it.id));
+        }
+
+        /* Універсальний пікер: спершу бере "невикористані" товари,
+           якщо їх мало — дозволяє вже використані, а коли пул
+           вичерпано повністю — скидає usedIds і починає нове коло. */
+        function pickItemsPreferUnused(pool, count) {
+            if (pool.length === 0) return [];
+
+            let unused = pool.filter(it => !usedIds.has(it.id));
+
+            if (unused.length === 0) {
+                // Нове коло — скидаємо трекер
+                usedIds.clear();
+                unused = [...pool];
+            }
+
+            const shuffledUnused = shuffle(unused);
+            const shuffledUsed = shuffle(pool.filter(it => usedIds.has(it.id)));
+
+            const picked = [];
+            for (const it of shuffledUnused) {
+                if (picked.length >= count) break;
+                picked.push(it);
+            }
+            for (const it of shuffledUsed) {
+                if (picked.length >= count) break;
+                picked.push(it);
+            }
+
+            markUsed(picked);
+            return picked;
+        }
+
+        /* ---- Пікери для конкретних режимів ---- */
+        function pickSingleForPromo() {
+            if (allItems.length === 0) return null;
+
+            let candidates = allItems.filter(it => !usedIds.has(it.id));
+            if (candidates.length === 0) {
+                usedIds.clear();
+                candidates = [...allItems];
+            }
+
+            // Уникаємо повтору двох послідовних одиночних слайдів
+            if (candidates.length > 1 && lastSingleId !== null) {
+                const filtered = candidates.filter(it => it.id !== lastSingleId);
+                if (filtered.length > 0) candidates = filtered;
+            }
+
+            const item = candidates[Math.floor(Math.random() * candidates.length)];
+            usedIds.add(item.id);
+            lastSingleId = item.id;
+            return item;
+        }
+
+        function pickSingleBest() {
+            if (bestItems.length === 0) return null;
+
+            let candidates = bestItems.filter(it => !usedIds.has(it.id));
+            if (candidates.length === 0) candidates = [...bestItems];
+
+            const item = candidates[Math.floor(Math.random() * candidates.length)];
+            usedIds.add(item.id);
+            return item;
+        }
+
+        function pickSameCategory2() {
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+
+            const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 2));
+            if (validCats.length === 0) return pickItemsPreferUnused(allItems, 2);
+
+            // 1) шукаємо категорію, де обидва товари ще не використані
+            for (const cat of validCats) {
+                const unused = groups[cat].filter(it => !usedIds.has(it.id));
+                if (unused.length >= 2) {
+                    const picked = shuffle(unused).slice(0, 2);
+                    markUsed(picked);
+                    return picked;
+                }
+            }
+
+            // 2) fallback — беремо як звичайно
+            return pickItemsPreferUnused(allItems, 2);
+        }
+
+        function pickSameCategory4() {
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+
+            const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 4));
+            if (validCats.length === 0) return pickItemsPreferUnused(allItems, 4);
+
+            // 1) категорія з 4 невикористаними
+            for (const cat of validCats) {
+                const unused = groups[cat].filter(it => !usedIds.has(it.id));
+                if (unused.length >= 4) {
+                    const picked = shuffle(unused).slice(0, 4);
+                    markUsed(picked);
+                    return picked;
+                }
+            }
+
+            // 2) категорія з 4 товарами, беремо що є (з пріоритетом невикористаних)
+            for (const cat of validCats) {
+                const picked = pickItemsPreferUnused(groups[cat], 4);
+                if (picked.length === 4) return picked;
+            }
+
+            return pickItemsPreferUnused(allItems, 4);
+        }
+
+        function pickPairSameNameOrManufacturer() {
+            // спершу — по назві
+            const byName = {};
+            allItems.forEach(it => {
+                const key = (it.name || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byName[key]) byName[key] = [];
+                byName[key].push(it);
+            });
+
+            const nameGroups = shuffle(Object.values(byName).filter(g => g.length >= 2));
+            for (const group of nameGroups) {
+                const unused = group.filter(it => !usedIds.has(it.id));
+                if (unused.length >= 2) {
+                    const picked = shuffle(unused).slice(0, 2);
+                    markUsed(picked);
+                    return picked;
+                }
+            }
+
+            // далі — по виробнику
+            const byMan = {};
+            allItems.forEach(it => {
+                const key = (it.manufacturer || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byMan[key]) byMan[key] = [];
+                byMan[key].push(it);
+            });
+
+            const manGroups = shuffle(Object.values(byMan).filter(g => g.length >= 2));
+            for (const group of manGroups) {
+                const unused = group.filter(it => !usedIds.has(it.id));
+                if (unused.length >= 2) {
+                    const picked = shuffle(unused).slice(0, 2);
+                    markUsed(picked);
+                    return picked;
+                }
+            }
+
+            return pickItemsPreferUnused(allItems, 2);
+        }
+
+        function pickRandom2() {
+            return pickItemsPreferUnused(allItems, 2);
         }
 
         /* ============================================================
@@ -864,7 +1032,7 @@
         }
 
         /* ============================================================
-           ФАЗА 1: ПРОМО — 9 СЛАЙДІВ
+           ФАЗА 1: ПРОМО
            ============================================================ */
         function enterPromoPhase() {
             promoSlideIndex = 0;
@@ -901,127 +1069,43 @@
             }
 
             let html = '';
-            let shown = [];
 
             if (mode === 'single') {
                 const item = pickSingleForPromo();
-                if (item) { html = renderSingle(item); shown = [item]; }
+                if (item) html = renderSingle(item);
 
             } else if (mode === 'double') {
                 const items = pickSameCategory2();
-                if (items.length) { html = renderDouble(items); shown = items; }
+                if (items.length) html = renderDouble(items);
 
             } else if (mode === 'grid') {
                 const items = pickSameCategory4();
-                if (items.length) { html = renderGrid(items); shown = items; }
+                if (items.length) html = renderGrid(items);
 
             } else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
-                if (items.length) { html = renderDouble(items); shown = items; }
+                if (items.length) html = renderDouble(items);
 
             } else if (mode === 'singleBest') {
                 const item = pickSingleBest();
-                if (item) { html = renderSingle(item); shown = [item]; }
+                if (item) html = renderSingle(item);
                 else {
                     const fb = pickSingleForPromo();
-                    if (fb) { html = renderSingle(fb); shown = [fb]; }
+                    if (fb) html = renderSingle(fb);
                 }
 
             } else if (mode === 'doubleRandom') {
                 const items = pickRandom2();
-                if (items.length) { html = renderDouble(items); shown = items; }
+                if (items.length) html = renderDouble(items);
             }
 
             container.innerHTML = html;
-            if (shown.length > 0) rememberShown(shown);
 
             container.classList.remove('fade-in');
             void container.offsetWidth;
             container.classList.add('fade-in');
 
             scheduleBounce();
-        }
-
-        /* ---- Пікери ---- */
-        function pickSingleForPromo() {
-            if (allItems.length === 0) return null;
-            let pool = filterRecent(allItems);
-            if (pool.length > 1 && lastSingleId !== null) {
-                const filtered = pool.filter(it => it.id !== lastSingleId);
-                if (filtered.length > 0) pool = filtered;
-            }
-            const item = pool[Math.floor(Math.random() * pool.length)];
-            lastSingleId = item.id;
-            return item;
-        }
-
-        function pickSingleBest() {
-            if (bestItems.length === 0) return null;
-            let pool = filterRecent(bestItems);
-            if (pool.length === 0) pool = bestItems;
-            return pool[Math.floor(Math.random() * pool.length)];
-        }
-
-        function pickSameCategory2() {
-            if (allItems.length < 2) return allItems.slice(0, 2);
-            const groups = {};
-            allItems.forEach(it => {
-                const cat = it.category || 'Інше';
-                if (!groups[cat]) groups[cat] = [];
-                groups[cat].push(it);
-            });
-            const valid = Object.keys(groups).filter(c => groups[c].length >= 2);
-            if (valid.length === 0) return shuffle(allItems).slice(0, 2);
-            const cat = valid[Math.floor(Math.random() * valid.length)];
-            return shuffle(groups[cat]).slice(0, 2);
-        }
-
-        function pickPairSameNameOrManufacturer() {
-            if (allItems.length < 2) return allItems.slice(0, 2);
-
-            const byName = {};
-            allItems.forEach(it => {
-                const key = (it.name || '').trim().toLowerCase();
-                if (!key) return;
-                if (!byName[key]) byName[key] = [];
-                byName[key].push(it);
-            });
-            const nameGroups = Object.values(byName).filter(g => g.length >= 2);
-            if (nameGroups.length > 0) return shuffle(shuffle(nameGroups)[0]).slice(0, 2);
-
-            const byMan = {};
-            allItems.forEach(it => {
-                const key = (it.manufacturer || '').trim().toLowerCase();
-                if (!key) return;
-                if (!byMan[key]) byMan[key] = [];
-                byMan[key].push(it);
-            });
-            const manGroups = Object.values(byMan).filter(g => g.length >= 2);
-            if (manGroups.length > 0) return shuffle(shuffle(manGroups)[0]).slice(0, 2);
-
-            return shuffle(allItems).slice(0, 2);
-        }
-
-        function pickSameCategory4() {
-            if (allItems.length < 4) return allItems.slice(0, 4);
-            const groups = {};
-            allItems.forEach(it => {
-                const cat = it.category || 'Інше';
-                if (!groups[cat]) groups[cat] = [];
-                groups[cat].push(it);
-            });
-            const valid = Object.keys(groups).filter(c => groups[c].length >= 4);
-            if (valid.length === 0) return shuffle(allItems).slice(0, 4);
-            const cat = valid[Math.floor(Math.random() * valid.length)];
-            return shuffle(groups[cat]).slice(0, 4);
-        }
-
-        /* НОВИЙ: 2 довільні товари (не обов'язково однієї категорії) */
-        function pickRandom2() {
-            if (allItems.length < 2) return allItems.slice(0, 2);
-            const pool = filterRecent(allItems);
-            const source = pool.length >= 2 ? pool : allItems;
-            return shuffle(source).slice(0, 2);
         }
 
         /* ---- Рендери ---- */
@@ -1304,17 +1388,14 @@
                 const raw = (data.items || []).filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
-                    // Виключаємо шампанське "Фра Гулі" з промо
                     if (isChampagneFraGuli(it)) return false;
                     return true;
                 });
 
-                // Кав'ярня (для меню) — без змін
                 coffeeItems = raw.filter(it =>
                     (it.category || '').includes('кав\'ярня')
                 ).slice(0, 9);
 
-                // Промо (без кав'ярні)
                 allItems = raw.filter(it => {
                     const cat = (it.category || '').toLowerCase();
                     if (cat.includes('ярня')) return false;
