@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-Адмін-панель PromoSite з інтегрованим пошуком картинок.
-Запуск: python admin.py
-"""
-
 import os
 import sys
 import json
@@ -58,15 +53,23 @@ def save_data(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def compress_image(src_path, dest_path, max_width=600, quality=75):
+def process_image_bg(img):
+    """Перетворює прозорий фон на білий і конвертує в RGB."""
+    if img.mode in ('RGBA', 'LA', 'P'):
+        if img.mode == 'P':
+            img = img.convert('RGBA')
+        bg = Image.new('RGB', img.size, (255, 255, 255))
+        bg.paste(img, mask=img.split()[-1])
+        return bg
+    elif img.mode != 'RGB':
+        return img.convert('RGB')
+    return img
+
+
+def compress_image(src_path, dest_path, max_width=600, quality=80):
     """Стискає картинку → JPG. Повертає розмір у КБ."""
     img = Image.open(src_path)
-    if img.mode in ('RGBA', 'LA', 'P'):
-        bg = Image.new('RGB', img.size, (255, 255, 255))
-        bg.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
-        img = bg
-    elif img.mode != 'RGB':
-        img = img.convert('RGB')
+    img = process_image_bg(img)
         
     if img.width > max_width:
         ratio = max_width / img.width
@@ -81,7 +84,6 @@ def get_next_id(items):
 
 
 def renumber_items(items):
-    """Перенумеровує товари 1, 2, 3... і перейменовує їхні картинки."""
     for i, it in enumerate(items, 1):
         old_path = BASE_DIR / it['image'].lstrip('./')
         new_name = f"{i}.jpg"
@@ -102,12 +104,11 @@ def renumber_items(items):
 # ============================================================
 class ImageSearchPopup(tk.Toplevel):
     def __init__(self, parent_app, initial_query=""):
-        # parent_app - це сам клас AdminApp, а не просто вікно
         super().__init__(parent_app.root)
         self.parent_app = parent_app
         
-        self.title("Пошук картинок в Інтернеті")
-        self.geometry("950x700")
+        self.title("Пошук картинок (Висока якість, білий фон)")
+        self.geometry("1000x750")
         self.configure(bg="#f0f0f0")
         
         self.bad_domains = [
@@ -136,11 +137,9 @@ class ImageSearchPopup(tk.Toplevel):
         self.status_lbl = tk.Label(top_frame, text="", bg="#f0f0f0", fg="#555")
         self.status_lbl.pack(side=tk.LEFT, padx=15)
 
-        # Контейнер зі скролом
         self.canvas = tk.Canvas(self, bg="#f0f0f0", highlightthickness=0)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         
-        # Фрейм для результатів
         self.scrollable_frame = tk.Frame(self.canvas, bg="#f0f0f0")
         
         self.scrollable_frame.bind(
@@ -149,16 +148,12 @@ class ImageSearchPopup(tk.Toplevel):
         )
         
         self.canvas_window = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        
         self.canvas.configure(yscrollcommand=scrollbar.set)
-        
-        # Розтягуємо фрейм на всю ширину Canvas
         self.canvas.bind('<Configure>', lambda e: self.canvas.itemconfig(self.canvas_window, width=e.width))
 
         self.canvas.pack(side="left", fill="both", expand=True, padx=10, pady=5)
         scrollbar.pack(side="right", fill="y")
         
-        # Скрол колеса мишки
         self.bind_all("<MouseWheel>", lambda e: self.canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
         
         if initial_query:
@@ -194,18 +189,19 @@ class ImageSearchPopup(tk.Toplevel):
         threading.Thread(target=self._search_thread, args=(clean_q,), daemon=True).start()
 
     def _search_thread(self, query):
-        search_query = f'"{query}" product'
+        # Шукаємо англійською для кращих результатів (PNG, isolated)
+        search_query = f'{query} png isolated product'
         valid = 0
+        
         try:
             with DDGS() as ddgs:
-                results = list(ddgs.images(search_query, max_results=100))
-            
-            if not results:
-                with DDGS() as ddgs:
-                    results = list(ddgs.images(f'{query} product white background', max_results=100))
+                # Беремо до 200 результатів для фільтрації
+                results = list(ddgs.images(search_query, max_results=200))
 
             for res in results:
-                if valid >= 30: break 
+                if valid >= 50: # Показуємо до 50 гарних картинок
+                    break
+                    
                 url = res.get("image", "")
                 if not url: continue
                 if any(bad in url.lower() for bad in self.bad_domains): continue
@@ -217,10 +213,15 @@ class ImageSearchPopup(tk.Toplevel):
                     img = Image.open(io.BytesIO(resp.content))
                     img.load()
 
-                    if img.width < 350 or img.height < 350: continue
-                    if self._is_white_bg(img):
+                    # Перевірка розміру (мінімум 400x400 для хорошої якості)
+                    if img.width < 400 or img.height < 400: continue
+                    
+                    # Робимо білий фон для перевірки та відображення
+                    img_white_bg = process_image_bg(img)
+                    
+                    if self._is_white_bg(img_white_bg):
                         valid += 1
-                        self.after(0, lambda i=img, u=url: self._add_result(i, u))
+                        self.after(0, lambda i=img_white_bg, u=url: self._add_result(i, u))
                 except Exception:
                     pass
             
@@ -231,21 +232,15 @@ class ImageSearchPopup(tk.Toplevel):
             self.after(0, lambda: self.search_btn.config(state=tk.NORMAL))
 
     def _is_white_bg(self, img):
-        if img.mode in ('RGBA', 'LA', 'P'):
-            bg = Image.new('RGB', img.size, (255, 255, 255))
-            bg.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
-            img = bg
-        elif img.mode != 'RGB':
-            img = img.convert('RGB')
-        
+        # img вже у форматі RGB з білим фоном
         w, h = img.size
-        cw, ch = int(w * 0.15), int(h * 0.15)
+        cw, ch = int(w * 0.1), int(h * 0.1) # Беремо 10% від краю
         corners = [img.crop((0,0,cw,ch)), img.crop((w-cw,0,w,ch)), img.crop((0,h-ch,cw,h)), img.crop((w-cw,h-ch,w,h))]
         
         white = 0
         for c in corners:
             gray = c.convert('L')
-            if sum(gray.getdata()) / len(gray.getdata()) > 210:
+            if sum(gray.getdata()) / len(gray.getdata()) > 235: # Поріг білизни
                 white += 1
         return white >= 3
 
@@ -259,7 +254,6 @@ class ImageSearchPopup(tk.Toplevel):
         row = self.result_index // 3
         col = self.result_index % 3
         frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
-        
         self.scrollable_frame.grid_columnconfigure(col, weight=1)
 
         lbl = tk.Label(frame, image=tk_img, bg="white")
@@ -277,16 +271,9 @@ class ImageSearchPopup(tk.Toplevel):
         temp_path = IMAGES_DIR / temp_filename
 
         try:
-            if pil_img.mode in ('RGBA', 'LA', 'P'):
-                bg = Image.new('RGB', pil_img.size, (255, 255, 255))
-                bg.paste(pil_img, mask=pil_img.split()[-1] if pil_img.mode in ('RGBA', 'LA') else None)
-                pil_img = bg
-            if pil_img.mode != 'RGB':
-                pil_img = pil_img.convert('RGB')
-                
+            # pil_img вже має білий фон завдяки process_image_bg
             pil_img.save(str(temp_path), 'JPEG', quality=95)
             
-            # ТУТ БУЛА ПОМИЛКА - тепер звертаємось до parent_app
             self.parent_app.current_image_src = str(temp_path)
             self.parent_app.lbl_image.config(text="✅ Обрано з Інтернету (натисніть Зберегти)", foreground='#4CAF50')
             self.destroy()
@@ -444,7 +431,6 @@ class AdminApp:
         self.search_entry.bind('<Escape>', lambda e: self._clear_search())
         self.root.bind('<Control-f>', lambda e: self.search_entry.focus_set())
 
-    # ---------- Спеціальні методи для картинок ----------
     def choose_image(self):
         path = filedialog.askopenfilename(
             title="Виберіть картинку",
@@ -456,10 +442,8 @@ class AdminApp:
 
     def search_image_online(self):
         product_name = self.e_name.get().strip()
-        # Передаємо 'self' (сам клас AdminApp), щоб вікно пошуку мало доступ до lbl_image
         ImageSearchPopup(self, initial_query=product_name)
         
-    # ---------- Пошук та таблиця ----------
     def _on_search_change(self, event=None): self._refresh_table()
     def _clear_search(self):
         self.search_query.set("")
@@ -502,7 +486,6 @@ class AdminApp:
     def on_select(self, event):
         if self.tree.selection(): self.edit_selected()
 
-    # ---------- Форма ----------
     def clear_form(self):
         self.editing_id = None
         self.current_image_src = None
@@ -581,7 +564,6 @@ class AdminApp:
         else:
             self.lbl_discount.config(text="Знижка: —")
 
-    # ---------- Збереження ----------
     def save_item(self):
         name = self.e_name.get().strip()
         if not name: return messagebox.showerror("Помилка", "Введіть назву товару")
@@ -615,7 +597,6 @@ class AdminApp:
             try: compress_image(self.current_image_src, IMAGES_DIR / file_name)
             except Exception as e: return messagebox.showerror("Помилка картинки", str(e))
             
-            # Видаляємо тимчасовий файл, якщо він був завантажений з Інтернету
             if "_temp_" in str(self.current_image_src):
                 try:
                     os.remove(self.current_image_src)
@@ -645,7 +626,6 @@ class AdminApp:
         self.clear_form()
         messagebox.showinfo("Готово", f"Товар '{name}' збережено ✅")
 
-    # ---------- Інші кнопки ----------
     def delete_selected(self):
         sel = self.tree.selection()
         if not sel: return
