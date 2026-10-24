@@ -3025,3 +3025,127 @@ body.event-modal-open {
         align-self: stretch;
     }
 }
+
+/* ============================================================
+   ТЕМА: ЧОРНА П'ЯТНИЦЯ (BLACK FRIDAY)
+   ============================================================ */
+
+/* Головний фон сторінки — темний */
+body.black-friday {
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+}
+
+/* Шапка та підвал */
+body.black-friday .header,
+body.black-friday .site-footer {
+    background-color: #111111;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid #222;
+}
+
+/* Логотип та текст у шапці */
+body.black-friday .logo span,
+body.black-friday .nav a.active {
+    color: #ffcc00; /* Жовтий акцент */
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+body.black-friday .nav a {
+    color: #ccc;
+}
+body.black-friday .nav a:hover {
+    color: #ffcc00;
+}
+
+/* Картки товарів — темні */
+body.black-friday .card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.black-friday .card:hover {
+    border-color: #ffcc00;
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+}
+
+/* Назва товару */
+body.black-friday .card-body h3 {
+    color: #ffffff;
+}
+
+/* Стара ціна */
+body.black-friday .old-price {
+    color: #666;
+}
+
+/* Нова ціна — неонова */
+body.black-friday .new-price,
+body.black-friday .new-price .price-int,
+body.black-friday .new-price .price-cents {
+    color: #ffcc00;
+    text-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+}
+
+body.black-friday .new-price .price-unit {
+    color: #999;
+}
+
+/* Бейдж знижки (жовтий з чорним текстом для максимального контрасту) */
+body.black-friday .badge {
+    background: #ffcc00;
+    color: #000;
+    font-weight: 900;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+    animation: none; /* можна прибрати пульсацію, щоб не відволікала */
+}
+
+/* Банер (Hero) */
+body.black-friday .hero-banner-link {
+    background: linear-gradient(135deg, #1a1a1a, #000000);
+    border: 2px solid #ffcc00;
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+}
+
+body.black-friday .hero-banner-text {
+    color: #ffcc00;
+}
+
+body.black-friday .hero-banner-arrow {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* Блок сортування/пошуку (якщо є) */
+body.black-friday .search-categories-section {
+    background: #111;
+    border-bottom: 1px solid #222;
+}
+
+body.black-friday .search-input-main {
+    background: #222;
+    border-color: #444;
+    color: #fff;
+}
+
+body.black-friday .cat-label {
+    color: #ccc;
+}
+
+/* Кнопка "Показати ще" */
+body.black-friday .load-more-btn {
+    background: #1a1a1a;
+    color: #ffcc00;
+    border-color: #ffcc00;
+}
+
+body.black-friday .load-more-btn:hover {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* Сітка товарів: зміна фону (якщо він заданий жорстко) */
+body.black-friday .random-main {
+    background: transparent;
+}
