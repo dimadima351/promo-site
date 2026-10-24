@@ -3585,6 +3585,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 215,
+      "name": "Молоко пвстеризоване 2,5% 870г ПЕТ Радимо",
+      "manufacturer": "Радимо",
+      "category": "Молочні продукти",
+      "price": 49.0,
+      "oldPrice": 61.0,
+      "badge": "-20%",
+      "image": "./images/215.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
