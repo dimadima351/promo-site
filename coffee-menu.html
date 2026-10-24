@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню кав'ярні | Ваш ПАРТНЕР</title>
     
-    <!-- Підключаємо красиві шрифти від Google -->
+    <!-- Шрифти -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
 
     <style>
         /* ============================================================
-           БАЗОВІ НАЛАШТУВАННЯ
+           СКИДАННЯ ТА БАЗОВІ СТИЛІ (БЕЗ СКРОЛУ)
            ============================================================ */
         :root {
-            --bg-color: #120c08; /* Глибокий колір еспресо */
-            --text-main: #f5ebe0; /* Колір топленого молока */
-            --text-muted: #a68a75;
-            --accent: #d4af37; /* Золотистий */
-            --card-bg: #1c130e;
-            --card-hover: #261a13;
+            --bg: #120c08;         /* Глибокий еспресо */
+            --text: #f5ebe0;       /* Топлене молоко */
+            --muted: #a68a75;
+            --accent: #d4af37;     /* Золото */
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(212, 175, 55, 0.15);
         }
 
         * {
@@ -29,348 +29,246 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Забороняємо скрол */
+            background-color: var(--bg);
+            color: var(--text);
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ============================================================
-           ЗАГОЛОВОК (HERO SECTION)
+           ЗАГОЛОВОК
            ============================================================ */
-        .menu-hero {
-            position: relative;
-            height: 50vh;
-            min-height: 400px;
+        header {
+            height: 15vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            background: linear-gradient(to bottom, rgba(18, 12, 8, 0.4), var(--bg-color)), 
-                        url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop') center/cover no-repeat;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            background: linear-gradient(to bottom, rgba(18, 12, 8, 0.8), var(--bg));
+            flex-shrink: 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .menu-hero h1 {
+        h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 10vw, 9rem); /* Величезний адаптивний шрифт */
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            color: var(--text-main);
+            font-size: clamp(2rem, 6vh, 5rem);
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            margin-bottom: 10px;
-            animation: fadeInDown 1s ease-out;
+            color: var(--text);
+            line-height: 1;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            margin-bottom: 5px;
         }
 
-        .menu-hero p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
+        header p {
+            font-size: clamp(0.7rem, 1.5vh, 1rem);
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.3em;
-            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         /* ============================================================
-           СІТКА МЕНЮ
+           КОНТЕЙНЕР МЕНЮ
            ============================================================ */
-        .menu-container {
-            max-width: 1400px; /* Обмеження для великих екранів */
-            margin: -50px auto 80px;
-            padding: 0 40px;
-            position: relative;
-            z-index: 10;
+        main {
+            flex-grow: 1;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 4vw;
+            background: radial-gradient(circle at center, #1c130e 0%, #120c08 100%);
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Дві колонки на великих екранах */
-            gap: 30px 60px;
-            background: rgba(28, 19, 14, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 24px;
-            padding: 60px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            gap: 2vh 3vw;
+            align-content: center;
+            /* Колонки задаються через JS залежно від кількості товарів */
         }
 
         /* ============================================================
-           КАРТКА НАПОЮ
+           КАРТКА ТОВАРУ
            ============================================================ */
         .menu-item {
             display: flex;
             align-items: center;
-            gap: 25px;
-            padding: 15px;
-            border-radius: 16px;
+            gap: 1.5vw;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5vh;
+            padding: 1.5vh 2vw;
             transition: all 0.3s ease;
-            cursor: pointer;
-            background: transparent;
+            min-height: 0; /* Щоб не розтягувало контейнер */
         }
 
         .menu-item:hover {
-            background: var(--card-hover);
-            transform: translateX(10px);
-        }
-
-        /* Картинка */
-        .menu-img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%; /* Круглі картинки виглядають дуже стильно */
-            object-fit: cover;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            transition: border-color 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .menu-item:hover .menu-img {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-3px);
             border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        /* Інформація (Назва, опис, ціна) */
+        .menu-img {
+            height: 12vh;
+            width: 12vh;
+            min-height: 60px;
+            min-width: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            background-color: #222;
+        }
+
         .menu-info {
-            flex: 1;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-width: 0;
         }
 
-        /* Рядок з назвою та ціною */
         .menu-header {
             display: flex;
-            align-items: flex-end;
+            align-items: baseline;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 0.5vh;
         }
 
         .menu-name {
             font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-main);
+            font-size: clamp(1rem, 2.5vh, 1.6rem);
+            font-weight: 700;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Пунктирна лінія між назвою та ціною */
         .menu-dots {
             flex-grow: 1;
-            border-bottom: 2px dotted rgba(212, 175, 55, 0.3);
-            margin: 0 15px;
-            margin-bottom: 6px;
+            border-bottom: 2px dotted rgba(212, 175, 55, 0.2);
+            margin: 0 10px;
+            position: relative;
+            top: -5px;
         }
 
         .menu-price {
-            font-size: 22px;
+            font-size: clamp(1rem, 2.5vh, 1.6rem);
             font-weight: 600;
             color: var(--accent);
             white-space: nowrap;
         }
 
         .menu-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* ============================================================
-           АНІМАЦІЇ
+           АДАПТИВНІСТЬ
            ============================================================ */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================================
-           АДАПТИВНІСТЬ (Планшети та телефони)
-           ============================================================ */
-        @media (max-width: 1100px) {
-            .menu-grid {
-                grid-template-columns: 1fr; /* Одна колонка на планшетах */
-                padding: 40px;
-            }
-        }
-
-        @media (max-width: 700px) {
-            .menu-container {
-                padding: 0 15px;
-                margin-top: -30px;
-            }
-            
-            .menu-grid {
-                padding: 25px 20px;
-                gap: 20px;
-                border-radius: 16px;
-            }
-
-            .menu-item {
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .menu-item:hover {
-                transform: translateY(-2px); /* На телефоні краще піднімати вгору */
-            }
-
-            .menu-img {
-                width: 80px;
-                height: 80px;
-            }
-
-            .menu-name {
-                font-size: 18px;
-                white-space: normal; /* Дозволяємо перенос на телефоні */
-            }
-
-            .menu-price {
-                font-size: 18px;
-            }
-
-            .menu-dots {
-                display: none; /* Ховаємо пунктир на дуже малих екранах */
-            }
-            
-            .menu-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 2px;
-            }
-
-            .menu-desc {
-                font-size: 12px;
-            }
+        @media (max-width: 900px) {
+            html, body { overflow: auto; } /* На мобільних дозволяємо скрол, якщо не влізе */
+            main { height: auto; min-height: 85vh; padding: 20px; }
+            .menu-grid { grid-template-columns: 1fr !important; gap: 15px; }
+            .menu-item { padding: 15px; gap: 15px; }
+            .menu-img { height: 70px; width: 70px; }
+            h1 { font-size: 2.5rem; }
+            .menu-name, .menu-price { font-size: 1.2rem; }
+            .menu-dots { display: none; }
+            .menu-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Великий заголовок -->
-    <header class="menu-hero">
+    <header>
         <h1>МЕНЮ</h1>
-        <p>Свіжозварена кава та авторські напої</p>
+        <p>Кава та авторські напої</p>
     </header>
 
-    <!-- Основна частина меню -->
-    <main class="menu-container">
-        <div class="menu-grid">
-
-            <!-- КАРТКА 1 -->
-            <div class="menu-item">
-                <!-- Замініть посилання на ваші картинки (наприклад: ./images/espresso.jpg) -->
-                <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=300&auto=format&fit=crop" alt="Еспресо" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Еспресо</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">35 ₴</span>
-                    </div>
-                    <p class="menu-desc">Класична міцна кава з насиченим смаком</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 2 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?q=80&w=300&auto=format&fit=crop" alt="Американо" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Американо</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">40 ₴</span>
-                    </div>
-                    <p class="menu-desc">Еспресо з додаванням гарячої води</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 3 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=300&auto=format&fit=crop" alt="Капучино" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Капучино</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">55 ₴</span>
-                    </div>
-                    <p class="menu-desc">Еспресо з ніжною молочною пінкою</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 4 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?q=80&w=300&auto=format&fit=crop" alt="Латте" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Латте</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">60 ₴</span>
-                    </div>
-                    <p class="menu-desc">Ніжний молочний напій з шотом еспресо</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 5 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?q=80&w=300&auto=format&fit=crop" alt="Флет Вайт" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Флет Вайт</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">65 ₴</span>
-                    </div>
-                    <p class="menu-desc">Подвійне еспресо з мікропіною</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 6 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1593443852203-24c6b4005663?q=80&w=300&auto=format&fit=crop" alt="Мокачино" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Мокачино</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">70 ₴</span>
-                    </div>
-                    <p class="menu-desc">Кава з шоколадом та молоком</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 7 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" alt="Раф" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Раф кавовий</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">70 ₴</span>
-                    </div>
-                    <p class="menu-desc">Вершковий напій з ванільним цукром</p>
-                </div>
-            </div>
-
-            <!-- КАРТКА 8 -->
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=300&auto=format&fit=crop" alt="Матча" class="menu-img">
-                <div class="menu-info">
-                    <div class="menu-header">
-                        <span class="menu-name">Матча Латте</span>
-                        <span class="menu-dots"></span>
-                        <span class="menu-price">75 ₴</span>
-                    </div>
-                    <p class="menu-desc">Японський зелений чай з молоком</p>
-                </div>
-            </div>
-
+    <main>
+        <div class="menu-grid" id="menuGrid">
+            <!-- Сюди JS вставить картки -->
+            <div style="text-align:center; width:100%; color:var(--accent);">Завантаження меню...</div>
         </div>
     </main>
 
+    <script>
+        // Заглушка, якщо картинки немає
+        const FALLBACK_IMG = "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=300&auto=format&fit=crop";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('menuGrid');
+
+            // Беремо дані з вашої бази
+            fetch('./data/promotions.json?t=' + Date.now())
+                .then(res => res.json())
+                .then(data => {
+                    // Фільтруємо тільки кав'ярню і тільки ті, що показуються
+                    const items = (data.items || []).filter(item => 
+                        (item.category || '').includes('кав\'ярня') && 
+                        item.visible !== false
+                    );
+
+                    if (items.length === 0) {
+                        grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">У кав\'ярні поки що немає позицій</div>';
+                        return;
+                    }
+
+                    // --- РОЗУМНА СІТКА ---
+                    // Якщо товарів мало (до 6) — 2 колонки (великі картки)
+                    // Якщо середньо (до 12) — 3 колонки
+                    // Якщо багато — 4 колонки (щоб все влізло в екран)
+                    if (items.length <= 6) {
+                        grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                    } else if (items.length <= 12) {
+                        grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                    } else {
+                        grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                    }
+
+                    grid.innerHTML = ''; // Очищаємо
+
+                    items.forEach(item => {
+                        // Використовуємо картинку з бази, якщо є, інакше - заглушку
+                        const imgSrc = item.image ? item.image : FALLBACK_IMG;
+                        
+                        // Форматуємо ціну (прибираємо .00)
+                        const priceInt = Math.floor(item.price);
+                        const priceStr = item.price % 1 === 0 ? priceInt : item.price;
+
+                        const card = document.createElement('div');
+                        card.className = 'menu-item';
+                        card.innerHTML = `
+                            <img src="${imgSrc}" alt="${item.name}" class="menu-img" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
+                            <div class="menu-info">
+                                <div class="menu-header">
+                                    <span class="menu-name">${item.name}</span>
+                                    <span class="menu-dots"></span>
+                                    <span class="menu-price">${priceStr} ₴</span>
+                                </div>
+                                <p class="menu-desc">${item.manufacturer ? item.manufacturer : 'Свіжозварений напій'}</p>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    grid.innerHTML = '<div style="color:#e74c3c; text-align:center; width:100%;">Помилка завантаження бази даних</div>';
+                });
+        });
+    </script>
 </body>
 </html>
