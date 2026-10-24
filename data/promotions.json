@@ -3619,6 +3619,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 217,
+      "name": "Сироп для кави в асортименті nelli",
+      "manufacturer": "ПАРТНЕР",
+      "category": "Кава та чай (кав'ярня)",
+      "price": 3.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/217.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": false,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
