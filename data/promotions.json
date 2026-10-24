@@ -3636,6 +3636,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 218,
+      "name": "Шампанське Фіореллі Біле напівсолодке 1л на розлив",
+      "manufacturer": "ПАРТНЕР",
+      "category": "Розлив",
+      "price": 93.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/217.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": false,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 219,
+      "name": "Шампанське Фіореллі Червоне напівсолодке 1л на розлив",
+      "manufacturer": "ПАРТНЕР",
+      "category": "Розлив",
+      "price": 93.0,
+      "oldPrice": null,
+      "badge": null,
+      "image": "./images/217.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": false,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
