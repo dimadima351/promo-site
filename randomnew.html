@@ -130,15 +130,12 @@
             transform-origin: left bottom;
         }
 
-        /* ============================================================
-           режим single — блок ділиться рівно навпіл,
-           картинка на всю висоту, назва до 3 рядків
-           ============================================================ */
+        /* режим single */
         .mode-single {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 0.82fr 1.18fr;
             gap: clamp(14px, 2.5vh, 36px);
-            align-items: stretch;
+            align-items: center;
             width: 100%;
             height: 100%;
             max-height: 100%;
@@ -151,9 +148,8 @@
         }
         .mode-single .img-wrap {
             position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 0;
+            aspect-ratio: 1 / 1;
+            max-height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -210,15 +206,7 @@
             100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
-        .mode-single .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: clamp(4px, 0.8vh, 12px);
-            min-width: 0;
-            min-height: 0;
-            overflow: visible;
-        }
+        .mode-single .info { display: flex; flex-direction: column; gap: clamp(4px, 0.8vh, 12px); min-width: 0; overflow: visible; }
         .manufacturer {
             font-size: clamp(18px, 2.9vh, 36px);
             color: #999;
@@ -234,12 +222,11 @@
             line-height: 1.05;
             letter-spacing: -1px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            word-break: break-word;
         }
         .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(2px, 0.5vh, 8px); overflow: visible; }
         .old-price {
@@ -255,9 +242,7 @@
         .new-price .price-cents { font-size: clamp(52px, 12vh, 128px); font-weight: 600; line-height: 1; }
         .new-price .price-unit { font-size: clamp(15px, 2.5vh, 30px); font-weight: 400; color: #999; margin-top: 4px; }
 
-        /* ============================================================
-           режим double / pair / rozlyv — однакове оформлення
-           ============================================================ */
+        /* режим double / pair */
         .mode-double { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.8vh, 24px); max-height: 100%; }
         .double-card {
             display: grid;
@@ -288,23 +273,13 @@
         .double-card .new-price .price-unit { font-size: clamp(13px, 2.1vh, 24px); font-weight: 400; color: #999; margin-top: 3px; }
         .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
 
-        /* ============================================================
-           режим grid (4 товари)
-           ============================================================ */
-        .mode-grid {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: clamp(8px, 1.2vh, 16px);
-            max-height: 100%;
-        }
+        /* режим grid (4 товари) */
+        .mode-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: clamp(8px, 1.2vh, 16px); max-height: 100%; }
         .grid-card {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: clamp(6px, 1vw, 16px);
-            align-items: stretch;
+            grid-template-columns: 0.72fr 1.58fr;
+            gap: clamp(6px, 0.9vw, 14px);
+            align-items: center;
             background: #fff;
             border: 2px solid #f0f0f0;
             border-radius: clamp(10px, 1.6vh, 18px);
@@ -313,55 +288,20 @@
             min-height: 0;
             overflow: visible;
         }
-        .grid-card .img-wrap {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px;
-            overflow: visible;
-        }
-        .grid-card .img-wrap img.main-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .grid-card .img-wrap { position: relative; aspect-ratio: 1 / 1; max-height: 100%; display: flex; align-items: center; justify-content: center; padding: 2px; overflow: visible; }
+        .grid-card .img-wrap img.main-img { width: 100%; height: 100%; object-fit: contain; }
         .grid-card .badge { width: clamp(42px, 6.5vh, 68px); height: clamp(42px, 6.5vh, 68px); font-size: clamp(12px, 1.8vh, 18px); top: -6px; left: -6px; }
         .grid-card .best-price-icon { width: clamp(32px, 5vh, 52px); height: clamp(32px, 5vh, 52px); top: -4px; right: -4px; }
-        .grid-card .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: clamp(2px, 0.4vh, 6px);
-            min-width: 0;
-            min-height: 0;
-            overflow: visible;
-        }
+        .grid-card .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; }
         .grid-card .manufacturer { font-size: clamp(10px, 1.3vh, 15px); letter-spacing: clamp(0.5px, 0.15vw, 1.5px); color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .grid-card .name {
-            font-size: clamp(18px, 3.6vh, 40px);
-            font-weight: 800;
-            color: #2c3e50;
-            line-height: 1.1;
-            letter-spacing: -0.6px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            word-break: break-word;
-        }
+        .grid-card .name { font-size: clamp(24px, 5.2vh, 60px); font-weight: 800; color: #2c3e50; line-height: 1.05; letter-spacing: -0.8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
         .grid-card .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: 2px; overflow: visible; }
-        .grid-card .old-price { font-size: clamp(18px, 3.6vh, 42px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 1px; font-weight: 400; }
+        .grid-card .old-price { font-size: clamp(22px, 4.2vh, 50px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 1px; }
         .grid-card .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: 2px; will-change: transform; }
-        .grid-card .new-price .price-int { font-size: clamp(72px, 15vh, 175px); font-weight: 800; line-height: 0.85; letter-spacing: -3px; }
+        .grid-card .new-price .price-int { font-size: clamp(95px, 18vh, 210px); font-weight: 800; line-height: 0.85; letter-spacing: -3px; }
         .grid-card .new-price .price-cents-wrap { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: clamp(4px, 1.2vh, 14px); }
-        .grid-card .new-price .price-cents { font-size: clamp(34px, 7vh, 80px); font-weight: 600; line-height: 1; }
-        .grid-card .new-price .price-unit { font-size: clamp(11px, 1.6vh, 18px); font-weight: 400; color: #999; margin-top: 1px; }
+        .grid-card .new-price .price-cents { font-size: clamp(42px, 8.5vh, 96px); font-weight: 600; line-height: 1; }
+        .grid-card .new-price .price-unit { font-size: clamp(12px, 1.8vh, 22px); font-weight: 400; color: #999; margin-top: 1px; }
 
         .fullscreen-hint {
             position: fixed;
@@ -431,7 +371,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ (без змін)
            ============================================================ */
         .phase-menu .header-logo {
             position: fixed;
@@ -624,10 +564,9 @@
             .double-card .new-price .price-int { font-size: clamp(70px, 15vh, 155px); }
             .double-card .new-price .price-cents { font-size: clamp(34px, 7.5vh, 74px); }
             .double-card .old-price { font-size: clamp(20px, 3.4vh, 42px); }
-            .grid-card .name { font-size: clamp(16px, 3.2vh, 34px); }
-            .grid-card .new-price .price-int { font-size: clamp(56px, 12vh, 130px); }
-            .grid-card .new-price .price-cents { font-size: clamp(26px, 6vh, 62px); }
-            .grid-card .old-price { font-size: clamp(16px, 3.2vh, 34px); }
+            .grid-card .name { font-size: clamp(20px, 4vh, 42px); }
+            .grid-card .new-price .price-int { font-size: clamp(72px, 13vh, 150px); }
+            .grid-card .new-price .price-cents { font-size: clamp(32px, 6.5vh, 72px); }
         }
 
         @media (max-width: 900px) {
@@ -639,9 +578,8 @@
             .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
             .promo-dates { font-size: 11px; padding: 6px 10px; }
             .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
-
-            .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; align-items: center; }
-            .mode-single .img-wrap { aspect-ratio: 1 / 1; height: auto; padding: 8px; max-height: 40vh; }
+            .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; }
+            .mode-single .img-wrap { padding: 8px; max-height: 40vh; }
             .mode-single .img-wrap img.main-img { animation: none; }
             .mode-single .name { font-size: 30px; }
             .mode-single .manufacturer { font-size: 15px; letter-spacing: 1.5px; }
@@ -651,7 +589,6 @@
             .mode-single .new-price .price-unit { font-size: 13px; }
             .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
             .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
-
             .mode-double { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 14px; height: auto; }
             .double-card { grid-template-rows: auto auto; padding: 14px; border-radius: 14px; gap: 10px; }
             .double-card .name { font-size: 22px; }
@@ -659,13 +596,11 @@
             .double-card .new-price .price-cents { font-size: 32px; }
             .double-card .old-price { font-size: 20px; }
             .double-card .best-price-icon { width: 80px; height: 80px; }
-
             .mode-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); gap: 12px; height: auto; }
-            .grid-card { grid-template-columns: 1fr 1fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 150px; }
-            .grid-card .img-wrap { height: auto; aspect-ratio: 1 / 1; }
-            .grid-card .name { font-size: 20px; }
-            .grid-card .new-price .price-int { font-size: 64px; letter-spacing: -2px; }
-            .grid-card .new-price .price-cents { font-size: 30px; }
+            .grid-card { grid-template-columns: 0.72fr 1.58fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 130px; }
+            .grid-card .name { font-size: 22px; }
+            .grid-card .new-price .price-int { font-size: 78px; letter-spacing: -2px; }
+            .grid-card .new-price .price-cents { font-size: 34px; }
             .grid-card .old-price { font-size: 18px; }
             .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
             .grid-card .best-price-icon { width: 36px; height: 36px; }
@@ -696,9 +631,9 @@
             .double-card .name { font-size: 19px; }
             .double-card .new-price .price-int { font-size: 60px; }
             .double-card .new-price .price-cents { font-size: 26px; }
-            .grid-card .name { font-size: 17px; }
-            .grid-card .new-price .price-int { font-size: 54px; }
-            .grid-card .new-price .price-cents { font-size: 24px; }
+            .grid-card .name { font-size: 18px; }
+            .grid-card .new-price .price-int { font-size: 62px; }
+            .grid-card .new-price .price-cents { font-size: 28px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -768,67 +703,53 @@
         const PHASE_VIDEO = 'video';
         const PHASE_MENU  = 'menu';
 
-        const PROMO_DURATION = 30000;
-        const MENU_DURATION  = 20000;
-
-        /* ============================================================
-           ФІЛЬТР ВИКЛЮЧЕНИХ ТОВАРІВ
-           Шампанське «Фра Гулі» (Fragolino / Fraguli) — прибираємо
-           з усіх списків, щоб воно більше ніколи не з'явилось.
-           ============================================================ */
-        const EXCLUDED_PATTERNS = [
-            'фра гулі', 'фра-гулі', 'фрагулі', 'фра ґулі', 'фра-ґулі',
-            'fraguli', 'fragolino', 'фраголіно'
+        /*
+         * ПОСЛІДОВНІСТЬ ПРОМО-СЛАЙДІВ (9 слайдів):
+         * ── Оригінальні 5 режимів ─────────────────────
+         * 1. single       — 1 товар (випадковий)
+         * 2. double       — 2 товари однієї категорії
+         * 3. grid         — 4 товари однієї категорії
+         * 4. pair         — 2 товари однакової назви/виробника
+         * 5. singleBest   — 1 товар із bestPrice: true
+         * ── Нові 4 слайди ─────────────────────────────
+         * 6. single       — ще один одиночний товар
+         * 7. single       — ще один одиночний товар
+         * 8. doubleRandom — 2 довільні товари (не обов'язково однієї категорії)
+         * 9. doubleRandom — 2 довільні товари (інші)
+         */
+        const PROMO_SEQUENCE = [
+            'single',        // 1 (оригінал)
+            'double',        // 2 (оригінал, одна категорія)
+            'grid',          // 3 (оригінал, 4 товари)
+            'pair',          // 4 (оригінал, одна назва/виробник)
+            'singleBest',    // 5 (оригінал, тільки bestPrice)
+            'single',        // 6 (новий)
+            'single',        // 7 (новий)
+            'doubleRandom',  // 8 (новий, довільна пара)
+            'doubleRandom'   // 9 (новий, довільна пара)
         ];
 
-        function isExcludedProduct(item) {
-            const name = (item && item.name || '').toLowerCase().trim();
-            if (!name) return false;
-            return EXCLUDED_PATTERNS.some(p => name.includes(p));
-        }
+        const PROMO_SLIDE_DURATION = 10000;       // 10 с на слайд
+        const PROMO_TOTAL_SLIDES   = PROMO_SEQUENCE.length; // 9
+        const MENU_DURATION        = 20000;       // 20 с меню кав'ярні (без змін)
 
         let currentPhase = null;
+        let promoSlideIndex = 0;
 
-        let allItems    = [];
-        let bestItems   = [];
-        let coffeeItems = [];
-        let rozlyvItems = [];
+        // Дані товарів
+        let allItems    = [];   // промо (без кав'ярні, без Фра Гулі)
+        let bestItems   = [];   // промо з bestPrice: true
+        let coffeeItems = [];   // товари кав'ярні (для меню)
         let dataLoaded  = false;
         let dataError   = false;
 
-        /* ============================================================
-           РОТАЦІЯ РЕЖИМІВ ПРОМО:
-           single  → 1 товар
-           rozlyv  → 2 товари з категорії «Розлив»
-           single2 → 1 товар (2-й одиночний слайд)
-           double  → 2 товари зі спільної категорії
-           grid    → 4 товари
-           single3 → 1 товар (3-й одиночний слайд)
-           double2 → 2 товари (2-й двоблочний)
-           pair    → 2 товари (за назвою/виробником)
-           double3 → 2 товари (3-й двоблочний)
-           singleBest → 1 товар з bestPrice
-           ============================================================ */
-        const MODE_ORDER = [
-            'single',
-            'rozlyv',
-            'single2',
-            'double',
-            'grid',
-            'single3',
-            'double2',
-            'pair',
-            'double3',
-            'singleBest'
-        ];
-
-        let mode = MODE_ORDER[0];
+        // Стан промо
         let lastSingleId = null;
-        const RECENT_LIMIT = 6;
+        const RECENT_LIMIT = 8;
         let recentIds = [];
 
-        let promoRotationId   = null;
-        let promoExitTimeout  = null;
+        // Таймери
+        let promoRotationId      = null;
         let videoFallbackTimeout = null;
         let menuEntranceTimeout  = null;
         let menuExitTimeout      = null;
@@ -885,12 +806,24 @@
             return { int, cents };
         }
 
+        /* Виключення шампанського "Фра Гулі" */
+        function isChampagneFraGuli(item) {
+            const name = (item.name || '').toLowerCase();
+            const man  = (item.manufacturer || '').toLowerCase();
+            const both = name + ' ' + man;
+
+            if (both.includes('шампанськ')) return true;
+            if (both.includes('фра') && both.includes('гулі')) return true;
+            if (both.includes('fra') && both.includes('guli')) return true;
+            if (both.includes('fra') && both.includes('gouli')) return true;
+            return false;
+        }
+
         /* ============================================================
            ТАЙМЕРИ
            ============================================================ */
         function clearPhaseTimers() {
             if (promoRotationId)     { clearInterval(promoRotationId); promoRotationId = null; }
-            if (promoExitTimeout)    { clearTimeout(promoExitTimeout); promoExitTimeout = null; }
             if (videoFallbackTimeout){ clearTimeout(videoFallbackTimeout); videoFallbackTimeout = null; }
             if (menuEntranceTimeout) { clearTimeout(menuEntranceTimeout); menuEntranceTimeout = null; }
             if (menuExitTimeout)     { clearTimeout(menuExitTimeout); menuExitTimeout = null; }
@@ -917,7 +850,6 @@
             clearPhaseTimers();
 
             document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
-
             currentPhase = phase;
 
             if (phase === PHASE_PROMO) {
@@ -932,15 +864,86 @@
         }
 
         /* ============================================================
-           ФАЗА 1: ПРОМО
+           ФАЗА 1: ПРОМО — 9 СЛАЙДІВ
            ============================================================ */
         function enterPromoPhase() {
-            updateContent();
-            promoRotationId = setInterval(updateContent, 10000);
-            promoExitTimeout = setTimeout(() => switchToPhase(PHASE_VIDEO), PROMO_DURATION);
+            promoSlideIndex = 0;
+            lastSingleId = null;
+
+            renderPromoSlide(promoSlideIndex);
+
+            promoRotationId = setInterval(() => {
+                promoSlideIndex++;
+                if (promoSlideIndex >= PROMO_TOTAL_SLIDES) {
+                    switchToPhase(PHASE_VIDEO);
+                    return;
+                }
+                renderPromoSlide(promoSlideIndex);
+            }, PROMO_SLIDE_DURATION);
         }
 
-        function pickSingle() {
+        function renderPromoSlide(index) {
+            const container = document.getElementById('randomContainer');
+            const mode = PROMO_SEQUENCE[index];
+
+            if (!dataLoaded) {
+                if (container.querySelector('.random-loading')) return;
+                container.innerHTML = '<p class="random-loading">Завантаження...</p>';
+                return;
+            }
+            if (dataError) {
+                container.innerHTML = '<p class="random-loading">Помилка завантаження</p>';
+                return;
+            }
+            if (allItems.length === 0 && bestItems.length === 0) {
+                container.innerHTML = '<p class="random-loading">Немає товарів</p>';
+                return;
+            }
+
+            let html = '';
+            let shown = [];
+
+            if (mode === 'single') {
+                const item = pickSingleForPromo();
+                if (item) { html = renderSingle(item); shown = [item]; }
+
+            } else if (mode === 'double') {
+                const items = pickSameCategory2();
+                if (items.length) { html = renderDouble(items); shown = items; }
+
+            } else if (mode === 'grid') {
+                const items = pickSameCategory4();
+                if (items.length) { html = renderGrid(items); shown = items; }
+
+            } else if (mode === 'pair') {
+                const items = pickPairSameNameOrManufacturer();
+                if (items.length) { html = renderDouble(items); shown = items; }
+
+            } else if (mode === 'singleBest') {
+                const item = pickSingleBest();
+                if (item) { html = renderSingle(item); shown = [item]; }
+                else {
+                    const fb = pickSingleForPromo();
+                    if (fb) { html = renderSingle(fb); shown = [fb]; }
+                }
+
+            } else if (mode === 'doubleRandom') {
+                const items = pickRandom2();
+                if (items.length) { html = renderDouble(items); shown = items; }
+            }
+
+            container.innerHTML = html;
+            if (shown.length > 0) rememberShown(shown);
+
+            container.classList.remove('fade-in');
+            void container.offsetWidth;
+            container.classList.add('fade-in');
+
+            scheduleBounce();
+        }
+
+        /* ---- Пікери ---- */
+        function pickSingleForPromo() {
             if (allItems.length === 0) return null;
             let pool = filterRecent(allItems);
             if (pool.length > 1 && lastSingleId !== null) {
@@ -975,6 +978,7 @@
 
         function pickPairSameNameOrManufacturer() {
             if (allItems.length < 2) return allItems.slice(0, 2);
+
             const byName = {};
             allItems.forEach(it => {
                 const key = (it.name || '').trim().toLowerCase();
@@ -1012,12 +1016,15 @@
             return shuffle(groups[cat]).slice(0, 4);
         }
 
-        function pickRozlyv2() {
-            if (rozlyvItems.length === 0) return [];
-            if (rozlyvItems.length === 1) return [rozlyvItems[0]];
-            return shuffle(rozlyvItems).slice(0, 2);
+        /* НОВИЙ: 2 довільні товари (не обов'язково однієї категорії) */
+        function pickRandom2() {
+            if (allItems.length < 2) return allItems.slice(0, 2);
+            const pool = filterRecent(allItems);
+            const source = pool.length >= 2 ? pool : allItems;
+            return shuffle(source).slice(0, 2);
         }
 
+        /* ---- Рендери ---- */
         function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
@@ -1126,92 +1133,6 @@
         }
 
         /* ============================================================
-           ЦИКЛ РЕЖИМІВ
-           ============================================================ */
-        function nextMode(current) {
-            const idx = MODE_ORDER.indexOf(current);
-            if (idx === -1) return MODE_ORDER[0];
-            return MODE_ORDER[(idx + 1) % MODE_ORDER.length];
-        }
-
-        function updateContent() {
-            const container = document.getElementById('randomContainer');
-
-            if (!dataLoaded) {
-                if (container.querySelector('.random-loading')) return;
-                container.innerHTML = '<p class="random-loading">Завантаження...</p>';
-                return;
-            }
-
-            if (dataError) {
-                container.innerHTML = '<p class="random-loading">Помилка завантаження</p>';
-                return;
-            }
-
-            if (allItems.length === 0 && bestItems.length === 0 && rozlyvItems.length === 0) {
-                container.innerHTML = '<p class="random-loading">Немає товарів</p>';
-                return;
-            }
-
-            let html = '';
-            let shown = [];
-
-            /* --- 3 одиночні слайди (single, single2, single3) --- */
-            if (mode === 'single' || mode === 'single2' || mode === 'single3') {
-                const item = pickSingle();
-                if (item) { html = renderSingle(item); shown = [item]; }
-            }
-            /* --- Розлив: 2 товари з категорії «Розлив» --- */
-            else if (mode === 'rozlyv') {
-                const items = pickRozlyv2();
-                if (items.length === 2) {
-                    html = renderDouble(items);
-                    shown = items;
-                } else if (items.length === 1) {
-                    html = renderSingle(items[0]);
-                    shown = items;
-                } else {
-                    const fb = pickSingle();
-                    if (fb) { html = renderSingle(fb); shown = [fb]; }
-                }
-            }
-            /* --- 3 двоблочні слайди (double, double2, double3) --- */
-            else if (mode === 'double' || mode === 'double2' || mode === 'double3') {
-                const items = pickSameCategory2();
-                if (items.length) { html = renderDouble(items); shown = items; }
-            }
-            /* --- 4 товари --- */
-            else if (mode === 'grid') {
-                const items = pickSameCategory4();
-                if (items.length) { html = renderGrid(items); shown = items; }
-            }
-            /* --- Пара за назвою/виробником --- */
-            else if (mode === 'pair') {
-                const items = pickPairSameNameOrManufacturer();
-                if (items.length) { html = renderDouble(items); shown = items; }
-            }
-            /* --- BestPrice --- */
-            else if (mode === 'singleBest') {
-                const item = pickSingleBest();
-                if (item) { html = renderSingle(item); shown = [item]; }
-                else {
-                    const fb = pickSingle();
-                    if (fb) { html = renderSingle(fb); shown = [fb]; }
-                }
-            }
-
-            container.innerHTML = html;
-            if (shown.length > 0) rememberShown(shown);
-
-            container.classList.remove('fade-in');
-            void container.offsetWidth;
-            container.classList.add('fade-in');
-
-            scheduleBounce();
-            mode = nextMode(mode);
-        }
-
-        /* ============================================================
            ФАЗА 2: ВІДЕО
            ============================================================ */
         function enterVideoPhase() {
@@ -1235,7 +1156,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ  (без змін)
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ (без змін)
            ============================================================ */
         function enterMenuPhase() {
             const phaseMenu = document.getElementById('phaseMenu');
@@ -1302,7 +1223,6 @@
 
             function runPulse() {
                 if (currentPhase !== PHASE_MENU) return;
-
                 if (title) title.classList.add('pulse');
 
                 cards.forEach((card, i) => {
@@ -1381,29 +1301,20 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
             .then(data => {
-                const allRaw = Array.isArray(data.items) ? data.items : [];
-
-                /* --- Спочатку прибираємо шампанське «Фра Гулі» з усього --- */
-                const cleanedRaw = allRaw.filter(it => !isExcludedProduct(it));
-
-                /* --- РОЗЛИВ: беремо з очищеного нефільтрованого списку --- */
-                rozlyvItems = cleanedRaw.filter(it =>
-                    (it.category || '').toLowerCase().includes('розлив')
-                );
-
-                /* --- Загальний список промо --- */
-                const raw = cleanedRaw.filter(it => {
+                const raw = (data.items || []).filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
+                    // Виключаємо шампанське "Фра Гулі" з промо
+                    if (isChampagneFraGuli(it)) return false;
                     return true;
                 });
 
-                /* --- Кав'ярня (для меню) — без змін --- */
+                // Кав'ярня (для меню) — без змін
                 coffeeItems = raw.filter(it =>
                     (it.category || '').includes('кав\'ярня')
                 ).slice(0, 9);
 
-                /* --- Промо (без кав'ярні) --- */
+                // Промо (без кав'ярні)
                 allItems = raw.filter(it => {
                     const cat = (it.category || '').toLowerCase();
                     if (cat.includes('ярня')) return false;
@@ -1413,13 +1324,15 @@
 
                 dataLoaded = true;
 
-                if (currentPhase === PHASE_PROMO) updateContent();
+                if (currentPhase === PHASE_PROMO) {
+                    renderPromoSlide(promoSlideIndex);
+                }
             })
             .catch(err => {
                 console.error('Помилка завантаження:', err);
                 dataLoaded = true;
                 dataError = true;
-                if (currentPhase === PHASE_PROMO) updateContent();
+                if (currentPhase === PHASE_PROMO) renderPromoSlide(promoSlideIndex);
             });
 
     })();
