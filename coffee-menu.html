@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню кав'ярні | Ваш ПАРТНЕР</title>
     
-    <!-- Шрифти -->
+    <!-- Елегантні шрифти -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
 
     <style>
         /* ============================================================
-           СКИДАННЯ ТА БАЗОВІ СТИЛІ (БЕЗ СКРОЛУ)
+           БАЗОВІ НАЛАШТУВАННЯ (БЕЗ СКРОЛУ)
            ============================================================ */
         :root {
-            --bg: #120c08;         /* Глибокий еспресо */
-            --text: #f5ebe0;       /* Топлене молоко */
-            --muted: #a68a75;
-            --accent: #d4af37;     /* Золото */
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(212, 175, 55, 0.15);
+            --bg-dark: #0a0604;
+            --bg-light: #1c130e;
+            --gold: #d4af37;
+            --text: #f5ebe0;
+            --text-muted: #a68a75;
         }
 
         * {
@@ -32,8 +31,8 @@
         html, body {
             width: 100vw;
             height: 100vh;
-            overflow: hidden; /* Забороняємо скрол */
-            background-color: var(--bg);
+            overflow: hidden; /* Строго забороняємо скрол */
+            background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-dark) 100%);
             color: var(--text);
             font-family: 'Montserrat', sans-serif;
             display: flex;
@@ -44,54 +43,61 @@
            ЗАГОЛОВОК
            ============================================================ */
         header {
-            height: 15vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(to bottom, rgba(18, 12, 8, 0.8), var(--bg));
             flex-shrink: 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            text-align: center;
+            padding-top: 4vh;
+            padding-bottom: 2vh;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 6vh, 5rem);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            font-size: clamp(2rem, 7vh, 5rem);
+            font-weight: 700;
+            letter-spacing: 0.3em;
             color: var(--text);
-            line-height: 1;
-            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
-            margin-bottom: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 5px 25px rgba(212, 175, 55, 0.3);
+            margin-right: -0.3em; /* Компенсація відступу літер */
         }
 
         header p {
-            font-size: clamp(0.7rem, 1.5vh, 1rem);
-            color: var(--accent);
+            font-size: clamp(0.8rem, 2vh, 1.2rem);
+            color: var(--gold);
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            margin-top: 1vh;
         }
 
         /* ============================================================
-           КОНТЕЙНЕР МЕНЮ
+           ОСНОВНИЙ КОНТЕЙНЕР
            ============================================================ */
         main {
             flex-grow: 1;
-            height: 85vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            padding: 2vh 4vw;
-            background: radial-gradient(circle at center, #1c130e 0%, #120c08 100%);
+            padding: 0 8vw 5vh 8vw;
         }
 
+        /* Сітка 2 колонки х 3 ряди */
         .menu-grid {
             display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2vh 6vw; /* Відстань між картками */
             width: 100%;
-            height: 100%;
-            gap: 2vh 3vw;
-            align-content: center;
-            /* Колонки задаються через JS залежно від кількості товарів */
+        }
+
+        /* Картка для 7-го елемента (по центру) */
+        .menu-bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 2vh;
+            width: 100%;
+        }
+
+        .menu-bottom .menu-item {
+            width: 47%; /* Ширина 7-го елемента така ж, як колонка вище */
         }
 
         /* ============================================================
@@ -100,33 +106,38 @@
         .menu-item {
             display: flex;
             align-items: center;
-            gap: 1.5vw;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 1.5vh;
+            gap: 2vw;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 2vh;
             padding: 1.5vh 2vw;
-            transition: all 0.3s ease;
-            min-height: 0; /* Щоб не розтягувало контейнер */
+            transition: all 0.4s ease;
         }
 
         .menu-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-3px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
+        /* Картинка */
         .menu-img {
-            height: 12vh;
             width: 12vh;
-            min-height: 60px;
-            min-width: 60px;
-            border-radius: 50%;
+            height: 12vh;
+            border-radius: 1.5vh; /* Заокруглені квадрати виглядають дорожче */
             object-fit: cover;
-            border: 2px solid rgba(212, 175, 55, 0.4);
-            background-color: #222;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+            transition: border-color 0.3s ease;
         }
 
+        .menu-item:hover .menu-img {
+            border-color: var(--gold);
+        }
+
+        /* Текстова частина */
         .menu-info {
             flex-grow: 1;
             display: flex;
@@ -139,54 +150,59 @@
             display: flex;
             align-items: baseline;
             justify-content: space-between;
-            margin-bottom: 0.5vh;
+            margin-bottom: 1vh;
         }
 
+        /* Назва (збільшена) */
         .menu-name {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1rem, 2.5vh, 1.6rem);
+            font-size: clamp(1.2rem, 2.8vh, 2.2rem);
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            letter-spacing: 0.05em;
         }
 
+        /* Красива пунктирна лінія */
         .menu-dots {
             flex-grow: 1;
-            border-bottom: 2px dotted rgba(212, 175, 55, 0.2);
-            margin: 0 10px;
+            border-bottom: 2px dotted rgba(212, 175, 55, 0.3);
+            margin: 0 1.5vw;
             position: relative;
-            top: -5px;
+            top: -0.5vh;
         }
 
+        /* Ціна (збільшена) */
         .menu-price {
-            font-size: clamp(1rem, 2.5vh, 1.6rem);
+            font-size: clamp(1.2rem, 2.8vh, 2.2rem);
             font-weight: 600;
-            color: var(--accent);
+            color: var(--gold);
             white-space: nowrap;
         }
 
         .menu-desc {
-            font-size: clamp(0.7rem, 1.5vh, 0.9rem);
-            color: var(--muted);
+            font-size: clamp(0.8rem, 1.6vh, 1rem);
+            color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-weight: 300;
         }
 
         /* ============================================================
-           АДАПТИВНІСТЬ
+           АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ (якщо зайдуть з телефона)
            ============================================================ */
         @media (max-width: 900px) {
-            html, body { overflow: auto; } /* На мобільних дозволяємо скрол, якщо не влізе */
-            main { height: auto; min-height: 85vh; padding: 20px; }
-            .menu-grid { grid-template-columns: 1fr !important; gap: 15px; }
+            html, body { overflow: auto; height: auto; }
+            .menu-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 15px; }
+            .menu-bottom .menu-item { width: 100%; }
             .menu-item { padding: 15px; gap: 15px; }
-            .menu-img { height: 70px; width: 70px; }
-            h1 { font-size: 2.5rem; }
-            .menu-name, .menu-price { font-size: 1.2rem; }
+            .menu-img { width: 80px; height: 80px; }
+            .menu-name, .menu-price { font-size: 1.2rem; white-space: normal; }
             .menu-dots { display: none; }
             .menu-header { flex-direction: column; align-items: flex-start; }
+            main { padding: 0 20px 20px 20px; }
         }
     </style>
 </head>
@@ -198,75 +214,87 @@
     </header>
 
     <main>
+        <!-- Тут будуть перші 6 елементів (2 колонки х 3 ряди) -->
         <div class="menu-grid" id="menuGrid">
-            <!-- Сюди JS вставить картки -->
-            <div style="text-align:center; width:100%; color:var(--accent);">Завантаження меню...</div>
+            <!-- JS заповнить -->
+        </div>
+
+        <!-- Тут буде 7-й елемент (по центру внизу) -->
+        <div class="menu-bottom" id="menuBottom">
+            <!-- JS заповнить -->
         </div>
     </main>
 
     <script>
-        // Заглушка, якщо картинки немає
-        const FALLBACK_IMG = "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=300&auto=format&fit=crop";
+        // Масив красивих стокових картинок кави/чаю (випадково вибираються)
+        const STOCK_IMAGES = [
+            "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=400&auto=format&fit=crop", // Espresso
+            "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=400&auto=format&fit=crop", // Cappuccino
+            "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?q=80&w=400&auto=format&fit=crop", // Latte
+            "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?q=80&w=400&auto=format&fit=crop", // Flat white
+            "https://images.unsplash.com/photo-1593443852203-24c6b4005663?q=80&w=400&auto=format&fit=crop", // Mocha
+            "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop", // Raf
+            "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=400&auto=format&fit=crop"  // Matcha
+        ];
 
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('menuGrid');
+            const bottom = document.getElementById('menuBottom');
 
             // Беремо дані з вашої бази
             fetch('./data/promotions.json?t=' + Date.now())
                 .then(res => res.json())
                 .then(data => {
-                    // Фільтруємо тільки кав'ярню і тільки ті, що показуються
-                    const items = (data.items || []).filter(item => 
+                    // Фільтруємо кав'ярню
+                    let items = (data.items || []).filter(item => 
                         (item.category || '').includes('кав\'ярня') && 
                         item.visible !== false
                     );
 
+                    // Беремо перші 7 позицій (щоб влізло в нашу сітку)
+                    items = items.slice(0, 7);
+
                     if (items.length === 0) {
-                        grid.innerHTML = '<div style="color:#fff; text-align:center; width:100%;">У кав\'ярні поки що немає позицій</div>';
+                        grid.innerHTML = '<div style="color:#fff; text-align:center; grid-column: 1/-1;">У кав\'ярні поки що немає позицій</div>';
                         return;
                     }
 
-                    // --- РОЗУМНА СІТКА ---
-                    // Якщо товарів мало (до 6) — 2 колонки (великі картки)
-                    // Якщо середньо (до 12) — 3 колонки
-                    // Якщо багато — 4 колонки (щоб все влізло в екран)
-                    if (items.length <= 6) {
-                        grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-                    } else if (items.length <= 12) {
-                        grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                    } else {
-                        grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-                    }
-
-                    grid.innerHTML = ''; // Очищаємо
-
-                    items.forEach(item => {
-                        // Використовуємо картинку з бази, якщо є, інакше - заглушку
-                        const imgSrc = item.image ? item.image : FALLBACK_IMG;
+                    // Функція створення HTML картки
+                    const createCard = (item, index) => {
+                        // Беремо випадкову картинку з масиву
+                        const imgSrc = STOCK_IMAGES[index % STOCK_IMAGES.length];
                         
-                        // Форматуємо ціну (прибираємо .00)
+                        // Форматуємо ціну (без копійок, якщо вони нульові)
                         const priceInt = Math.floor(item.price);
                         const priceStr = item.price % 1 === 0 ? priceInt : item.price;
 
-                        const card = document.createElement('div');
-                        card.className = 'menu-item';
-                        card.innerHTML = `
-                            <img src="${imgSrc}" alt="${item.name}" class="menu-img" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
-                            <div class="menu-info">
-                                <div class="menu-header">
-                                    <span class="menu-name">${item.name}</span>
-                                    <span class="menu-dots"></span>
-                                    <span class="menu-price">${priceStr} ₴</span>
+                        return `
+                            <div class="menu-item">
+                                <img src="${imgSrc}" alt="${item.name}" class="menu-img">
+                                <div class="menu-info">
+                                    <div class="menu-header">
+                                        <span class="menu-name">${item.name}</span>
+                                        <span class="menu-dots"></span>
+                                        <span class="menu-price">${priceStr} ₴</span>
+                                    </div>
+                                    <p class="menu-desc">${item.manufacturer ? item.manufacturer : 'Свіжозварений напій'}</p>
                                 </div>
-                                <p class="menu-desc">${item.manufacturer ? item.manufacturer : 'Свіжозварений напій'}</p>
                             </div>
                         `;
-                        grid.appendChild(card);
-                    });
+                    };
+
+                    // Рендеримо перші 6 елементів у сітку
+                    const topItems = items.slice(0, 6);
+                    grid.innerHTML = topItems.map((item, i) => createCard(item, i)).join('');
+
+                    // Рендеримо 7-й елемент (якщо є) по центру
+                    if (items.length === 7) {
+                        bottom.innerHTML = createCard(items[6], 6);
+                    }
                 })
                 .catch(err => {
                     console.error(err);
-                    grid.innerHTML = '<div style="color:#e74c3c; text-align:center; width:100%;">Помилка завантаження бази даних</div>';
+                    grid.innerHTML = '<div style="color:#e74c3c; text-align:center; grid-column: 1/-1;">Помилка завантаження меню</div>';
                 });
         });
     </script>
