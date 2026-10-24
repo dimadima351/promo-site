@@ -131,17 +131,14 @@
         }
 
         /* ============================================================
-           режим single — ВИПРАВЛЕНО:
-           блок ділиться рівно навпіл (1fr 1fr),
-           картинка розтягується на всю висоту,
-           назва до 3 рядків.
-           Розміри шрифтів та цін — НЕ ЗМІНЕНІ.
+           режим single — блок ділиться рівно навпіл,
+           картинка на всю висоту, назва до 3 рядків
            ============================================================ */
         .mode-single {
             display: grid;
-            grid-template-columns: 1fr 1fr;   /* рівно навпіл */
+            grid-template-columns: 1fr 1fr;
             gap: clamp(14px, 2.5vh, 36px);
-            align-items: stretch;             /* обидві колонки на всю висоту */
+            align-items: stretch;
             width: 100%;
             height: 100%;
             max-height: 100%;
@@ -216,7 +213,7 @@
         .mode-single .info {
             display: flex;
             flex-direction: column;
-            justify-content: center;          /* вертикально по центру */
+            justify-content: center;
             gap: clamp(4px, 0.8vh, 12px);
             min-width: 0;
             min-height: 0;
@@ -237,7 +234,7 @@
             line-height: 1.05;
             letter-spacing: -1px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;            /* ДО 3 РЯДКІВ */
+            -webkit-line-clamp: 3;
             line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
@@ -364,6 +361,148 @@
         .grid-card .new-price .price-cents-wrap { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: clamp(4px, 1.2vh, 14px); }
         .grid-card .new-price .price-cents { font-size: clamp(34px, 7vh, 80px); font-weight: 600; line-height: 1; }
         .grid-card .new-price .price-unit { font-size: clamp(11px, 1.6vh, 18px); font-weight: 400; color: #999; margin-top: 1px; }
+
+        /* ============================================================
+           режим rozlyv — 2 квадратні блоки з категорії Розлив
+           (беруться з нефільтрованого списку — навіть якщо
+            visible: false або outOfStock: true)
+           ============================================================ */
+        .mode-rozlyv {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(16px, 2.5vw, 48px);
+            padding: clamp(8px, 1.5vh, 20px) clamp(16px, 2.5vw, 40px);
+            container-type: size;
+        }
+        .rozlyv-card {
+            width: min(47cqw, 95cqh);
+            height: min(47cqw, 95cqh);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(14px, 2vh, 24px);
+            padding: clamp(10px, 1.5vh, 20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .rozlyv-card .img-wrap {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            overflow: visible;
+        }
+        .rozlyv-card .img-wrap img.main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .rozlyv-card .badge {
+            width: clamp(44px, 7vh, 80px);
+            height: clamp(44px, 7vh, 80px);
+            font-size: clamp(12px, 2vh, 20px);
+            top: -4px;
+            left: -4px;
+        }
+        .rozlyv-card .best-price-icon {
+            width: clamp(60px, 10vh, 120px);
+            height: clamp(60px, 10vh, 120px);
+            top: -6px;
+            right: -6px;
+        }
+        .rozlyv-card .info {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2px;
+            padding-top: 6px;
+            min-width: 0;
+        }
+        .rozlyv-card .manufacturer {
+            font-size: clamp(10px, 1.4vh, 16px);
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .rozlyv-card .name {
+            font-size: clamp(16px, 3vh, 32px);
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        .rozlyv-card .prices {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-top: 2px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .rozlyv-card .old-price {
+            font-size: clamp(14px, 2.2vh, 24px);
+            color: #b0b0b0;
+            text-decoration: line-through;
+            font-weight: 400;
+        }
+        .rozlyv-card .new-price {
+            display: flex;
+            align-items: flex-end;
+            line-height: 1;
+            color: #ff0b0b;
+            gap: 2px;
+            will-change: transform;
+        }
+        .rozlyv-card .new-price .price-int {
+            font-size: clamp(32px, 6.5vh, 68px);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+        .rozlyv-card .new-price .price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: clamp(2px, 0.6vh, 8px);
+        }
+        .rozlyv-card .new-price .price-cents {
+            font-size: clamp(16px, 3vh, 32px);
+            font-weight: 600;
+            line-height: 1;
+        }
+        .rozlyv-card .new-price .price-unit {
+            font-size: clamp(9px, 1.2vh, 12px);
+            font-weight: 400;
+            color: #999;
+            margin-top: 1px;
+        }
+        .rozlyv-card .new-price.bounce-animate {
+            animation: priceBounceSmall 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center bottom;
+        }
 
         .fullscreen-hint {
             position: fixed;
@@ -630,6 +769,10 @@
             .grid-card .new-price .price-int { font-size: clamp(56px, 12vh, 130px); }
             .grid-card .new-price .price-cents { font-size: clamp(26px, 6vh, 62px); }
             .grid-card .old-price { font-size: clamp(16px, 3.2vh, 34px); }
+            .rozlyv-card .name { font-size: clamp(14px, 2.4vh, 26px); }
+            .rozlyv-card .new-price .price-int { font-size: clamp(28px, 5.5vh, 56px); }
+            .rozlyv-card .new-price .price-cents { font-size: clamp(14px, 2.5vh, 26px); }
+            .rozlyv-card .old-price { font-size: clamp(12px, 1.8vh, 20px); }
         }
 
         @media (max-width: 900px) {
@@ -643,7 +786,7 @@
             .promo-dates { font-size: 11px; padding: 6px 10px; }
             .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
 
-            /* SINGLE на мобільному — знову одна колонка, картинка з aspect-ratio */
+            /* SINGLE на мобільному — одна колонка */
             .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; align-items: center; }
             .mode-single .img-wrap { aspect-ratio: 1 / 1; height: auto; padding: 8px; max-height: 40vh; }
             .mode-single .img-wrap img.main-img { animation: none; }
@@ -664,7 +807,7 @@
             .double-card .old-price { font-size: 20px; }
             .double-card .best-price-icon { width: 80px; height: 80px; }
 
-            /* GRID на мобільному: блок ділиться навпіл, картинка ліворуч */
+            /* GRID на мобільному: блок ділиться навпіл */
             .mode-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); gap: 12px; height: auto; }
             .grid-card { grid-template-columns: 1fr 1fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 150px; }
             .grid-card .img-wrap { height: auto; aspect-ratio: 1 / 1; }
@@ -674,6 +817,34 @@
             .grid-card .old-price { font-size: 18px; }
             .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
             .grid-card .best-price-icon { width: 36px; height: 36px; }
+
+            /* ROZLYV на мобільному: дві квадратні картки в ряд (перенос якщо тісно) */
+            .mode-rozlyv {
+                flex-direction: row;
+                flex-wrap: wrap;
+                height: auto;
+                padding: 12px;
+                gap: 12px;
+                container-type: normal;
+                align-items: flex-start;
+                justify-content: center;
+            }
+            .rozlyv-card {
+                width: calc(50% - 6px);
+                max-width: 260px;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                padding: 8px;
+                border-radius: 14px;
+            }
+            .rozlyv-card .name { font-size: 15px; }
+            .rozlyv-card .new-price .price-int { font-size: 34px; }
+            .rozlyv-card .new-price .price-cents { font-size: 16px; }
+            .rozlyv-card .old-price { font-size: 13px; }
+            .rozlyv-card .manufacturer { font-size: 9px; }
+            .rozlyv-card .badge { width: 40px; height: 40px; font-size: 12px; }
+            .rozlyv-card .best-price-icon { width: 55px; height: 55px; }
+
             .fullscreen-hint { display: none; }
 
             /* Меню */
@@ -706,6 +877,9 @@
             .grid-card .name { font-size: 17px; }
             .grid-card .new-price .price-int { font-size: 54px; }
             .grid-card .new-price .price-cents { font-size: 24px; }
+            .rozlyv-card .name { font-size: 13px; }
+            .rozlyv-card .new-price .price-int { font-size: 28px; }
+            .rozlyv-card .new-price .price-cents { font-size: 14px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -780,11 +954,12 @@
 
         let currentPhase = null;
 
-        let allItems    = [];
-        let bestItems   = [];
-        let coffeeItems = [];
-        let dataLoaded  = false;
-        let dataError   = false;
+        let allItems     = [];   // промо (без кав'ярні, після фільтрів)
+        let bestItems    = [];   // промо з bestPrice
+        let coffeeItems  = [];   // кав'ярня (для меню)
+        let rozlyvItems  = [];   // категорія "Розлив" — з НЕфільтрованого списку
+        let dataLoaded   = false;
+        let dataError    = false;
 
         let mode = 'single';
         let lastSingleId = null;
@@ -976,6 +1151,12 @@
             return shuffle(groups[cat]).slice(0, 4);
         }
 
+        /* Спеціальний вибір для слайду "Розлив" — 2 випадкові позиції з категорії */
+        function pickRozlyv2() {
+            if (rozlyvItems.length < 2) return null;
+            return shuffle(rozlyvItems).slice(0, 2);
+        }
+
         function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
@@ -1067,6 +1248,38 @@
             }).join('')}</div>`;
         }
 
+        /* Рендер слайду "Розлив" — 2 квадратні блоки */
+        function renderRozlyv(items) {
+            return `<div class="mode-rozlyv">${items.map(item => {
+                const { int, cents } = priceParts(item.price);
+                const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+                const imgSrc = noCache(item.image || PLACEHOLDER);
+                return `
+                    <div class="rozlyv-card">
+                        <div class="img-wrap">
+                            ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                            ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                            <img src="${imgSrc}" alt="${item.name || 'Розлив'}" class="main-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        </div>
+                        <div class="info">
+                            ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                            <div class="name">${item.name || 'Розлив'}</div>
+                            <div class="prices">
+                                ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                                <div class="new-price">
+                                    <span class="price-int">${int}</span>
+                                    <span class="price-cents-wrap">
+                                        <span class="price-cents">${cents}</span>
+                                        <span class="price-unit">грн/шт</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}</div>`;
+        }
+
         function triggerPriceBounce() {
             if (currentPhase !== PHASE_PROMO) return;
             document.querySelectorAll('.new-price').forEach(el => {
@@ -1083,9 +1296,12 @@
             bounceTimer2 = setTimeout(triggerPriceBounce, 7000);
         }
 
+        /* Ротація режимів: single → double → rozlyv → grid → pair → singleBest → single
+           Якщо rozlyv-позицій менше 2 — слайд автоматично пропускається */
         function nextMode(current) {
             if (current === 'single') return 'double';
-            if (current === 'double') return 'grid';
+            if (current === 'double') return rozlyvItems.length >= 2 ? 'rozlyv' : 'grid';
+            if (current === 'rozlyv') return 'grid';
             if (current === 'grid') return 'pair';
             if (current === 'pair') return 'singleBest';
             return 'single';
@@ -1105,7 +1321,7 @@
                 return;
             }
 
-            if (allItems.length === 0 && bestItems.length === 0) {
+            if (allItems.length === 0 && bestItems.length === 0 && rozlyvItems.length === 0) {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
                 return;
             }
@@ -1119,6 +1335,14 @@
             } else if (mode === 'double') {
                 const items = pickSameCategory2();
                 if (items.length) { html = renderDouble(items); shown = items; }
+            } else if (mode === 'rozlyv') {
+                const items = pickRozlyv2();
+                if (items && items.length === 2) { html = renderRozlyv(items); shown = items; }
+                else {
+                    // якщо чомусь не вийшло — перемикаємось на наступний режим
+                    mode = 'grid';
+                    return updateContent();
+                }
             } else if (mode === 'grid') {
                 const items = pickSameCategory4();
                 if (items.length) { html = renderGrid(items); shown = items; }
@@ -1315,16 +1539,28 @@
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
             .then(data => {
-                const raw = (data.items || []).filter(it => {
+                const rawUnfiltered = (data.items || []);
+
+                // Звичайний список (з фільтрами) — для single/double/grid/pair/singleBest
+                const raw = rawUnfiltered.filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
                     return true;
                 });
 
+                // КАТЕГОРІЯ "РОЗЛИВ" — БЕРЕМО З НЕФІЛЬТРОВАНОГО СПИСКУ,
+                // щоб показати навіть приховані та відсутні позиції
+                rozlyvItems = rawUnfiltered.filter(it => {
+                    const cat = (it.category || '').toLowerCase();
+                    return cat.includes('розлив');
+                });
+
+                // Кав'ярня (для меню)
                 coffeeItems = raw.filter(it =>
                     (it.category || '').includes('кав\'ярня')
                 ).slice(0, 9);
 
+                // Промо (без кав'ярні)
                 allItems = raw.filter(it => {
                     const cat = (it.category || '').toLowerCase();
                     if (cat.includes('ярня')) return false;
