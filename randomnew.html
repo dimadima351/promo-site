@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш ПАРТНЕР | Слайд-шоу</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: pointer;
+        }
+
+        /* ============================================================
+           ФАЗИ (3 екрани по черзі)
+           ============================================================ */
+        .phase {
+            position: fixed;
+            inset: 0;
+            display: none;
+            overflow: hidden;
+        }
+        .phase.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .phase-video { background: #000; }
+        .phase-promo { background: #fff; cursor: pointer; }
+        .phase-menu  {
+            background: linear-gradient(rgba(18, 12, 8, 0.85), rgba(18, 12, 8, 0.85)),
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1920&auto=format&fit=crop') center/cover fixed no-repeat;
+            cursor: default;
+        }
+
+        /* ============================================================
+           ФАЗА 1: ПРОМО ("Смачні ціни")
+           ============================================================ */
+        .promo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: clamp(10px, 1.5vh, 20px);
+            padding: clamp(8px, 1.2vh, 14px) clamp(20px, 2.5vw, 40px);
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(255, 11, 11, 0.25);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+        .promo-logo { display: flex; align-items: center; gap: clamp(8px, 1vw, 14px); flex-shrink: 1; min-width: 0; }
+        .promo-logo img { height: clamp(30px, 4.5vh, 54px); width: auto; object-fit: contain; display: block; flex-shrink: 0; }
+        .promo-logo-text {
+            font-size: clamp(16px, 3vh, 28px);
+            font-weight: 800;
+            letter-spacing: clamp(0.5px, 0.15vw, 2px);
+            text-transform: uppercase;
+            line-height: 1;
+            white-space: nowrap;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .promo-dates {
+            font-size: clamp(11px, 1.6vh, 15px);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.18);
+            padding: clamp(5px, 0.9vh, 9px) clamp(10px, 1.4vw, 20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .random-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: clamp(6px, 1vh, 16px) clamp(14px, 1.8vw, 32px) clamp(8px, 1.2vh, 20px);
+        }
+        .random-container {
+            width: 100%;
+            max-width: 1700px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .random-container.fade-in { animation: fadeInCard 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        @keyframes fadeInCard {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(8px); }
+            60% { opacity: 1; filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        .random-loading { text-align: center; color: #888; font-size: clamp(14px, 2.5vh, 20px); }
+
+        @keyframes priceBounce {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.18); }
+            50%  { transform: scale(1.10); }
+            70%  { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        @keyframes priceBounceSmall {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.12); }
+            50%  { transform: scale(1.06); }
+            70%  { transform: scale(1.10); }
+            100% { transform: scale(1); }
+        }
+        .new-price.bounce-animate {
+            animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: left bottom;
+        }
+        .grid-card .new-price.bounce-animate {
+            animation: priceBounceSmall 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: left bottom;
+        }
+
+        /* режим single */
+        .mode-single {
+            display: grid;
+            grid-template-columns: 0.82fr 1.18fr;
+            gap: clamp(14px, 2.5vh, 36px);
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(14px, 2vh, 24px);
+            padding: clamp(12px, 2vh, 28px) clamp(16px, 2.2vw, 36px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: visible;
+        }
+        .mode-single .img-wrap {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            max-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4px, 0.8vh, 12px);
+            overflow: visible;
+        }
+        .mode-single .img-wrap img.main-img {
+            width: 100%; height: 100%; object-fit: contain;
+            animation: imageBreath 6s ease-in-out infinite;
+        }
+        @keyframes imageBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+
+        .badge {
+            position: absolute;
+            top: 0; left: 0;
+            width: clamp(60px, 10vh, 110px);
+            height: clamp(60px, 10vh, 110px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff2b2b, #d90000);
+            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: clamp(16px, 2.8vh, 30px);
+            font-weight: 800;
+            z-index: 10;
+            box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
+            letter-spacing: -1px;
+            animation: badgePop 0.5s ease-out 0.3s backwards,
+                       badgePulse 2.4s ease-in-out 0.8s infinite;
+            will-change: transform;
+        }
+        @keyframes badgePop {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70% { transform: scale(1.15) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        @keyframes badgePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+        .best-price-icon {
+            position: absolute;
+            top: -10px; right: -10px;
+            width: clamp(120px, 20vh, 225px);
+            height: clamp(120px, 20vh, 225px);
+            object-fit: contain;
+            z-index: 5;
+            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2));
+            animation: bestSpin 0.7s ease-out 0.5s backwards;
+        }
+        @keyframes bestSpin {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .mode-single .info { display: flex; flex-direction: column; gap: clamp(4px, 0.8vh, 12px); min-width: 0; overflow: visible; }
+        .manufacturer {
+            font-size: clamp(18px, 2.9vh, 36px);
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: clamp(1px, 0.2vw, 3px);
+            font-weight: 500;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .name {
+            font-size: clamp(40px, 8.8vh, 108px);
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(2px, 0.5vh, 8px); overflow: visible; }
+        .old-price {
+            font-size: clamp(32px, 5.6vh, 76px);
+            color: #b0b0b0;
+            text-decoration: line-through;
+            margin-bottom: 2px;
+            font-weight: 400;
+        }
+        .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: clamp(2px, 0.4vw, 8px); will-change: transform; }
+        .new-price .price-int { font-size: clamp(105px, 27vh, 300px); font-weight: 800; line-height: 0.85; letter-spacing: -5px; text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15); }
+        .new-price .price-cents-wrap { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: clamp(10px, 2vh, 22px); }
+        .new-price .price-cents { font-size: clamp(52px, 12vh, 128px); font-weight: 600; line-height: 1; }
+        .new-price .price-unit { font-size: clamp(15px, 2.5vh, 30px); font-weight: 400; color: #999; margin-top: 4px; }
+
+        /* режим double / pair */
+        .mode-double { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.8vh, 24px); max-height: 100%; }
+        .double-card {
+            display: grid;
+            grid-template-rows: 1.15fr 1fr;
+            gap: clamp(6px, 1vh, 14px);
+            align-items: center;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(14px, 2vh, 24px);
+            padding: clamp(12px, 1.8vh, 24px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: visible;
+            min-height: 0;
+        }
+        .double-card .img-wrap { position: relative; width: 100%; height: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; padding: clamp(2px, 0.6vh, 8px); overflow: visible; }
+        .double-card .img-wrap img.main-img { width: 100%; height: 100%; object-fit: contain; }
+        .double-card .badge { width: clamp(56px, 9vh, 100px); height: clamp(56px, 9vh, 100px); font-size: clamp(15px, 2.5vh, 26px); top: -4px; left: -4px; }
+        .double-card .best-price-icon { top: -8px; right: -8px; width: clamp(110px, 17.5vh, 195px); height: clamp(110px, 17.5vh, 195px); }
+        .double-card .info { display: flex; flex-direction: column; gap: clamp(2px, 0.5vh, 8px); min-width: 0; overflow: visible; align-items: flex-start; justify-content: center; }
+        .double-card .manufacturer { font-size: clamp(13px, 2vh, 22px); letter-spacing: clamp(0.8px, 0.18vw, 2.5px); color: #999; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .double-card .name { font-size: clamp(24px, 4.6vh, 56px); font-weight: 700; color: #2c3e50; line-height: 1.1; letter-spacing: -0.8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        .double-card .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(2px, 0.4vh, 6px); overflow: visible; }
+        .double-card .old-price { font-size: clamp(26px, 4.4vh, 58px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 2px; font-weight: 400; }
+        .double-card .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: clamp(2px, 0.35vw, 6px); will-change: transform; }
+        .double-card .new-price .price-int { font-size: clamp(92px, 19vh, 220px); font-weight: 800; line-height: 0.85; letter-spacing: -4px; text-shadow: 0 4px 20px rgba(255, 11, 11, 0.15); }
+        .double-card .new-price .price-cents-wrap { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: clamp(8px, 1.6vh, 18px); }
+        .double-card .new-price .price-cents { font-size: clamp(44px, 9.5vh, 104px); font-weight: 600; line-height: 1; }
+        .double-card .new-price .price-unit { font-size: clamp(13px, 2.1vh, 24px); font-weight: 400; color: #999; margin-top: 3px; }
+        .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
+
+        /* режим grid (4 товари) */
+        .mode-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: clamp(8px, 1.2vh, 16px); max-height: 100%; }
+        .grid-card {
+            display: grid;
+            grid-template-columns: 0.72fr 1.58fr;
+            gap: clamp(6px, 0.9vw, 14px);
+            align-items: center;
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: clamp(10px, 1.6vh, 18px);
+            padding: clamp(6px, 1.2vh, 14px) clamp(8px, 1.2vw, 18px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            min-height: 0;
+            overflow: visible;
+        }
+        .grid-card .img-wrap { position: relative; aspect-ratio: 1 / 1; max-height: 100%; display: flex; align-items: center; justify-content: center; padding: 2px; overflow: visible; }
+        .grid-card .img-wrap img.main-img { width: 100%; height: 100%; object-fit: contain; }
+        .grid-card .badge { width: clamp(42px, 6.5vh, 68px); height: clamp(42px, 6.5vh, 68px); font-size: clamp(12px, 1.8vh, 18px); top: -6px; left: -6px; }
+        .grid-card .best-price-icon { width: clamp(32px, 5vh, 52px); height: clamp(32px, 5vh, 52px); top: -4px; right: -4px; }
+        .grid-card .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; }
+        .grid-card .manufacturer { font-size: clamp(10px, 1.3vh, 15px); letter-spacing: clamp(0.5px, 0.15vw, 1.5px); color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .grid-card .name { font-size: clamp(24px, 5.2vh, 60px); font-weight: 800; color: #2c3e50; line-height: 1.05; letter-spacing: -0.8px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        .grid-card .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: 2px; overflow: visible; }
+        .grid-card .old-price { font-size: clamp(22px, 4.2vh, 50px); color: #b0b0b0; text-decoration: line-through; margin-bottom: 1px; }
+        .grid-card .new-price { display: flex; align-items: flex-end; line-height: 1; color: #ff0b0b; gap: 2px; will-change: transform; }
+        .grid-card .new-price .price-int { font-size: clamp(95px, 18vh, 210px); font-weight: 800; line-height: 0.85; letter-spacing: -3px; }
+        .grid-card .new-price .price-cents-wrap { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: clamp(4px, 1.2vh, 14px); }
+        .grid-card .new-price .price-cents { font-size: clamp(42px, 8.5vh, 96px); font-weight: 600; line-height: 1; }
+        .grid-card .new-price .price-unit { font-size: clamp(12px, 1.8vh, 22px); font-weight: 400; color: #999; margin-top: 1px; }
+
+        .fullscreen-hint {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.9);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: clamp(10px, 1.4vh, 13px);
+            font-weight: 500;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            animation: hintPulse 2s ease-in-out infinite;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        @keyframes hintPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+        .fullscreen-hint.hidden { opacity: 0; }
+        .fullscreen-hint svg { width: 14px; height: 14px; }
+
+        /* ============================================================
+           ФАЗА 2: ВІДЕО-ІНТРО
+           ============================================================ */
+        .phase-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .phase-video::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 40%);
+            pointer-events: none;
+        }
+        .skip-btn {
+            position: absolute;
+            bottom: 4vh;
+            right: 3vw;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.55);
+            color: #f5ebe0;
+            border: 1.5px solid rgba(212, 175, 55, 0.6);
+            padding: 1.1vh 2.2vh;
+            border-radius: 40px;
+            font-family: inherit;
+            font-size: clamp(0.85rem, 1.6vh, 1.05rem);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+        .skip-btn:hover {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            transform: translateX(4px);
+        }
+
+        /* ============================================================
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+           ============================================================ */
+        .phase-menu .header-logo {
+            position: fixed;
+            top: 2.5vh;
+            left: 2vw;
+            height: 8vh;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .phase-menu.active .header-logo {
+            animation: logoIn 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+        }
+        @keyframes logoIn {
+            0%   { opacity: 0; transform: translateX(-40px) rotate(-12deg); }
+            100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+        }
+
+        .phase-menu .title {
+            position: fixed;
+            top: 2vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            pointer-events: none;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6.5vh, 4.5rem);
+            text-transform: uppercase;
+            color: #f5ebe0;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(212, 175, 55, 0.25);
+            transition: text-shadow 0.5s ease;
+        }
+        .phase-menu .title span {
+            display: inline-block;
+            padding-left: 0.25em;
+            opacity: 0;
+        }
+        .phase-menu.active .title span {
+            animation: titleIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards;
+        }
+        @keyframes titleIn {
+            0%   { opacity: 0; transform: translateY(-40px); letter-spacing: 0.4em; }
+            100% { opacity: 1; transform: translateY(0); letter-spacing: 0.25em; }
+        }
+        .phase-menu .title.pulse {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7),
+                         0 0 60px rgba(212, 175, 55, 0.85),
+                         0 0 100px rgba(212, 175, 55, 0.5);
+        }
+
+        .phase-menu .main-container {
+            flex-grow: 1;
+            height: 100vh;
+            padding: 13vh 4vw 3vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .phase-menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 2.2vh 2.2vw;
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu-card {
+            grid-column: span 2;
+            --scale: 1;
+            --lift: 0px;
+            position: relative;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(50px) scale(0.85);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.4s ease;
+        }
+        .phase-menu.active .menu-card {
+            animation: cardIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes cardIn {
+            0%   { opacity: 0; transform: translateY(50px) scale(0.85); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .phase-menu.active .menu-card.appeared {
+            animation: none;
+            opacity: 1;
+            transform: translateY(var(--lift)) scale(var(--scale));
+        }
+        .menu-card:hover {
+            --lift: -8px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+        }
+        .menu-card.pulse {
+            --scale: 1.05;
+            z-index: 2;
+            box-shadow: 0 22px 50px rgba(212, 175, 55, 0.55),
+                        0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card.center-single     { grid-column: 3 / span 2; }
+        .menu-card.center-pair-left  { grid-column: 2 / span 2; }
+        .menu-card.center-pair-right { grid-column: 4 / span 2; }
+
+        .card-img-wrapper {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5vh 1vw;
+            overflow: hidden;
+        }
+        .card-img { width: 100%; height: 100%; object-fit: contain; }
+
+        .card-price {
+            --price-scale: 1;
+            position: absolute;
+            top: 1.2vh;
+            right: 1.2vh;
+            background: linear-gradient(135deg, #4e342e, #2b1a16);
+            color: #ffd97a;
+            font-size: clamp(1.6rem, 4.2vh, 2.8rem);
+            font-weight: 800;
+            line-height: 1;
+            padding: 1vh 1.6vh;
+            border-radius: 40px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            transform: scale(var(--price-scale));
+            transform-origin: top right;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.4s ease, color 0.4s ease,
+                        box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+        .card-price.pulse-price {
+            --price-scale: 1.4;
+            background: linear-gradient(135deg, #f5d76e, #d4af37);
+            color: #2b1a16;
+            border-color: #fff8e1;
+            box-shadow: 0 8px 25px rgba(245, 215, 110, 0.9),
+                        0 0 35px rgba(212, 175, 55, 0.7);
+        }
+
+        .card-info {
+            flex: 0 0 auto;
+            padding: 1.4vh 1.2vw 2vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .card-title {
+            font-size: clamp(0.95rem, 2.2vh, 1.5rem);
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1.25;
+            word-wrap: break-word;
+            transition: color 0.4s ease;
+        }
+        .menu-card.pulse .card-title { color: #b8860b; }
+
+        /* ============================================================
+           АДАПТИВНІСТЬ
+           ============================================================ */
+        @media (min-width: 1600px) { .random-container { max-width: 1800px; } }
+
+        @media (max-height: 700px) {
+            .name { font-size: clamp(28px, 6vh, 64px); }
+            .new-price .price-int { font-size: clamp(80px, 20vh, 200px); }
+            .new-price .price-cents { font-size: clamp(38px, 9vh, 92px); }
+            .old-price { font-size: clamp(24px, 4.2vh, 52px); }
+            .manufacturer { font-size: clamp(14px, 2.2vh, 26px); }
+            .best-price-icon { width: clamp(100px, 16vh, 175px); height: clamp(100px, 16vh, 175px); }
+            .double-card .name { font-size: clamp(20px, 3.6vh, 40px); }
+            .double-card .new-price .price-int { font-size: clamp(70px, 15vh, 155px); }
+            .double-card .new-price .price-cents { font-size: clamp(34px, 7.5vh, 74px); }
+            .double-card .old-price { font-size: clamp(20px, 3.4vh, 42px); }
+            .grid-card .name { font-size: clamp(20px, 4vh, 42px); }
+            .grid-card .new-price .price-int { font-size: clamp(72px, 13vh, 150px); }
+            .grid-card .new-price .price-cents { font-size: clamp(32px, 6.5vh, 72px); }
+        }
+
+        @media (max-width: 900px) {
+            html, body { overflow: hidden; cursor: default; }
+
+            /* Промо */
+            .phase-promo.active { overflow-y: auto; }
+            .promo-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 14px; }
+            .promo-logo img { height: 32px; }
+            .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
+            .promo-dates { font-size: 11px; padding: 6px 10px; }
+            .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
+            .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; }
+            .mode-single .img-wrap { padding: 8px; max-height: 40vh; }
+            .mode-single .img-wrap img.main-img { animation: none; }
+            .mode-single .name { font-size: 30px; }
+            .mode-single .manufacturer { font-size: 15px; letter-spacing: 1.5px; }
+            .mode-single .old-price { font-size: 26px; }
+            .mode-single .new-price .price-int { font-size: 96px; letter-spacing: -3px; }
+            .mode-single .new-price .price-cents { font-size: 42px; }
+            .mode-single .new-price .price-unit { font-size: 13px; }
+            .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
+            .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
+            .mode-double { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 14px; height: auto; }
+            .double-card { grid-template-rows: auto auto; padding: 14px; border-radius: 14px; gap: 10px; }
+            .double-card .name { font-size: 22px; }
+            .double-card .new-price .price-int { font-size: 72px; }
+            .double-card .new-price .price-cents { font-size: 32px; }
+            .double-card .old-price { font-size: 20px; }
+            .double-card .best-price-icon { width: 80px; height: 80px; }
+            .mode-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); gap: 12px; height: auto; }
+            .grid-card { grid-template-columns: 0.72fr 1.58fr; padding: 10px 12px; gap: 10px; border-radius: 12px; min-height: 130px; }
+            .grid-card .name { font-size: 22px; }
+            .grid-card .new-price .price-int { font-size: 78px; letter-spacing: -2px; }
+            .grid-card .new-price .price-cents { font-size: 34px; }
+            .grid-card .old-price { font-size: 18px; }
+            .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
+            .grid-card .best-price-icon { width: 36px; height: 36px; }
+            .fullscreen-hint { display: none; }
+
+            /* Меню */
+            .phase-menu.active { overflow-y: auto; }
+            .phase-menu .header-logo { height: 50px; top: 15px; left: 15px; }
+            .phase-menu .title { top: 12px; font-size: 2rem; }
+            .phase-menu .main-container { height: auto; padding: 90px 20px 20px; }
+            .phase-menu .menu-grid { grid-template-columns: repeat(4, 1fr); gap: 15px; height: auto; }
+            .menu-card.center-single,
+            .menu-card.center-pair-left,
+            .menu-card.center-pair-right { grid-column: span 2; }
+            .menu-card { min-height: 230px; }
+            .card-price { font-size: 1.4rem; padding: 7px 14px; }
+            .card-title { font-size: 1rem; }
+
+            /* Відео */
+            .skip-btn { bottom: 20px; right: 20px; padding: 10px 18px; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 500px) {
+            .phase-menu .menu-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-price { font-size: 1.3rem; }
+            .phase-menu .title { font-size: 1.6rem; }
+            .mode-single .name { font-size: 26px; }
+            .mode-single .new-price .price-int { font-size: 80px; }
+            .mode-single .new-price .price-cents { font-size: 36px; }
+            .double-card .name { font-size: 19px; }
+            .double-card .new-price .price-int { font-size: 60px; }
+            .double-card .new-price .price-cents { font-size: 26px; }
+            .grid-card .name { font-size: 18px; }
+            .grid-card .new-price .price-int { font-size: 62px; }
+            .grid-card .new-price .price-cents { font-size: 28px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .badge, .best-price-icon,
+            .mode-single .img-wrap img.main-img,
+            .new-price { animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         ФАЗА 1: ПРОМО "Смачні ціни"
+         ============================================================ -->
+    <div class="phase phase-promo" id="phasePromo">
+        <header class="promo-header">
+            <div class="promo-logo">
+                <img src="./image_site/_22.png" alt="Логотип" onerror="this.style.display='none';">
+                <div class="promo-logo-text">Смачні ціни</div>
+            </div>
+            <div class="promo-dates" id="promoDates">Акційна пропозиція діє...</div>
+        </header>
+
+        <main class="random-main">
+            <div class="random-container" id="randomContainer">
+                <p class="random-loading">Завантаження...</p>
+            </div>
+        </main>
+
+        <div class="fullscreen-hint" id="fullscreenHint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+            <span>Клікніть будь-де для повного екрану</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ФАЗА 2: ВІДЕО-ІНТРО
+         ============================================================ -->
+    <div class="phase phase-video" id="phaseVideo">
+        <video id="introVideoEl" src="./image_site/_000.mp4" autoplay muted playsinline preload="auto"></video>
+        <button class="skip-btn" id="skipVideoBtn">Пропустити →</button>
+    </div>
+
+    <!-- ============================================================
+         ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+         ============================================================ -->
+    <div class="phase phase-menu" id="phaseMenu">
+        <img src="./image_site/0.png" alt="Логотип" class="header-logo" onerror="this.style.display='none';">
+        <h1 class="title"><span>МЕНЮ</span></h1>
+        <main class="main-container">
+            <div class="menu-grid" id="menuGrid"></div>
+        </main>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        /* ============================================================
+           КОНСТАНТИ ТА СТАН
+           ============================================================ */
+        const PLACEHOLDER = './images/0.png';
+
+        const PHASE_PROMO = 'promo';
+        const PHASE_VIDEO = 'video';
+        const PHASE_MENU  = 'menu';
+
+        const PROMO_DURATION = 30000;   // 30 секунд промо-слайдів
+        const MENU_DURATION  = 20000;   // 20 секунд меню кав'ярні
+
+        let currentPhase = null;
+
+        // Дані товарів
+        let allItems    = [];   // промо (без кав'ярні)
+        let bestItems   = [];   // промо з bestPrice: true
+        let coffeeItems = [];   // товари кав'ярні (для меню)
+        let dataLoaded  = false;
+        let dataError   = false;
+
+        // Стан промо
+        let mode = 'single';
+        let lastSingleId = null;
+        const RECENT_LIMIT = 6;
+        let recentIds = [];
+
+        // Таймери
+        let promoRotationId   = null;
+        let promoExitTimeout  = null;
+        let videoFallbackTimeout = null;
+        let menuEntranceTimeout  = null;
+        let menuExitTimeout      = null;
+        let pulseStartTimeout    = null;
+        let pulseIntervalId      = null;
+        let bounceTimer1 = null;
+        let bounceTimer2 = null;
+
+        /* ============================================================
+           УТИЛІТИ
+           ============================================================ */
+        function noCache(url) {
+            const sep = url.includes('?') ? '&' : '?';
+            return url + sep + 't=' + Date.now();
+        }
+
+        function isDesktop() { return window.innerWidth > 900; }
+
+        function formatDates() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth();
+            const start = new Date(y, m, 1);
+            const end = new Date(y, m + 1, 0);
+            const pad = n => String(n).padStart(2, '0');
+            const fmt = d => `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
+            return `з ${fmt(start)} - ${fmt(end)}`;
+        }
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function filterRecent(arr) {
+            if (recentIds.length === 0) return arr;
+            const filtered = arr.filter(it => !recentIds.includes(it.id));
+            return filtered.length > 0 ? filtered : arr;
+        }
+
+        function rememberShown(items) {
+            items.forEach(it => recentIds.push(it.id));
+            while (recentIds.length > RECENT_LIMIT) recentIds.shift();
+        }
+
+        function priceParts(raw) {
+            const num = Number(raw ?? 0);
+            const int = Math.floor(num);
+            const cents = Math.round((num - int) * 100).toString().padStart(2, '0');
+            return { int, cents };
+        }
+
+        /* ============================================================
+           ТАЙМЕРИ
+           ============================================================ */
+        function clearPhaseTimers() {
+            if (promoRotationId)     { clearInterval(promoRotationId); promoRotationId = null; }
+            if (promoExitTimeout)    { clearTimeout(promoExitTimeout); promoExitTimeout = null; }
+            if (videoFallbackTimeout){ clearTimeout(videoFallbackTimeout); videoFallbackTimeout = null; }
+            if (menuEntranceTimeout) { clearTimeout(menuEntranceTimeout); menuEntranceTimeout = null; }
+            if (menuExitTimeout)     { clearTimeout(menuExitTimeout); menuExitTimeout = null; }
+            if (pulseStartTimeout)   { clearTimeout(pulseStartTimeout); pulseStartTimeout = null; }
+            if (pulseIntervalId)     { clearInterval(pulseIntervalId); pulseIntervalId = null; }
+            if (bounceTimer1)        { clearTimeout(bounceTimer1); bounceTimer1 = null; }
+            if (bounceTimer2)        { clearTimeout(bounceTimer2); bounceTimer2 = null; }
+
+            // Прибираємо пульс-класи з заголовка, якщо лишились
+            const title = document.querySelector('.phase-menu .title');
+            if (title) title.classList.remove('pulse');
+        }
+
+        /* ============================================================
+           ПЕРЕМИКАННЯ ФАЗ
+           ============================================================ */
+        function switchToPhase(phase) {
+            if (currentPhase === phase) return;
+
+            // Зупиняємо відео, якщо виходимо з video-фази
+            if (currentPhase === PHASE_VIDEO) {
+                const v = document.getElementById('introVideoEl');
+                if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
+            }
+
+            clearPhaseTimers();
+
+            // Ховаємо всі фази
+            document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+
+            currentPhase = phase;
+
+            if (phase === PHASE_PROMO) {
+                document.getElementById('phasePromo').classList.add('active');
+                enterPromoPhase();
+            } else if (phase === PHASE_VIDEO) {
+                document.getElementById('phaseVideo').classList.add('active');
+                enterVideoPhase();
+            } else if (phase === PHASE_MENU) {
+                enterMenuPhase(); // сама додає active після рендеру
+            }
+        }
+
+        /* ============================================================
+           ФАЗА 1: ПРОМО
+           ============================================================ */
+        function enterPromoPhase() {
+            updateContent();
+            promoRotationId = setInterval(updateContent, 10000);
+            promoExitTimeout = setTimeout(() => switchToPhase(PHASE_VIDEO), PROMO_DURATION);
+        }
+
+        function pickSingle() {
+            if (allItems.length === 0) return null;
+            let pool = filterRecent(allItems);
+            if (pool.length > 1 && lastSingleId !== null) {
+                const filtered = pool.filter(it => it.id !== lastSingleId);
+                if (filtered.length > 0) pool = filtered;
+            }
+            const item = pool[Math.floor(Math.random() * pool.length)];
+            lastSingleId = item.id;
+            return item;
+        }
+
+        function pickSingleBest() {
+            if (bestItems.length === 0) return null;
+            let pool = filterRecent(bestItems);
+            if (pool.length === 0) pool = bestItems;
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        function pickSameCategory2() {
+            if (allItems.length < 2) return allItems.slice(0, 2);
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+            const valid = Object.keys(groups).filter(c => groups[c].length >= 2);
+            if (valid.length === 0) return shuffle(allItems).slice(0, 2);
+            const cat = valid[Math.floor(Math.random() * valid.length)];
+            return shuffle(groups[cat]).slice(0, 2);
+        }
+
+        function pickPairSameNameOrManufacturer() {
+            if (allItems.length < 2) return allItems.slice(0, 2);
+            const byName = {};
+            allItems.forEach(it => {
+                const key = (it.name || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byName[key]) byName[key] = [];
+                byName[key].push(it);
+            });
+            const nameGroups = Object.values(byName).filter(g => g.length >= 2);
+            if (nameGroups.length > 0) return shuffle(shuffle(nameGroups)[0]).slice(0, 2);
+
+            const byMan = {};
+            allItems.forEach(it => {
+                const key = (it.manufacturer || '').trim().toLowerCase();
+                if (!key) return;
+                if (!byMan[key]) byMan[key] = [];
+                byMan[key].push(it);
+            });
+            const manGroups = Object.values(byMan).filter(g => g.length >= 2);
+            if (manGroups.length > 0) return shuffle(shuffle(manGroups)[0]).slice(0, 2);
+
+            return shuffle(allItems).slice(0, 2);
+        }
+
+        function pickSameCategory4() {
+            if (allItems.length < 4) return allItems.slice(0, 4);
+            const groups = {};
+            allItems.forEach(it => {
+                const cat = it.category || 'Інше';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(it);
+            });
+            const valid = Object.keys(groups).filter(c => groups[c].length >= 4);
+            if (valid.length === 0) return shuffle(allItems).slice(0, 4);
+            const cat = valid[Math.floor(Math.random() * valid.length)];
+            return shuffle(groups[cat]).slice(0, 4);
+        }
+
+        function renderSingle(item) {
+            const { int, cents } = priceParts(item.price);
+            const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+            const imgSrc = noCache(item.image);
+            return `
+                <div class="mode-single">
+                    <div class="img-wrap">
+                        ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                        ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                        <img src="${imgSrc}" alt="${item.name}" class="main-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                    </div>
+                    <div class="info">
+                        ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                        <h1 class="name">${item.name}</h1>
+                        <div class="prices">
+                            ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                            <div class="new-price">
+                                <span class="price-int">${int}</span>
+                                <span class="price-cents-wrap">
+                                    <span class="price-cents">${cents}</span>
+                                    <span class="price-unit">грн/шт</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDouble(items) {
+            return `<div class="mode-double">${items.map(item => {
+                const { int, cents } = priceParts(item.price);
+                const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+                const imgSrc = noCache(item.image);
+                return `
+                    <div class="double-card">
+                        <div class="img-wrap">
+                            ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                            ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                            <img src="${imgSrc}" alt="${item.name}" class="main-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        </div>
+                        <div class="info">
+                            ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                            <div class="name">${item.name}</div>
+                            <div class="prices">
+                                ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                                <div class="new-price">
+                                    <span class="price-int">${int}</span>
+                                    <span class="price-cents-wrap">
+                                        <span class="price-cents">${cents}</span>
+                                        <span class="price-unit">грн/шт</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}</div>`;
+        }
+
+        function renderGrid(items) {
+            return `<div class="mode-grid">${items.map(item => {
+                const { int, cents } = priceParts(item.price);
+                const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
+                const imgSrc = noCache(item.image);
+                return `
+                    <div class="grid-card">
+                        <div class="img-wrap">
+                            ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
+                            ${item.bestPrice ? `<img src="./image_site/photo.png" alt="Найспрайс" class="best-price-icon" onerror="this.style.display='none';">` : ''}
+                            <img src="${imgSrc}" alt="${item.name}" class="main-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                        </div>
+                        <div class="info">
+                            ${item.manufacturer ? `<div class="manufacturer">${item.manufacturer}</div>` : ''}
+                            <div class="name">${item.name}</div>
+                            <div class="prices">
+                                ${oldPrice ? `<div class="old-price">${oldPrice} ₴</div>` : ''}
+                                <div class="new-price">
+                                    <span class="price-int">${int}</span>
+                                    <span class="price-cents-wrap">
+                                        <span class="price-cents">${cents}</span>
+                                        <span class="price-unit">грн/шт</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}</div>`;
+        }
+
+        function triggerPriceBounce() {
+            if (currentPhase !== PHASE_PROMO) return;
+            document.querySelectorAll('.new-price').forEach(el => {
+                el.classList.remove('bounce-animate');
+                void el.offsetWidth;
+                el.classList.add('bounce-animate');
+            });
+        }
+
+        function scheduleBounce() {
+            if (bounceTimer1) clearTimeout(bounceTimer1);
+            if (bounceTimer2) clearTimeout(bounceTimer2);
+            bounceTimer1 = setTimeout(triggerPriceBounce, 3000);
+            bounceTimer2 = setTimeout(triggerPriceBounce, 7000);
+        }
+
+        function nextMode(current) {
+            if (current === 'single') return 'double';
+            if (current === 'double') return 'grid';
+            if (current === 'grid') return 'pair';
+            if (current === 'pair') return 'singleBest';
+            return 'single';
+        }
+
+        function updateContent() {
+            const container = document.getElementById('randomContainer');
+
+            if (!dataLoaded) {
+                if (container.querySelector('.random-loading')) return;
+                container.innerHTML = '<p class="random-loading">Завантаження...</p>';
+                return;
+            }
+
+            if (dataError) {
+                container.innerHTML = '<p class="random-loading">Помилка завантаження</p>';
+                return;
+            }
+
+            if (allItems.length === 0 && bestItems.length === 0) {
+                container.innerHTML = '<p class="random-loading">Немає товарів</p>';
+                return;
+            }
+
+            let html = '';
+            let shown = [];
+
+            if (mode === 'single') {
+                const item = pickSingle();
+                if (item) { html = renderSingle(item); shown = [item]; }
+            } else if (mode === 'double') {
+                const items = pickSameCategory2();
+                if (items.length) { html = renderDouble(items); shown = items; }
+            } else if (mode === 'grid') {
+                const items = pickSameCategory4();
+                if (items.length) { html = renderGrid(items); shown = items; }
+            } else if (mode === 'pair') {
+                const items = pickPairSameNameOrManufacturer();
+                if (items.length) { html = renderDouble(items); shown = items; }
+            } else if (mode === 'singleBest') {
+                const item = pickSingleBest();
+                if (item) { html = renderSingle(item); shown = [item]; }
+                else {
+                    const fb = pickSingle();
+                    if (fb) { html = renderSingle(fb); shown = [fb]; }
+                }
+            }
+
+            container.innerHTML = html;
+            if (shown.length > 0) rememberShown(shown);
+
+            container.classList.remove('fade-in');
+            void container.offsetWidth;
+            container.classList.add('fade-in');
+
+            scheduleBounce();
+            mode = nextMode(mode);
+        }
+
+        /* ============================================================
+           ФАЗА 2: ВІДЕО
+           ============================================================ */
+        function enterVideoPhase() {
+            const video = document.getElementById('introVideoEl');
+            if (!video) { switchToPhase(PHASE_MENU); return; }
+
+            try { video.currentTime = 0; } catch (e) {}
+            video.muted = true;
+
+            const onEnded = () => {
+                video.removeEventListener('ended', onEnded);
+                if (currentPhase === PHASE_VIDEO) switchToPhase(PHASE_MENU);
+            };
+            video.addEventListener('ended', onEnded);
+
+            // Запобіжник, якщо відео не закінчиться саме
+            videoFallbackTimeout = setTimeout(() => {
+                if (currentPhase === PHASE_VIDEO) switchToPhase(PHASE_MENU);
+            }, 15000);
+
+            video.play().catch(() => {
+                // Автоплей заблоковано — спрацює запобіжник
+            });
+        }
+
+        /* ============================================================
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+           ============================================================ */
+        function enterMenuPhase() {
+            const phaseMenu = document.getElementById('phaseMenu');
+            const grid = document.getElementById('menuGrid');
+
+            // Гарантовано чистий стан
+            phaseMenu.classList.remove('active');
+            grid.innerHTML = '';
+
+            if (coffeeItems.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #fff; padding: 40px; font-size: 1.4rem;">У кав\'ярні поки що немає позицій</div>';
+                phaseMenu.classList.add('active');
+                menuExitTimeout = setTimeout(() => switchToPhase(PHASE_PROMO), MENU_DURATION);
+                return;
+            }
+
+            // Рендер карток
+            coffeeItems.forEach((item, index) => {
+                const priceInt = Math.floor(item.price);
+                const priceStr = item.price % 1 === 0 ? priceInt : item.price;
+                const delay = 0.85 + index * 0.15;
+                const imgSrc = noCache(item.image);
+
+                const cardHTML = `
+                    <div class="menu-card" style="animation-delay: ${delay}s">
+                        <div class="card-img-wrapper">
+                            <img src="${imgSrc}" alt="${item.name}" class="card-img"
+                                 onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                            <div class="card-price">${priceStr} ₴</div>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-title">${item.name}</div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            const cards = Array.from(grid.querySelectorAll('.menu-card'));
+
+            // Центрування залишку останнього ряду
+            const total = cards.length;
+            const remainder = total % 3;
+            if (remainder === 1 && total > 1) {
+                cards[total - 1].classList.add('center-single');
+            } else if (remainder === 2) {
+                cards[total - 2].classList.add('center-pair-left');
+                cards[total - 1].classList.add('center-pair-right');
+            }
+
+            // Форсуємо reflow, потім показуємо фазу → анімації почнуться
+            void phaseMenu.offsetWidth;
+            phaseMenu.classList.add('active');
+
+            // Після завершення входу — фіксуємо стан і запускаємо пульс
+            const entranceEndMs = (0.85 + (total - 1) * 0.15 + 0.75) * 1000 + 100;
+            menuEntranceTimeout = setTimeout(() => {
+                cards.forEach(c => c.classList.add('appeared'));
+                startMenuPulseLoop(cards);
+            }, entranceEndMs);
+
+            // Вихід із меню через 20 секунд
+            menuExitTimeout = setTimeout(() => switchToPhase(PHASE_PROMO), MENU_DURATION);
+        }
+
+        function startMenuPulseLoop(cards) {
+            const title = document.querySelector('.phase-menu .title');
+            const PER_CARD_DELAY = 180;
+            const PULSE_DURATION = 900;
+
+            function runPulse() {
+                if (currentPhase !== PHASE_MENU) return;
+
+                if (title) title.classList.add('pulse');
+
+                cards.forEach((card, i) => {
+                    setTimeout(() => {
+                        if (currentPhase !== PHASE_MENU) return;
+                        card.classList.add('pulse');
+                        const price = card.querySelector('.card-price');
+                        if (price) price.classList.add('pulse-price');
+                    }, i * PER_CARD_DELAY);
+                });
+
+                const totalTime = (cards.length - 1) * PER_CARD_DELAY + PULSE_DURATION;
+                setTimeout(() => {
+                    if (title) title.classList.remove('pulse');
+                    cards.forEach(card => {
+                        card.classList.remove('pulse');
+                        const price = card.querySelector('.card-price');
+                        if (price) price.classList.remove('pulse-price');
+                    });
+                }, totalTime);
+            }
+
+            pulseStartTimeout = setTimeout(() => {
+                if (currentPhase !== PHASE_MENU) return;
+                runPulse();
+                pulseIntervalId = setInterval(runPulse, 10000);
+            }, 900);
+        }
+
+        /* ============================================================
+           FULLSCREEN
+           ============================================================ */
+        function toggleFullscreen() {
+            const el = document.documentElement;
+            if (!document.fullscreenElement) {
+                const req = el.requestFullscreen
+                    || el.webkitRequestFullscreen
+                    || el.mozRequestFullScreen
+                    || el.msRequestFullscreen;
+                if (req) {
+                    req.call(el).then(() => {
+                        document.getElementById('fullscreenHint').classList.add('hidden');
+                    }).catch(() => {});
+                }
+            }
+        }
+
+        if (isDesktop()) {
+            document.addEventListener('click', function handleFirstClick(e) {
+                if (document.fullscreenElement) return;
+                // Не тригеримо при кліку на кнопку "Пропустити"
+                if (e.target && e.target.id === 'skipVideoBtn') return;
+                toggleFullscreen();
+                document.removeEventListener('click', handleFirstClick);
+            }, { once: true });
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.getElementById('fullscreenHint').classList.remove('hidden');
+            }
+        });
+
+        // Кнопка "Пропустити" на відео
+        document.getElementById('skipVideoBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentPhase === PHASE_VIDEO) switchToPhase(PHASE_MENU);
+        });
+
+        /* ============================================================
+           ІНІЦІАЛІЗАЦІЯ
+           ============================================================ */
+        // Дати акції
+        document.getElementById('promoDates').textContent =
+            'Акційна пропозиція діє ' + formatDates();
+
+        // Старт із промо-фази
+        switchToPhase(PHASE_PROMO);
+
+        // Завантаження даних
+        fetch(noCache('./data/promotions.json'))
+            .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
+            .then(data => {
+                const raw = (data.items || []).filter(it => {
+                    if (it.visible === false) return false;
+                    if (it.outOfStock === true) return false;
+                    return true;
+                });
+
+                // Кав'ярня (для меню)
+                coffeeItems = raw.filter(it =>
+                    (it.category || '').includes('кав\'ярня')
+                ).slice(0, 9);
+
+                // Промо (без кав'ярні)
+                allItems = raw.filter(it => {
+                    const cat = (it.category || '').toLowerCase();
+                    if (cat.includes('ярня')) return false;
+                    return true;
+                });
+                bestItems = allItems.filter(it => it.bestPrice === true);
+
+                dataLoaded = true;
+
+                // Якщо зараз промо-фаза — одразу оновлюємо
+                if (currentPhase === PHASE_PROMO) updateContent();
+            })
+            .catch(err => {
+                console.error('Помилка завантаження:', err);
+                dataLoaded = true;
+                dataError = true;
+                if (currentPhase === PHASE_PROMO) updateContent();
+            });
+
+    })();
+    </script>
+</body>
+</html>
