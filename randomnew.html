@@ -289,8 +289,7 @@
         .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
 
         /* ============================================================
-           режим grid (4 товари) — блок ділиться рівно навпіл,
-           ліворуч велика картинка, праворуч текст до 3 рядків
+           режим grid (4 товари)
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -634,7 +633,6 @@
         @media (max-width: 900px) {
             html, body { overflow: hidden; cursor: default; }
 
-            /* Промо */
             .phase-promo.active { overflow-y: auto; }
             .promo-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 14px; }
             .promo-logo img { height: 32px; }
@@ -673,7 +671,6 @@
             .grid-card .best-price-icon { width: 36px; height: 36px; }
             .fullscreen-hint { display: none; }
 
-            /* Меню */
             .phase-menu.active { overflow-y: auto; }
             .phase-menu .header-logo { height: 50px; top: 15px; left: 15px; }
             .phase-menu .title { top: 12px; font-size: 2rem; }
@@ -686,7 +683,6 @@
             .card-price { font-size: 1.4rem; padding: 7px 14px; }
             .card-title { font-size: 1rem; }
 
-            /* Відео */
             .skip-btn { bottom: 20px; right: 20px; padding: 10px 18px; font-size: 0.9rem; }
         }
 
@@ -775,16 +771,58 @@
         const PROMO_DURATION = 30000;
         const MENU_DURATION  = 20000;
 
+        /* ============================================================
+           ФІЛЬТР ВИКЛЮЧЕНИХ ТОВАРІВ
+           Шампанське «Фра Гулі» (Fragolino / Fraguli) — прибираємо
+           з усіх списків, щоб воно більше ніколи не з'явилось.
+           ============================================================ */
+        const EXCLUDED_PATTERNS = [
+            'фра гулі', 'фра-гулі', 'фрагулі', 'фра ґулі', 'фра-ґулі',
+            'fraguli', 'fragolino', 'фраголіно'
+        ];
+
+        function isExcludedProduct(item) {
+            const name = (item && item.name || '').toLowerCase().trim();
+            if (!name) return false;
+            return EXCLUDED_PATTERNS.some(p => name.includes(p));
+        }
+
         let currentPhase = null;
 
-        let allItems    = [];    // промо (без кав'ярні, без прихованих/немає в наявності)
-        let bestItems   = [];    // промо з bestPrice: true
-        let coffeeItems = [];    // кав'ярня (для меню)
-        let rozlyvItems = [];    // РОЗЛИВ — без фільтрів visible/outOfStock
+        let allItems    = [];
+        let bestItems   = [];
+        let coffeeItems = [];
+        let rozlyvItems = [];
         let dataLoaded  = false;
         let dataError   = false;
 
-        let mode = 'single';
+        /* ============================================================
+           РОТАЦІЯ РЕЖИМІВ ПРОМО:
+           single  → 1 товар
+           rozlyv  → 2 товари з категорії «Розлив»
+           single2 → 1 товар (2-й одиночний слайд)
+           double  → 2 товари зі спільної категорії
+           grid    → 4 товари
+           single3 → 1 товар (3-й одиночний слайд)
+           double2 → 2 товари (2-й двоблочний)
+           pair    → 2 товари (за назвою/виробником)
+           double3 → 2 товари (3-й двоблочний)
+           singleBest → 1 товар з bestPrice
+           ============================================================ */
+        const MODE_ORDER = [
+            'single',
+            'rozlyv',
+            'single2',
+            'double',
+            'grid',
+            'single3',
+            'double2',
+            'pair',
+            'double3',
+            'singleBest'
+        ];
+
+        let mode = MODE_ORDER[0];
         let lastSingleId = null;
         const RECENT_LIMIT = 6;
         let recentIds = [];
@@ -974,10 +1012,6 @@
             return shuffle(groups[cat]).slice(0, 4);
         }
 
-        /* ============================================================
-           РОЗЛИВ — 2 позиції з категорії "Розлив"
-           (без фільтрів visible/outOfStock)
-           ============================================================ */
         function pickRozlyv2() {
             if (rozlyvItems.length === 0) return [];
             if (rozlyvItems.length === 1) return [rozlyvItems[0]];
@@ -1092,16 +1126,12 @@
         }
 
         /* ============================================================
-           ЦИКЛ РЕЖИМІВ:
-           single → rozlyv → double → grid → pair → singleBest → single…
+           ЦИКЛ РЕЖИМІВ
            ============================================================ */
         function nextMode(current) {
-            if (current === 'single')    return 'rozlyv';
-            if (current === 'rozlyv')    return 'double';
-            if (current === 'double')    return 'grid';
-            if (current === 'grid')      return 'pair';
-            if (current === 'pair')      return 'singleBest';
-            return 'single';
+            const idx = MODE_ORDER.indexOf(current);
+            if (idx === -1) return MODE_ORDER[0];
+            return MODE_ORDER[(idx + 1) % MODE_ORDER.length];
         }
 
         function updateContent() {
@@ -1126,10 +1156,13 @@
             let html = '';
             let shown = [];
 
-            if (mode === 'single') {
+            /* --- 3 одиночні слайди (single, single2, single3) --- */
+            if (mode === 'single' || mode === 'single2' || mode === 'single3') {
                 const item = pickSingle();
                 if (item) { html = renderSingle(item); shown = [item]; }
-            } else if (mode === 'rozlyv') {
+            }
+            /* --- Розлив: 2 товари з категорії «Розлив» --- */
+            else if (mode === 'rozlyv') {
                 const items = pickRozlyv2();
                 if (items.length === 2) {
                     html = renderDouble(items);
@@ -1138,20 +1171,27 @@
                     html = renderSingle(items[0]);
                     shown = items;
                 } else {
-                    /* немає позицій Розлив — м'який фолбек на single */
                     const fb = pickSingle();
                     if (fb) { html = renderSingle(fb); shown = [fb]; }
                 }
-            } else if (mode === 'double') {
+            }
+            /* --- 3 двоблочні слайди (double, double2, double3) --- */
+            else if (mode === 'double' || mode === 'double2' || mode === 'double3') {
                 const items = pickSameCategory2();
                 if (items.length) { html = renderDouble(items); shown = items; }
-            } else if (mode === 'grid') {
+            }
+            /* --- 4 товари --- */
+            else if (mode === 'grid') {
                 const items = pickSameCategory4();
                 if (items.length) { html = renderGrid(items); shown = items; }
-            } else if (mode === 'pair') {
+            }
+            /* --- Пара за назвою/виробником --- */
+            else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
                 if (items.length) { html = renderDouble(items); shown = items; }
-            } else if (mode === 'singleBest') {
+            }
+            /* --- BestPrice --- */
+            else if (mode === 'singleBest') {
                 const item = pickSingleBest();
                 if (item) { html = renderSingle(item); shown = [item]; }
                 else {
@@ -1195,7 +1235,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ  (без змін)
            ============================================================ */
         function enterMenuPhase() {
             const phaseMenu = document.getElementById('phaseMenu');
@@ -1343,19 +1383,22 @@
             .then(data => {
                 const allRaw = Array.isArray(data.items) ? data.items : [];
 
-                /* --- РОЗЛИВ: беремо НЕФІЛЬТРОВАНИЙ список (ігноруємо visible / outOfStock) --- */
-                rozlyvItems = allRaw.filter(it =>
+                /* --- Спочатку прибираємо шампанське «Фра Гулі» з усього --- */
+                const cleanedRaw = allRaw.filter(it => !isExcludedProduct(it));
+
+                /* --- РОЗЛИВ: беремо з очищеного нефільтрованого списку --- */
+                rozlyvItems = cleanedRaw.filter(it =>
                     (it.category || '').toLowerCase().includes('розлив')
                 );
 
-                /* --- Загальний список промо (як і раніше) --- */
-                const raw = allRaw.filter(it => {
+                /* --- Загальний список промо --- */
+                const raw = cleanedRaw.filter(it => {
                     if (it.visible === false) return false;
                     if (it.outOfStock === true) return false;
                     return true;
                 });
 
-                /* --- Кав'ярня (для меню) --- */
+                /* --- Кав'ярня (для меню) — без змін --- */
                 coffeeItems = raw.filter(it =>
                     (it.category || '').includes('кав\'ярня')
                 ).slice(0, 9);
