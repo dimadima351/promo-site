@@ -71,7 +71,7 @@
                          0 0 100px rgba(212, 175, 55, 0.5);
         }
 
-        /* ============ СІТКА (FLEX — центрує останній ряд) ============ */
+        /* ============ СІТКА (6 колонок, картка = 2 колонки) ============ */
         .main-container {
             flex-grow: 1;
             height: 100vh;
@@ -80,12 +80,10 @@
             align-items: center;
             justify-content: center;
         }
-
         .menu-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: center;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 6 колонок */
+            grid-auto-rows: 1fr;
             gap: 2.2vh 2.2vw;
             width: 100%;
             height: 100%;
@@ -93,9 +91,9 @@
 
         /* ============ КАРТКА ============ */
         .menu-card {
+            grid-column: span 2;        /* кожна картка = 2 з 6 = 3 картки в ряд */
             --scale: 1;
             --lift: 0px;
-            flex: 0 0 calc((100% - 2 * 2.2vw) / 3);  /* 3 колонки */
             position: relative;
             background: #ffffff;
             border-radius: 18px;
@@ -103,6 +101,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            height: 100%;
             transform: translateY(var(--lift)) scale(var(--scale));
             opacity: 0;
             animation: cardIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -127,6 +126,13 @@
             box-shadow: 0 22px 50px rgba(212, 175, 55, 0.55),
                         0 10px 25px rgba(0, 0, 0, 0.3);
         }
+
+        /* ============ ЦЕНТРУВАННЯ ОСТАННЬОГО РЯДКУ ============ */
+        /* 1 залишилась картка → по центру */
+        .menu-card.center-single       { grid-column: 3 / span 2; }
+        /* 2 залишились картки → пара по центру */
+        .menu-card.center-pair-left    { grid-column: 2 / span 2; }
+        .menu-card.center-pair-right   { grid-column: 4 / span 2; }
 
         /* ---- Фото ---- */
         .card-img-wrapper {
@@ -197,33 +203,32 @@
             word-wrap: break-word;
             transition: color 0.4s ease;
         }
-        .menu-card.pulse .card-title {
-            color: #b8860b;
-        }
+        .menu-card.pulse .card-title { color: #b8860b; }
 
         /* ============ АДАПТИВНІСТЬ ============ */
         @media (max-width: 900px) {
             html, body { overflow: auto; height: auto; }
             .header-logo { height: 50px; top: 15px; left: 15px; }
             .title { top: 12px; font-size: 2rem; }
+
             .main-container { height: auto; padding: 90px 20px 20px; }
             .menu-grid {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                grid-template-columns: repeat(4, 1fr); /* 2 картки в ряд */
                 gap: 15px;
                 height: auto;
             }
-            .menu-card {
-                flex: 0 0 calc((100% - 15px) / 2); /* 2 колонки */
-                min-height: 230px;
-                height: auto !important; /* скасовуємо JS-висоту */
+            /* На мобільному центрування вимикаємо — все стає по 2 в ряд */
+            .menu-card.center-single,
+            .menu-card.center-pair-left,
+            .menu-card.center-pair-right {
+                grid-column: span 2;
             }
+            .menu-card { min-height: 230px; }
             .card-price { font-size: 1.4rem; padding: 7px 14px; }
             .card-title { font-size: 1rem; }
         }
         @media (max-width: 500px) {
-            .menu-card { flex: 0 0 100%; }
+            .menu-grid { grid-template-columns: repeat(2, 1fr); } /* 1 картка в ряд */
             .card-price { font-size: 1.3rem; }
             .title { font-size: 1.6rem; }
         }
@@ -236,7 +241,7 @@
 
     <main class="main-container">
         <div class="menu-grid" id="menuGrid">
-            <div style="width:100%; text-align: center; color: #fff; font-size: 1.5rem;">Завантаження меню...</div>
+            <div style="grid-column: 1/-1; text-align: center; color: #fff; font-size: 1.5rem;">Завантаження меню...</div>
         </div>
     </main>
 
@@ -253,10 +258,11 @@
                         (item.category || '').includes('кав\'ярня') &&
                         item.visible !== false
                     );
-                    items = items.slice(0, 8); // максимум 8 позицій
+                    // Ліміт 9 — максимум для слайду (3 повні ряди по 3)
+                    items = items.slice(0, 9);
 
                     if (items.length === 0) {
-                        grid.innerHTML = '<div style="width:100%; text-align: center; color: #fff;">У кав\'ярні поки що немає позицій</div>';
+                        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #fff;">У кав\'ярні поки що немає позицій</div>';
                         return;
                     }
 
@@ -282,52 +288,35 @@
                         grid.insertAdjacentHTML('beforeend', cardHTML);
                     });
 
-                    // ---- Вирівнювання висоти карток (тільки desktop) ----
-                    function adjustCardHeights() {
-                        if (window.innerWidth <= 900) {
-                            // На мобільному висота автоматична
-                            grid.querySelectorAll('.menu-card').forEach(c => c.style.height = '');
-                            return;
-                        }
-                        const cards = grid.querySelectorAll('.menu-card');
-                        if (!cards.length) return;
+                    // ==== ЦЕНТРУВАННЯ ОСТАННЬОГО РЯДКУ ====
+                    const cards = document.querySelectorAll('.menu-card');
+                    const total = cards.length;
+                    const remainder = total % 3;
 
-                        const rows = Math.ceil(cards.length / 3);
-                        const gapV = window.innerHeight * 0.022; // 2.2vh у пікселях
-                        const gridHeight = grid.clientHeight;
-                        const cardHeight = (gridHeight - (rows - 1) * gapV) / rows;
-
-                        cards.forEach(card => {
-                            card.style.height = cardHeight + 'px';
-                        });
+                    if (remainder === 1 && total > 1) {
+                        // 7, 10... → одна картка по центру
+                        cards[total - 1].classList.add('center-single');
+                    } else if (remainder === 2) {
+                        // 8, 11... → дві картки по центру парою
+                        cards[total - 2].classList.add('center-pair-left');
+                        cards[total - 1].classList.add('center-pair-right');
                     }
 
-                    // Чекаємо завершення анімації появи
-                    const cards = document.querySelectorAll('.menu-card');
-                    const entranceEndMs = (0.85 + (items.length - 1) * 0.15 + 0.75) * 1000 + 100;
+                    // Чекаємо завершення появи останньої картки
+                    const entranceEndMs = (0.85 + (total - 1) * 0.15 + 0.75) * 1000 + 100;
 
                     setTimeout(() => {
                         cards.forEach(card => card.classList.add('appeared'));
-                        adjustCardHeights();
                         startPulseLoop(cards, title);
                     }, entranceEndMs);
-
-                    // Перераховуємо висоту при зміні розміру вікна
-                    let resizeTimer;
-                    window.addEventListener('resize', () => {
-                        clearTimeout(resizeTimer);
-                        resizeTimer = setTimeout(() => {
-                            adjustCardHeights();
-                        }, 150);
-                    });
                 })
                 .catch(err => {
                     console.error(err);
-                    grid.innerHTML = '<div style="width:100%; text-align: center; color: #e74c3c;">Помилка завантаження меню</div>';
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #e74c3c;">Помилка завантаження меню</div>';
                 });
 
             /* ============================================================
-               ПУЛЬС-АНИМАЦІЯ
+               ПУЛЬС-АНИМАЦІЯ: по черзі на кожній картці + заголовку
                ============================================================ */
             function startPulseLoop(cards, title) {
                 const PER_CARD_DELAY = 180;
@@ -336,6 +325,7 @@
 
                 function runPulse() {
                     title.classList.add('pulse');
+
                     cards.forEach((card, i) => {
                         setTimeout(() => {
                             card.classList.add('pulse');
