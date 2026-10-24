@@ -21,7 +21,7 @@
             flex-direction: column;
         }
 
-        /* ============ ЛОГОТИП (анімація появи) ============ */
+        /* ============ ЛОГОТИП ============ */
         .header-logo {
             position: fixed;
             top: 2.5vh;
@@ -40,7 +40,7 @@
             100% { opacity: 1; transform: translateX(0) rotate(0deg); }
         }
 
-        /* ============ ЗАГОЛОВОК "МЕНЮ" (анімація появи) ============ */
+        /* ============ ЗАГОЛОВОК "МЕНЮ" ============ */
         .title {
             position: fixed;
             top: 2vh;
@@ -57,7 +57,7 @@
         }
         .title span {
             display: inline-block;
-            padding-left: 0.25em; /* компенсація letter-spacing */
+            padding-left: 0.25em;
             opacity: 0;
             animation: titleIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards;
         }
@@ -65,14 +65,13 @@
             0%   { opacity: 0; transform: translateY(-40px); letter-spacing: 0.4em; }
             100% { opacity: 1; transform: translateY(0); letter-spacing: 0.25em; }
         }
-        /* Пульс заголовка (кожні 10 с) */
         .title.pulse {
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7),
                          0 0 60px rgba(212, 175, 55, 0.85),
                          0 0 100px rgba(212, 175, 55, 0.5);
         }
 
-        /* ============ СІТКА ============ */
+        /* ============ СІТКА (FLEX — центрує останній ряд) ============ */
         .main-container {
             flex-grow: 1;
             height: 100vh;
@@ -81,20 +80,22 @@
             align-items: center;
             justify-content: center;
         }
+
         .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 1fr;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
             gap: 2.2vh 2.2vw;
             width: 100%;
             height: 100%;
         }
-        .menu-card:nth-child(7) { grid-column: 2; }
 
         /* ============ КАРТКА ============ */
         .menu-card {
             --scale: 1;
             --lift: 0px;
+            flex: 0 0 calc((100% - 2 * 2.2vw) / 3);  /* 3 колонки */
             position: relative;
             background: #ffffff;
             border-radius: 18px;
@@ -102,7 +103,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            height: 100%;
             transform: translateY(var(--lift)) scale(var(--scale));
             opacity: 0;
             animation: cardIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -113,7 +113,6 @@
             0%   { opacity: 0; transform: translateY(50px) scale(0.85); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        /* Після завершення появи — прибираємо анімацію, щоб працювали hover і пульс */
         .menu-card.appeared {
             animation: none;
             opacity: 1;
@@ -147,7 +146,7 @@
             object-fit: contain;
         }
 
-        /* ---- ЦІНА (бейдж у правому верхньому куті фото) ---- */
+        /* ---- ЦІНА ---- */
         .card-price {
             --price-scale: 1;
             position: absolute;
@@ -208,14 +207,23 @@
             .header-logo { height: 50px; top: 15px; left: 15px; }
             .title { top: 12px; font-size: 2rem; }
             .main-container { height: auto; padding: 90px 20px 20px; }
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; height: auto; }
-            .menu-card:nth-child(7) { grid-column: auto; }
-            .menu-card { min-height: 230px; }
+            .menu-grid {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                height: auto;
+            }
+            .menu-card {
+                flex: 0 0 calc((100% - 15px) / 2); /* 2 колонки */
+                min-height: 230px;
+                height: auto !important; /* скасовуємо JS-висоту */
+            }
             .card-price { font-size: 1.4rem; padding: 7px 14px; }
             .card-title { font-size: 1rem; }
         }
         @media (max-width: 500px) {
-            .menu-grid { grid-template-columns: 1fr; }
+            .menu-card { flex: 0 0 100%; }
             .card-price { font-size: 1.3rem; }
             .title { font-size: 1.6rem; }
         }
@@ -228,7 +236,7 @@
 
     <main class="main-container">
         <div class="menu-grid" id="menuGrid">
-            <div style="grid-column: 1/-1; text-align: center; color: #fff; font-size: 1.5rem;">Завантаження меню...</div>
+            <div style="width:100%; text-align: center; color: #fff; font-size: 1.5rem;">Завантаження меню...</div>
         </div>
     </main>
 
@@ -245,10 +253,10 @@
                         (item.category || '').includes('кав\'ярня') &&
                         item.visible !== false
                     );
-                    items = items.slice(0, 7);
+                    items = items.slice(0, 8); // максимум 8 позицій
 
                     if (items.length === 0) {
-                        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #fff;">У кав\'ярні поки що немає позицій</div>';
+                        grid.innerHTML = '<div style="width:100%; text-align: center; color: #fff;">У кав\'ярні поки що немає позицій</div>';
                         return;
                     }
 
@@ -257,7 +265,7 @@
                     items.forEach((item, index) => {
                         const priceInt = Math.floor(item.price);
                         const priceStr = item.price % 1 === 0 ? priceInt : item.price;
-                        const delay = 0.85 + index * 0.15; // поява по черзі
+                        const delay = 0.85 + index * 0.15;
 
                         const cardHTML = `
                             <div class="menu-card" style="animation-delay: ${delay}s">
@@ -274,34 +282,60 @@
                         grid.insertAdjacentHTML('beforeend', cardHTML);
                     });
 
-                    // Чекаємо, поки завершиться поява останньої картки
+                    // ---- Вирівнювання висоти карток (тільки desktop) ----
+                    function adjustCardHeights() {
+                        if (window.innerWidth <= 900) {
+                            // На мобільному висота автоматична
+                            grid.querySelectorAll('.menu-card').forEach(c => c.style.height = '');
+                            return;
+                        }
+                        const cards = grid.querySelectorAll('.menu-card');
+                        if (!cards.length) return;
+
+                        const rows = Math.ceil(cards.length / 3);
+                        const gapV = window.innerHeight * 0.022; // 2.2vh у пікселях
+                        const gridHeight = grid.clientHeight;
+                        const cardHeight = (gridHeight - (rows - 1) * gapV) / rows;
+
+                        cards.forEach(card => {
+                            card.style.height = cardHeight + 'px';
+                        });
+                    }
+
+                    // Чекаємо завершення анімації появи
                     const cards = document.querySelectorAll('.menu-card');
                     const entranceEndMs = (0.85 + (items.length - 1) * 0.15 + 0.75) * 1000 + 100;
 
                     setTimeout(() => {
-                        // Фіксуємо фінальний стан (щоб hover і пульс працювали)
                         cards.forEach(card => card.classList.add('appeared'));
+                        adjustCardHeights();
                         startPulseLoop(cards, title);
                     }, entranceEndMs);
+
+                    // Перераховуємо висоту при зміні розміру вікна
+                    let resizeTimer;
+                    window.addEventListener('resize', () => {
+                        clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(() => {
+                            adjustCardHeights();
+                        }, 150);
+                    });
                 })
                 .catch(err => {
                     console.error(err);
-                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #e74c3c;">Помилка завантаження меню</div>';
+                    grid.innerHTML = '<div style="width:100%; text-align: center; color: #e74c3c;">Помилка завантаження меню</div>';
                 });
 
             /* ============================================================
-               ПУЛЬС-АНИМАЦІЯ: по черзі на кожній картці + заголовку
+               ПУЛЬС-АНИМАЦІЯ
                ============================================================ */
             function startPulseLoop(cards, title) {
-                const PER_CARD_DELAY = 180;   // мс між картками в межах циклу
-                const PULSE_DURATION = 900;   // мс тривалість ефекту
-                const INTERVAL       = 10000; // мс між циклами
+                const PER_CARD_DELAY = 180;
+                const PULSE_DURATION = 900;
+                const INTERVAL       = 10000;
 
                 function runPulse() {
-                    // Заголовок
                     title.classList.add('pulse');
-
-                    // По черзі кожна картка
                     cards.forEach((card, i) => {
                         setTimeout(() => {
                             card.classList.add('pulse');
@@ -310,7 +344,6 @@
                         }, i * PER_CARD_DELAY);
                     });
 
-                    // Знімаємо всі класи після завершення циклу
                     const totalTime = (cards.length - 1) * PER_CARD_DELAY + PULSE_DURATION;
                     setTimeout(() => {
                         title.classList.remove('pulse');
@@ -322,7 +355,6 @@
                     }, totalTime);
                 }
 
-                // Перший пульс — одразу після появи, далі рівно кожні 10 секунд
                 setTimeout(() => {
                     runPulse();
                     setInterval(runPulse, INTERVAL);
