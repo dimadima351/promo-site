@@ -130,12 +130,18 @@
             transform-origin: left bottom;
         }
 
-        /* режим single */
+        /* ============================================================
+           режим single — ВИПРАВЛЕНО:
+           блок ділиться рівно навпіл (1fr 1fr),
+           картинка розтягується на всю висоту,
+           назва до 3 рядків.
+           Розміри шрифтів та цін — НЕ ЗМІНЕНІ.
+           ============================================================ */
         .mode-single {
             display: grid;
-            grid-template-columns: 0.82fr 1.18fr;
+            grid-template-columns: 1fr 1fr;   /* рівно навпіл */
             gap: clamp(14px, 2.5vh, 36px);
-            align-items: center;
+            align-items: stretch;             /* обидві колонки на всю висоту */
             width: 100%;
             height: 100%;
             max-height: 100%;
@@ -148,8 +154,9 @@
         }
         .mode-single .img-wrap {
             position: relative;
-            aspect-ratio: 1 / 1;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -206,7 +213,15 @@
             100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
-        .mode-single .info { display: flex; flex-direction: column; gap: clamp(4px, 0.8vh, 12px); min-width: 0; overflow: visible; }
+        .mode-single .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;          /* вертикально по центру */
+            gap: clamp(4px, 0.8vh, 12px);
+            min-width: 0;
+            min-height: 0;
+            overflow: visible;
+        }
         .manufacturer {
             font-size: clamp(18px, 2.9vh, 36px);
             color: #999;
@@ -222,11 +237,12 @@
             line-height: 1.05;
             letter-spacing: -1px;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
+            -webkit-line-clamp: 3;            /* ДО 3 РЯДКІВ */
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            word-break: break-word;
         }
         .prices { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(2px, 0.5vh, 8px); overflow: visible; }
         .old-price {
@@ -274,10 +290,8 @@
         .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
 
         /* ============================================================
-           режим grid (4 товари) — ВИПРАВЛЕНО:
-           блок ділиться рівно навпіл (1fr 1fr),
-           ліворуч — велика картинка на всю висоту,
-           праворуч — текст до 3 рядків без обрізання
+           режим grid (4 товари) — блок ділиться рівно навпіл,
+           ліворуч — велика картинка, праворуч — текст до 3 рядків
            ============================================================ */
         .mode-grid {
             width: 100%;
@@ -290,9 +304,9 @@
         }
         .grid-card {
             display: grid;
-            grid-template-columns: 1fr 1fr;   /* рівно навпіл */
+            grid-template-columns: 1fr 1fr;
             gap: clamp(6px, 1vw, 16px);
-            align-items: stretch;             /* обидві колонки на всю висоту */
+            align-items: stretch;
             background: #fff;
             border: 2px solid #f0f0f0;
             border-radius: clamp(10px, 1.6vh, 18px);
@@ -336,7 +350,7 @@
             line-height: 1.1;
             letter-spacing: -0.6px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;     /* ДО 3 РЯДКІВ */
+            -webkit-line-clamp: 3;
             line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
@@ -628,8 +642,10 @@
             .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
             .promo-dates { font-size: 11px; padding: 6px 10px; }
             .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
-            .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; }
-            .mode-single .img-wrap { padding: 8px; max-height: 40vh; }
+
+            /* SINGLE на мобільному — знову одна колонка, картинка з aspect-ratio */
+            .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; align-items: center; }
+            .mode-single .img-wrap { aspect-ratio: 1 / 1; height: auto; padding: 8px; max-height: 40vh; }
             .mode-single .img-wrap img.main-img { animation: none; }
             .mode-single .name { font-size: 30px; }
             .mode-single .manufacturer { font-size: 15px; letter-spacing: 1.5px; }
@@ -639,6 +655,7 @@
             .mode-single .new-price .price-unit { font-size: 13px; }
             .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
             .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
+
             .mode-double { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 14px; height: auto; }
             .double-card { grid-template-rows: auto auto; padding: 14px; border-radius: 14px; gap: 10px; }
             .double-card .name { font-size: 22px; }
