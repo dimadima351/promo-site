@@ -5,169 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню кав'ярні | Ваш ПАРТНЕР</title>
     
-    <!-- Шрифти -->
+    <!-- Елегантні шрифти: Playfair Display для заголовка, Montserrat для тексту -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
         /* ============================================================
-           БАЗОВІ НАЛАШТУВАННЯ (БЕЗ СКРОЛУ)
+           БАЗОВІ НАЛАШТУВАННЯ ТА ФОН КАВОВИХ ЗЕРЕН
            ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
         }
 
         html, body {
             width: 100vw;
             height: 100vh;
-            overflow: hidden; /* Ховаємо скрол */
-            background-color: #f4f6f8; /* Світлий фон як на сайті */
+            overflow: hidden; /* Без скролу на великих екранах */
+            font-family: 'Montserrat', sans-serif;
+            
+            /* Фон з кавовими зернами + темний градієнт для контрасту */
+            background: linear-gradient(rgba(18, 12, 8, 0.8), rgba(18, 12, 8, 0.8)), 
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1920&auto=format&fit=crop') center/cover fixed no-repeat;
             display: flex;
             flex-direction: column;
         }
 
-        /* Заголовок */
+        /* ============================================================
+           ШАПКА (КАВОВА, КРАСИВИЙ ШРИФТ)
+           ============================================================ */
         .header {
-            height: 10vh;
+            height: 12vh;
+            background-color: #3e2723; /* Глибокий кавовий колір */
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             flex-shrink: 0;
+            border-bottom: 2px solid #d4af37; /* Золота лінія */
         }
 
         .header h1 {
-            font-size: clamp(2rem, 5vh, 4rem);
-            font-weight: 800;
-            color: #2c3e50;
-            letter-spacing: 0.1em;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vh, 6rem);
+            color: #f5ebe0; /* Колір топленого молока */
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-        }
-
-        /* Основна частина */
-        .main-container {
-            flex-grow: 1;
-            height: 90vh;
-            padding: 2vh 4vw;
-            display: flex;
-            flex-direction: column;
-            gap: 2vh;
-        }
-
-        /* Сітка 2 колонки х 3 ряди */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(3, 1fr);
-            gap: 2vh 3vw;
-            height: 75%; /* Залишаємо місце для 7-го елемента */
-        }
-
-        /* Контейнер для 7-го елемента по центру */
-        .menu-bottom {
-            height: 25%;
-            display: flex;
-            justify-content: center;
-        }
-
-        .menu-bottom .menu-card {
-            width: 48%; /* Ширина як одна колонка */
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            margin-right: -0.2em;
         }
 
         /* ============================================================
-           КАРТКА ТОВАРУ (БІЛА, КВАДРАТНА)
+           ОСНОВНА СІТКА (3 КОЛОНКИ)
+           ============================================================ */
+        .main-container {
+            flex-grow: 1;
+            height: 88vh;
+            padding: 3vh 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+            grid-auto-rows: 1fr;
+            gap: 2.5vh 2.5vw; /* Відстань між картками */
+            width: 100%;
+            height: 100%;
+            align-content: center;
+        }
+
+        /* 7-й елемент ставимо рівно по центру (в 2-гу колонку) */
+        .menu-card:nth-child(7) {
+            grid-column: 2; 
+        }
+
+        /* ============================================================
+           КАРТКА ТОВАРУ (БІЛА, ВЕРТИКАЛЬНА)
            ============================================================ */
         .menu-card {
             background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 2px solid #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             display: flex;
-            flex-direction: row; /* Картинка зліва, текст справа */
-            align-items: center;
-            padding: 1.5vh 1.5vw;
-            gap: 1.5vw;
-            height: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            flex-direction: column; /* Вертикальне розміщення: фото зверху, текст знизу */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .menu-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #6f4e37; /* Кавова рамка при наведенні */
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        /* Фото товару (Ваше з бази) */
-        .card-img {
-            width: 14vh;
-            height: 14vh;
-            min-width: 100px;
-            min-height: 100px;
-            object-fit: contain; /* Щоб фото не обрізалося */
-            border-radius: 8px;
+        /* Фото (Велике, на всю ширину картки) */
+        .card-img-wrapper {
+            width: 100%;
+            height: 18vh; /* Висота фото залежить від екрану */
             background-color: #f8f9fa;
-            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            flex-shrink: 0;
         }
 
-        /* Текстова частина */
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Фото вписується повністю, не обрізається */
+        }
+
+        /* Текстова частина (знизу) */
         .card-info {
-            flex-grow: 1;
+            padding: 2vh 1.5vw;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            min-width: 0;
+            align-items: center;
+            justify-content: space-between;
+            flex-grow: 1;
+            text-align: center;
         }
 
-        /* Назва (велика, без трикрапок) */
+        /* Назва (Велика, без трикрапок) */
         .card-title {
-            font-size: clamp(1rem, 2.5vh, 1.8rem);
+            font-size: clamp(1.1rem, 2.5vh, 1.6rem);
             font-weight: 800;
             color: #2c3e50;
-            line-height: 1.2;
-            margin-bottom: 0.5vh;
-            word-wrap: break-word;
-            white-space: normal; /* Дозволяємо перенос слів */
-        }
-
-        /* Опис (виробник) */
-        .card-desc {
-            font-size: clamp(0.7rem, 1.5vh, 1rem);
-            color: #777;
+            line-height: 1.3;
             margin-bottom: 1.5vh;
-            white-space: normal;
+            word-wrap: break-word;
         }
 
-        /* Ціна на кавовому фоні */
+        /* Ціна (Кавовий фон, білий текст) */
         .card-price {
-            background-color: #4a3423; /* Кавовий колір */
+            background-color: #3e2723; /* Кавовий колір */
             color: #ffffff;
-            font-size: clamp(1.2rem, 3vh, 2.2rem);
+            font-size: clamp(1.2rem, 3vh, 2rem);
             font-weight: 800;
-            padding: 0.5vh 1.5vw;
-            border-radius: 8px;
-            align-self: flex-start;
-            box-shadow: 0 4px 10px rgba(74, 52, 35, 0.3);
+            padding: 0.8vh 2vw;
+            border-radius: 30px; /* Округлі краї */
+            box-shadow: 0 4px 10px rgba(62, 39, 35, 0.4);
+            width: fit-content;
         }
 
         /* ============================================================
-           АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ
+           АДАПТИВНІСТЬ (Для телефонів та маленьких екранів)
            ============================================================ */
         @media (max-width: 900px) {
             html, body { overflow: auto; height: auto; }
-            .main-container { height: auto; padding: 15px; }
-            .menu-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; gap: 15px; }
-            .menu-bottom { height: auto; margin-top: 15px; }
-            .menu-bottom .menu-card { width: 100%; }
-            .menu-card { flex-direction: column; text-align: center; padding: 20px; height: auto; }
-            .card-img { width: 120px; height: 120px; }
-            .card-price { align-self: center; }
+            .header { height: auto; padding: 20px; }
+            .main-container { height: auto; padding: 20px; }
+            
+            /* На телефоні робимо 2 колонки */
+            .menu-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px;
+            }
+            
+            /* Скидаємо центрування 7-го елемента на телефоні */
+            .menu-card:nth-child(7) {
+                grid-column: auto; 
+            }
+
+            .card-img-wrapper { height: 15vh; }
+            .card-info { padding: 15px 10px; }
+            .card-title { font-size: 1rem; margin-bottom: 10px; }
+            .card-price { font-size: 1.2rem; padding: 6px 15px; }
+        }
+
+        @media (max-width: 500px) {
+            /* На дуже малих екранах - 1 колонка */
+            .menu-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -178,22 +191,14 @@
     </header>
 
     <main class="main-container">
-        <!-- Перші 6 карток (2 стовпчики) -->
         <div class="menu-grid" id="menuGrid">
-            <div style="grid-column: 1/-1; text-align: center; color: #666; padding: 20px;">Завантаження меню...</div>
-        </div>
-
-        <!-- 7-ма картка (по центру) -->
-        <div class="menu-bottom" id="menuBottom">
-            <!-- JS заповнить -->
+            <div style="grid-column: 1/-1; text-align: center; color: #fff; font-size: 1.5rem;">Завантаження меню...</div>
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('menuGrid');
-            const bottom = document.getElementById('menuBottom');
-            // Заглушка, якщо фото з бази не знайдено
             const PLACEHOLDER = './images/0.png'; 
 
             // Беремо дані з вашої бази
@@ -210,36 +215,32 @@
                     items = items.slice(0, 7);
 
                     if (items.length === 0) {
-                        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #666;">У кав\'ярні поки що немає позицій</div>';
+                        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #fff;">У кав\'ярні поки що немає позицій</div>';
                         return;
                     }
 
-                    // Функція створення картки
-                    const createCard = (item) => {
+                    grid.innerHTML = ''; // Очищаємо
+
+                    items.forEach(item => {
                         // Форматуємо ціну (прибираємо .00)
                         const priceInt = Math.floor(item.price);
                         const priceStr = item.price % 1 === 0 ? priceInt : item.price;
 
-                        return `
+                        // Створюємо картку БЕЗ виробника
+                        const cardHTML = `
                             <div class="menu-card">
-                                <img src="${item.image}" alt="${item.name}" class="card-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                <div class="card-img-wrapper">
+                                    <img src="${item.image}" alt="${item.name}" class="card-img" onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                </div>
                                 <div class="card-info">
                                     <div class="card-title">${item.name}</div>
-                                    <div class="card-desc">${item.manufacturer || 'Свіжозварений напій'}</div>
                                     <div class="card-price">${priceStr} ₴</div>
                                 </div>
                             </div>
                         `;
-                    };
-
-                    // Рендеримо перші 6 карток у сітку
-                    const topItems = items.slice(0, 6);
-                    grid.innerHTML = topItems.map(item => createCard(item)).join('');
-
-                    // Рендеримо 7-му картку по центру (якщо є)
-                    if (items.length === 7) {
-                        bottom.innerHTML = createCard(items[6]);
-                    }
+                        
+                        grid.insertAdjacentHTML('beforeend', cardHTML);
+                    });
                 })
                 .catch(err => {
                     console.error(err);
