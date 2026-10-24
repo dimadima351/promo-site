@@ -3650,8 +3650,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": false,
-      "visible": true,
-      "outOfStock": false,
+      "visible": false,
+      "outOfStock": true,
       "bestPrice": false
     },
     {
@@ -3667,8 +3667,8 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": false,
-      "visible": true,
-      "outOfStock": false,
+      "visible": false,
+      "outOfStock": true,
       "bestPrice": false
     }
   ]
