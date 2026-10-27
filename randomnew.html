@@ -637,7 +637,7 @@
 
         .silence-badge {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(90px, 22vh, 260px);
+            font-size: clamp(160px, 38vh, 480px);
             font-weight: 700;
             color: #ffd97a;
             line-height: 0.9;
@@ -992,14 +992,14 @@
             const k = getKyivParts(now);
             const offset = getKyivOffsetHours(now);
 
-            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 0, 6, 0) - offset * 3600000;
+            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 0, 12, 0) - offset * 3600000;
 
             // Корекція на DST-переходи
             const kTarget = getKyivParts(new Date(targetMs));
             if (kTarget.hour !== 0) {
                 for (const adj of [-3600000, 3600000]) {
                     const t = getKyivParts(new Date(targetMs + adj));
-                    if (t.hour === 0 && t.minute === 6) {
+                    if (t.hour === 0 && t.minute === 12) {
                         targetMs += adj;
                         break;
                     }
