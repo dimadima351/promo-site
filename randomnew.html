@@ -48,7 +48,7 @@
         }
 
         /* ============================================================
-           ФАЗА 1: ПРОМО
+           ФАЗА 1: ПРОМО + ГОДИННИК
            ============================================================ */
         .promo-header {
             display: flex;
@@ -73,6 +73,65 @@
             white-space: nowrap;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+
+        /* ---- ГОДИННИК ---- */
+        .promo-clock {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: clamp(4px, 0.8vh, 10px) clamp(14px, 1.8vw, 28px);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(6px);
+            min-width: clamp(150px, 13vw, 200px);
+            flex-shrink: 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+        }
+        .promo-clock-time {
+            font-size: clamp(20px, 3.4vh, 36px);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+        .promo-clock-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: clamp(9px, 1.35vh, 12px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.95;
+        }
+        .promo-clock-city {
+            opacity: 0.85;
+        }
+        .promo-clock-season {
+            padding: 2px 7px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+        .promo-clock-season.summer {
+            background: rgba(255, 220, 80, 0.4);
+            color: #fff8d0;
+        }
+        .promo-clock-season.winter {
+            background: rgba(110, 200, 255, 0.4);
+            color: #ddf2ff;
+        }
+        .promo-clock-season.neutral {
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+
         .promo-dates {
             font-size: clamp(11px, 1.6vh, 15px);
             font-weight: 600;
@@ -83,6 +142,7 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .random-main {
             flex: 1;
             display: flex;
@@ -131,7 +191,7 @@
         }
 
         /* ============================================================
-           SINGLE — 50/50
+           SINGLE
            ============================================================ */
         .mode-single {
             display: grid;
@@ -361,7 +421,7 @@
         .fullscreen-hint svg { width: 14px; height: 14px; }
 
         /* ============================================================
-           ФАЗА 2: ВІДЕО-ІНТРО (кава, з кнопкою Пропустити)
+           ФАЗА 2: ВІДЕО КАВА
            ============================================================ */
         .phase-video video {
             width: 100%;
@@ -401,7 +461,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ (без змін)
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
            ============================================================ */
         .phase-menu .header-logo {
             position: fixed;
@@ -579,6 +639,121 @@
         .menu-card.pulse .card-title { color: #b8860b; }
 
         /* ============================================================
+           ОВЕРЛЕЙ "ХВИЛИНА МОВЧАННЯ"
+           ============================================================ */
+        .silence-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: radial-gradient(ellipse at center, #1a0f08 0%, #000 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            animation: silenceFadeIn 0.9s ease;
+            text-align: center;
+        }
+        .silence-overlay.active { display: flex; }
+        @keyframes silenceFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .silence-inner {
+            padding: 4vh 4vw;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3vh;
+        }
+
+        .silence-badge {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(90px, 22vh, 260px);
+            font-weight: 700;
+            color: #ffd97a;
+            line-height: 0.9;
+            letter-spacing: 0.03em;
+            text-shadow:
+                0 0 60px rgba(212, 175, 55, 0.7),
+                0 0 120px rgba(212, 175, 55, 0.35),
+                0 4px 20px rgba(0, 0, 0, 0.6);
+            animation: silenceGlow 3s ease-in-out infinite;
+            font-variant-numeric: tabular-nums;
+        }
+        @keyframes silenceGlow {
+            0%, 100% {
+                text-shadow:
+                    0 0 60px rgba(212, 175, 55, 0.7),
+                    0 0 120px rgba(212, 175, 55, 0.35),
+                    0 4px 20px rgba(0, 0, 0, 0.6);
+            }
+            50% {
+                text-shadow:
+                    0 0 100px rgba(212, 175, 55, 1),
+                    0 0 180px rgba(212, 175, 55, 0.6),
+                    0 4px 20px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .silence-title {
+            font-size: clamp(22px, 4.8vh, 62px);
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #f5ebe0;
+            line-height: 1.25;
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+            padding-left: 0.18em;
+        }
+
+        .silence-subtitle {
+            font-size: clamp(13px, 2.2vh, 26px);
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #a8a8a8;
+            padding-left: 0.2em;
+        }
+
+        .silence-progress {
+            width: min(64vw, 780px);
+            height: 5px;
+            background: rgba(255, 217, 122, 0.12);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 2vh;
+        }
+        .silence-progress-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #d4af37, #ffd97a);
+            border-radius: 3px;
+            transform-origin: left center;
+            transform: scaleX(1);
+        }
+        @keyframes silenceProgress {
+            from { transform: scaleX(1); }
+            to   { transform: scaleX(0); }
+        }
+
+        .silence-countdown {
+            font-size: clamp(11px, 1.8vh, 18px);
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: #888;
+            font-variant-numeric: tabular-nums;
+        }
+        .silence-countdown span {
+            color: #ffd97a;
+            font-size: 1.4em;
+        }
+
+        /* ============================================================
            АДАПТИВНІСТЬ
            ============================================================ */
         @media (min-width: 1600px) { .random-container { max-width: 1800px; } }
@@ -606,6 +781,9 @@
             .promo-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 14px; }
             .promo-logo img { height: 32px; }
             .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
+            .promo-clock { align-self: stretch; flex-direction: row; gap: 10px; padding: 6px 12px; min-width: 0; }
+            .promo-clock-time { font-size: 20px; }
+            .promo-clock-meta { margin-top: 0; font-size: 10px; }
             .promo-dates { font-size: 11px; padding: 6px 10px; }
             .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
             .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; }
@@ -649,6 +827,10 @@
             .card-title { font-size: 1rem; }
 
             .skip-btn { bottom: 20px; right: 20px; padding: 10px 18px; font-size: 0.9rem; }
+
+            .silence-badge { font-size: 90px; }
+            .silence-title { font-size: 20px; letter-spacing: 0.12em; }
+            .silence-subtitle { font-size: 12px; letter-spacing: 0.15em; }
         }
 
         @media (max-width: 500px) {
@@ -669,7 +851,7 @@
         @media (prefers-reduced-motion: reduce) {
             .badge, .best-price-icon,
             .mode-single .img-wrap img.main-img,
-            .new-price { animation: none !important; }
+            .new-price, .silence-badge { animation: none !important; }
         }
     </style>
 </head>
@@ -682,6 +864,16 @@
                 <img src="./image_site/_22.png" alt="Логотип" onerror="this.style.display='none';">
                 <div class="promo-logo-text">Смачні ціни</div>
             </div>
+
+            <!-- ГОДИННИК -->
+            <div class="promo-clock">
+                <div class="promo-clock-time" id="clockTime">--:--:--</div>
+                <div class="promo-clock-meta">
+                    <span class="promo-clock-city">Київ</span>
+                    <span class="promo-clock-season neutral" id="clockSeason">—</span>
+                </div>
+            </div>
+
             <div class="promo-dates" id="promoDates">Акційна пропозиція діє...</div>
         </header>
 
@@ -699,7 +891,7 @@
         </div>
     </div>
 
-    <!-- ФАЗА 2: ВІДЕО-ІНТРО (кава _000.mp4) -->
+    <!-- ФАЗА 2: ВІДЕО КАВА -->
     <div class="phase phase-video" id="phaseVideo">
         <video id="introVideoEl" src="./image_site/_000.mp4" autoplay muted playsinline preload="auto"></video>
         <button class="skip-btn" id="skipVideoBtn">Пропустити →</button>
@@ -714,9 +906,22 @@
         </main>
     </div>
 
-    <!-- ФАЗА 4: ВІДЕО site.mp4 (після меню, без кнопок) -->
+    <!-- ФАЗА 4: ВІДЕО site.mp4 -->
     <div class="phase phase-video" id="phaseVideo2">
         <video id="siteVideoEl" src="./image_site/site.mp4" autoplay muted playsinline preload="auto"></video>
+    </div>
+
+    <!-- ОВЕРЛЕЙ: ХВИЛИНА МОВЧАННЯ -->
+    <div class="silence-overlay" id="silenceOverlay">
+        <div class="silence-inner">
+            <div class="silence-badge">09:00</div>
+            <div class="silence-title">Національна хвилина мовчання</div>
+            <div class="silence-subtitle">Схилімо голови у скорботі</div>
+            <div class="silence-progress">
+                <div class="silence-progress-bar" id="silenceBar"></div>
+            </div>
+            <div class="silence-countdown"><span id="silenceSeconds">60</span> секунд</div>
+        </div>
     </div>
 
     <script>
@@ -727,22 +932,16 @@
            КОНСТАНТИ
            ============================================================ */
         const PLACEHOLDER = './images/0.png';
+        const KYIV_TZ = 'Europe/Kyiv';
 
         const PHASE_PROMO  = 'promo';
-        const PHASE_VIDEO  = 'video';     // кава _000.mp4 (після промо)
-        const PHASE_MENU   = 'menu';      // меню кав'ярні
-        const PHASE_VIDEO2 = 'video2';    // site.mp4 (після меню)
+        const PHASE_VIDEO  = 'video';
+        const PHASE_MENU   = 'menu';
+        const PHASE_VIDEO2 = 'video2';
 
         const PROMO_SEQUENCE = [
-            'single',
-            'double',
-            'grid',
-            'pair',
-            'singleBest',
-            'single',
-            'single',
-            'doubleRandom',
-            'doubleRandom'
+            'single', 'double', 'grid', 'pair', 'singleBest',
+            'single', 'single', 'doubleRandom', 'doubleRandom'
         ];
 
         const PROMO_SLIDE_DURATION = 10000;
@@ -770,6 +969,166 @@
         let pulseIntervalId      = null;
         let bounceTimer1 = null;
         let bounceTimer2 = null;
+
+        /* ============================================================
+           ЧАСОВІ ПОЯСИ / DST / ГОДИННИК
+           ============================================================ */
+        function getKyivParts(date) {
+            date = date || new Date();
+            const fmt = new Intl.DateTimeFormat('en-GB', {
+                timeZone: KYIV_TZ,
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            });
+            const parts = fmt.formatToParts(date);
+            const g = t => parts.find(p => p.type === t)?.value || '0';
+            return {
+                year:   parseInt(g('year'), 10),
+                month:  parseInt(g('month'), 10),
+                day:    parseInt(g('day'), 10),
+                hour:   parseInt(g('hour'), 10) % 24,
+                minute: parseInt(g('minute'), 10),
+                second: parseInt(g('second'), 10)
+            };
+        }
+
+        function getKyivOffsetHours(date) {
+            date = date || new Date();
+            const k = getKyivParts(date);
+            const asUTC = Date.UTC(k.year, k.month - 1, k.day, k.hour, k.minute, k.second);
+            return Math.round((asUTC - date.getTime()) / 3600000);
+        }
+
+        function getSeasonInfo() {
+            const now = new Date();
+            const k = getKyivParts(now);
+            const offsetNow = getKyivOffsetHours(now);
+
+            // Перевірка, чи взагалі є перехід на літній/зимовий час цього року
+            const janOffset = getKyivOffsetHours(new Date(Date.UTC(k.year, 0, 15)));
+            const julOffset = getKyivOffsetHours(new Date(Date.UTC(k.year, 6, 15)));
+
+            if (janOffset === julOffset) {
+                // Без переходу — показуємо просто зсув
+                return { label: `UTC+${offsetNow}`, type: 'neutral' };
+            }
+
+            const maxOffset = Math.max(janOffset, julOffset);
+            const isSummer = offsetNow === maxOffset;
+            return isSummer
+                ? { label: 'Літній час', type: 'summer' }
+                : { label: 'Зимовий час', type: 'winter' };
+        }
+
+        let lastClockStr = '';
+        let lastSeasonType = '';
+
+        function updateClock() {
+            const k = getKyivParts();
+            const pad = n => String(n).padStart(2, '0');
+            const timeStr = `${pad(k.hour)}:${pad(k.minute)}:${pad(k.second)}`;
+
+            const timeEl = document.getElementById('clockTime');
+            if (timeEl && timeStr !== lastClockStr) {
+                lastClockStr = timeStr;
+                timeEl.textContent = timeStr;
+            }
+
+            const season = getSeasonInfo();
+            if (season.type !== lastSeasonType) {
+                lastSeasonType = season.type;
+                const seasonEl = document.getElementById('clockSeason');
+                if (seasonEl) {
+                    seasonEl.textContent = season.label;
+                    seasonEl.className = 'promo-clock-season ' + season.type;
+                }
+            }
+        }
+
+        function tickClock() {
+            updateClock();
+            // Вирівнюємо до наступної секунди для точності
+            const ms = 1000 - (Date.now() % 1000);
+            setTimeout(tickClock, ms);
+        }
+
+        /* ============================================================
+           ХВИЛИНА МОВЧАННЯ О 09:00
+           ============================================================ */
+        function msUntilNext9AM() {
+            const now = new Date();
+            const k = getKyivParts(now);
+            const offset = getKyivOffsetHours(now);
+
+            // Сьогодні 9:00 Києва в UTC-мс
+            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 9, 0, 0) - offset * 3600000;
+
+            // Перевірка / корекція на DST-переходи
+            const kTarget = getKyivParts(new Date(targetMs));
+            if (kTarget.hour !== 9) {
+                for (const adj of [-3600000, 3600000]) {
+                    const t = getKyivParts(new Date(targetMs + adj));
+                    if (t.hour === 9 && t.minute === 0) {
+                        targetMs += adj;
+                        break;
+                    }
+                }
+            }
+
+            let diff = targetMs - now.getTime();
+            if (diff <= 0) diff += 24 * 3600000;
+            return diff;
+        }
+
+        function showSilence(durationMs) {
+            const overlay = document.getElementById('silenceOverlay');
+            if (!overlay) return;
+
+            const secondsEl = document.getElementById('silenceSeconds');
+            const barEl = document.getElementById('silenceBar');
+
+            let remaining = Math.ceil(durationMs / 1000);
+            if (secondsEl) secondsEl.textContent = Math.max(0, remaining);
+
+            if (barEl) {
+                barEl.style.animation = 'none';
+                void barEl.offsetWidth;
+                barEl.style.animationName = 'silenceProgress';
+                barEl.style.animationDuration = (durationMs / 1000) + 's';
+                barEl.style.animationTimingFunction = 'linear';
+                barEl.style.animationFillMode = 'forwards';
+            }
+
+            overlay.classList.add('active');
+
+            const tickId = setInterval(() => {
+                remaining--;
+                if (secondsEl) secondsEl.textContent = Math.max(0, remaining);
+                if (remaining <= 0) {
+                    clearInterval(tickId);
+                    overlay.classList.remove('active');
+                }
+            }, 1000);
+        }
+
+        function scheduleNextSilence() {
+            const ms = msUntilNext9AM();
+            setTimeout(() => {
+                showSilence(60000);
+                scheduleNextSilence();
+            }, ms);
+        }
+
+        function initSilence() {
+            const k = getKyivParts();
+            // Якщо щойно завантажились в межах 09:00:00 - 09:00:59 → показати залишок
+            if (k.hour === 9 && k.minute === 0) {
+                const remaining = 60000 - k.second * 1000;
+                if (remaining > 0) showSilence(remaining);
+            }
+            scheduleNextSilence();
+        }
 
         /* ============================================================
            УТИЛІТИ
@@ -812,7 +1171,6 @@
             const name = (item.name || '').toLowerCase();
             const man  = (item.manufacturer || '').toLowerCase();
             const both = name + ' ' + man;
-
             if (both.includes('шампанськ')) return true;
             if (both.includes('фра') && both.includes('гулі')) return true;
             if (both.includes('fra') && both.includes('guli')) return true;
@@ -828,7 +1186,6 @@
             if (pool.length === 0) return [];
 
             let unused = pool.filter(it => !usedIds.has(it.id));
-
             if (unused.length === 0) {
                 usedIds.clear();
                 unused = [...pool];
@@ -853,18 +1210,15 @@
 
         function pickSingleForPromo() {
             if (allItems.length === 0) return null;
-
             let candidates = allItems.filter(it => !usedIds.has(it.id));
             if (candidates.length === 0) {
                 usedIds.clear();
                 candidates = [...allItems];
             }
-
             if (candidates.length > 1 && lastSingleId !== null) {
                 const filtered = candidates.filter(it => it.id !== lastSingleId);
                 if (filtered.length > 0) candidates = filtered;
             }
-
             const item = candidates[Math.floor(Math.random() * candidates.length)];
             usedIds.add(item.id);
             lastSingleId = item.id;
@@ -873,10 +1227,8 @@
 
         function pickSingleBest() {
             if (bestItems.length === 0) return null;
-
             let candidates = bestItems.filter(it => !usedIds.has(it.id));
             if (candidates.length === 0) candidates = [...bestItems];
-
             const item = candidates[Math.floor(Math.random() * candidates.length)];
             usedIds.add(item.id);
             return item;
@@ -889,7 +1241,6 @@
                 if (!groups[cat]) groups[cat] = [];
                 groups[cat].push(it);
             });
-
             const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 2));
             if (validCats.length === 0) return pickItemsPreferUnused(allItems, 2);
 
@@ -901,7 +1252,6 @@
                     return picked;
                 }
             }
-
             return pickItemsPreferUnused(allItems, 2);
         }
 
@@ -912,7 +1262,6 @@
                 if (!groups[cat]) groups[cat] = [];
                 groups[cat].push(it);
             });
-
             const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 4));
             if (validCats.length === 0) return pickItemsPreferUnused(allItems, 4);
 
@@ -924,12 +1273,10 @@
                     return picked;
                 }
             }
-
             for (const cat of validCats) {
                 const picked = pickItemsPreferUnused(groups[cat], 4);
                 if (picked.length === 4) return picked;
             }
-
             return pickItemsPreferUnused(allItems, 4);
         }
 
@@ -941,7 +1288,6 @@
                 if (!byName[key]) byName[key] = [];
                 byName[key].push(it);
             });
-
             const nameGroups = shuffle(Object.values(byName).filter(g => g.length >= 2));
             for (const group of nameGroups) {
                 const unused = group.filter(it => !usedIds.has(it.id));
@@ -959,7 +1305,6 @@
                 if (!byMan[key]) byMan[key] = [];
                 byMan[key].push(it);
             });
-
             const manGroups = shuffle(Object.values(byMan).filter(g => g.length >= 2));
             for (const group of manGroups) {
                 const unused = group.filter(it => !usedIds.has(it.id));
@@ -969,7 +1314,6 @@
                     return picked;
                 }
             }
-
             return pickItemsPreferUnused(allItems, 2);
         }
 
@@ -1001,7 +1345,6 @@
         function switchToPhase(phase) {
             if (currentPhase === phase) return;
 
-            // Пауза відео при виході з будь-якої відео-фази
             if (currentPhase === PHASE_VIDEO) {
                 const v = document.getElementById('introVideoEl');
                 if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
@@ -1102,7 +1445,6 @@
             scheduleBounce();
         }
 
-        /* ---- Рендери ---- */
         function renderSingle(item) {
             const { int, cents } = priceParts(item.price);
             const oldPrice = item.oldPrice ? Math.round(Number(item.oldPrice)) : '';
@@ -1211,7 +1553,7 @@
         }
 
         /* ============================================================
-           ФАЗА 2: ВІДЕО КАВА (_000.mp4)
+           ФАЗА 2: ВІДЕО КАВА
            ============================================================ */
         function enterVideoPhase() {
             const video = document.getElementById('introVideoEl');
@@ -1234,7 +1576,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
+           ФАЗА 3: МЕНЮ
            ============================================================ */
         function enterMenuPhase() {
             const phaseMenu = document.getElementById('phaseMenu');
@@ -1291,7 +1633,6 @@
                 startMenuPulseLoop(cards);
             }, entranceEndMs);
 
-            // Після меню — на відео site.mp4 (ФАЗА 4)
             menuExitTimeout = setTimeout(() => switchToPhase(PHASE_VIDEO2), MENU_DURATION);
         }
 
@@ -1303,7 +1644,6 @@
             function runPulse() {
                 if (currentPhase !== PHASE_MENU) return;
                 if (title) title.classList.add('pulse');
-
                 cards.forEach((card, i) => {
                     setTimeout(() => {
                         if (currentPhase !== PHASE_MENU) return;
@@ -1312,7 +1652,6 @@
                         if (price) price.classList.add('pulse-price');
                     }, i * PER_CARD_DELAY);
                 });
-
                 const totalTime = (cards.length - 1) * PER_CARD_DELAY + PULSE_DURATION;
                 setTimeout(() => {
                     if (title) title.classList.remove('pulse');
@@ -1332,7 +1671,7 @@
         }
 
         /* ============================================================
-           ФАЗА 4: ВІДЕО site.mp4 (після меню, без кнопок)
+           ФАЗА 4: ВІДЕО site.mp4
            ============================================================ */
         function enterVideo2Phase() {
             const video = document.getElementById('siteVideoEl');
@@ -1347,7 +1686,6 @@
             };
             video.addEventListener('ended', onEnded);
 
-            // 17 секунд відео + 3 секунди запасу
             video2FallbackTimeout = setTimeout(() => {
                 if (currentPhase === PHASE_VIDEO2) switchToPhase(PHASE_PROMO);
             }, 20000);
@@ -1399,8 +1737,16 @@
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
+        // Годинник стартує одразу
+        tickClock();
+
+        // Планування хвилини мовчання
+        initSilence();
+
+        // Фази
         switchToPhase(PHASE_PROMO);
 
+        // Дані
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
             .then(data => {
