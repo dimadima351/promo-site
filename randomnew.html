@@ -74,62 +74,27 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* ---- ГОДИННИК ---- */
+        /* ---- ГОДИННИК (компактний, тільки ГГ:ХХ) ---- */
         .promo-clock {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.15);
-            padding: clamp(4px, 0.8vh, 10px) clamp(14px, 1.8vw, 28px);
-            border-radius: 14px;
+            padding: clamp(4px, 0.7vh, 8px) clamp(14px, 1.8vw, 26px);
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.28);
             backdrop-filter: blur(6px);
-            min-width: clamp(150px, 13vw, 200px);
             flex-shrink: 0;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
         }
         .promo-clock-time {
-            font-size: clamp(20px, 3.4vh, 36px);
+            font-size: clamp(20px, 3.4vh, 34px);
             font-weight: 800;
             line-height: 1;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             font-variant-numeric: tabular-nums;
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             white-space: nowrap;
-        }
-        .promo-clock-meta {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 4px;
-            font-size: clamp(9px, 1.35vh, 12px);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            opacity: 0.95;
-        }
-        .promo-clock-city {
-            opacity: 0.85;
-        }
-        .promo-clock-season {
-            padding: 2px 7px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            letter-spacing: 0.08em;
-            white-space: nowrap;
-        }
-        .promo-clock-season.summer {
-            background: rgba(255, 220, 80, 0.4);
-            color: #fff8d0;
-        }
-        .promo-clock-season.winter {
-            background: rgba(110, 200, 255, 0.4);
-            color: #ddf2ff;
-        }
-        .promo-clock-season.neutral {
-            background: rgba(255, 255, 255, 0.25);
-            color: #fff;
         }
 
         .promo-dates {
@@ -781,9 +746,8 @@
             .promo-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 14px; }
             .promo-logo img { height: 32px; }
             .promo-logo-text { font-size: 18px; letter-spacing: 1px; white-space: normal; }
-            .promo-clock { align-self: stretch; flex-direction: row; gap: 10px; padding: 6px 12px; min-width: 0; }
+            .promo-clock { padding: 6px 14px; }
             .promo-clock-time { font-size: 20px; }
-            .promo-clock-meta { margin-top: 0; font-size: 10px; }
             .promo-dates { font-size: 11px; padding: 6px 10px; }
             .random-main { padding: 12px 12px 16px; align-items: flex-start; overflow: visible; }
             .mode-single { grid-template-columns: 1fr; gap: 14px; padding: 14px; border-radius: 14px; max-height: none; height: auto; }
@@ -865,13 +829,9 @@
                 <div class="promo-logo-text">Смачні ціни</div>
             </div>
 
-            <!-- ГОДИННИК -->
+            <!-- ГОДИННИК (тільки ГГ:ХХ) -->
             <div class="promo-clock">
-                <div class="promo-clock-time" id="clockTime">--:--:--</div>
-                <div class="promo-clock-meta">
-                    <span class="promo-clock-city">Київ</span>
-                    <span class="promo-clock-season neutral" id="clockSeason">—</span>
-                </div>
+                <div class="promo-clock-time" id="clockTime">--:--</div>
             </div>
 
             <div class="promo-dates" id="promoDates">Акційна пропозиція діє...</div>
@@ -1000,57 +960,28 @@
             return Math.round((asUTC - date.getTime()) / 3600000);
         }
 
-        function getSeasonInfo() {
-            const now = new Date();
-            const k = getKyivParts(now);
-            const offsetNow = getKyivOffsetHours(now);
-
-            // Перевірка, чи взагалі є перехід на літній/зимовий час цього року
-            const janOffset = getKyivOffsetHours(new Date(Date.UTC(k.year, 0, 15)));
-            const julOffset = getKyivOffsetHours(new Date(Date.UTC(k.year, 6, 15)));
-
-            if (janOffset === julOffset) {
-                // Без переходу — показуємо просто зсув
-                return { label: `UTC+${offsetNow}`, type: 'neutral' };
-            }
-
-            const maxOffset = Math.max(janOffset, julOffset);
-            const isSummer = offsetNow === maxOffset;
-            return isSummer
-                ? { label: 'Літній час', type: 'summer' }
-                : { label: 'Зимовий час', type: 'winter' };
-        }
-
+        /* Годинник — тільки ГГ:ХХ, оновлюється при зміні хвилини */
         let lastClockStr = '';
-        let lastSeasonType = '';
 
         function updateClock() {
             const k = getKyivParts();
             const pad = n => String(n).padStart(2, '0');
-            const timeStr = `${pad(k.hour)}:${pad(k.minute)}:${pad(k.second)}`;
+            const timeStr = `${pad(k.hour)}:${pad(k.minute)}`;
 
-            const timeEl = document.getElementById('clockTime');
-            if (timeEl && timeStr !== lastClockStr) {
+            if (timeStr !== lastClockStr) {
                 lastClockStr = timeStr;
-                timeEl.textContent = timeStr;
-            }
-
-            const season = getSeasonInfo();
-            if (season.type !== lastSeasonType) {
-                lastSeasonType = season.type;
-                const seasonEl = document.getElementById('clockSeason');
-                if (seasonEl) {
-                    seasonEl.textContent = season.label;
-                    seasonEl.className = 'promo-clock-season ' + season.type;
-                }
+                const timeEl = document.getElementById('clockTime');
+                if (timeEl) timeEl.textContent = timeStr;
             }
         }
 
         function tickClock() {
             updateClock();
-            // Вирівнюємо до наступної секунди для точності
-            const ms = 1000 - (Date.now() % 1000);
-            setTimeout(tickClock, ms);
+            // Вирівнюємось до наступної хвилини — так оновлення точне і рідке
+            const now = new Date();
+            const k = getKyivParts(now);
+            const msToNextMinute = (60 - k.second) * 1000 - (now.getMilliseconds());
+            setTimeout(tickClock, Math.max(500, msToNextMinute));
         }
 
         /* ============================================================
@@ -1061,10 +992,9 @@
             const k = getKyivParts(now);
             const offset = getKyivOffsetHours(now);
 
-            // Сьогодні 9:00 Києва в UTC-мс
             let targetMs = Date.UTC(k.year, k.month - 1, k.day, 9, 0, 0) - offset * 3600000;
 
-            // Перевірка / корекція на DST-переходи
+            // Корекція на DST-переходи
             const kTarget = getKyivParts(new Date(targetMs));
             if (kTarget.hour !== 9) {
                 for (const adj of [-3600000, 3600000]) {
@@ -1122,7 +1052,6 @@
 
         function initSilence() {
             const k = getKyivParts();
-            // Якщо щойно завантажились в межах 09:00:00 - 09:00:59 → показати залишок
             if (k.hour === 9 && k.minute === 0) {
                 const remaining = 60000 - k.second * 1000;
                 if (remaining > 0) showSilence(remaining);
@@ -1737,10 +1666,10 @@
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
-        // Годинник стартує одразу
+        // Годинник
         tickClock();
 
-        // Планування хвилини мовчання
+        // Хвилина мовчання
         initSilence();
 
         // Фази
