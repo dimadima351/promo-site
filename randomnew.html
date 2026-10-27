@@ -131,7 +131,7 @@
         }
 
         /* ============================================================
-           SINGLE — 50/50, шрифти без змін
+           SINGLE — 50/50
            ============================================================ */
         .mode-single {
             display: grid;
@@ -217,7 +217,6 @@
             font-weight: 500;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        /* SINGLE name — БЕЗ ЗМІН, 2 рядки */
         .name {
             font-size: clamp(40px, 8.8vh, 108px);
             font-weight: 700;
@@ -246,7 +245,7 @@
         .new-price .price-unit { font-size: clamp(15px, 2.5vh, 30px); font-weight: 400; color: #999; margin-top: 4px; }
 
         /* ============================================================
-           DOUBLE / PAIR — карточки, name 3 рядки
+           DOUBLE / PAIR
            ============================================================ */
         .mode-double { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.8vh, 24px); max-height: 100%; }
         .double-card {
@@ -268,7 +267,6 @@
         .double-card .best-price-icon { top: -8px; right: -8px; width: clamp(110px, 17.5vh, 195px); height: clamp(110px, 17.5vh, 195px); }
         .double-card .info { display: flex; flex-direction: column; gap: clamp(2px, 0.5vh, 8px); min-width: 0; overflow: visible; align-items: flex-start; justify-content: center; }
         .double-card .manufacturer { font-size: clamp(13px, 2vh, 22px); letter-spacing: clamp(0.8px, 0.18vw, 2.5px); color: #999; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        /* DOUBLE name — 3 рядки */
         .double-card .name {
             font-size: clamp(24px, 4.6vh, 56px);
             font-weight: 700;
@@ -292,7 +290,7 @@
         .double-card .new-price.bounce-animate { animation: priceBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: left bottom; }
 
         /* ============================================================
-           GRID — картки 50/50, name 3 рядки
+           GRID
            ============================================================ */
         .mode-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: clamp(8px, 1.2vh, 16px); max-height: 100%; }
         .grid-card {
@@ -314,7 +312,6 @@
         .grid-card .best-price-icon { width: clamp(32px, 5vh, 52px); height: clamp(32px, 5vh, 52px); top: -4px; right: -4px; }
         .grid-card .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; }
         .grid-card .manufacturer { font-size: clamp(10px, 1.3vh, 15px); letter-spacing: clamp(0.5px, 0.15vw, 1.5px); color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        /* GRID name — 3 рядки */
         .grid-card .name {
             font-size: clamp(24px, 5.2vh, 60px);
             font-weight: 800;
@@ -364,7 +361,7 @@
         .fullscreen-hint svg { width: 14px; height: 14px; }
 
         /* ============================================================
-           ФАЗА 2: ВІДЕО
+           ФАЗА 2: ВІДЕО-ІНТРО (кава, з кнопкою Пропустити)
            ============================================================ */
         .phase-video video {
             width: 100%;
@@ -372,7 +369,7 @@
             object-fit: cover;
             display: block;
         }
-        .phase-video::after {
+        #phaseVideo::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -678,6 +675,7 @@
 </head>
 <body>
 
+    <!-- ФАЗА 1: ПРОМО -->
     <div class="phase phase-promo" id="phasePromo">
         <header class="promo-header">
             <div class="promo-logo">
@@ -701,17 +699,24 @@
         </div>
     </div>
 
+    <!-- ФАЗА 2: ВІДЕО-ІНТРО (кава _000.mp4) -->
     <div class="phase phase-video" id="phaseVideo">
         <video id="introVideoEl" src="./image_site/_000.mp4" autoplay muted playsinline preload="auto"></video>
         <button class="skip-btn" id="skipVideoBtn">Пропустити →</button>
     </div>
 
+    <!-- ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ -->
     <div class="phase phase-menu" id="phaseMenu">
         <img src="./image_site/0.png" alt="Логотип" class="header-logo" onerror="this.style.display='none';">
         <h1 class="title"><span>МЕНЮ</span></h1>
         <main class="main-container">
             <div class="menu-grid" id="menuGrid"></div>
         </main>
+    </div>
+
+    <!-- ФАЗА 4: ВІДЕО site.mp4 (після меню, без кнопок) -->
+    <div class="phase phase-video" id="phaseVideo2">
+        <video id="siteVideoEl" src="./image_site/site.mp4" autoplay muted playsinline preload="auto"></video>
     </div>
 
     <script>
@@ -723,9 +728,10 @@
            ============================================================ */
         const PLACEHOLDER = './images/0.png';
 
-        const PHASE_PROMO = 'promo';
-        const PHASE_VIDEO = 'video';
-        const PHASE_MENU  = 'menu';
+        const PHASE_PROMO  = 'promo';
+        const PHASE_VIDEO  = 'video';     // кава _000.mp4 (після промо)
+        const PHASE_MENU   = 'menu';      // меню кав'ярні
+        const PHASE_VIDEO2 = 'video2';    // site.mp4 (після меню)
 
         const PROMO_SEQUENCE = [
             'single',
@@ -752,16 +758,12 @@
         let dataLoaded  = false;
         let dataError   = false;
 
-        /* ============================================================
-           ТРЕКЕР "КОЛА" — товари не повторюються, поки не покажуться всі.
-           Скидається автоматично, коли для нового слота немає жодного
-           "невикористаного" товару.
-           ============================================================ */
         let usedIds = new Set();
         let lastSingleId = null;
 
         let promoRotationId      = null;
         let videoFallbackTimeout = null;
+        let video2FallbackTimeout = null;
         let menuEntranceTimeout  = null;
         let menuExitTimeout      = null;
         let pulseStartTimeout    = null;
@@ -822,16 +824,12 @@
             items.forEach(it => usedIds.add(it.id));
         }
 
-        /* Універсальний пікер: спершу бере "невикористані" товари,
-           якщо їх мало — дозволяє вже використані, а коли пул
-           вичерпано повністю — скидає usedIds і починає нове коло. */
         function pickItemsPreferUnused(pool, count) {
             if (pool.length === 0) return [];
 
             let unused = pool.filter(it => !usedIds.has(it.id));
 
             if (unused.length === 0) {
-                // Нове коло — скидаємо трекер
                 usedIds.clear();
                 unused = [...pool];
             }
@@ -853,7 +851,6 @@
             return picked;
         }
 
-        /* ---- Пікери для конкретних режимів ---- */
         function pickSingleForPromo() {
             if (allItems.length === 0) return null;
 
@@ -863,7 +860,6 @@
                 candidates = [...allItems];
             }
 
-            // Уникаємо повтору двох послідовних одиночних слайдів
             if (candidates.length > 1 && lastSingleId !== null) {
                 const filtered = candidates.filter(it => it.id !== lastSingleId);
                 if (filtered.length > 0) candidates = filtered;
@@ -897,7 +893,6 @@
             const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 2));
             if (validCats.length === 0) return pickItemsPreferUnused(allItems, 2);
 
-            // 1) шукаємо категорію, де обидва товари ще не використані
             for (const cat of validCats) {
                 const unused = groups[cat].filter(it => !usedIds.has(it.id));
                 if (unused.length >= 2) {
@@ -907,7 +902,6 @@
                 }
             }
 
-            // 2) fallback — беремо як звичайно
             return pickItemsPreferUnused(allItems, 2);
         }
 
@@ -922,7 +916,6 @@
             const validCats = shuffle(Object.keys(groups).filter(c => groups[c].length >= 4));
             if (validCats.length === 0) return pickItemsPreferUnused(allItems, 4);
 
-            // 1) категорія з 4 невикористаними
             for (const cat of validCats) {
                 const unused = groups[cat].filter(it => !usedIds.has(it.id));
                 if (unused.length >= 4) {
@@ -932,7 +925,6 @@
                 }
             }
 
-            // 2) категорія з 4 товарами, беремо що є (з пріоритетом невикористаних)
             for (const cat of validCats) {
                 const picked = pickItemsPreferUnused(groups[cat], 4);
                 if (picked.length === 4) return picked;
@@ -942,7 +934,6 @@
         }
 
         function pickPairSameNameOrManufacturer() {
-            // спершу — по назві
             const byName = {};
             allItems.forEach(it => {
                 const key = (it.name || '').trim().toLowerCase();
@@ -961,7 +952,6 @@
                 }
             }
 
-            // далі — по виробнику
             const byMan = {};
             allItems.forEach(it => {
                 const key = (it.manufacturer || '').trim().toLowerCase();
@@ -991,14 +981,15 @@
            ТАЙМЕРИ
            ============================================================ */
         function clearPhaseTimers() {
-            if (promoRotationId)     { clearInterval(promoRotationId); promoRotationId = null; }
-            if (videoFallbackTimeout){ clearTimeout(videoFallbackTimeout); videoFallbackTimeout = null; }
-            if (menuEntranceTimeout) { clearTimeout(menuEntranceTimeout); menuEntranceTimeout = null; }
-            if (menuExitTimeout)     { clearTimeout(menuExitTimeout); menuExitTimeout = null; }
-            if (pulseStartTimeout)   { clearTimeout(pulseStartTimeout); pulseStartTimeout = null; }
-            if (pulseIntervalId)     { clearInterval(pulseIntervalId); pulseIntervalId = null; }
-            if (bounceTimer1)        { clearTimeout(bounceTimer1); bounceTimer1 = null; }
-            if (bounceTimer2)        { clearTimeout(bounceTimer2); bounceTimer2 = null; }
+            if (promoRotationId)      { clearInterval(promoRotationId); promoRotationId = null; }
+            if (videoFallbackTimeout) { clearTimeout(videoFallbackTimeout); videoFallbackTimeout = null; }
+            if (video2FallbackTimeout){ clearTimeout(video2FallbackTimeout); video2FallbackTimeout = null; }
+            if (menuEntranceTimeout)  { clearTimeout(menuEntranceTimeout); menuEntranceTimeout = null; }
+            if (menuExitTimeout)      { clearTimeout(menuExitTimeout); menuExitTimeout = null; }
+            if (pulseStartTimeout)    { clearTimeout(pulseStartTimeout); pulseStartTimeout = null; }
+            if (pulseIntervalId)      { clearInterval(pulseIntervalId); pulseIntervalId = null; }
+            if (bounceTimer1)         { clearTimeout(bounceTimer1); bounceTimer1 = null; }
+            if (bounceTimer2)         { clearTimeout(bounceTimer2); bounceTimer2 = null; }
 
             const title = document.querySelector('.phase-menu .title');
             if (title) title.classList.remove('pulse');
@@ -1010,8 +1001,13 @@
         function switchToPhase(phase) {
             if (currentPhase === phase) return;
 
+            // Пауза відео при виході з будь-якої відео-фази
             if (currentPhase === PHASE_VIDEO) {
                 const v = document.getElementById('introVideoEl');
+                if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
+            }
+            if (currentPhase === PHASE_VIDEO2) {
+                const v = document.getElementById('siteVideoEl');
                 if (v) { try { v.pause(); v.currentTime = 0; } catch (e) {} }
             }
 
@@ -1028,6 +1024,9 @@
                 enterVideoPhase();
             } else if (phase === PHASE_MENU) {
                 enterMenuPhase();
+            } else if (phase === PHASE_VIDEO2) {
+                document.getElementById('phaseVideo2').classList.add('active');
+                enterVideo2Phase();
             }
         }
 
@@ -1073,19 +1072,15 @@
             if (mode === 'single') {
                 const item = pickSingleForPromo();
                 if (item) html = renderSingle(item);
-
             } else if (mode === 'double') {
                 const items = pickSameCategory2();
                 if (items.length) html = renderDouble(items);
-
             } else if (mode === 'grid') {
                 const items = pickSameCategory4();
                 if (items.length) html = renderGrid(items);
-
             } else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
                 if (items.length) html = renderDouble(items);
-
             } else if (mode === 'singleBest') {
                 const item = pickSingleBest();
                 if (item) html = renderSingle(item);
@@ -1093,7 +1088,6 @@
                     const fb = pickSingleForPromo();
                     if (fb) html = renderSingle(fb);
                 }
-
             } else if (mode === 'doubleRandom') {
                 const items = pickRandom2();
                 if (items.length) html = renderDouble(items);
@@ -1217,7 +1211,7 @@
         }
 
         /* ============================================================
-           ФАЗА 2: ВІДЕО
+           ФАЗА 2: ВІДЕО КАВА (_000.mp4)
            ============================================================ */
         function enterVideoPhase() {
             const video = document.getElementById('introVideoEl');
@@ -1240,7 +1234,7 @@
         }
 
         /* ============================================================
-           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ (без змін)
+           ФАЗА 3: КАВ'ЯРНЯ-МЕНЮ
            ============================================================ */
         function enterMenuPhase() {
             const phaseMenu = document.getElementById('phaseMenu');
@@ -1252,7 +1246,7 @@
             if (coffeeItems.length === 0) {
                 grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #fff; padding: 40px; font-size: 1.4rem;">У кав\'ярні поки що немає позицій</div>';
                 phaseMenu.classList.add('active');
-                menuExitTimeout = setTimeout(() => switchToPhase(PHASE_PROMO), MENU_DURATION);
+                menuExitTimeout = setTimeout(() => switchToPhase(PHASE_VIDEO2), MENU_DURATION);
                 return;
             }
 
@@ -1297,7 +1291,8 @@
                 startMenuPulseLoop(cards);
             }, entranceEndMs);
 
-            menuExitTimeout = setTimeout(() => switchToPhase(PHASE_PROMO), MENU_DURATION);
+            // Після меню — на відео site.mp4 (ФАЗА 4)
+            menuExitTimeout = setTimeout(() => switchToPhase(PHASE_VIDEO2), MENU_DURATION);
         }
 
         function startMenuPulseLoop(cards) {
@@ -1334,6 +1329,30 @@
                 runPulse();
                 pulseIntervalId = setInterval(runPulse, 10000);
             }, 900);
+        }
+
+        /* ============================================================
+           ФАЗА 4: ВІДЕО site.mp4 (після меню, без кнопок)
+           ============================================================ */
+        function enterVideo2Phase() {
+            const video = document.getElementById('siteVideoEl');
+            if (!video) { switchToPhase(PHASE_PROMO); return; }
+
+            try { video.currentTime = 0; } catch (e) {}
+            video.muted = true;
+
+            const onEnded = () => {
+                video.removeEventListener('ended', onEnded);
+                if (currentPhase === PHASE_VIDEO2) switchToPhase(PHASE_PROMO);
+            };
+            video.addEventListener('ended', onEnded);
+
+            // 17 секунд відео + 3 секунди запасу
+            video2FallbackTimeout = setTimeout(() => {
+                if (currentPhase === PHASE_VIDEO2) switchToPhase(PHASE_PROMO);
+            }, 20000);
+
+            video.play().catch(() => {});
         }
 
         /* ============================================================
