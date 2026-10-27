@@ -992,14 +992,14 @@
             const k = getKyivParts(now);
             const offset = getKyivOffsetHours(now);
 
-            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 0, 12, 0) - offset * 3600000;
+            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 9, 0, 0) - offset * 3600000;
 
             // Корекція на DST-переходи
             const kTarget = getKyivParts(new Date(targetMs));
-            if (kTarget.hour !== 0) {
+            if (kTarget.hour !== 9) {
                 for (const adj of [-3600000, 3600000]) {
                     const t = getKyivParts(new Date(targetMs + adj));
-                    if (t.hour === 0 && t.minute === 12) {
+                    if (t.hour === 9 && t.minute === 0) {
                         targetMs += adj;
                         break;
                     }
