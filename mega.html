@@ -30,7 +30,6 @@
             position: relative;
             overflow: hidden;
 
-            /* Насичений золотий градієнт + м'які відблиски */
             background:
                 radial-gradient(ellipse at 25% 20%, rgba(255, 255, 255, 0.32), transparent 55%),
                 radial-gradient(ellipse at 80% 85%, rgba(255, 210, 0, 0.35), transparent 60%),
@@ -45,7 +44,6 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Легкий промінь на фоні (статичний, без анімації) */
         .mega-slide::before {
             content: '';
             position: absolute;
@@ -60,7 +58,7 @@
         }
 
         /* ============================================================
-           ЛІВА ЧАСТИНА — білий квадрат з товаром
+           ЛІВО — білий квадрат з товаром
            ============================================================ */
         .left-half {
             display: flex;
@@ -107,7 +105,6 @@
             50%      { transform: scale(1.04); }
         }
 
-        /* Іконка "найкраща ціна" */
         .best-icon {
             position: absolute;
             top: -6%;
@@ -126,7 +123,7 @@
         }
 
         /* ============================================================
-           ПРАВА ЧАСТИНА — 50/50 вертикально
+           ПРАВО — 50/50 вертикально
            ============================================================ */
         .right-half {
             display: grid;
@@ -140,36 +137,24 @@
         .top-square {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            text-align: center;
-            gap: 1.5vh;
+            text-align: left;
+            gap: clamp(6px, 1vh, 14px);
             padding: 1.5vh 2%;
-        }
-
-        .manufacturer {
-            font-size: clamp(13px, 1.9vh, 22px);
-            font-weight: 700;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: rgba(90, 45, 0, 0.75);
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
-            animation: fadeUp 0.6s ease-out 0.35s both;
-            max-width: 100%;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
-        /* МЕГА ЦІНА — один рядок, дуже великий */
+        /* МЕГА ЦІНА — заповнює ширину блоку */
         .mega-title {
-            font-size: clamp(48px, 11vh, 150px);
+            font-size: clamp(48px, 8vw, 260px);
             font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.02em;
+            line-height: 0.95;
+            letter-spacing: 0.01em;
             text-transform: uppercase;
             color: #ffffff;
             white-space: nowrap;
+            width: 100%;
             text-shadow:
                 0 8px 26px rgba(100, 40, 0, 0.8),
                 0 3px 8px rgba(0, 0, 0, 0.55),
@@ -180,17 +165,32 @@
 
         @keyframes megaTitleIn {
             0%   { opacity: 0; transform: scale(0.4) translateY(30px); letter-spacing: 0.35em; }
-            100% { opacity: 1; transform: scale(1) translateY(0);     letter-spacing: -0.02em; }
+            100% { opacity: 1; transform: scale(1) translateY(0);     letter-spacing: 0.01em; }
+        }
+
+        .manufacturer {
+            font-size: clamp(13px, 1.9vh, 22px);
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 2px 6px rgba(80, 30, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            animation: fadeUp 0.6s ease-out 0.35s both;
         }
 
         .product-name {
-            font-size: clamp(15px, 2.5vh, 30px);
+            font-size: clamp(40px, 8.8vh, 108px);
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.05;
             color: #ffffff;
-            text-shadow: 0 3px 10px rgba(80, 30, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.45);
-            max-width: 92%;
-            padding: 0 2%;
+            text-shadow: 0 3px 10px rgba(80, 30, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.45);
+            width: 100%;
+            text-align: left;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -203,18 +203,18 @@
         .bottom-square {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            gap: 1.6vh;
+            text-align: left;
+            gap: clamp(10px, 1.8vh, 24px);
             padding: 1.5vh 2%;
             position: relative;
         }
 
-        /* ЧЕРВОНА ЦІНА — трохи більша ніж на single слайді */
         .mega-price {
             display: flex;
             align-items: flex-start;
-            justify-content: center;
+            justify-content: flex-start;
             line-height: 0.85;
             color: #D40000;
             animation: priceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both,
@@ -267,7 +267,6 @@
             text-transform: uppercase;
         }
 
-        /* Бейдж знижки */
         .discount-badge {
             display: inline-flex;
             align-items: center;
@@ -309,12 +308,8 @@
             padding-left: 0.2em;
         }
 
-        /* Ховаємо бейдж, якщо знижки немає */
         .discount-badge.hidden { display: none; }
 
-        /* ============================================================
-           ХЕЛПЕР
-           ============================================================ */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -331,24 +326,23 @@
             .left-half { padding: 2.5vh 6vw; }
             .product-square { width: min(80%, 38vh); }
 
-            .right-half { padding: 1.5vh 5vw 2.5vh; gap: 1vh; }
+            .right-half { padding: 1.5vh 5vw 2.5vh; }
 
-            .mega-title { font-size: clamp(36px, 7.5vh, 90px); }
+            .mega-title { font-size: clamp(40px, 8.5vw, 90px); }
             .mega-price .price-int { font-size: clamp(80px, 17vh, 200px); }
             .mega-price .price-cents { font-size: clamp(36px, 8vh, 80px); }
             .mega-price .price-unit { font-size: clamp(10px, 1.6vh, 16px); }
             .discount-badge { font-size: clamp(18px, 2.8vh, 34px); padding: 1vh 5vw; }
-            .product-name { font-size: clamp(14px, 2.2vh, 24px); -webkit-line-clamp: 2; }
+            .product-name { font-size: clamp(30px, 6.5vh, 60px); -webkit-line-clamp: 2; }
         }
 
-        /* На дуже малих екранах — трохи менше */
         @media (max-width: 500px) {
-            .mega-title { font-size: clamp(30px, 6.5vh, 60px); }
+            .mega-title { font-size: clamp(30px, 8vw, 56px); }
             .mega-price .price-int { font-size: clamp(64px, 15vh, 140px); }
             .mega-price .price-cents { font-size: clamp(28px, 7vh, 60px); }
+            .product-name { font-size: clamp(26px, 5.5vh, 48px); }
         }
 
-        /* Поважаємо prefers-reduced-motion */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01s !important;
@@ -375,14 +369,14 @@
         <!-- ПРАВО: 50/50 -->
         <div class="right-half">
 
-            <!-- ВЕРХНІЙ КВАДРАТ: виробник + МЕГА ЦІНА + назва -->
+            <!-- ВЕРХНІЙ КВАДРАТ: МЕГА ЦІНА → виробник → назва (всі зліва) -->
             <div class="top-square">
-                <div class="manufacturer" id="manufacturer"></div>
                 <div class="mega-title">МЕГА ЦІНА</div>
+                <div class="manufacturer" id="manufacturer"></div>
                 <div class="product-name" id="productName"></div>
             </div>
 
-            <!-- НИЖНІЙ КВАДРАТ: ціна + знижка -->
+            <!-- НИЖНІЙ КВАДРАТ: ціна → знижка (всі зліва) -->
             <div class="bottom-square">
                 <div class="mega-price">
                     <span class="price-int" id="priceInt">0</span>
@@ -430,7 +424,7 @@
         }
 
         /* ============================================================
-           ЗАВАНТАЖЕННЯ ДАНИХ
+           ЗАВАНТАЖЕННЯ
            ============================================================ */
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
@@ -505,12 +499,11 @@
             if (intEl)   intEl.textContent = int;
             if (centsEl) centsEl.textContent = cents;
 
-            // Знижка —% 
+            // Знижка
             const discountValueEl = document.getElementById('discountValue');
             const badgeEl = document.getElementById('discountBadge');
             let discountPercent = 0;
 
-            // 1) Пряме поле discount (число, напр. 30 або -30)
             if (item.discount != null && item.discount !== '') {
                 const d = Math.abs(Number(item.discount));
                 if (!isNaN(d) && d > 0 && d <= 100) {
@@ -518,7 +511,6 @@
                 }
             }
 
-            // 2) Інакше — рахуємо з oldPrice
             if (discountPercent === 0 && item.oldPrice) {
                 const oldP = Number(item.oldPrice);
                 const newP = Number(item.price);
