@@ -58,7 +58,7 @@
         }
 
         /* ============================================================
-           ЛІВО — білий квадрат з товаром + погойдування
+           ЛІВО — білий квадрат з товаром
            ============================================================ */
         .left-half {
             display: flex;
@@ -69,15 +69,19 @@
             z-index: 2;
         }
 
-        /* Обгортка — відповідає за погойдування */
-        .product-wrap {
+        /* .product-area — статична зона (для позиціонування бейджа) */
+        .product-area {
             width: min(96%, 96vh);
             aspect-ratio: 1 / 1;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: rock 4s ease-in-out 0.9s infinite;
+        }
+
+        /* .product-wrap — гойдається */
+        .product-wrap {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: rock 7s ease-in-out 0.9s infinite;
             transform-origin: center 80%;
             will-change: transform;
         }
@@ -87,7 +91,7 @@
             50%      { transform: rotate(2.5deg); }
         }
 
-        /* Внутрішній квадрат — відповідає за вхід + тінь + рамку */
+        /* .product-square — вхід, тінь, рамка */
         .product-square {
             width: 100%;
             height: 100%;
@@ -125,36 +129,29 @@
         }
 
         /* ============================================================
-           БЕЙДЖ ЗНИЖКИ — звисає зверху над товаром
+           БЕЙДЖ ЗНИЖКИ — правий верхній кут, статичний (не гойдається)
            ============================================================ */
-        .discount-wrapper {
+        .discount-badge {
             position: absolute;
             top: -3%;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        .discount-badge {
+            right: -3%;
             display: inline-flex;
             align-items: center;
             gap: 0.7vw;
-            background: #D40000;
+            background: #FF0A00;
             color: #ffffff;
-            padding: 1.1vh 2.4vw;
+            padding: 1.1vh 2.2vw;
             border-radius: 60px;
             font-size: clamp(20px, 3.4vh, 44px);
             font-weight: 900;
             letter-spacing: 0.02em;
             white-space: nowrap;
+            z-index: 20;
             box-shadow:
-                0 12px 32px rgba(180, 0, 0, 0.6),
+                0 12px 32px rgba(200, 0, 0, 0.7),
                 0 5px 14px rgba(0, 0, 0, 0.35),
                 inset 0 -3px 8px rgba(0, 0, 0, 0.25),
-                inset 0 2px 4px rgba(255, 255, 255, 0.15);
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
             animation: discountIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both,
                        discountBounce 3s ease-in-out 2.2s infinite;
             will-change: transform, opacity;
@@ -182,7 +179,7 @@
         .discount-badge.hidden { display: none; }
 
         /* ============================================================
-           ПРАВО — 50/50 вертикально
+           ПРАВО — 50/50
            ============================================================ */
         .right-half {
             display: grid;
@@ -270,7 +267,7 @@
             position: relative;
         }
 
-        /* СТАРА ЗАКРЕСЛЕНА ЦІНА — збільшена */
+        /* Стара закреслена ціна */
         .old-price-old {
             font-size: clamp(36px, 6.5vh, 100px);
             font-weight: 600;
@@ -287,18 +284,20 @@
 
         .old-price-old.hidden { display: none; }
 
-        /* АКЦІЙНА ЦІНА */
+        /* Акційна ціна — ЯСКРАВИЙ ЧЕРВОНИЙ + підскоки */
         .mega-price {
             display: flex;
             align-items: flex-start;
             justify-content: flex-start;
             flex-wrap: nowrap;
             line-height: 0.85;
-            color: #D40000;
+            color: #FF0A00;
             white-space: nowrap;
-            animation: priceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s both,
-                       pricePulse 3.2s ease-in-out 1.6s infinite;
+            animation:
+                priceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s both,
+                priceJump 10s ease-in-out 1.5s infinite;
             will-change: transform, opacity;
+            transform-origin: left center;
         }
 
         @keyframes priceIn {
@@ -306,9 +305,17 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @keyframes pricePulse {
-            0%, 100% { transform: scale(1); }
-            50%      { transform: scale(1.025); }
+        /* Два підскоки на 10 секунд — о 10% і о 50% циклу */
+        @keyframes priceJump {
+            0%, 8%    { transform: scale(1) rotate(0deg); }
+            9%        { transform: scale(1.14) rotate(-1deg); }
+            11%       { transform: scale(1.04) rotate(0.5deg); }
+            13%       { transform: scale(1.1) rotate(-0.5deg); }
+            15%, 48%  { transform: scale(1) rotate(0deg); }
+            49%       { transform: scale(1.14) rotate(-1deg); }
+            51%       { transform: scale(1.04) rotate(0.5deg); }
+            53%       { transform: scale(1.1) rotate(-0.5deg); }
+            55%, 100% { transform: scale(1) rotate(0deg); }
         }
 
         .mega-price .price-int {
@@ -316,8 +323,9 @@
             font-weight: 900;
             letter-spacing: -0.055em;
             text-shadow:
-                0 4px 14px rgba(120, 0, 0, 0.55),
-                0 0 40px rgba(255, 240, 200, 0.55);
+                0 4px 14px rgba(200, 0, 0, 0.6),
+                0 0 50px rgba(255, 240, 200, 0.65),
+                0 0 20px rgba(255, 20, 10, 0.4);
         }
 
         .mega-price .price-cents-wrap {
@@ -333,14 +341,15 @@
             font-weight: 800;
             line-height: 1;
             text-shadow:
-                0 3px 10px rgba(120, 0, 0, 0.5),
-                0 0 25px rgba(255, 240, 200, 0.4);
+                0 3px 10px rgba(200, 0, 0, 0.55),
+                0 0 25px rgba(255, 240, 200, 0.5),
+                0 0 12px rgba(255, 20, 10, 0.35);
         }
 
         .mega-price .price-unit {
             font-size: clamp(12px, 1.9vh, 22px);
             font-weight: 700;
-            color: rgba(140, 20, 20, 0.85);
+            color: rgba(160, 10, 10, 0.9);
             margin-top: 0.6vh;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -383,7 +392,7 @@
                 grid-template-rows: 1fr 1fr;
             }
             .left-half { padding: 2vh 5vw; }
-            .product-wrap { width: min(85%, 40vh); }
+            .product-area { width: min(85%, 40vh); }
 
             .right-half {
                 padding: 1vh 5vw 6vh;
@@ -397,8 +406,12 @@
             .old-price-old { font-size: clamp(28px, 5vh, 64px); }
             .promo-dates { font-size: 10px; padding: 6px 12px; bottom: 1vh; right: 2vw; }
 
-            .discount-wrapper { top: -2.5%; }
-            .discount-badge { font-size: clamp(16px, 2.6vh, 32px); padding: 0.8vh 4vw; }
+            .discount-badge {
+                top: -2.5%;
+                right: -2.5%;
+                font-size: clamp(16px, 2.6vh, 32px);
+                padding: 0.8vh 3.5vw;
+            }
         }
 
         @media (max-width: 500px) {
@@ -415,6 +428,7 @@
                 transition-duration: 0.01s !important;
             }
             .product-wrap { animation: none !important; }
+            .mega-price { animation: none !important; }
         }
     </style>
 </head>
@@ -422,38 +436,36 @@
 
     <div class="mega-slide" id="megaSlide">
 
-        <!-- ЛІВО: погойдується -->
+        <!-- ЛІВО -->
         <div class="left-half">
-            <div class="product-wrap">
+            <div class="product-area">
 
-                <!-- Бейдж знижки зверху -->
-                <div class="discount-wrapper">
-                    <div class="discount-badge" id="discountBadge">
-                        <span id="discountValue">−0%</span>
-                        <span class="label">ЗНИЖКА</span>
+                <!-- Квадрат, що гойдається -->
+                <div class="product-wrap">
+                    <div class="product-square">
+                        <img src="./images/0.png" alt="Товар" class="product-img" id="productImg"
+                             onerror="this.onerror=null; this.src='./images/0.png';">
                     </div>
                 </div>
 
-                <!-- Білий квадрат з товаром -->
-                <div class="product-square">
-                    <img src="./images/0.png" alt="Товар" class="product-img" id="productImg"
-                         onerror="this.onerror=null; this.src='./images/0.png';">
+                <!-- Бейдж знижки — статичний, правий верхній кут -->
+                <div class="discount-badge" id="discountBadge">
+                    <span id="discountValue">−0%</span>
+                    <span class="label">ЗНИЖКА</span>
                 </div>
 
             </div>
         </div>
 
-        <!-- ПРАВО: 50/50 -->
+        <!-- ПРАВО -->
         <div class="right-half">
 
-            <!-- ВЕРХ: МЕГА ЦІНА → виробник → назва (3 рядки) -->
             <div class="top-square">
                 <div class="mega-title">МЕГА ЦІНА</div>
                 <div class="manufacturer" id="manufacturer"></div>
                 <div class="product-name" id="productName"></div>
             </div>
 
-            <!-- НИЗ: стара ціна (закреслена, велика) → нова ціна -->
             <div class="bottom-square">
                 <div class="old-price-old" id="oldPrice"></div>
                 <div class="mega-price">
@@ -468,7 +480,7 @@
         </div>
     </div>
 
-    <!-- ДАТИ АКЦІЇ — низ-справа -->
+    <!-- ДАТИ АКЦІЇ -->
     <div class="promo-dates" id="promoDates"></div>
 
     <script>
@@ -500,9 +512,6 @@
             return false;
         }
 
-        /* ============================================================
-           ДАТИ АКЦІЇ — автоматично поточний місяць
-           ============================================================ */
         function formatDates() {
             const now = new Date();
             const y = now.getFullYear();
@@ -516,9 +525,6 @@
 
         document.getElementById('promoDates').textContent = formatDates();
 
-        /* ============================================================
-           ЗАВАНТАЖЕННЯ
-           ============================================================ */
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
             .then(data => {
@@ -559,11 +565,7 @@
             }
         }
 
-        /* ============================================================
-           РЕНДЕР
-           ============================================================ */
         function renderItem(item) {
-            /* --- Виробник --- */
             const manEl = document.getElementById('manufacturer');
             if (manEl) {
                 if (item.manufacturer) {
@@ -573,18 +575,15 @@
                 }
             }
 
-            /* --- Назва --- */
             const nameEl = document.getElementById('productName');
             if (nameEl) nameEl.textContent = item.name || '';
 
-            /* --- Фото --- */
             const imgEl = document.getElementById('productImg');
             if (imgEl && item.image) {
                 imgEl.src = noCache(item.image);
                 imgEl.alt = item.name || 'Товар';
             }
 
-            /* --- Стара ціна --- */
             const oldPriceEl = document.getElementById('oldPrice');
             const oldPriceNum = item.oldPrice ? Number(item.oldPrice) : 0;
             const newPriceNum = Number(item.price || 0);
@@ -597,14 +596,12 @@
                 }
             }
 
-            /* --- Нова ціна --- */
             const { int, cents } = priceParts(item.price);
             const intEl = document.getElementById('priceInt');
             const centsEl = document.getElementById('priceCents');
             if (intEl)   intEl.textContent = int;
             if (centsEl) centsEl.textContent = cents;
 
-            /* --- Знижка --- */
             const discountValueEl = document.getElementById('discountValue');
             const badgeEl = document.getElementById('discountBadge');
             let discountPercent = 0;
