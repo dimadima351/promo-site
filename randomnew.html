@@ -189,19 +189,20 @@
         }
         @keyframes imageBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
 
+        /* БЕЙДЖ — збільшено на одиночних слайдах */
         .badge {
             position: absolute;
             top: 0; left: 0;
-            width: clamp(60px, 10vh, 110px);
-            height: clamp(60px, 10vh, 110px);
+            width: clamp(90px, 16vh, 170px);
+            height: clamp(90px, 16vh, 170px);
             border-radius: 50%;
             background: linear-gradient(135deg, #ff2b2b, #d90000);
             color: #fff;
             display: flex; align-items: center; justify-content: center;
-            font-size: clamp(16px, 2.8vh, 30px);
+            font-size: clamp(22px, 4.2vh, 46px);
             font-weight: 800;
             z-index: 10;
-            box-shadow: 0 8px 24px rgba(255, 11, 11, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(255, 11, 11, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.15);
             letter-spacing: -1px;
             animation: badgePop 0.5s ease-out 0.3s backwards,
                        badgePulse 2.4s ease-in-out 0.8s infinite;
@@ -242,6 +243,7 @@
             font-weight: 500;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
+        /* SINGLE name — тепер до 3 рядків */
         .name {
             font-size: clamp(40px, 8.8vh, 108px);
             font-weight: 700;
@@ -249,8 +251,8 @@
             line-height: 1.05;
             letter-spacing: -1px;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -333,7 +335,14 @@
         }
         .grid-card .img-wrap { position: relative; aspect-ratio: 1 / 1; max-height: 100%; display: flex; align-items: center; justify-content: center; padding: 2px; overflow: visible; }
         .grid-card .img-wrap img.main-img { width: 100%; height: 100%; object-fit: contain; }
-        .grid-card .badge { width: clamp(42px, 6.5vh, 68px); height: clamp(42px, 6.5vh, 68px); font-size: clamp(12px, 1.8vh, 18px); top: -6px; left: -6px; }
+        /* БЕЙДЖ — збільшено на 4-блочних (регулярних) слайдах */
+        .grid-card .badge {
+            width: clamp(60px, 9.5vh, 100px);
+            height: clamp(60px, 9.5vh, 100px);
+            font-size: clamp(16px, 2.6vh, 28px);
+            top: -10px;
+            left: -10px;
+        }
         .grid-card .best-price-icon { width: clamp(32px, 5vh, 52px); height: clamp(32px, 5vh, 52px); top: -4px; right: -4px; }
         .grid-card .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; }
         .grid-card .manufacturer { font-size: clamp(10px, 1.3vh, 15px); letter-spacing: clamp(0.5px, 0.15vw, 1.5px); color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -759,7 +768,7 @@
             .mode-single .new-price .price-int { font-size: 96px; letter-spacing: -3px; }
             .mode-single .new-price .price-cents { font-size: 42px; }
             .mode-single .new-price .price-unit { font-size: 13px; }
-            .mode-single .badge { width: 64px; height: 64px; font-size: 17px; }
+            .mode-single .badge { width: 90px; height: 90px; font-size: 22px; }
             .best-price-icon { width: 90px; height: 90px; top: -4px; right: -4px; }
             .mode-double { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 14px; height: auto; }
             .double-card { grid-template-rows: auto auto; padding: 14px; border-radius: 14px; gap: 10px; }
@@ -774,7 +783,7 @@
             .grid-card .new-price .price-int { font-size: 78px; letter-spacing: -2px; }
             .grid-card .new-price .price-cents { font-size: 34px; }
             .grid-card .old-price { font-size: 18px; }
-            .grid-card .badge { width: 44px; height: 44px; font-size: 13px; }
+            .grid-card .badge { width: 64px; height: 64px; font-size: 18px; }
             .grid-card .best-price-icon { width: 36px; height: 36px; }
             .fullscreen-hint { display: none; }
 
@@ -880,7 +889,7 @@
             <div class="silence-progress">
                 <div class="silence-progress-bar" id="silenceBar"></div>
             </div>
-            <div class="silence-countdown"><span id="silenceSeconds">60</span> секунд</div>
+            <div class="silence-countdown"><span id="silenceSeconds">180</span> секунд</div>
         </div>
     </div>
 
@@ -907,6 +916,11 @@
         const PROMO_SLIDE_DURATION = 10000;
         const PROMO_TOTAL_SLIDES   = PROMO_SEQUENCE.length;
         const MENU_DURATION        = 20000;
+
+        /* ---- ХВИЛИНА МОВЧАННЯ: 08:59 → 09:02 (3 хвилини) ---- */
+        const SILENCE_START_HOUR   = 8;
+        const SILENCE_START_MINUTE = 59;
+        const SILENCE_DURATION_MS  = 180000; // 3 хвилини = 180 секунд
 
         let currentPhase = null;
         let promoSlideIndex = 0;
@@ -977,7 +991,6 @@
 
         function tickClock() {
             updateClock();
-            // Вирівнюємось до наступної хвилини — так оновлення точне і рідке
             const now = new Date();
             const k = getKyivParts(now);
             const msToNextMinute = (60 - k.second) * 1000 - (now.getMilliseconds());
@@ -985,21 +998,25 @@
         }
 
         /* ============================================================
-           ХВИЛИНА МОВЧАННЯ О 09:00
+           ХВИЛИНА МОВЧАННЯ: 08:59 → 09:02
            ============================================================ */
-        function msUntilNext9AM() {
+        function msUntilNextSilenceStart() {
             const now = new Date();
             const k = getKyivParts(now);
             const offset = getKyivOffsetHours(now);
 
-            let targetMs = Date.UTC(k.year, k.month - 1, k.day, 9, 0, 0) - offset * 3600000;
+            // Сьогодні о 08:59:00 Києва (UTC-мс)
+            let targetMs = Date.UTC(
+                k.year, k.month - 1, k.day,
+                SILENCE_START_HOUR, SILENCE_START_MINUTE, 0
+            ) - offset * 3600000;
 
-            // Корекція на DST-переходи
+            // Корекція на DST (малоймовірно о 8:59, але для надійності)
             const kTarget = getKyivParts(new Date(targetMs));
-            if (kTarget.hour !== 9) {
+            if (kTarget.hour !== SILENCE_START_HOUR || kTarget.minute !== SILENCE_START_MINUTE) {
                 for (const adj of [-3600000, 3600000]) {
                     const t = getKyivParts(new Date(targetMs + adj));
-                    if (t.hour === 9 && t.minute === 0) {
+                    if (t.hour === SILENCE_START_HOUR && t.minute === SILENCE_START_MINUTE) {
                         targetMs += adj;
                         break;
                     }
@@ -1043,17 +1060,23 @@
         }
 
         function scheduleNextSilence() {
-            const ms = msUntilNext9AM();
+            const ms = msUntilNextSilenceStart();
             setTimeout(() => {
-                showSilence(60000);
+                showSilence(SILENCE_DURATION_MS);
                 scheduleNextSilence();
             }, ms);
         }
 
         function initSilence() {
             const k = getKyivParts();
-            if (k.hour === 9 && k.minute === 0) {
-                const remaining = 60000 - k.second * 1000;
+            const nowMin = k.hour * 60 + k.minute;
+            const startMin = SILENCE_START_HOUR * 60 + SILENCE_START_MINUTE; // 8*60+59 = 539
+            const endMin = startMin + 3; // 9:02 = 542
+
+            // Якщо завантажили сторінку вже в процесі мовчання — показуємо залишок
+            if (nowMin >= startMin && nowMin < endMin) {
+                const elapsedMs = (nowMin - startMin) * 60000 + k.second * 1000;
+                const remaining = SILENCE_DURATION_MS - elapsedMs;
                 if (remaining > 0) showSilence(remaining);
             }
             scheduleNextSilence();
@@ -1669,7 +1692,7 @@
         // Годинник
         tickClock();
 
-        // Хвилина мовчання
+        // Хвилина мовчання (08:59 → 09:02)
         initSilence();
 
         // Фази
