@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МЕГА ЦІНА | Ваш ПАРТНЕР</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           ЗМІННІ (легко змінити під себе)
+           ============================================================ */
+        :root {
+            --yellow-1: #ffe680;    /* світле золото (верх) */
+            --yellow-2: #ffd700;    /* основне жовте */
+            --yellow-3: #ffb300;    /* насичене бурштинове (низ) */
+            --dark-red: #5a0000;    /* тінь під червоним */
+            --bright-red: #ff0b0b;  /* основний червоний ціни */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================================
+           ФОН — ЖОВТИЙ З ПРОМЕНЯМИ
+           ============================================================ */
+        .mega-slide {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3vh 3vw;
+            background:
+                radial-gradient(ellipse at 25% 50%, var(--yellow-1) 0%, var(--yellow-2) 45%, var(--yellow-3) 100%);
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        /* Промені (повільно обертаються) */
+        .mega-rays {
+            position: absolute;
+            inset: -50%;
+            background: repeating-conic-gradient(
+                from 0deg at 50% 50%,
+                rgba(255, 255, 255, 0.22) 0deg 8deg,
+                transparent 8deg 20deg
+            );
+            animation: megaRaysRotate 80s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.85;
+        }
+        @keyframes megaRaysRotate {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* М'яке світло позаду контенту */
+        .mega-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140vmin;
+            height: 140vmin;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.15) 40%,
+                transparent 65%
+            );
+            pointer-events: none;
+            z-index: 1;
+            animation: megaGlowPulse 6s ease-in-out infinite;
+        }
+        @keyframes megaGlowPulse {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+            50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.08); }
+        }
+
+        /* Іскри */
+        .mega-spark {
+            position: absolute;
+            z-index: 3;
+            font-size: 40px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 40px rgba(255,200,0,0.8);
+            animation: megaSparkTwinkle 3s ease-in-out infinite;
+            pointer-events: none;
+            line-height: 1;
+        }
+        .mega-spark.s1 { top: 8%;  left: 6%;   animation-delay: 0.2s;  font-size: 34px; }
+        .mega-spark.s2 { top: 18%; right: 8%;  animation-delay: 0.9s;  font-size: 48px; }
+        .mega-spark.s3 { bottom: 12%; left: 10%;  animation-delay: 1.4s; font-size: 42px; }
+        .mega-spark.s4 { bottom: 20%; right: 5%; animation-delay: 0.5s; font-size: 30px; }
+        .mega-spark.s5 { top: 45%; left: 3%;   animation-delay: 1.9s;  font-size: 26px; }
+        .mega-spark.s6 { top: 55%; right: 3%;  animation-delay: 2.3s;  font-size: 38px; }
+
+        @keyframes megaSparkTwinkle {
+            0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+            50%      { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+
+        /* ============================================================
+           ОСНОВНИЙ КОНТЕЙНЕР 50/50
+           ============================================================ */
+        .mega-container {
+            position: relative;
+            z-index: 5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3vh 4vw;
+            width: 100%;
+            max-width: 1700px;
+            height: 100%;
+            max-height: 900px;
+            align-items: stretch;
+        }
+
+        /* ============================================================
+           ЛІВО: БІЛИЙ КВАДРАТ З ФОТО
+           ============================================================ */
+        .mega-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .mega-photo-square {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 30px 70px rgba(90, 50, 0, 0.4),
+                0 0 0 6px rgba(255, 255, 255, 0.5),
+                0 0 0 14px rgba(255, 255, 255, 0.2),
+                inset 0 -12px 40px rgba(0, 0, 0, 0.04);
+            opacity: 0;
+            transform: translateX(-120px) rotate(-8deg) scale(0.7);
+            animation: megaPhotoIn 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+        }
+
+        @keyframes megaPhotoIn {
+            0%   { opacity: 0; transform: translateX(-120px) rotate(-8deg) scale(0.7); }
+            70%  { opacity: 1; transform: translateX(15px) rotate(2deg) scale(1.05); }
+            100% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
+        }
+
+        .mega-photo-square::before {
+            /* Декоративна золота смуга всередині квадрата */
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border-radius: 28px;
+            border: 3px dashed rgba(255, 179, 0, 0.35);
+            pointer-events: none;
+        }
+
+        .mega-img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 2;
+            animation: megaImgBreath 5s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
+        }
+
+        @keyframes megaImgBreath {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.04); }
+        }
+
+        /* Найспрайс */
+        .mega-best-icon {
+            position: absolute;
+            top: -35px;
+            right: -35px;
+            width: clamp(120px, 20vh, 220px);
+            height: clamp(120px, 20vh, 220px);
+            object-fit: contain;
+            z-index: 5;
+            filter:
+                drop-shadow(0 10px 25px rgba(0,0,0,0.35))
+                drop-shadow(0 0 25px rgba(255, 215, 0, 0.9));
+            opacity: 0;
+            transform: scale(0) rotate(-360deg);
+            animation: megaBestSpin 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+        }
+
+        @keyframes megaBestSpin {
+            0%   { opacity: 0; transform: scale(0) rotate(-360deg); }
+            70%  { opacity: 1; transform: scale(1.25) rotate(20deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* ============================================================
+           ПРАВО: 2 РЯДКИ (МЕГА ЦІНА / ЦІНА)
+           ============================================================ */
+        .mega-right {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            height: 100%;
+            gap: 2vh;
+        }
+
+        .mega-top,
+        .mega-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* --- ВЕРХ: МЕГА ЦІНА --- */
+        .mega-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(48px, 12vh, 170px);
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 0.95;
+            text-align: center;
+            padding-left: 0.06em;
+            text-shadow:
+                0 6px 0 var(--dark-red),
+                0 9px 0 #380000,
+                0 20px 40px rgba(90, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(-80px) scale(0.4);
+            animation:
+                megaLabelIn 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s forwards,
+                megaLabelPulse 2.4s ease-in-out 2.2s infinite;
+        }
+
+        @keyframes megaLabelIn {
+            0%   { opacity: 0; transform: translateY(-80px) scale(0.4); }
+            70%  { opacity: 1; transform: translateY(12px) scale(1.1); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes megaLabelPulse {
+            0%, 100% {
+                text-shadow:
+                    0 6px 0 var(--dark-red),
+                    0 9px 0 #380000,
+                    0 20px 40px rgba(90, 0, 0, 0.5);
+            }
+            50% {
+                text-shadow:
+                    0 6px 0 var(--dark-red),
+                    0 9px 0 #380000,
+                    0 20px 60px rgba(255, 30, 30, 0.8),
+                    0 0 90px rgba(255, 255, 255, 0.7),
+                    0 0 140px rgba(255, 220, 0, 0.6);
+            }
+        }
+
+        /* --- НИЗ: ЦІНА --- */
+        .mega-bottom {
+            flex-direction: column;
+            gap: 0.5vh;
+            padding-top: 1vh;
+        }
+
+        .mega-price {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            line-height: 0.85;
+            color: var(--bright-red);
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(120px) scale(0.3);
+            animation: megaPriceIn 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards;
+            transform-origin: center bottom;
+        }
+
+        @keyframes megaPriceIn {
+            0%   { opacity: 0; transform: translateY(120px) scale(0.3); }
+            55%  { opacity: 1; transform: translateY(-25px) scale(1.15); }
+            80%  { transform: translateY(8px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .mega-price-int {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(130px, 32vh, 380px);
+            font-weight: 900;
+            letter-spacing: -8px;
+            line-height: 0.85;
+            text-shadow:
+                0 8px 0 var(--dark-red),
+                0 12px 0 #380000,
+                0 25px 50px rgba(90, 0, 0, 0.55);
+        }
+
+        .mega-price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: clamp(20px, 4vh, 55px);
+        }
+
+        .mega-price-cents {
+            font-size: clamp(65px, 14vh, 160px);
+            font-weight: 800;
+            line-height: 1;
+            text-shadow:
+                0 5px 0 var(--dark-red),
+                0 8px 0 #380000,
+                0 15px 30px rgba(90, 0, 0, 0.4);
+        }
+
+        .mega-price-unit {
+            font-size: clamp(18px, 3.2vh, 38px);
+            font-weight: 800;
+            color: #4a0000;
+            margin-top: 6px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        /* Стара ціна (перекреслена) */
+        .mega-old-price {
+            font-size: clamp(28px, 5.5vh, 66px);
+            font-weight: 700;
+            color: rgba(90, 0, 0, 0.5);
+            text-decoration: line-through;
+            text-decoration-thickness: 4px;
+            text-decoration-color: rgba(90, 0, 0, 0.6);
+            margin-top: 1vh;
+            opacity: 0;
+            animation: megaOldIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards;
+        }
+
+        @keyframes megaOldIn {
+            0%   { opacity: 0; transform: scale(0.4) translateY(-10px); }
+            70%  { opacity: 0.6; transform: scale(1.15); }
+            100% { opacity: 0.7; transform: scale(1) translateY(0); }
+        }
+
+        /* ============================================================
+           АДАПТИВНІСТЬ
+           ============================================================ */
+        @media (max-width: 1000px) {
+            .mega-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 2vh;
+            }
+            .mega-photo-square {
+                max-width: 60%;
+                max-height: 100%;
+            }
+            .mega-right {
+                grid-template-rows: auto auto;
+                gap: 1vh;
+            }
+            .mega-label {
+                font-size: clamp(36px, 8vh, 90px);
+            }
+            .mega-price-int {
+                font-size: clamp(90px, 20vh, 200px);
+                letter-spacing: -5px;
+            }
+            .mega-price-cents {
+                font-size: clamp(45px, 10vh, 90px);
+            }
+            .mega-old-price {
+                font-size: clamp(22px, 4vh, 42px);
+                margin-top: 0.5vh;
+            }
+            .mega-best-icon {
+                width: 100px;
+                height: 100px;
+                top: -20px;
+                right: -20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .mega-photo-square {
+                max-width: 80%;
+                border-radius: 24px;
+            }
+            .mega-label {
+                font-size: 32px;
+            }
+            .mega-price-int {
+                font-size: 90px;
+            }
+            .mega-price-cents {
+                font-size: 45px;
+            }
+        }
+
+        /* Підтримка зменшеного руху */
+        @media (prefers-reduced-motion: reduce) {
+            .mega-rays,
+            .mega-glow,
+            .mega-spark,
+            .mega-img,
+            .mega-label { animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mega-slide">
+
+        <!-- Декоративні шари -->
+        <div class="mega-rays"></div>
+        <div class="mega-glow"></div>
+
+        <!-- Іскри -->
+        <div class="mega-spark s1">✦</div>
+        <div class="mega-spark s2">✦</div>
+        <div class="mega-spark s3">✦</div>
+        <div class="mega-spark s4">✦</div>
+        <div class="mega-spark s5">✦</div>
+        <div class="mega-spark s6">✦</div>
+
+        <!-- Основний контент -->
+        <div class="mega-container">
+
+            <!-- ЛІВО: БІЛИЙ КВАДРАТ З ФОТО -->
+            <div class="mega-left">
+                <div class="mega-photo-square">
+                    <!-- ⬇ ЗМІНИТИ: шлях до фото товару -->
+                    <img
+                        src="./image_site/0.png"
+                        alt="Товар"
+                        class="mega-img"
+                        onerror="this.src='./images/0.png';"
+                    >
+                    <!-- ⬇ ЗМІНИТИ: іконка найспрайс -->
+                    <img
+                        src="./image_site/photo.png"
+                        alt="Найспрайс"
+                        class="mega-best-icon"
+                        onerror="this.style.display='none';"
+                    >
+                </div>
+            </div>
+
+            <!-- ПРАВО: 2 РЯДКИ -->
+            <div class="mega-right">
+
+                <!-- Верх: МЕГА ЦІНА -->
+                <div class="mega-top">
+                    <div class="mega-label">МЕГА ЦІНА</div>
+                </div>
+
+                <!-- Низ: ціна -->
+                <div class="mega-bottom">
+                    <div class="mega-price">
+                        <!-- ⬇ ЗМІНИТИ: ціла частина ціни -->
+                        <span class="mega-price-int">19</span>
+                        <span class="mega-price-cents-wrap">
+                            <!-- ⬇ ЗМІНИТИ: копійки -->
+                            <span class="mega-price-cents">99</span>
+                            <span class="mega-price-unit">грн/шт</span>
+                        </span>
+                    </div>
+                    <!-- ⬇ ЗМІНИТИ: стара ціна (якщо немає — видаліть рядок) -->
+                    <div class="mega-old-price">29.99 ₴</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
