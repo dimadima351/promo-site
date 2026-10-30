@@ -367,6 +367,304 @@
         .grid-card .new-price .price-cents { font-size: clamp(42px, 8.5vh, 96px); font-weight: 600; line-height: 1; }
         .grid-card .new-price .price-unit { font-size: clamp(12px, 1.8vh, 22px); font-weight: 400; color: #999; margin-top: 1px; }
 
+        /* ============================================================
+           MEGA СЛАЙД (останній, жовтий)
+           ============================================================ */
+        .phase-promo.mega-mode .random-main { padding: 0; }
+        .phase-promo.mega-mode .random-container { max-width: none; }
+
+        .mega-slide {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 25% 20%, rgba(255, 255, 255, 0.32), transparent 55%),
+                radial-gradient(ellipse at 80% 85%, rgba(255, 210, 0, 0.35), transparent 60%),
+                linear-gradient(135deg, #FFC91A 0%, #FFA800 55%, #E68400 100%);
+            animation: megaSlideIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+        @keyframes megaSlideIn {
+            0%   { opacity: 0; transform: scale(1.06); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .mega-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-conic-gradient(
+                from -20deg at 100% 50%,
+                rgba(255, 255, 255, 0.06) 0deg 5deg,
+                transparent 5deg 14deg
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ЛІВО */
+        .mega-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3vh 2vw;
+            position: relative;
+            z-index: 2;
+        }
+        .mega-product-area {
+            width: min(96%, 96vh);
+            aspect-ratio: 1 / 1;
+            position: relative;
+        }
+        .mega-product-wrap {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: megaRock 7s ease-in-out 0.9s infinite;
+            transform-origin: center 80%;
+            will-change: transform;
+        }
+        @keyframes megaRock {
+            0%, 100% { transform: rotate(-2.5deg); }
+            50%      { transform: rotate(2.5deg); }
+        }
+        .mega-product-square {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: clamp(16px, 2.5vh, 32px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4%;
+            position: relative;
+            box-shadow:
+                0 20px 60px rgba(120, 60, 0, 0.4),
+                0 8px 25px rgba(0, 0, 0, 0.25),
+                inset 0 0 0 3px rgba(255, 220, 100, 0.55);
+            animation: megaProductIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+            will-change: transform, opacity;
+        }
+        @keyframes megaProductIn {
+            0%   { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        .mega-product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: megaBreath 5s ease-in-out 0.8s infinite;
+            will-change: transform;
+        }
+        @keyframes megaBreath {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.04); }
+        }
+
+        .mega-discount-badge {
+            position: absolute;
+            top: -3%;
+            right: -3%;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7vw;
+            background: #FF0A00;
+            color: #ffffff;
+            padding: 1.1vh 2.2vw;
+            border-radius: 60px;
+            font-size: clamp(20px, 3.4vh, 44px);
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            z-index: 20;
+            box-shadow:
+                0 12px 32px rgba(200, 0, 0, 0.7),
+                0 5px 14px rgba(0, 0, 0, 0.35),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.25),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+            animation: megaDiscountIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both,
+                       megaDiscountBounce 3s ease-in-out 2.2s infinite;
+            will-change: transform, opacity;
+        }
+        @keyframes megaDiscountIn {
+            0%   { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+            60%  { opacity: 1; transform: scale(1.18) rotate(4deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes megaDiscountBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50%      { transform: scale(1.07) rotate(-2deg); }
+        }
+        .mega-discount-badge .label {
+            font-size: 0.58em;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            opacity: 0.95;
+            padding-left: 0.2em;
+        }
+
+        /* ПРАВО */
+        .mega-right {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            padding: 3vh 3vw 5vh 1.5vw;
+            position: relative;
+            z-index: 2;
+        }
+        .mega-top {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            gap: clamp(6px, 1vh, 12px);
+            padding: 1vh 2%;
+            overflow: hidden;
+        }
+        .mega-title {
+            font-size: clamp(48px, 7.5vw, 240px);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: #ffffff;
+            white-space: nowrap;
+            width: 100%;
+            text-shadow:
+                0 8px 26px rgba(100, 40, 0, 0.8),
+                0 3px 8px rgba(0, 0, 0, 0.55),
+                0 0 80px rgba(255, 240, 180, 0.55);
+            animation: megaTitleIn 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both;
+            will-change: transform, opacity, letter-spacing;
+        }
+        @keyframes megaTitleIn {
+            0%   { opacity: 0; transform: scale(0.4) translateY(30px); letter-spacing: 0.35em; }
+            100% { opacity: 1; transform: scale(1) translateY(0);     letter-spacing: 0.01em; }
+        }
+        .mega-manufacturer {
+            font-size: clamp(13px, 1.9vh, 22px);
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 2px 6px rgba(80, 30, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            animation: megaFadeUp 0.6s ease-out 0.35s both;
+        }
+        .mega-name {
+            font-size: clamp(40px, 8.5vh, 100px);
+            font-weight: 700;
+            line-height: 1.02;
+            color: #ffffff;
+            text-shadow: 0 3px 10px rgba(80, 30, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.45);
+            width: 100%;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            animation: megaFadeUp 0.7s ease-out 0.55s both;
+        }
+
+        .mega-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            gap: clamp(4px, 0.8vh, 12px);
+            padding: 1vh 2%;
+            position: relative;
+        }
+        .mega-old-price {
+            font-size: clamp(36px, 6.5vh, 100px);
+            font-weight: 600;
+            color: rgba(80, 30, 0, 0.65);
+            text-decoration: line-through;
+            text-decoration-thickness: clamp(4px, 0.7vh, 8px);
+            text-decoration-color: rgba(80, 30, 0, 0.8);
+            letter-spacing: 0.01em;
+            line-height: 1;
+            white-space: nowrap;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+            animation: megaFadeUp 0.5s ease-out 0.35s both;
+        }
+        .mega-new-price {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            line-height: 0.85;
+            color: #FF0A00;
+            white-space: nowrap;
+            animation:
+                megaPriceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s both,
+                megaPriceJump 10s ease-in-out 1.5s infinite;
+            will-change: transform, opacity;
+            transform-origin: left center;
+        }
+        @keyframes megaPriceIn {
+            0%   { opacity: 0; transform: scale(0.4) translateY(30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes megaPriceJump {
+            0%, 8%    { transform: scale(1) rotate(0deg); }
+            9%        { transform: scale(1.14) rotate(-1deg); }
+            11%       { transform: scale(1.04) rotate(0.5deg); }
+            13%       { transform: scale(1.1) rotate(-0.5deg); }
+            15%, 48%  { transform: scale(1) rotate(0deg); }
+            49%       { transform: scale(1.14) rotate(-1deg); }
+            51%       { transform: scale(1.04) rotate(0.5deg); }
+            53%       { transform: scale(1.1) rotate(-0.5deg); }
+            55%, 100% { transform: scale(1) rotate(0deg); }
+        }
+        .mega-price-int {
+            font-size: clamp(120px, min(18vw, 38vh), 800px);
+            font-weight: 900;
+            letter-spacing: -0.055em;
+            text-shadow:
+                0 4px 14px rgba(200, 0, 0, 0.6),
+                0 0 50px rgba(255, 240, 200, 0.65),
+                0 0 20px rgba(255, 20, 10, 0.4);
+        }
+        .mega-price-cents-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: clamp(8px, 1.6vh, 26px);
+            padding-left: 0.4vw;
+        }
+        .mega-price-cents {
+            font-size: clamp(52px, min(7vw, 15vh), 300px);
+            font-weight: 800;
+            line-height: 1;
+            text-shadow:
+                0 3px 10px rgba(200, 0, 0, 0.55),
+                0 0 25px rgba(255, 240, 200, 0.5),
+                0 0 12px rgba(255, 20, 10, 0.35);
+        }
+        .mega-price-unit {
+            font-size: clamp(12px, 1.9vh, 22px);
+            font-weight: 700;
+            color: rgba(160, 10, 10, 0.9);
+            margin-top: 0.6vh;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        @keyframes megaFadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
         .fullscreen-hint {
             position: fixed;
             bottom: 12px;
@@ -746,6 +1044,13 @@
             .grid-card .name { font-size: clamp(20px, 4vh, 42px); }
             .grid-card .new-price .price-int { font-size: clamp(72px, 13vh, 150px); }
             .grid-card .new-price .price-cents { font-size: clamp(32px, 6.5vh, 72px); }
+
+            .mega-title { font-size: clamp(36px, 6.5vw, 140px); }
+            .mega-name { font-size: clamp(28px, 6vh, 64px); }
+            .mega-old-price { font-size: clamp(24px, 4.5vh, 60px); }
+            .mega-price-int { font-size: clamp(80px, min(16vw, 30vh), 400px); }
+            .mega-price-cents { font-size: clamp(36px, min(6vw, 12vh), 160px); }
+            .mega-discount-badge { font-size: clamp(18px, 2.8vh, 34px); }
         }
 
         @media (max-width: 900px) {
@@ -804,6 +1109,27 @@
             .silence-badge { font-size: 90px; }
             .silence-title { font-size: 20px; letter-spacing: 0.12em; }
             .silence-subtitle { font-size: 12px; letter-spacing: 0.15em; }
+
+            /* MEGA — мобільний: вертикально */
+            .mega-slide {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            .mega-left { padding: 2vh 5vw; }
+            .mega-product-area { width: min(85%, 40vh); }
+            .mega-right { padding: 1vh 5vw 6vh; }
+            .mega-title { font-size: clamp(36px, 9vw, 90px); }
+            .mega-name { font-size: clamp(28px, 6vh, 56px); -webkit-line-clamp: 3; }
+            .mega-old-price { font-size: clamp(28px, 5vh, 64px); }
+            .mega-price-int { font-size: min(22vw, 20vh); }
+            .mega-price-cents { font-size: min(9vw, 8vh); }
+            .mega-price-unit { font-size: clamp(10px, 1.5vh, 15px); }
+            .mega-discount-badge {
+                top: -2.5%;
+                right: -2.5%;
+                font-size: clamp(16px, 2.6vh, 32px);
+                padding: 0.8vh 3.5vw;
+            }
         }
 
         @media (max-width: 500px) {
@@ -819,12 +1145,19 @@
             .grid-card .name { font-size: 18px; }
             .grid-card .new-price .price-int { font-size: 62px; }
             .grid-card .new-price .price-cents { font-size: 28px; }
+
+            .mega-title { font-size: clamp(28px, 8.5vw, 52px); }
+            .mega-price-int { font-size: min(24vw, 18vh); }
+            .mega-price-cents { font-size: min(10vw, 7vh); }
+            .mega-name { font-size: clamp(24px, 5vh, 42px); }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .badge, .best-price-icon,
             .mode-single .img-wrap img.main-img,
             .new-price, .silence-badge { animation: none !important; }
+
+            .mega-product-wrap, .mega-new-price { animation: none !important; }
         }
     </style>
 </head>
@@ -910,7 +1243,8 @@
 
         const PROMO_SEQUENCE = [
             'single', 'double', 'grid', 'pair', 'singleBest',
-            'single', 'single', 'doubleRandom', 'doubleRandom'
+            'single', 'single', 'doubleRandom', 'doubleRandom',
+            'mega'   // ← НОВИЙ слайд "МЕГА ЦІНА" (останній)
         ];
 
         const PROMO_SLIDE_DURATION = 10000;
@@ -1005,13 +1339,11 @@
             const k = getKyivParts(now);
             const offset = getKyivOffsetHours(now);
 
-            // Сьогодні о 08:59:00 Києва (UTC-мс)
             let targetMs = Date.UTC(
                 k.year, k.month - 1, k.day,
                 SILENCE_START_HOUR, SILENCE_START_MINUTE, 0
             ) - offset * 3600000;
 
-            // Корекція на DST (малоймовірно о 8:59, але для надійності)
             const kTarget = getKyivParts(new Date(targetMs));
             if (kTarget.hour !== SILENCE_START_HOUR || kTarget.minute !== SILENCE_START_MINUTE) {
                 for (const adj of [-3600000, 3600000]) {
@@ -1070,10 +1402,9 @@
         function initSilence() {
             const k = getKyivParts();
             const nowMin = k.hour * 60 + k.minute;
-            const startMin = SILENCE_START_HOUR * 60 + SILENCE_START_MINUTE; // 8*60+59 = 539
-            const endMin = startMin + 3; // 9:02 = 542
+            const startMin = SILENCE_START_HOUR * 60 + SILENCE_START_MINUTE;
+            const endMin = startMin + 3;
 
-            // Якщо завантажили сторінку вже в процесі мовчання — показуємо залишок
             if (nowMin >= startMin && nowMin < endMin) {
                 const elapsedMs = (nowMin - startMin) * 60000 + k.second * 1000;
                 const remaining = SILENCE_DURATION_MS - elapsedMs;
@@ -1273,6 +1604,20 @@
             return pickItemsPreferUnused(allItems, 2);
         }
 
+        /* Для MEGA — пріоритет bestPrice, потім звичайні */
+        function pickMegaItem() {
+            let pool = bestItems.length > 0 ? bestItems : allItems;
+            if (pool.length === 0) return null;
+            let candidates = pool.filter(it => !usedIds.has(it.id));
+            if (candidates.length === 0) {
+                usedIds.clear();
+                candidates = [...pool];
+            }
+            const item = candidates[Math.floor(Math.random() * candidates.length)];
+            usedIds.add(item.id);
+            return item;
+        }
+
         /* ============================================================
            ТАЙМЕРИ
            ============================================================ */
@@ -1346,6 +1691,7 @@
 
         function renderPromoSlide(index) {
             const container = document.getElementById('randomContainer');
+            const phasePromo = document.getElementById('phasePromo');
             const mode = PROMO_SEQUENCE[index];
 
             if (!dataLoaded) {
@@ -1386,13 +1732,22 @@
             } else if (mode === 'doubleRandom') {
                 const items = pickRandom2();
                 if (items.length) html = renderDouble(items);
+            } else if (mode === 'mega') {
+                html = renderMega();
             }
 
             container.innerHTML = html;
 
-            container.classList.remove('fade-in');
-            void container.offsetWidth;
-            container.classList.add('fade-in');
+            // Клас mega-mode для повноекранного показу
+            if (mode === 'mega') {
+                phasePromo.classList.add('mega-mode');
+                container.classList.remove('fade-in');
+            } else {
+                phasePromo.classList.remove('mega-mode');
+                container.classList.remove('fade-in');
+                void container.offsetWidth;
+                container.classList.add('fade-in');
+            }
 
             scheduleBounce();
         }
@@ -1486,6 +1841,72 @@
                     </div>
                 `;
             }).join('')}</div>`;
+        }
+
+        /* ============================================================
+           MEGA СЛАЙД
+           ============================================================ */
+        function renderMega() {
+            const item = pickMegaItem();
+            if (!item) return '<p class="random-loading">Немає товарів</p>';
+
+            const { int, cents } = priceParts(item.price);
+            const oldPriceNum = item.oldPrice ? Number(item.oldPrice) : 0;
+            const newPriceNum = Number(item.price || 0);
+            const imgSrc = noCache(item.image);
+
+            let discountPercent = 0;
+            if (item.discount != null && item.discount !== '') {
+                const d = Math.abs(Number(item.discount));
+                if (!isNaN(d) && d > 0 && d <= 100) discountPercent = Math.round(d);
+            }
+            if (discountPercent === 0 && oldPriceNum > newPriceNum && newPriceNum > 0) {
+                discountPercent = Math.round((1 - newPriceNum / oldPriceNum) * 100);
+            }
+
+            const hasOldPrice = oldPriceNum > newPriceNum && oldPriceNum > 0;
+            const oldPriceHtml = hasOldPrice
+                ? `<div class="mega-old-price">${Math.round(oldPriceNum)} ₴</div>`
+                : '';
+            const discountHtml = discountPercent > 0
+                ? `<div class="mega-discount-badge">−${discountPercent}%<span class="label">ЗНИЖКА</span></div>`
+                : '';
+            const manufacturerHtml = item.manufacturer
+                ? `<div class="mega-manufacturer">${item.manufacturer}</div>`
+                : '';
+
+            return `
+                <div class="mega-slide">
+                    <div class="mega-left">
+                        <div class="mega-product-area">
+                            <div class="mega-product-wrap">
+                                <div class="mega-product-square">
+                                    <img src="${imgSrc}" alt="${item.name}" class="mega-product-img"
+                                         onerror="this.onerror=null; this.src='${PLACEHOLDER}';">
+                                </div>
+                            </div>
+                            ${discountHtml}
+                        </div>
+                    </div>
+                    <div class="mega-right">
+                        <div class="mega-top">
+                            <div class="mega-title">МЕГА ЦІНА</div>
+                            ${manufacturerHtml}
+                            <div class="mega-name">${item.name}</div>
+                        </div>
+                        <div class="mega-bottom">
+                            ${oldPriceHtml}
+                            <div class="mega-new-price">
+                                <span class="mega-price-int">${int}</span>
+                                <span class="mega-price-cents-wrap">
+                                    <span class="mega-price-cents">${cents}</span>
+                                    <span class="mega-price-unit">грн/шт</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function triggerPriceBounce() {
@@ -1689,16 +2110,10 @@
         document.getElementById('promoDates').textContent =
             'Акційна пропозиція діє ' + formatDates();
 
-        // Годинник
         tickClock();
-
-        // Хвилина мовчання (08:59 → 09:02)
         initSilence();
-
-        // Фази
         switchToPhase(PHASE_PROMO);
 
-        // Дані
         fetch(noCache('./data/promotions.json'))
             .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
             .then(data => {
