@@ -4265,6 +4265,57 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 255,
+      "name": "Бренді 4 зірочки 0,5л Довбуш",
+      "manufacturer": "Довбуш",
+      "category": "Алкоголь",
+      "price": 215.0,
+      "oldPrice": 234.0,
+      "badge": "-8%",
+      "image": "./images/255.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 256,
+      "name": "Бренді Кава 0,5л Аджарі",
+      "manufacturer": "Аджарі",
+      "category": "Алкоголь",
+      "price": 166.0,
+      "oldPrice": 180.0,
+      "badge": "-8%",
+      "image": "./images/256.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 257,
+      "name": "Бренді Кава 0,25л Аджарі",
+      "manufacturer": "Аджарі",
+      "category": "Алкоголь",
+      "price": 96.0,
+      "oldPrice": 104.0,
+      "badge": "-8%",
+      "image": "./images/257.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
