@@ -1011,32 +1011,34 @@
       "name": "Сметана 15% 300г стакан Радимо",
       "manufacturer": "Радимо",
       "category": "Молочні продукти",
-      "price": 44.0,
+      "price": 45.0,
       "oldPrice": 53.0,
-      "badge": "-17%",
+      "badge": "-15%",
       "image": "./images/62.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
-      "outOfStock": false
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 63,
       "name": "Сметана 20% 300г стакан Радимо",
       "manufacturer": "Радимо",
       "category": "Молочні продукти",
-      "price": 55.0,
+      "price": 56.0,
       "oldPrice": 66.0,
-      "badge": "-17%",
+      "badge": "-15%",
       "image": "./images/63.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
-      "outOfStock": false
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     },
     {
       "id": 64,
@@ -1382,7 +1384,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1398,7 +1400,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1414,7 +1416,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1430,7 +1432,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1446,7 +1448,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1462,7 +1464,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -1478,7 +1480,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false
     },
     {
@@ -4906,6 +4908,23 @@
       "oldPrice": 52.0,
       "badge": "-25%",
       "image": "./images/292.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 293,
+      "name": "Йогурт По-Грецьки 8% 300г стакан Радимо",
+      "manufacturer": "Радимо",
+      "category": "Молочні продукти",
+      "price": 42.0,
+      "oldPrice": 49.0,
+      "badge": "-14%",
+      "image": "./images/293.jpg",
       "link": "#",
       "validUntil": "",
       "isAction": false,
