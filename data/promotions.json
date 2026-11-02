@@ -4197,6 +4197,57 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 251,
+      "name": "Джин Dry SETTER 0,1л",
+      "manufacturer": "SETTER",
+      "category": "Алкоголь",
+      "price": 49.0,
+      "oldPrice": 53.0,
+      "badge": "-8%",
+      "image": "./images/251.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 252,
+      "name": "Джин Апельсин SETTER 0,1л",
+      "manufacturer": "SETTER",
+      "category": "Алкоголь",
+      "price": 49.0,
+      "oldPrice": 53.0,
+      "badge": "-8%",
+      "image": "./images/252.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 253,
+      "name": "Джин Полуниця SETTER 0,1л",
+      "manufacturer": "SETTER",
+      "category": "Алкоголь",
+      "price": 49.0,
+      "oldPrice": 53.0,
+      "badge": "-8%",
+      "image": "./images/253.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
