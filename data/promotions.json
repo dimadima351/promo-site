@@ -4248,6 +4248,23 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 254,
+      "name": "Джин Полуниця SETTER 0,7л",
+      "manufacturer": "SETTER",
+      "category": "Алкоголь",
+      "price": 289.0,
+      "oldPrice": 312.0,
+      "badge": "-7%",
+      "image": "./images/254.jpg",
+      "link": "#",
+      "validUntil": "",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
