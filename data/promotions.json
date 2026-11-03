@@ -2011,7 +2011,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2028,7 +2028,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2045,7 +2045,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2062,7 +2062,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2079,7 +2079,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2096,7 +2096,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2113,7 +2113,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2130,7 +2130,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
@@ -2164,7 +2164,7 @@
       "validUntil": "",
       "isAction": false,
       "isMonthAction": true,
-      "visible": false,
+      "visible": true,
       "outOfStock": false,
       "bestPrice": true
     },
