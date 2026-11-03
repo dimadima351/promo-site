@@ -4478,7 +4478,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 267,
@@ -4563,7 +4563,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 272,
@@ -4597,7 +4597,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 274,
@@ -4614,7 +4614,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 275,
@@ -4631,7 +4631,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 276,
@@ -4648,7 +4648,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 277,
@@ -4852,7 +4852,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 289,
@@ -5906,7 +5906,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 351,
@@ -5957,7 +5957,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 354,
@@ -5991,7 +5991,7 @@
       "isMonthAction": true,
       "visible": true,
       "outOfStock": false,
-      "bestPrice": false
+      "bestPrice": true
     },
     {
       "id": 356,
