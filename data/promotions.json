@@ -6152,6 +6152,40 @@
       "visible": true,
       "outOfStock": false,
       "bestPrice": false
+    },
+    {
+      "id": 365,
+      "name": "Вода Карпатська Джерельна негаз. 1,5л",
+      "manufacturer": "Карпатська Джерельна",
+      "category": "Безалкогольні напої",
+      "price": 22.0,
+      "oldPrice": 27.0,
+      "badge": "-19%",
+      "image": "./images/365.jpg",
+      "link": "#",
+      "validUntil": "30.11.2026",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
+    },
+    {
+      "id": 366,
+      "name": "Вода Карпатська Джерельна слабогаз. 1,5л",
+      "manufacturer": "Карпатська Джерельна",
+      "category": "Безалкогольні напої",
+      "price": 22.0,
+      "oldPrice": 27.0,
+      "badge": "-19%",
+      "image": "./images/366.jpg",
+      "link": "#",
+      "validUntil": "30.11.2026",
+      "isAction": false,
+      "isMonthAction": true,
+      "visible": true,
+      "outOfStock": false,
+      "bestPrice": false
     }
   ]
 }
