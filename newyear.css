@@ -1,0 +1,188 @@
+/* ============================================================
+   НОВОРІЧНА ТЕМА (легка, без важких ефектів)
+   Видалення після свят: прибрати <link> і клас new-year у <body>
+   ============================================================ */
+
+/* ---------- Фон ---------- */
+body.new-year {
+    background: linear-gradient(180deg, #0b2447 0%, #153e75 55%, #1d5a8f 100%);
+    background-attachment: fixed;
+    color: #eaf4ff;
+}
+
+/* ---------- Шапка та підвал ---------- */
+body.new-year .header {
+    background-color: #ffffff;
+    border-bottom: 3px solid #c8102e;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Гірлянда під шапкою (тільки CSS, без картинок) */
+body.new-year .header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -12px;
+    height: 10px;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 10px 5px, #ff3b3b 0 4px, transparent 5px),
+        radial-gradient(circle at 30px 5px, #ffd21f 0 4px, transparent 5px),
+        radial-gradient(circle at 50px 5px, #3bd16f 0 4px, transparent 5px),
+        radial-gradient(circle at 70px 5px, #4aa8ff 0 4px, transparent 5px);
+    background-size: 80px 10px;
+    background-repeat: repeat-x;
+}
+
+body.new-year .site-footer {
+    background: #0a1f3d;
+    border-top: 3px solid #c8102e;
+}
+
+/* ---------- Меню ---------- */
+body.new-year .nav a:hover {
+    color: #c8102e;
+}
+body.new-year .nav a.active {
+    color: #c8102e;
+}
+
+/* ---------- Банер "Акції" ---------- */
+body.new-year .hero-banner-link {
+    background: linear-gradient(135deg, #c8102e, #8f0a20);
+    border: 2px solid #ffd21f;
+    box-shadow: 0 8px 24px rgba(200, 16, 46, 0.4);
+}
+body.new-year .hero-banner-text {
+    color: #fff;
+}
+body.new-year .hero-banner-arrow {
+    background: #ffd21f;
+    color: #8f0a20;
+}
+
+/* ---------- Заголовки на темному фоні ---------- */
+body.new-year .section-title,
+body.new-year .similar-title {
+    color: #ffffff;
+}
+body.new-year .similar-section {
+    background: transparent;
+    border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Картки товарів ---------- */
+body.new-year .card {
+    background: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+body.new-year .card:hover {
+    border-color: #c8102e;
+    box-shadow: 0 10px 24px rgba(200, 16, 46, 0.35);
+}
+
+/* Бейдж знижки — як новорічна кулька */
+body.new-year .badge {
+    background: radial-gradient(circle at 30% 30%, #ff5a5a, #c8102e);
+    color: #fff;
+    border: 1px solid #ffd21f;
+    font-weight: 800;
+}
+
+/* ---------- Пошук і категорії ---------- */
+body.new-year .search-categories-section {
+    background: transparent;
+}
+body.new-year .search-input-main {
+    border-color: #4aa8ff;
+}
+body.new-year .search-input-main:focus {
+    border-color: #c8102e;
+    box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.2);
+}
+body.new-year .cat-label {
+    color: #eaf4ff;
+}
+body.new-year .cat-img-wrap {
+    background: linear-gradient(135deg, #c8102e, #8f0a20);
+    border-color: #ffd21f;
+}
+
+/* ---------- Кнопка "Показати ще" ---------- */
+body.new-year .load-more-btn {
+    background: transparent;
+    color: #ffd21f;
+    border: 2px solid #ffd21f;
+}
+body.new-year .load-more-btn:hover {
+    background: #ffd21f;
+    color: #8f0a20;
+    box-shadow: 0 8px 20px rgba(255, 210, 31, 0.35);
+}
+
+/* ---------- Банер сторінки ---------- */
+body.new-year .page-title,
+body.new-year .page-title1,
+body.new-year .page-title2 {
+    border-bottom: 4px solid #c8102e;
+}
+
+/* ---------- Сторінка товару ---------- */
+body.new-year .product-layout {
+    border-color: #ffd21f;
+}
+body.new-year .product-back-btn {
+    background: #c8102e;
+}
+body.new-year .product-back-btn:hover {
+    background: #8f0a20;
+}
+
+/* ---------- Інші блоки ---------- */
+body.new-year .stores-city,
+body.new-year .store-item.open {
+    border-left-color: #c8102e;
+}
+body.new-year .event-link-btn {
+    background: #c8102e;
+}
+
+/* ============================================================
+   СНІГ (легкий, чистий CSS, 2 шари, без JS)
+   ============================================================ */
+body.new-year::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,0.7) 0 1.5px, transparent 2.5px);
+    background-size: 180px 180px, 120px 120px;
+    background-position: 0 0, 40px 60px;
+    animation: ny-snow 18s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes ny-snow {
+    from { background-position: 0 0, 40px 60px; }
+    to   { background-position: 20px 180px, 60px 240px; }
+}
+
+/* Для тих, у кого вимкнені анімації в системі */
+@media (prefers-reduced-motion: reduce) {
+    body.new-year::before {
+        animation: none;
+    }
+}
+
+/* На слабких телефонах сніг трохи рідший */
+@media (max-width: 700px) {
+    body.new-year::before {
+        opacity: 0.5;
+        background-size: 220px 220px, 160px 160px;
+    }
+}
