@@ -1,0 +1,91 @@
+.push-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%) translateY(150%);
+    width: calc(100% - 32px);
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    border-left: 5px solid #ff0b0b;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 9000;
+    opacity: 0;
+    transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.push-bar.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.push-bar-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.push-bar-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.35;
+    color: #2c3e50;
+}
+
+.push-bar-text strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.push-bar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.push-btn-yes {
+    background: #ff0b0b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.push-btn-yes:hover {
+    background: #d90000;
+}
+
+.push-btn-no {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.push-btn-no:hover {
+    color: #555;
+}
+
+@media (max-width: 500px) {
+    .push-bar {
+        bottom: 12px;
+        padding: 14px;
+        gap: 10px;
+    }
+    .push-bar-icon {
+        display: none;
+    }
+}
