@@ -54,14 +54,12 @@ body.new-year .similar-section {
     background: transparent;
 }
 
-/* ---------- Картки ---------- */
+/* ---------- Картки (без кольорових обводок) ---------- */
 body.new-year .card {
-    border-top: 4px solid #c8102e;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
 }
 body.new-year .card:hover {
-    border-top-color: #1f7a4d;
-    box-shadow: 0 10px 22px rgba(31, 122, 77, 0.25);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
 }
 
 /* Бейдж: червона новорічна кулька із золотим обідком */
