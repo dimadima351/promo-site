@@ -240,6 +240,97 @@
             </div>
         </div>
     </section>
+
+    <!-- ============================================================
+         МЕГА ЗНИЖКИ (найспрайс)
+         ============================================================ -->
+    <section class="hero-banner">
+        <div class="container">
+            <a href="promo.html" class="hero-banner-link">
+                <span class="hero-banner-text">МЕГА ЗНИЖКИ</span>
+                <span class="hero-banner-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Мега знижки</h2>
+            <div class="carousel-wrap">
+                <button class="carousel-btn carousel-btn-prev" id="megaPrev" aria-label="Назад">‹</button>
+                <div class="carousel" id="megaCarousel">
+                    <p class="carousel-loading">Завантаження...</p>
+                </div>
+                <button class="carousel-btn carousel-btn-next" id="megaNext" aria-label="Вперед">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         СОЛОДОЩІ
+         ============================================================ -->
+    <section class="hero-banner">
+        <div class="container">
+            <a href="search.html?cat=Солодощі" class="hero-banner-link">
+                <span class="hero-banner-text">СОЛОДОЩІ</span>
+                <span class="hero-banner-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Солодощі</h2>
+            <div class="carousel-wrap">
+                <button class="carousel-btn carousel-btn-prev" id="sweetsPrev" aria-label="Назад">‹</button>
+                <div class="carousel" id="sweetsCarousel">
+                    <p class="carousel-loading">Завантаження...</p>
+                </div>
+                <button class="carousel-btn carousel-btn-next" id="sweetsNext" aria-label="Вперед">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         МОЛОЧНІ ПРОДУКТИ
+         ============================================================ -->
+    <section class="hero-banner">
+        <div class="container">
+            <a href="search.html?cat=Молочні продукти" class="hero-banner-link">
+                <span class="hero-banner-text">МОЛОЧНІ ПРОДУКТИ</span>
+                <span class="hero-banner-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Молочні продукти</h2>
+            <div class="carousel-wrap">
+                <button class="carousel-btn carousel-btn-prev" id="dairyPrev" aria-label="Назад">‹</button>
+                <div class="carousel" id="dairyCarousel">
+                    <p class="carousel-loading">Завантаження...</p>
+                </div>
+                <button class="carousel-btn carousel-btn-next" id="dairyNext" aria-label="Вперед">›</button>
+            </div>
+        </div>
+    </section>
+
         <!-- БЛОК 3: Кава та чай (кав'ярня) -->
         <section class="hero-banner hero-banner-coffee">
             <div class="container">
@@ -714,6 +805,80 @@
                     searchInput.blur();
                 }
             });
+        })();
+
+        /* ============================================================
+           НОВІ КАРУСЕЛІ: МЕГА ЗНИЖКИ / СОЛОДОЩІ / МОЛОЧНІ
+           (незалежний блок — існуючий код не змінюється)
+           ============================================================ */
+        (function() {
+            // Стрілки
+            ['mega', 'sweets', 'dairy'].forEach(prefix => {
+                const el = document.getElementById(prefix + 'Carousel');
+                const prev = document.getElementById(prefix + 'Prev');
+                const next = document.getElementById(prefix + 'Next');
+                if (el && prev) prev.addEventListener('click', () => el.scrollBy({ left: -300, behavior: 'smooth' }));
+                if (el && next) next.addEventListener('click', () => el.scrollBy({ left: 300, behavior: 'smooth' }));
+            });
+
+            fetch('./data/promotions.json?t=' + Date.now())
+                .then(r => r.ok ? r.json() : Promise.reject('Помилка'))
+                .then(data => {
+                    const items = (data.items || []).filter(it => it.visible !== false);
+
+                    // ---- МЕГА ЗНИЖКИ (тільки bestPrice === true) ----
+                    const megaCarousel = document.getElementById('megaCarousel');
+                    if (megaCarousel) {
+                        const megaItems = items.filter(it => it.bestPrice === true);
+                        const megaRandom = shuffle(megaItems).slice(0, 6);
+                        megaCarousel.innerHTML = '';
+                        if (megaRandom.length === 0) {
+                            megaCarousel.innerHTML = '<p class="carousel-loading">Мега знижок поки що немає</p>';
+                        } else {
+                            megaRandom.forEach(it => megaCarousel.appendChild(makeCard(it)));
+                            megaCarousel.appendChild(makeGoCard('promo.html', 'Перейти до всіх акцій'));
+                        }
+                    }
+
+                    // ---- СОЛОДОЩІ ----
+                    const sweetsCarousel = document.getElementById('sweetsCarousel');
+                    if (sweetsCarousel) {
+                        const sweetsItems = items.filter(it =>
+                            (it.category || '').toLowerCase().includes('солодощі')
+                        );
+                        const sweetsRandom = shuffle(sweetsItems).slice(0, 6);
+                        sweetsCarousel.innerHTML = '';
+                        if (sweetsRandom.length === 0) {
+                            sweetsCarousel.innerHTML = '<p class="carousel-loading">Солодощів поки що немає</p>';
+                        } else {
+                            sweetsRandom.forEach(it => sweetsCarousel.appendChild(makeCard(it)));
+                            sweetsCarousel.appendChild(makeGoCard('search.html?cat=Солодощі', 'Перейти до солодощів'));
+                        }
+                    }
+
+                    // ---- МОЛОЧНІ ПРОДУКТИ ----
+                    const dairyCarousel = document.getElementById('dairyCarousel');
+                    if (dairyCarousel) {
+                        const dairyItems = items.filter(it =>
+                            (it.category || '').toLowerCase().includes('молочні')
+                        );
+                        const dairyRandom = shuffle(dairyItems).slice(0, 6);
+                        dairyCarousel.innerHTML = '';
+                        if (dairyRandom.length === 0) {
+                            dairyCarousel.innerHTML = '<p class="carousel-loading">Молочних продуктів поки що немає</p>';
+                        } else {
+                            dairyRandom.forEach(it => dairyCarousel.appendChild(makeCard(it)));
+                            dairyCarousel.appendChild(makeGoCard('search.html?cat=Молочні продукти', 'Перейти до молочних продуктів'));
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Нові каруселі: помилка завантаження', err);
+                    ['mega', 'sweets', 'dairy'].forEach(p => {
+                        const el = document.getElementById(p + 'Carousel');
+                        if (el) el.innerHTML = '<p class="carousel-loading">Не вдалося завантажити</p>';
+                    });
+                });
         })();
     </script>
     <script src="push-prompt.js" defer></script>
