@@ -368,6 +368,26 @@
         .grid-card .new-price .price-unit { font-size: clamp(12px, 1.8vh, 22px); font-weight: 400; color: #999; margin-top: 1px; }
 
         /* ============================================================
+           IMAGE-ONLY СЛАЙД (тільки картинка tree1, повний екран)
+           ============================================================ */
+        .phase-promo.image-mode .random-main { padding: 0; }
+        .phase-promo.image-mode .random-container { max-width: none; }
+
+        .image-only-slide {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+        .image-only-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ============================================================
            MEGA СЛАЙД (останній, жовтий)
            ============================================================ */
         .phase-promo.mega-mode .random-main { padding: 0; }
@@ -1092,6 +1112,9 @@
             .grid-card .best-price-icon { width: 36px; height: 36px; }
             .fullscreen-hint { display: none; }
 
+            /* IMAGE-ONLY на мобільних: картинка на весь екран */
+            .phase-promo.image-mode .random-main { padding: 0; align-items: stretch; }
+
             .phase-menu.active { overflow-y: auto; }
             .phase-menu .header-logo { height: 50px; top: 15px; left: 15px; }
             .phase-menu .title { top: 12px; font-size: 2rem; }
@@ -1243,9 +1266,11 @@
         const PHASE_VIDEO2 = 'video2';
 
         const PROMO_SEQUENCE = [
-            'single', 'double', 'grid', 'pair', 'singleBest',
+            'single', 'double', 'grid',
+            'imageOnly',       // ← НОВИЙ слайд: тільки картинка tree1 (між 3 і 4)
+            'pair', 'singleBest',
             'single', 'single', 'doubleRandom', 'doubleRandom',
-            'mega'   // ← НОВИЙ слайд "МЕГА ЦІНА" (останній)
+            'mega'
         ];
 
         const PROMO_SLIDE_DURATION = 10000;
@@ -1695,16 +1720,16 @@
             const phasePromo = document.getElementById('phasePromo');
             const mode = PROMO_SEQUENCE[index];
 
-            if (!dataLoaded) {
+            if (!dataLoaded && mode !== 'imageOnly') {
                 if (container.querySelector('.random-loading')) return;
                 container.innerHTML = '<p class="random-loading">Завантаження...</p>';
                 return;
             }
-            if (dataError) {
+            if (dataError && mode !== 'imageOnly') {
                 container.innerHTML = '<p class="random-loading">Помилка завантаження</p>';
                 return;
             }
-            if (allItems.length === 0 && bestItems.length === 0) {
+            if (allItems.length === 0 && bestItems.length === 0 && mode !== 'imageOnly') {
                 container.innerHTML = '<p class="random-loading">Немає товарів</p>';
                 return;
             }
@@ -1720,6 +1745,8 @@
             } else if (mode === 'grid') {
                 const items = pickSameCategory4();
                 if (items.length) html = renderGrid(items);
+            } else if (mode === 'imageOnly') {
+                html = renderImageOnly();
             } else if (mode === 'pair') {
                 const items = pickPairSameNameOrManufacturer();
                 if (items.length) html = renderDouble(items);
@@ -1739,12 +1766,17 @@
 
             container.innerHTML = html;
 
-            // Клас mega-mode для повноекранного показу
+            // Класи для повноекранного показу
+            phasePromo.classList.remove('mega-mode');
+            phasePromo.classList.remove('image-mode');
+
             if (mode === 'mega') {
                 phasePromo.classList.add('mega-mode');
                 container.classList.remove('fade-in');
+            } else if (mode === 'imageOnly') {
+                phasePromo.classList.add('image-mode');
+                container.classList.remove('fade-in');
             } else {
-                phasePromo.classList.remove('mega-mode');
                 container.classList.remove('fade-in');
                 void container.offsetWidth;
                 container.classList.add('fade-in');
@@ -1842,6 +1874,18 @@
                     </div>
                 `;
             }).join('')}</div>`;
+        }
+
+        /* ============================================================
+           IMAGE-ONLY СЛАЙД (тільки tree1, повний екран)
+           ============================================================ */
+        function renderImageOnly() {
+            return `
+                <div class="image-only-slide">
+                    <img src="./image_site/tree1.jpg" alt=""
+                         onerror="if(!this.dataset.triedPng){this.dataset.triedPng='1';this.src='./image_site/tree1.png';}else{this.style.display='none';}">
+                </div>
+            `;
         }
 
         /* ============================================================
