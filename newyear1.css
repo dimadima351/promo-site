@@ -1,0 +1,173 @@
+/* ============================================================
+   НОВОРІЧНЕ ОФОРМЛЕННЯ 2024–2025
+   ============================================================
+   ЯК ДОДАТИ:
+   Додайте ОДИН рядок перед </head> у вашому HTML:
+
+       <link rel="stylesheet" href="./newyear.css">
+
+   ЯК ВИДАЛИТИ ПІСЛЯ СВЯТ:
+   Просто видаліть цей рядок <link> з HTML.
+   Або перейменуйте/видаліть файл newyear.css.
+   Основні стилі (index.html) НЕ зачіпаються.
+   ============================================================ */
+
+
+/* ============================================================
+   1. СНІГОПАД (2 шари, GPU-анімація через transform)
+   ============================================================ */
+
+body::before {
+    content: '';
+    position: fixed;
+    top: -300px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh + 300px);
+    pointer-events: none;
+    z-index: 9996;
+    background-image:
+        radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 1) 3px, transparent 3.5px),
+        radial-gradient(circle at 70% 65%, rgba(255, 255, 255, 0.9) 2.5px, transparent 3px);
+    background-size: 300px 300px;
+    animation: snowSlow 22s linear infinite;
+    will-change: transform;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh + 200px);
+    pointer-events: none;
+    z-index: 9997;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.85) 1.5px, transparent 2px),
+        radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.7) 1px, transparent 1.5px);
+    background-size: 200px 200px;
+    animation: snowFast 13s linear infinite;
+    will-change: transform;
+}
+
+@keyframes snowSlow {
+    from { transform: translateY(0); }
+    to   { transform: translateY(300px); }
+}
+
+@keyframes snowFast {
+    from { transform: translateY(0); }
+    to   { transform: translateY(200px); }
+}
+
+
+/* ============================================================
+   2. ШАПКА: ГІРЛЯНДА + ЗОЛОТИЙ АКЦЕНТ
+   ============================================================ */
+
+.promo-header {
+    position: relative;
+    background: linear-gradient(135deg, #d41414 0%, #a30000 100%);
+    box-shadow:
+        0 4px 16px rgba(200, 0, 0, 0.4),
+        0 0 40px rgba(255, 215, 0, 0.25),
+        inset 0 1px 0 rgba(255, 220, 100, 0.3);
+}
+
+/* Гірлянда з лампочок (жовта / червона / зелена) */
+.promo-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 5px 5px, #ffeb3b 3.5px, transparent 4.5px),
+        radial-gradient(circle at 5px 5px, #ff5252 3.5px, transparent 4.5px),
+        radial-gradient(circle at 5px 5px, #69f0ae 3.5px, transparent 4.5px);
+    background-size: 36px 10px, 36px 10px, 36px 10px;
+    background-position: 0 0, 12px 0, 24px 0;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 0 6px rgba(255, 235, 59, 0.9));
+    z-index: 3;
+    animation: garlandGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes garlandGlow {
+    0%, 100% { opacity: 0.85; }
+    50%      { opacity: 1; }
+}
+
+/* Золота смуга під шапкою */
+.promo-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 215, 0, 0.35) 20%,
+        rgba(255, 215, 0, 0.9) 50%,
+        rgba(255, 215, 0, 0.35) 80%,
+        transparent 100%
+    );
+    z-index: 3;
+}
+
+/* Легкий золотий відтінок на годиннику та датах */
+.promo-clock {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.45);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+}
+
+.promo-dates {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.45);
+}
+
+
+/* ============================================================
+   3. ФОН ПРОМО-ФАЗИ (білі картки залишаються білими)
+   ============================================================ */
+
+.phase-promo {
+    background:
+        radial-gradient(circle at 8% 12%,  rgba(200, 20, 30, 0.10) 0%, transparent 35%),
+        radial-gradient(circle at 92% 12%, rgba(0, 130, 40, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 8% 88%,  rgba(0, 130, 40, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 92% 88%, rgba(255, 190, 0, 0.14) 0%, transparent 35%),
+        linear-gradient(180deg, #ffffff 0%, #fffaf2 100%);
+}
+
+
+/* ============================================================
+   4. ЗОЛОТЕ СЯЙВО НА ФАЗІ МЕНЮ (зверху, біля заголовка)
+   ============================================================ */
+
+.phase-menu {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.18), transparent 55%),
+        linear-gradient(rgba(18, 12, 8, 0.85), rgba(18, 12, 8, 0.85)),
+        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1920&auto=format&fit=crop') center/cover fixed no-repeat;
+}
+
+
+/* ============================================================
+   5. ЗНИЖЕННЯ АНІМАЦІЙ ДЛЯ СЛАБКИХ ПРИСТРОЇВ / PREFERS-REDUCED-MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after,
+    .promo-header::before {
+        animation: none !important;
+    }
+}
