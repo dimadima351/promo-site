@@ -32,6 +32,7 @@ background:#111;color:#fff;align-items:center;justify-content:center;z-index:214
 #cw-card .cw-n{font-weight:600;font-size:18px;margin-top:10px}\
 #cw-card .cw-p{color:#444;margin:2px 0 8px}\
 #cw-card svg{width:100%;height:auto;display:block}\
+#cw-dev{margin-top:6px;font-size:8px;line-height:1}#cw-dev a{color:#aaa;text-decoration:none}\
 #cw-del{margin-top:12px;border:0;background:none;color:#888;font-size:12px;text-decoration:underline}';
 
   var style = document.createElement('style');
@@ -161,6 +162,30 @@ background:#111;color:#fff;align-items:center;justify-content:center;z-index:214
     body.querySelector('#cw-del').addEventListener('click', function () {
       if (confirm('Видалити картку з цього пристрою?')) { wipe(); close(); }
     });
+    if (isDev()) {
+      var d = document.createElement('div');
+      d.id = 'cw-dev';
+      d.innerHTML = '<a href="#" id="cw-dev-a">змінити унікальний №</a>';
+      body.querySelector('#cw-card').appendChild(d);
+      d.querySelector('#cw-dev-a').addEventListener('click', function (e) {
+        e.preventDefault();
+        devChange(rec);
+      });
+    }
+  }
+
+  /* ---------- Режим розробника (тільки з ?cwdev=1 або #cwdev в адресі) ---------- */
+  function isDev() {
+    return /(^|[?&#])cwdev(=1|\b)/.test(location.search + location.hash);
+  }
+  function devChange(rec) {
+    var v = prompt('Новий номер картки (14 цифр, починається з 2299).\nЗалиш порожнім — згенерується випадковий:', rec.card);
+    if (v === null) return;
+    v = v.replace(/\D/g, '');
+    if (v === '') v = genCard();
+    if (!/^2299\d{10}$/.test(v)) { alert('Потрібно 14 цифр, що починаються з 2299'); return; }
+    rec.card = v;
+    saveRecord(rec).then(function () { showCard(rec); }, function () { alert('Не вдалося зберегти'); });
   }
 
   /* ---------- Code 128, набір C (пари цифр) ---------- */
