@@ -20,7 +20,7 @@
 #cw-btn{display:flex;position:fixed;right:14px;bottom:14px;width:52px;height:52px;border:0;border-radius:10px;\
 background:#111;color:#fff;align-items:center;justify-content:center;z-index:2147483000;box-shadow:0 4px 14px rgba(0,0,0,.35);padding:0}\
 #cw-btn svg{width:30px;height:30px}\
-#cw-ov.cw-open{display:flex;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2147483001;align-items:center;justify-content:center;padding:16px}\
+#cw-ov.cw-open{display:flex;position:fixed;inset:0;background:rgb(234, 0, 0);z-index:2147483001;align-items:center;justify-content:center;padding:16px}\
 }\
 #cw-box{background:#fff;color:#111;width:100%;max-width:340px;border-radius:16px;padding:20px;font:16px/1.4 system-ui,Arial,sans-serif;position:relative;box-sizing:border-box}\
 #cw-box h3{margin:0 0 12px;font-size:18px}\
